@@ -268,12 +268,7 @@ public abstract class AbstractPredicate implements IPredicate {
                 return;
             }
             final Object value = InvocationUtil.getValue(criteria, field);
-            if (value == null
-                    || lockRecursive.contains(value)
-                    || getEntityManager() != null
-                    && EntityUtil.isEntity(value)
-                    && !getEntityManager().getEntityManagerFactory()
-                            .getPersistenceUnitUtil().isLoaded(value)) {
+            if (value == null || lockRecursive.contains(value)) {
                 return;
             }
             lockRecursive.add(criteria);

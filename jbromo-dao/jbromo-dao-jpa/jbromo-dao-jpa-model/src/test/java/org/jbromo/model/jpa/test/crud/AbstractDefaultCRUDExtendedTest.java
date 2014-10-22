@@ -421,13 +421,14 @@ public abstract class AbstractDefaultCRUDExtendedTest<E extends IEntity<PK>, PK 
                         true, tested);
             }
         } catch (final InstantiationException e) {
+            log.error("Cannot instanciate object ", e);
             e.printStackTrace();
             Assert.fail("Cannot instanciate object " + created.getClass());
         } catch (final IllegalAccessException e) {
-            e.printStackTrace();
-            Assert.fail("Cannot instanciate object " + created.getClass());
+            log.error("Cannot access object ", e);
+            Assert.fail("Cannot access object " + created.getClass());
         } catch (final Exception e) {
-            e.printStackTrace();
+            log.error("Cannot build query ", e);
             Assert.fail(e.getMessage());
         } finally {
             try {
