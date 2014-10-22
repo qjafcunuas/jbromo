@@ -1,0 +1,66 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<composite:interface
+		componentType="org.jbromo.webapp.jsf.faces.composite.jsf.UIDynamicTabPanel">
+		<composite:attribute name="styleClass" required="false" />
+		<composite:attribute name="tabWidth" required="true"
+			type="java.lang.Integer" />
+		<composite:attribute name="firstHeader" required="false"
+			default="&lt;&lt;" />
+		<composite:attribute name="lastHeader" required="false"
+			default="&gt;&gt;" />
+		<composite:attribute name="switchType" required="false" default="ajax"
+			shortDescription="The switch mode when a panel is activated. One of: 'client', 'server', 'ajax'. Default: 'ajax'" />
+	</composite:interface>
+	<!--
+		actionListener don't work. So simulates it. 
+	 -->
+	<composite:implementation>
+		<div id="#{cc.clientId}" class="#{cc.attrs.styleClass}">
+			<h:outputScript library="org.jbromo.js" name="tabPanel.js" />
+			<rich:tabPanel id="tp" switchType="#{cc.attrs.switchType}"
+				binding="#{cc.tabPanel}"
+				onbeforeitemchange="return this.onbromobeforeitemchange(event);">
+				<rich:tab header="#{cc.attrs.firstHeader}" id="firstTab"
+					actionListener="#{cc.firstItemListener}" />
+				<composite:insertChildren />
+				<rich:tab header="#{cc.attrs.lastHeader}" id="lastTab"
+					actionListener="#{cc.lastItemListener}" />
+			</rich:tabPanel>
+			<h:inputText id="it" styleClass="hide" value="#{cc.nextTabId}"/>
+			<jb:onloadScript />
+			<h:outputScript>
+				window.onBromoLoad.add(function(){bromo.dynamicTabPanel.init(#{rich:component('tp')}, #{cc.attrs.tabWidth});});
+			</h:outputScript>
+			<a4j:commandButton id="cba" value="Click" execute="it,tp"
+				rendered="#{cc.attrs.switchType == 'ajax'}" styleClass="hide"
+				render="tp" actionListener="#{cc.itemChangeListener}"
+				oncomplete="bromo.dynamicTabPanel.init(#{rich:component('tp')}, #{cc.attrs.tabWidth});" />
+			<h:commandButton id="cbs" value="Click" execute="it,tp"
+				rendered="#{cc.attrs.switchType == 'server'}" styleClass="hide"
+				render="tp" action="#{cc.itemChangeListener}" />
+		</div>
+	</composite:implementation>
+</ui:composition>

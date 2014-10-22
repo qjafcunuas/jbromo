@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{dynamicTabPanelController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="dynamicTabPanel" />
+		</h3>
+		<code class="xhtml">&lt;jb:dynamicTabPanel title=""
+			styleClass="" switchType="ajax/server/client" tabWidth=""&gt;</code>
+		<code class="xhtml spaces1">insert children elements</code>
+		<code class="xhtml spaces1">&lt;rich:tab header="Tab 1" id="t1"
+			actionListener=""&gt;</code>
+		<code class="xhtml spaces2">&lt;h:outputText value="insert
+			children elements" /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:tab&gt;</code>
+		<code class="xhtml">&lt;/jb:dynamicTabPanel&gt;</code>
+		<div class="clearBoth"></div>
+
+		<h4>Ajax</h4>
+		<h:form id="fa">
+			<jb:dynamicTabPanel switchType="ajax" id="dyna" tabWidth="20">
+				<rich:tab header="Tab 1" id="t1"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(0)}">
+					<h:outputText value="Tab content 1" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[0]}" />
+				</rich:tab>
+				<rich:tab header="Tab 2" id="t2"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(1)}">
+					<h:outputText value="Tab content 2" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[1]}" />
+				</rich:tab>
+				<rich:tab header="Tab 3" id="t3"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(2)}">
+					<h:outputText value="Tab content 3" />
+					<br />
+					<h:outputText
+						value="Tab 4 should not be displayed because not rendered" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[2]}" />
+				</rich:tab>
+				<rich:tab header="Tab 4" id="t4" rendered="#{false}"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(3)}">
+					<h:outputText value="Tab content 4" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[3]}" />
+				</rich:tab>
+				<rich:tab header="Tab 5" id="t5"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(4)}">
+					<h:outputText value="Tab content 5" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[4]}" />
+				</rich:tab>
+				<rich:tab header="Tab 6" id="t6"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(5)}">
+					<h:outputText value="Tab content 6" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[5]}" />
+				</rich:tab>
+				<rich:tab header="Tab 7" id="t7"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(6)}">
+					<h:outputText value="Tab content 7" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[6]}" />
+				</rich:tab>
+				<rich:tab header="Tab 8" id="t8"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(7)}">
+					<h:outputText value="Tab content 8" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[7]}" />
+				</rich:tab>
+				<rich:tab header="Tab 9" id="t9"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(8)}">
+					<h:outputText value="Tab content 9" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[8]}" />
+				</rich:tab>
+				<rich:tab header="Tab 10" id="t10"
+					actionListener="#{dynamicTabPanelController.onSelectAjaxTab(9)}">
+					<h:outputText value="Tab content 10" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.ajaxTabCounter[9]}" />
+				</rich:tab>
+			</jb:dynamicTabPanel>
+		</h:form>
+		<h4>Server</h4>
+		<h:form id="fs">
+			<jb:dynamicTabPanel switchType="server" id="dyns" tabWidth="30">
+				<rich:tab header="Tab 1" id="t1"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(0)}">
+					<h:outputText value="Tab content 1" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[0]}" />
+				</rich:tab>
+				<rich:tab header="Tab 2" id="t2"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(1)}">
+					<h:outputText value="Tab content 2" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[1]}" />
+				</rich:tab>
+				<rich:tab header="Tab 3" id="t3"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(2)}">
+					<h:outputText value="Tab content 3" />
+					<br />
+					<h:outputText
+						value="Tab 4 should not be displayed because not rendered" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[2]}" />
+				</rich:tab>
+				<rich:tab header="Tab 4" id="t4" rendered="#{false}"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(3)}">
+					<h:outputText value="Tab content 4" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[3]}" />
+				</rich:tab>
+				<rich:tab header="Tab 5" id="t5"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(4)}">
+					<h:outputText value="Tab content 5" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[4]}" />
+				</rich:tab>
+				<rich:tab header="Tab 6" id="t6"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(5)}">
+					<h:outputText value="Tab content 6" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[5]}" />
+				</rich:tab>
+				<rich:tab header="Tab 7" id="t7"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(6)}">
+					<h:outputText value="Tab content 7" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[6]}" />
+				</rich:tab>
+				<rich:tab header="Tab 8" id="t8"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(7)}">
+					<h:outputText value="Tab content 8" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[7]}" />
+				</rich:tab>
+				<rich:tab header="Tab 9" id="t9"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(8)}">
+					<h:outputText value="Tab content 9" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[8]}" />
+				</rich:tab>
+				<rich:tab header="Tab 10" id="t10"
+					actionListener="#{dynamicTabPanelController.onSelectServerTab(9)}">
+					<h:outputText value="Tab content 10" />
+					<br />
+					<h:outputText
+						value="Displayed #{dynamicTabPanelModel.serverTabCounter[9]}" />
+				</rich:tab>
+			</jb:dynamicTabPanel>
+		</h:form>
+		<h4>Client</h4>
+		<h:form id="fc">
+			<jb:dynamicTabPanel switchType="client" id="dync" tabWidth="40">
+				<rich:tab header="Tab 1" id="t1">
+					<h:outputText value="Tab content 1" />
+				</rich:tab>
+				<rich:tab header="Tab 2" id="t2">
+					<h:outputText value="Tab content 2" />
+				</rich:tab>
+				<rich:tab header="Tab 3" id="t3">
+					<h:outputText value="Tab content 3" />
+					<br />
+					<h:outputText
+						value="Tab 4 should not be displayed because not rendered" />
+				</rich:tab>
+				<rich:tab header="Tab 4" id="t4" rendered="#{false}">
+					<h:outputText value="Tab content 4" />
+				</rich:tab>
+				<rich:tab header="Tab 5" id="t5">
+					<h:outputText value="Tab content 5" />
+				</rich:tab>
+				<rich:tab header="Tab 6" id="t6">
+					<h:outputText value="Tab content 6" />
+				</rich:tab>
+				<rich:tab header="Tab 7" id="t7">
+					<h:outputText value="Tab content 7" />
+				</rich:tab>
+				<rich:tab header="Tab 8" id="t8">
+					<h:outputText value="Tab content 8" />
+				</rich:tab>
+				<rich:tab header="Tab 9" id="t9">
+					<h:outputText value="Tab content 9" />
+				</rich:tab>
+				<rich:tab header="Tab 10" id="t10">
+					<h:outputText value="Tab content 10" />
+				</rich:tab>
+			</jb:dynamicTabPanel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

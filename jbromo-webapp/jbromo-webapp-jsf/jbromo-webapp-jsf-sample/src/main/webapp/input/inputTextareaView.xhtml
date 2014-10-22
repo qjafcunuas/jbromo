@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{inputTextareaController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="inputTextarea" />
+		</h3>
+		<code class="xhtml">&lt;jb:inputTextarea value="" required=""
+			styleClass="" disabled="" cols="" rows="" /&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="f1">
+			<code class="java anno">
+				<h:outputText value="@Size(max = 10) @NotNull" />
+			</code>
+			<div class="clearBoth" />
+			<jb:inputTextarea value="#{inputTextareaModel.input}" />
+		</h:form>
+
+		<h3>
+			<h:outputText value="inoutputTextarea" />
+		</h3>
+		<code class="xhtml">&lt;jb:inoutputTextarea value=""
+			required="" styleClass="" disabled="" readonly="" cols="" rows=""
+			/&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="f2">
+			<code class="java anno">
+				<h:outputText value="@Size(max = 20) @NotNull" />
+			</code>
+			<div class="clearBoth" />
+			<h:outputText value="#{inputTextareaModel.inoutput}" />
+			<h:panelGrid columns="2">
+				<code class="xhtml">readonly=true</code>
+				<jb:inoutputTextarea value="#{inputTextareaModel.inoutput}"
+					readonly="true" />
+				<code class="xhtml">readonly=false</code>
+				<jb:inoutputTextarea value="#{inputTextareaModel.inoutput}" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

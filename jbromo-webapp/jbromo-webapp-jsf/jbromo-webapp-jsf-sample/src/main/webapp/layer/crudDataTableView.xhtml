@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{crudDataTableController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+	TODO : pagination from service <br />
+	TODO : bug richfaces : edit row, force invalid field on not 1rst column=> red border style is on first column (https://issues.jboss.org/browse/RF-13127?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel)<br />
+		<h3>
+			<h:outputText value="CRUD dataTable, with jb:dataTableCrudButton" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataTable styleClass=""
+			columnClass="" model="" controller="" rows="" &gt;</code>
+		<code class="xhtml spaces1">&lt;rich:column&gt;</code>
+		<code class="xhtml spaces2">&lt;jb:dataTableCrudButton</code>
+		<code class="xhtml spaces3">noEdit="true/false" titleEdit=""
+			imageClassEdit="" styleClassEdit="" onclickEdit="" oncallbackEdit=""
+			oncompleteEdit=""</code>
+		<code class="xhtml spaces3">noDelete="true/false"
+			titleDelete="" labelDeleted="" imageClassDelete=""
+			styleClassDelete="" onclickDelete="" oncallbackDelete=""
+			oncompleteDelete=""</code>
+		<code class="xhtml spaces3">noCancel="true/false"
+			titleCancel="" imageClassCancel="" styleClassCancel=""
+			onclickCancel="" oncallbackCancel="" oncompleteCancel=""</code>
+		<code class="xhtml spaces3">noSave="true/false" titleSave=""
+			imageClassSave="" styleClassSave="" onclickSave="" oncallbackSave=""
+			oncompleteSave=""</code>
+		<code class="xhtml spaces2"> /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:column&gt;</code>
+		<code class="xhtml">&lt;/jb:dataTable&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="fcrud">
+			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<jb:dataTable id="dtl" model="#{crudDataTableModel}"
+				controller="#{crudDataTableController}" rows="5">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="iterator" />
+					</f:facet>
+					<h:outputText id="dm"
+						value="#{crudDataTableModel.rowClicked.element.name} has been deleted"
+						styleClass="hide" />
+					<h:outputText id="cdm" value="Delete #{row.element.name}?"
+						styleClass="hide" />
+					<h:outputText id="iter" value="#{iter}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="primary key"
+							filterValue="#{crudDataTableModel.criteria.primaryKey}"
+							sortBy="primaryKey" />
+					</f:facet>
+					<h:outputText id="pk" value="#{row.element.primaryKey}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="name"
+							filterValue="#{crudDataTableModel.criteria.name}" sortBy="name" />
+					</f:facet>
+					<jb:inoutputText id="name" value="#{row.element.name}"
+						readonly="#{row.readonly}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="Description"
+							filterValue="#{crudDataTableModel.criteria.description}" />
+					</f:facet>
+					<jb:inoutputText id="desc" value="#{row.element.description}"
+						readonly="#{row.readonly}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:commandButton id="new" popupWait="true" execute="dt"
+							styleClass="jb-cb-img" imageClass="new"
+							title="#{i18n.formatString('default.action.new')}"
+							action="#{crudDataTableController.onNew()}" render="dt@body" />
+					</f:facet>
+					<jb:dataTableCrudButton id="btns"
+						oncallbackDelete="function(callback) {popupMsg.setCallbackOk(callback).confirm('Delete ?')};" />
+				</rich:column>
+			</jb:dataTable>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

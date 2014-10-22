@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{countryController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="countryFlag" />
+		</h3>
+		<code class="xhtml">&lt;jb:countryFlag locale="" styleClass=""
+			father="" map="" /&gt;</code>
+		<div class="clearBoth" />
+		<jb:countryFlag locale="#{localeContext.locale}" />
+
+		<h3>
+			<h:outputText value="outputCountry" />
+		</h3>
+		<code class="xhtml">&lt;jb:outputCountry locale=""
+			styleClass="" /&gt;</code>
+		<div class="clearBoth" />
+		<br />
+
+		<h:form id="f" styleClass="vcountries">
+			<a4j:outputPanel id="cPanel" layout="block">
+				<a4j:repeat value="#{countryModel.countries}" var="country"
+					rows="54" id="cRepeat">
+					<rich:panel bodyClass="ct" styleClass="ctPanel">
+						<jb:outputCountry locale="#{country}" />
+					</rich:panel>
+				</a4j:repeat>
+			</a4j:outputPanel>
+			<div class="clearBoth" />
+			<div align="center">
+				<rich:dataScroller id="ds" for="cRepeat" render="cPanel" />
+			</div>
+		</h:form>
+
+		<h3>
+			<h:outputText value="selectOneCountry" />
+		</h3>
+		<code class="xhtml">&lt;jb:selectOneCountry value=""
+			noSelectionLabel="" noReadonlyLabel="" styleClass="" /&gt;</code>
+		<div class="clearBoth" />
+		<jb:selectOneCountry
+			noSelectionLabel="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+			noReadonlyLabel="#{message['default.label.selectOneMenu.noReadonlyLabel']}"
+			value="#{countryModel.selected}">
+		</jb:selectOneCountry>
+		<br />
+		<br />
+	</ui:define>
+
+</ui:composition>

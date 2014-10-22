@@ -1,0 +1,48 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<composite:interface>
+		<composite:attribute name="required" required="false" default="false" />
+		<composite:attribute name="styleClass" required="false" />
+		<composite:attribute name="value" required="true" />
+		<composite:attribute name="disabled" required="false" default="false" />
+		<composite:clientBehavior name="change" event="change" targets="it" />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.clientId}" class="#{cc.attrs.styleClass}">
+			<h:outputStylesheet library="org.richfaces" name="msg.ecss"
+				target="head" />
+			<h:outputScript library="org.richfaces" name="richfaces-csv.js"
+				target="head" />
+			<h:inputText id="it" value="#{cc.attrs.value}"
+				required="#{cc.attrs.required}" disabled="#{cc.attrs.disabled}">
+				<rich:validator event="blur"
+					oninvalid="$(#{rich:element('it')}).addClass('invalid')"
+					onvalid="$(#{rich:element('it')}).removeClass('invalid')" />
+				<composite:insertChildren />
+			</h:inputText>
+			<rich:message for="it" id="msg" ajaxRendered="false" />
+		</div>
+	</composite:implementation>
+
+</ui:composition>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{bromoHeaderDataTableController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+	TODO : pagination from service <br />
+	TODO : richfaces sortMode multi don't work<br />
+		<h3>
+			<h:outputText value="dataTable, with Bromo filter/sort" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataTable styleClass=""
+			columnClass="" model="" controller="" &gt;</code>
+		<code class="xhtml spaces1">&lt;rich:column&gt;</code>
+		<code class="xhtml spaces2">&lt;f:facet name="header"&gt;</code>
+		<code class="xhtml spaces3">&lt;jb:columnHeader
+			header="primary key" filterValue="" sortBy="primaryKey" /"&gt;</code>
+		<code class="xhtml spaces2">&lt;/f:facet"&gt;</code>
+		<code class="xhtml spaces2">&lt;h:outputText
+			value="#{row.element.primaryKey}" /"&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:column&gt;</code>
+		<code class="xhtml">&lt;/jb:dataTable&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="fl">
+			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<jb:dataTable id="dtl" model="#{bromoHeaderDataTableModel}"
+				controller="#{bromoHeaderDataTableController}" rows="5">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="iterator" />
+					</f:facet>
+					<h:outputText value="#{iter}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="primary key"
+							filterValue="#{bromoHeaderDataTableModel.criteria.primaryKey}"
+							sortBy="primaryKey" />
+					</f:facet>
+					<h:outputText value="#{row.element.primaryKey}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="name"
+							filterValue="#{bromoHeaderDataTableModel.criteria.name}" sortBy="name" />
+					</f:facet>
+					<h:outputText value="#{row.element.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="Description"
+							filterValue="#{bromoHeaderDataTableModel.criteria.description}" />
+					</f:facet>
+					<h:outputText value="#{row.element.description}" />
+				</rich:column>
+			</jb:dataTable>
+		</h:form>
+
+		<h3>
+			<h:outputText value="dataTable, with RichFaces filter/sort" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataTable styleClass=""
+			columnClass="" model="" controller=""&gt;</code>
+		<code class="xhtml spaces1">&lt;rich:column sortBy=""
+			filterValue="" filterExpression=""&gt;</code>
+		<code class="xhtml spaces2">&lt;f:facet name="header"&gt;</code>
+		<code class="xhtml spaces3">&lt;jb:columnHeader
+			header="primary key" /&gt;</code>
+		<code class="xhtml spaces2">&lt;/f:facet&gt;</code>
+		<code class="xhtml spaces2">&lt;h:outputText
+			value="#{row.element.primaryKey}" /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:column&gt;</code>
+		<code class="xhtml">&lt;/jb:dataTable&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="fr">
+			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<jb:dataTable id="dtr" model="#{richHeaderDataTableModel}"
+				controller="#{richHeaderDataTableController}" rows="5">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="iterator" />
+					</f:facet>
+					<h:outputText value="#{iter}" />
+				</rich:column>
+				<rich:column sortBy="#{row.element.primaryKey}"
+					filterValue="#{richHeaderDataTableModel.criteria.primaryKey}"
+					filterExpression="#{fn:containsIgnoreCase(row.element.primaryKey,richHeaderDataTableModel.criteria.primaryKey)}">
+					<f:facet name="header">
+						<jb:columnHeader header="primary key" />
+					</f:facet>
+					<h:outputText value="#{row.element.primaryKey}" />
+				</rich:column>
+				<rich:column sortBy="#{row.element.name}"
+					filterValue="#{richHeaderDataTableModel.criteria.name}"
+					filterExpression="#{fn:containsIgnoreCase(row.element.name,richHeaderDataTableModel.criteria.name)}">
+					<f:facet name="header">
+						<jb:columnHeader header="name" />
+					</f:facet>
+					<h:outputText value="#{row.element.name}" />
+				</rich:column>
+				<rich:column filterValue="#{richHeaderDataTableModel.criteria.description}"
+					filterExpression="#{fn:containsIgnoreCase(row.element.description,richHeaderDataTableModel.criteria.description)}">
+					<f:facet name="header">
+						<jb:columnHeader header="description" />
+					</f:facet>
+					<h:outputText value="#{row.element.description}" />
+				</rich:column>
+			</jb:dataTable>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

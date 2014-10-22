@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>jbromo-dao-jpa</artifactId>
+		<groupId>org.jbromo</groupId>
+		<version>0.5.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>jbromo-dao-jpa-lib</artifactId>
+	<packaging>jar</packaging>
+
+	<name>JBromo DAO JPA Library</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-lib</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-dao-lib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-model-lib</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-dao-jpa-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-dao-jpa-model</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>weld-managed</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jbromo</groupId>
+					<artifactId>jbromo-dao-jpa-container-hibernate</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.atomikos</groupId>
+					<artifactId>transactions-jta</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-validator</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>owb-managed</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jbromo</groupId>
+					<artifactId>jbromo-dao-jpa-container-openjpa</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.atomikos</groupId>
+					<artifactId>transactions-jta</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.openjpa</groupId>
+					<artifactId>openjpa-all</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<!-- For unenhancing all classes, the EntityManagerFactory must be 
+								created prior to creating any Entities. -->
+							<reuseForks>false</reuseForks>
+							<!-- http://comments.gmane.org/gmane.comp.apache.openjpa.user/10303 -->
+							<!-- LinkageError: duplicate class definition for name: "org/apache/openjpa/jdbc/identifier/DBIdentifier$DBIdentifierType" -->
+							<argLine>-XX:+AlwaysLockClassLoader</argLine>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.9</version>
+						<executions>
+							<execution>
+								<id>For enhancing entities at runtime.</id>
+								<goals>
+									<goal>unpack-dependencies</goal>
+								</goals>
+								<phase>generate-sources</phase>
+								<configuration>
+									<includeGroupIds>org.jbromo</includeGroupIds>
+									<includeArtifactIds>jbromo-dao-jpa-model</includeArtifactIds>
+									<excludeTransitive>true</excludeTransitive>
+									<includes>org/jbromo/model/jpa/AbstractEntityId.class,org/jbromo/sample/server/model/src/**/*.class</includes>
+									<outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.openjpa</groupId>
+						<artifactId>openjpa-maven-plugin</artifactId>
+						<version>2.3.0</version>
+						<executions>
+							<execution>
+								<id>enhancer</id>
+								<phase>process-test-classes</phase>
+								<goals>
+									<goal>test-enhance</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.openjpa</groupId>
+								<artifactId>openjpa-all</artifactId>
+								<version>2.3.0</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>arquillian-jbossas-managed</id>
+			<dependencies>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>arquillian-jbossas-remote</id>
+			<dependencies>
+			</dependencies>
+		</profile>
+	</profiles>
+
+</project>

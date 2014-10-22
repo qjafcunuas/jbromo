@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rich:toolbar xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<rich:toolbarGroup>
+		<h:form>
+			<h:panelGroup styleClass="rf-ddm-lbl rf-ddm-unsel" layout="block">
+				<h:link outcome="/index.xhtml" value="#{message['menu.home']}"
+					styleClass="rf-ddm-lbl-dec" />
+			</h:panelGroup>
+		</h:form>
+	</rich:toolbarGroup>
+	<rich:toolbarGroup>
+		<h:form>
+			<rich:dropDownMenu>
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:outputText value="#{message['menu.standard']}" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:menuGroup label="#{message['menu.standard.button']}">
+					<rich:menuItem
+						label="#{message['menu.standard.button.commandButton']}"
+						action="#{menuController.onCommandButton()}">
+					</rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="#{message['menu.standard.input']}">
+					<rich:menuItem label="#{message['menu.standard.input.inputText']}"
+						action="#{menuController.onInputText()}">
+					</rich:menuItem>
+					<rich:menuItem
+						label="#{message['menu.standard.input.inputTextarea']}"
+						action="#{menuController.onInputTextarea()}">
+					</rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="#{message['menu.standard.layer']}">
+					<rich:menuItem
+						label="#{message['menu.standard.layer.dynamicTabPanel']}"
+						action="#{menuController.onDynamicTabPanel()}">
+					</rich:menuItem>
+					<rich:menuGroup label="#{message['menu.standard.layer.wizard']}">
+						<rich:menuItem
+							label="#{message['menu.standard.layer.wizard.togglePanel']}"
+							action="#{menuController.onTogglePanel()}">
+						</rich:menuItem>
+						<rich:menuItem
+							label="#{message['menu.standard.layer.wizard.conversation']}"
+							action="#{menuController.onWizard()}">
+						</rich:menuItem>
+					</rich:menuGroup>
+					<rich:menuItem label="#{message['menu.standard.layer.fieldSet']}"
+						action="#{menuController.onFieldSet()}">
+					</rich:menuItem>
+					<rich:menuItem
+						label="#{message['menu.standard.layer.datascroller']}"
+						action="#{menuController.onDataScroller()}">
+					</rich:menuItem>
+					<rich:menuGroup label="#{message['menu.standard.layer.datatable']}">
+						<rich:menuItem
+							label="#{message['menu.standard.layer.datatable.rowclick']}"
+							action="#{menuController.onRowClickDataTable()}">
+						</rich:menuItem>
+						<rich:menuItem
+							label="#{message['menu.standard.layer.datatable.selectall']}"
+							action="#{menuController.onSelectAllDataTable()}">
+						</rich:menuItem>
+						<rich:menuItem
+							label="#{message['menu.standard.layer.datatable.header']}"
+							action="#{menuController.onColumnHeaderDataTable()}">
+						</rich:menuItem>
+						<rich:menuItem
+							label="#{message['menu.standard.layer.datatable.crud']}"
+							action="#{menuController.onCrudDataTable()}">
+						</rich:menuItem>
+					</rich:menuGroup>
+				</rich:menuGroup>
+				<rich:menuGroup label="#{message['menu.standard.popup']}">
+					<rich:menuItem label="#{message['menu.standard.popup.popupWait']}"
+						action="#{menuController.onPopupWait()}">
+					</rich:menuItem>
+					<rich:menuItem
+						label="#{message['menu.standard.popup.popupMessage']}"
+						action="#{menuController.onPopupMessage()}">
+					</rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="#{message['menu.standard.select']}">
+					<rich:menuItem
+						label="#{message['menu.standard.select.selectOneMenu']}"
+						action="#{menuController.onSelectOneMenu()}">
+					</rich:menuItem>
+					<rich:menuItem
+						label="#{message['menu.standard.select.selectBooleanMenu']}"
+						action="#{menuController.onSelectBooleanMenu()}">
+					</rich:menuItem>
+					<rich:menuItem
+						label="#{message['menu.standard.select.selectManyCheckbox']}"
+						action="#{menuController.onSelectManyCheckbox()}">
+					</rich:menuItem>
+				</rich:menuGroup>
+			</rich:dropDownMenu>
+		</h:form>
+	</rich:toolbarGroup>
+	<rich:toolbarGroup>
+		<h:form>
+			<rich:dropDownMenu>
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:outputText value="#{message['menu.i18n']}" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:menuItem label="#{message['menu.i18n.country']}"
+					action="#{menuController.onCountries()}">
+				</rich:menuItem>
+				<rich:menuItem label="#{message['menu.i18n.language']}"
+					action="#{menuController.onLanguages()}">
+				</rich:menuItem>
+				<rich:menuItem label="#{message['menu.i18n.message']}"
+					action="#{menuController.onMessageLabels()}">
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+	</rich:toolbarGroup>
+	<rich:toolbarGroup>
+		<h:form>
+			<rich:dropDownMenu>
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:outputText value="#{message['menu.security']}" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:menuItem label="#{message['menu.security.login']}"
+					action="#{menuController.onLogin()}"
+					rendered="#{!securityContext.authenticated}">
+				</rich:menuItem>
+				<rich:menuItem label="#{message['menu.security.admin']}"
+					action="#{menuController.onAdminAccess()}"
+					rendered="#{securityContext.isUserInRole('ADMIN')}">
+				</rich:menuItem>
+				<rich:menuItem label="#{message['menu.security.guess']}"
+					action="#{menuController.onGuestAccess()}"
+					rendered="#{securityContext.isUserInRole('GUEST')}">
+				</rich:menuItem>
+				<rich:menuItem label="#{message['menu.security.logout']}"
+					action="#{menuController.onLogout()}"
+					rendered="#{securityContext.authenticated}">
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+	</rich:toolbarGroup>
+	<rich:toolbarGroup location="right">
+		<jb:ajaxStatus id="gStatus" />
+		<h:outputText value="#{securityContext.user.login}" />
+	</rich:toolbarGroup>
+</rich:toolbar>

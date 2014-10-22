@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{selectOneMenuController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="selectOneMenu" />
+		</h3>
+		<code class="xhtml"> &lt;jb:selectOneMenu value="" values=""
+			styleClass="" itemLabel="" itemDescription="" noSelectionLabel=""
+			noReadonlyLabel="" readonly="" required="" sortBy="" /&gt;</code>
+		<div class="clearBoth"></div>
+		<h4>
+			<h:outputText value="sortBy" />
+		</h4>
+		<code class="xhtml">&lt;jb:selectOneMenu value="" values=""
+			styleClass="" itemLabel="" noSelectionLabel="" sortBy="" /&gt;</code>
+		<div class="clearBoth"></div>
+		<jb:selectOneMenu values="#{selectOneMenuModel.options}"
+			itemLabel="#{item.label}" styleClass="left" title="not sorted"
+			noSelectionLabel="#{row.noSelectionLabel?message['default.label.selectOneMenu.noSelectionLabel']:null}"
+			value="#{selectOneMenuModel.selected}" />
+		<jb:selectOneMenu values="#{selectOneMenuModel.options}"
+			itemLabel="#{item.label} - #{item.description}"
+			sortBy="#{item.label}" styleClass="left" title="sorted by label"
+			noSelectionLabel="#{row.noSelectionLabel?message['default.label.selectOneMenu.noSelectionLabel']:null}"
+			value="#{selectOneMenuModel.selected}" />
+		<jb:selectOneMenu values="#{selectOneMenuModel.options}"
+			itemLabel="#{item.description} - #{item.label}"
+			sortBy="#{item.description}" styleClass="left"
+			title="sorted by description"
+			noSelectionLabel="#{row.noSelectionLabel?message['default.label.selectOneMenu.noSelectionLabel']:null}"
+			value="#{selectOneMenuModel.selected}" />
+		<div class="clearBoth"></div>
+		<h4>
+			<h:outputText value="display" />
+		</h4>
+		<center>
+			<rich:dataTable value="#{selectOneMenuModel.rows}" var="row">
+				<rich:column>
+					<f:facet name="header">value</f:facet>
+					<h:outputText value="#{row.value.label}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">readonly</f:facet>
+					<h:outputText value="#{row.readonly}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">noSelectionLabel</f:facet>
+					<h:outputText
+						value="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+						rendered="#{row.noSelectionLabel}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">noReadonlyLabel</f:facet>
+					<h:outputText
+						value="#{message['default.label.selectOneMenu.noReadonlyLabel']}"
+						rendered="#{row.noReadonlyLabel}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">required</f:facet>
+					<h:outputText value="#{row.required}" />
+				</rich:column>
+				<rich:column>
+					<rich:dataTable>
+					</rich:dataTable>
+					<f:facet name="header">selectOneMenu</f:facet>
+					<jb:selectOneMenu id="som" values="#{selectOneMenuModel.options}"
+						itemLabel="#{item.label}" readonly="#{row.readonly}"
+						required="#{row.required}" sortBy="#{item.label}"
+						noSelectionLabel="#{row.noSelectionLabel?message['default.label.selectOneMenu.noSelectionLabel']:null}"
+						noReadonlyLabel="#{row.noReadonlyLabel?message['default.label.selectOneMenu.noReadonlyLabel']:null}"
+						value="#{row.value}" />
+					<rich:message for="som" />
+				</rich:column>
+			</rich:dataTable>
+		</center>
+		<h3>
+			<h:outputText value="ajax" />
+		</h3>
+		<code class="xhtml">&lt;jb:selectOneMenu value="" values=""
+			styleClass="" itemLabel="" noSelectionLabel="" sortBy="" &gt;</code>
+		<code class="xhtml spaces1">&lt;f:ajax event="change"
+			render="" execute="" /&gt;</code>
+		<code class="xhtml">&lt;/jb:selectOneMenu&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="fajax">
+			<jb:selectOneMenu id="aa" values="#{selectOneMenuModel.options}"
+				itemLabel="#{item.label}" sortBy="#{item.label}" styleClass="left"
+				noSelectionLabel="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+				value="#{selectOneMenuModel.ajaxSelected}">
+				<f:ajax execute="#{rich:clientId('aa')}" render="#{rich:clientId('ot4')}" event="change"/>
+			</jb:selectOneMenu>
+			<h:outputText id="ot4" value="#{selectOneMenuModel.ajaxSelected}"
+				styleClass="left" />
+		</h:form>
+		<div class="clearBoth"></div>
+		<h3>
+			<h:outputText value="father" />
+		</h3>
+		<code class="xhtml">&lt;jb:selectOneMenu id="parent" value=""
+			values="" sortBy="" itemLabel="" noSelectionLabel="" /&gt;</code>
+		<code class="xhtml">&lt;jb:selectMap id="map" values="" /&gt;</code>
+		<code class="xhtml">&lt;jb:selectOneMenu id="child" "value=""
+			values="" sortBy="" itemLabel="" noSelectionLabel="" father="parent"
+			map="map" /&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="parent">
+			<table>
+				<tr>
+					<td rowspan="2"><jb:selectOneMenu id="country"
+							values="#{selectOneMenuModel.countries}"
+							itemLabel="#{localeContext.getCountryLabel(item)}"
+							sortBy="#{localeContext.getCountryLabel(item)}" styleClass="left"
+							noSelectionLabel="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+							value="#{selectOneMenuModel.selectedCountry}">
+						</jb:selectOneMenu></td>
+					<td><jb:selectMap id="cToL"
+							values="#{selectOneMenuModel.countriesLanguagesSelectItem}">
+						</jb:selectMap> <jb:selectOneMenu id="lang"
+							values="#{selectOneMenuModel.languages}"
+							itemLabel="#{localeContext.getLanguageLabel(item, true)}"
+							sortBy="#{localeContext.getLanguageLabel(item, true)}"
+							styleClass="left"
+							noSelectionLabel="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+							value="#{selectOneMenuModel.selectedLanguage}" father="country"
+							map="cToL">
+						</jb:selectOneMenu></td>
+				</tr>
+				<tr>
+					<td><jb:selectMap id="cToUl"
+							values="#{selectOneMenuModel.countriesUndistinctLanguagesSelectItem}">
+						</jb:selectMap> <jb:selectOneMenu id="ulang"
+							values="#{selectOneMenuModel.undistinctLanguages}"
+							itemLabel="#{localeContext.getLanguageLabel(item, false)}"
+							sortBy="#{localeContext.getLanguageLabel(item, false)}"
+							styleClass="left"
+							noSelectionLabel="#{message['default.label.selectOneMenu.noSelectionLabel']}"
+							value="#{selectOneMenuModel.selectedLanguage}" father="country"
+							map="cToUl">
+						</jb:selectOneMenu></td>
+				</tr>
+			</table>
+		</h:form>
+		<div class="clearBoth"></div>
+	</ui:define>
+
+</ui:composition>

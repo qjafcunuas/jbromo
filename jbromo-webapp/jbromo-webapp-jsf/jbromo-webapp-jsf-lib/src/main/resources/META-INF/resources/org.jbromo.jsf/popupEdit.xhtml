@@ -1,0 +1,72 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich">
+	<composite:interface>
+		<composite:attribute name="title" required="false" />
+		<composite:attribute name="styleClass" required="false" default="" />
+		<composite:attribute name="onClose" required="false" />
+		<composite:attribute name="autosized" required="false" default="true"
+			type="java.lang.Boolean" />
+		<composite:attribute name="modal" required="false" default="true"
+			type="java.lang.Boolean" />
+		<composite:attribute name="minWidth" required="false" default="400"
+			type="java.lang.Integer" />
+		<composite:attribute name="minHeight" required="false" default="200"
+			type="java.lang.Integer" />
+		<composite:attribute name="maxHeight" required="false" default="530"
+			type="java.lang.Integer" />
+		<composite:attribute name="top" required="false" default="50"
+			type="java.lang.Integer" />
+	</composite:interface>
+	<composite:implementation>
+		<div id="#{cc.attrs.clientId}">
+			<rich:popupPanel id="pp" modal="#{cc.attrs.modal}"
+				styleClass="#{cc.attrs.styleClass}" domElementAttachment="form"
+				moveable="true" minWidth="#{cc.attrs.minWidth}"
+				minHeight="#{cc.attrs.minHeight}" maxHeight="#{cc.attrs.maxHeight}"
+				autosized="#{cc.attrs.autosized}" top="#{cc.attrs.maxHeight}"
+				resizeable="#{not cc.attrs.autosized}">
+				<f:facet name="header">
+					<h:outputText value="#{cc.attrs.title}" />
+				</f:facet>
+				<f:facet name="controls">
+					<a href="#" class="noDecoration"
+						onclick="#{cc.attrs.onClose};#{cc.attrs.id}.hide();return false;">X</a>
+				</f:facet>
+				<h:panelGroup id="pg" style="overflow: auto;">
+					TODO : min/max width/height top ... by css<br />
+					<composite:insertChildren />
+				</h:panelGroup>
+			</rich:popupPanel>
+
+			<h:outputScript>
+				var #{cc.attrs.id} = #{rich:element('pp')};
+				#{cc.attrs.id}.show = function() {
+					#{rich:component('pp')}.show();
+					popupWait.hide();
+				}
+				#{cc.attrs.id}.hide = function() {
+					#{rich:component('pp')}.hide();
+				}
+			</h:outputScript>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

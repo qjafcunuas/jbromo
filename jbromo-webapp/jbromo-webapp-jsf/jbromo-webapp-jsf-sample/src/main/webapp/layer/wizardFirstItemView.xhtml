@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<br />
+		<h3>
+			<h:outputText value="Wizard multi-pages" />
+		</h3>
+		<br />
+		<h:outputText
+			value="Note url page changes when you navigate into the wizard." />
+		<br />
+		<br />
+		<h:form id="fa">
+			<rich:panel>
+				<h:outputText value="First panel" />
+				<br />
+				<h:outputText value="Go to third panel:" />
+				<h:selectBooleanCheckbox
+					value="#{firstWizardItemModel.nextItemThird}" />
+				<br />
+				<jb:wizardButtonBar controller="#{firstWizardItemController}"
+					renderedPrevious="false" />
+				<div class="clearBoth" />
+			</rich:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

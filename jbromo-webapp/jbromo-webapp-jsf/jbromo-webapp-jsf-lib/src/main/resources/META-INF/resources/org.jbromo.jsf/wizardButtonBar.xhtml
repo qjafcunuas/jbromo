@@ -1,0 +1,72 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<composite:interface>
+		<composite:attribute name="controller" required="true"
+			type="org.jbromo.webapp.jsf.component.wizard.AbstractWizardItemController" />
+		<composite:attribute name="styleClass" required="false" />
+		<composite:attribute name="styleClassNext" required="false"
+			default="jb-cb right" />
+		<composite:attribute name="styleClassPrevious" required="false"
+			default="jb-cb left" />
+		<composite:attribute name="imageClassNext" required="false"
+			default="next right" />
+		<composite:attribute name="imageClassPrevious" required="false"
+			default="previous left" />
+		<composite:attribute name="render" required="false" />
+		<composite:attribute name="popupWaitNext" required="false"
+			default="true" type="java.lang.Boolean" />
+		<composite:attribute name="popupWaitPrevious" required="false"
+			default="true" type="java.lang.Boolean" />
+		<composite:attribute name="execute" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="renderedNext" required="false"
+			default="true" type="java.lang.Boolean" />
+		<composite:attribute name="renderedPrevious" required="false"
+			default="true" type="java.lang.Boolean" />
+		<composite:attribute name="valueNext" required="false" />
+		<composite:attribute name="valuePrevious" required="false" />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.clientId}" class="#{cc.attrs.styleClass}">
+			<jb:commandButton styleClass="#{cc.attrs.styleClassPrevious}"
+				rendered="#{cc.attrs.renderedPrevious}" render="#{cc.attrs.render}"
+				popupWait="#{cc.attrs.popupWaitPrevious}"
+				execute="#{empty cc.attrs.execute?cc.attrs.execute:'@this'}"
+				imageClass="#{cc.attrs.imageClassPrevious}"
+				value="#{empty cc.attrs.valuePrevious?message['default.action.previous']:cc.attrs.valuePrevious}"
+				action="#{cc.attrs.controller.onPrevious()}">
+			</jb:commandButton>
+			<composite:insertChildren />
+			<jb:commandButton styleClass="#{cc.attrs.styleClassNext}"
+				rendered="#{cc.attrs.renderedNext}" render="#{cc.attrs.render}"
+				popupWait="#{cc.attrs.popupWaitNext}" execute="#{cc.attrs.execute}"
+				imageClass="#{cc.attrs.imageClassNext}"
+				value="#{empty cc.attrs.valueNext?message['default.action.previous']:cc.attrs.valueNext}"
+				action="#{cc.attrs.controller.onNext()}">
+			</jb:commandButton>
+		</div>
+	</composite:implementation>
+</ui:composition>

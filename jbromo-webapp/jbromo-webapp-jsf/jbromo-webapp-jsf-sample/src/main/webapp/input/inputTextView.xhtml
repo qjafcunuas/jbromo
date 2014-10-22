@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{inputTextController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="inputText" />
+		</h3>
+		<code class="xhtml">&lt;jb:inputText value="" required=""
+			styleClass="" disabled="" /&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="f1">
+			<code class="java anno">
+				<h:outputText value="@Size(max = 10) @NotNull" />
+			</code>
+			<div class="clearBoth" />
+			<jb:inputText value="#{inputTextModel.input}" />
+		</h:form>
+
+		<h3>
+			<h:outputText value="inoutputText" />
+		</h3>
+		<code class="xhtml">&lt;jb:inoutputText value="" required=""
+			styleClass="" disabled="" readonly="" /&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="f2">
+			<code class="java anno">
+				<h:outputText value="@Size(max = 20) @NotNull" />
+			</code>
+			<div class="clearBoth" />
+			<h:panelGrid columns="2">
+				<code class="xhtml">readonly=true</code>
+				<jb:inoutputText value="#{inputTextModel.inoutput}"
+					readonly="true" />
+				<code class="xhtml">readonly=false</code>
+				<jb:inoutputText value="#{inputTextModel.inoutput}" />
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

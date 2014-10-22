@@ -1,0 +1,60 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+	<composite:interface>
+		<composite:attribute name="title" required="false" />
+		<composite:attribute name="styleClass" required="false"
+			default="jb-pmsg" />
+		<composite:attribute name="show" required="false" default="false"
+			type="java.lang.Boolean" />
+	</composite:interface>
+	<composite:implementation>
+		<div id="#{cc.clientId}" class="#{cc.attrs.styleClass} wait">
+			<h:outputStylesheet library="org.jbromo.css" name="bromo.css"
+				target="head" />
+			<rich:popupPanel id="pp" autosized="true" top="100"
+				domElementAttachment="parent" show="#{cc.attrs.show}">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText
+							value="#{i18n.formatString('popup.message.wait.title')}"
+							rendered="#{empty cc.attrs.title}" />
+						<h:outputText value="#{cc.attrs.title}"
+							rendered="#{not empty cc.attrs.title}" />
+					</h:panelGroup>
+				</f:facet>
+				<div class="content">
+					<div class="msg"></div>
+					<div class="icon"></div>
+					<div id="#{cc.attrs.id}:msg" class="msg">
+						<composite:insertChildren />
+					</div>
+				</div>
+				<div class="clearBoth" />
+			</rich:popupPanel>
+			<script type="text/javascript">
+		 		// use popupWait.show() or popupWait.hide()
+		 		var #{cc.attrs.id} = ${rich:component('pp')};
+    		</script>
+		</div>
+
+	</composite:implementation>
+
+</ui:composition>

@@ -1,0 +1,2 @@
+org.jbromo.common.test.cdi.deltaspike.DeltaSpikeCdiContainer
+org.jbromo.dao.test.cdi.JpaContainer

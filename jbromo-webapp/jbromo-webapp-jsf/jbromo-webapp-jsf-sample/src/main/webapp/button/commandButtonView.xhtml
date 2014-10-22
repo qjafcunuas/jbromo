@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{commandButtonController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:outputStylesheet library="org.richfaces" name="datatable.ecss"
+			target="head" />
+		<h3>
+			<h:outputText value="jb:commandButton" />
+		</h3>
+		<h4>
+			<h:outputText value="Standard" />
+		</h4>
+		<code class="xhtml">&lt;jb:commandButton value=""
+			styleClass="" imageClass="" disabled="false/true" title="" onclick=""
+			oncallback="" popupWait="false/true" action="" /&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="f">
+			<jb:commandButton styleClass="jb-cb left" imageClass="next right"
+				value="#{message['default.action.click']}"
+				action="#{commandButtonController.onClick()}" />
+			<h:outputText styleClass="left"
+				value="#{message['view.commandButton.click.counter']} #{commandButtonModel.clickCounter}" />
+			<jb:commandButton styleClass="jb-cb left"
+				imageClass="previous left"
+				value="#{message['default.action.click']}"
+				action="#{commandButtonController.onClick()}" />
+			<div class="clearBoth" />
+			<h:panelGrid columns="2" styleClass="rf-dt"
+				headerClass="rf-dt-shdr-c" columnClasses="rf-dt-c"
+				rowClasses="rf-dt-r">
+				<h:outputText value="disabled=true" />
+				<jb:commandButton value="Disabled" imageClass="next right"
+					action="#{commandButtonController.onClick()}" disabled="true" />
+				<h:outputText value="popupWait=true" />
+				<jb:commandButton value="popupWait" imageClass="next right"
+					action="#{commandButtonController.onClick()}" popupWait="true" />
+				<h:outputText value="onclick with return" />
+				<jb:commandButton value="onclick" imageClass="next right"
+					onclick="popupMsg.info('onclick called, server is not called and counter is not incremented');return;"
+					action="#{commandButtonController.onClick()}" />
+				<h:outputText value="onclick without return" />
+				<jb:commandButton value="onclick" imageClass="next right"
+					onclick="popupMsg.info('onclick called, server is called, and counter is incremented');"
+					action="#{commandButtonController.onClick()}" />
+				<h:outputText value="oncallback" />
+				<jb:commandButton value="oncallback" imageClass="next right"
+					oncallback="function(callback) {popupMsg.setCallbackOk(callback).confirm('oncallback called. View is refreshed only for ok button');}"
+					action="#{commandButtonController.onClick()}" />
+				<h:outputText value="onclick oncallback popupWait" />
+				<jb:commandButton value="click callback" imageClass="next right"
+					popupWait="true" onclick="alert('onclick called');"
+					oncallback="function(callback) {popupMsg.setCallbackOk(callback).confirm('oncallback called. View is refreshed only for ok button');}"
+					action="#{commandButtonController.onClick()}" />
+			</h:panelGrid>
+		</h:form>
+
+		<h4>
+			<h:outputText value="Ajax" />
+		</h4>
+		<code class="xhtml">&lt;lab4j:commandButton value=""
+			styleClass="" disabled="false/true" render="" execute=""
+			oncomplete="" onclick="" oncallback="" popupWait="false/true" /&gt;</code>
+		<div class="clearBoth" />
+		<h:form id="fa">
+			<jb:commandButton value="#{message['default.action.click']}"
+				render="ota" styleClass="jb-cb left" imageClass="next right"
+				action="#{commandButtonController.onAjaxClick()}">
+			</jb:commandButton>
+			<h:outputText id="ota" styleClass="left"
+				value="#{message['view.commandButton.click.counter']} #{commandButtonModel.ajaxCounter}" />
+			<jb:commandButton value="#{message['default.action.click']}"
+				render="ota" styleClass="jb-cb left" imageClass="previous left"
+				action="#{commandButtonController.onAjaxClick()}">
+			</jb:commandButton>
+			<div class="clearBoth" />
+			<h:panelGrid columns="2" styleClass="rf-dt"
+				headerClass="rf-dt-shdr-c" columnClasses="rf-dt-c"
+				rowClasses="rf-dt-r">
+				<h:outputText value="disabled" />
+				<jb:commandButton value="Disabled" render="ot"
+					imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}" disabled="true">
+				</jb:commandButton>
+				<h:outputText value="popupWait=true" />
+				<jb:commandButton value="popupWait" render="ota"
+					imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}" popupWait="true" />
+				<h:outputText value="onclick with return" />
+				<jb:commandButton value="onclick"
+					onclick="popupMsg.info('onclick called, ajax request is not called and counter is not incremented');return;"
+					render="ota" imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}">
+				</jb:commandButton>
+				<h:outputText value="onclick without return" />
+				<jb:commandButton value="onclick"
+					onclick="popupMsg.info('onclick called, ajax request is called and counter is incremented');"
+					render="ota" imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}">
+				</jb:commandButton>
+				<h:outputText value="oncallback" />
+				<jb:commandButton value="oncallback"
+					oncallback="function(callback) {popupMsg.setCallbackOk(callback).confirm('oncallback called. View is refreshed only for ok button');}"
+					render="ota" imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}">
+				</jb:commandButton>
+				<h:outputText value="oncomplete" />
+				<jb:commandButton value="oncomplete"
+					oncomplete="popupMsg.info('oncomplete called')" render="ota"
+					imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}">
+				</jb:commandButton>
+				<h:outputText value="onclick oncallback oncomplete popupWait" />
+				<jb:commandButton value="click callback complete" popupWait="true"
+					onclick="alert('onclick called');"
+					oncallback="function(callback) {popupMsg.setCallbackOk(callback).confirm('oncallback called. View is refreshed only for ok button');}"
+					oncomplete="popupMsg.info('oncomplete called')" render="ota"
+					imageClass="next right"
+					action="#{commandButtonController.onAjaxClick()}">
+				</jb:commandButton>
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

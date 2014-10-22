@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h:outputText value="Admin page" />
+		<h:panelGrid columns="2" border="1">
+			<h:outputText value="Guest role" />
+			<h:outputText value="#{securityContext.isUserInRole('GUEST')}" />
+			<h:outputText value="Admin role" />
+			<h:outputText value="#{securityContext.isUserInRole('ADMIN')}" />
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,89 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<composite:interface
+		componentType="org.jbromo.webapp.jsf.faces.composite.jsf.UIDataTable">
+		<composite:attribute name="model" required="true"
+			type="org.jbromo.webapp.jsf.component.datatable.AbstractDataTableModel" />
+		<composite:attribute name="controller" required="true"
+			type="org.jbromo.webapp.jsf.component.datatable.AbstractDataTableController" />
+		<composite:attribute name="styleClass" required="false"
+			default="jb-dt" type="java.lang.String" />
+		<composite:attribute name="columnClass" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="rows" required="false" default="20"
+			type="java.lang.Integer" />
+		<composite:attribute name="renderRow" required="false"
+			type="java.lang.String"
+			shortDescription="if 'server', run a server request, else run an ajax request and render element value." />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.clientId}" class="#{cc.attrs.styleClass}">
+			<h:outputScript library="org.jbromo.js" name="dataTable.js"
+				target="head" />
+			<jb:onloadScript />
+			<rich:panel id="pdt">
+				<h:outputScript>
+					window.onBromoLoad.add(function(){new BromoDataTable(#{rich:element('dt')});});
+				</h:outputScript>
+				<rich:dataTable id="dt" rows="#{cc.attrs.rows}" var="row"
+					value="#{cc.attrs.model.rows}" iterationStatusVar="iter"
+					rowClasses="odd-row#{empty cc.attrs.renderRow?'':' pointer'}, even-row#{empty cc.attrs.renderRow?'':' pointer'}"
+					sortMode="#{cc.attrs.model.sortColumns.sortMode}"
+					columnClasses="#{cc.attrs.columnClasses}"
+					footerClass="#{cc.attrs.model.rows.size() gt cc.attrs.rows?'':'hide'}"
+					sortPriority="#{cc.attrs.model.sortColumns.columnRefs}"
+					onrowmouseout="$(this).removeClass('over-row');"
+					onrowmouseover="$(this).addClass('over-row');"
+					onrowclick="#{rich:element('dt')}.bromo.onRowClick(event);">
+					<composite:insertChildren />
+					<rich:column styleClass="hide" headerClass="hide"
+						footerClass="hide">
+						<h:panelGroup id="pgcl">
+							<a4j:commandLink id="cla" render="#{cc.attrs.renderRow}"
+								action="#{cc.attrs.controller.onRowClick}"
+								rendered="#{not empty cc.attrs.renderRow and cc.attrs.renderRow != 'server'}"
+								execute="@this" onbegin="popupWait.show();"
+								oncomplete="popupWait.hide();">
+								<f:setPropertyActionListener
+									target="#{cc.attrs.model.rowClicked}" value="#{row}" />
+							</a4j:commandLink>
+							<h:commandLink id="cls"
+								action="#{cc.attrs.controller.onRowClick}"
+								rendered="#{cc.attrs.renderRow == 'server'}"
+								onclick="popupWait.show();">
+								<f:setPropertyActionListener
+									target="#{cc.attrs.model.rowClicked}" value="#{row}" />
+							</h:commandLink>
+						</h:panelGroup>
+					</rich:column>
+					<f:facet name="footer">
+						<jb:dataScroller id="ds" datatable="dt" render="pdt" execute="dt" />
+					</f:facet>
+				</rich:dataTable>
+			</rich:panel>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

@@ -1,0 +1,77 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<composite:interface
+		componentType="org.jbromo.webapp.jsf.faces.composite.jsf.UIDataScroller">
+		<composite:attribute name="styleClass" required="false"
+			default="jb-ds" />
+		<composite:attribute name="datatable" required="true" />
+		<composite:attribute name="rowsLabel" required="false" />
+		<composite:attribute name="execute" required="false" default="" />
+		<composite:attribute name="render" required="false" default="" />
+		<composite:attribute name="renderRowsLabel" required="false"
+			default="auto"
+			shortDescription="The attribute specifies the visibility of rows label. Possible values are: 'show' (label is always visible), 'hide' (label is hidden), 'auto' (unnecessary label is hidden). Default value is 'auto'." />
+		<composite:attribute name="pagesLabel" required="false" />
+		<composite:attribute name="renderPagesLabel" required="false"
+			default="auto"
+			shortDescription="The attribute specifies the visibility of pages label. Possible values are: 'show' (label is always visible), 'hide' (label is hidden), 'auto' (unnecessary label is hidden). Default value is 'auto'." />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.clientId}" class="#{cc.attrs.styleClass}">
+			<h:panelGroup
+				rendered="#{cc.attrs.renderRowsLabel == 'show' or cc.attrs.renderRowsLabel == 'auto' and cc.rows gt 1}"
+				styleClass="rf-ds" layout="block">
+				<h:panelGroup styleClass="rf-ds-btn rf-ds-btn-first rf-ds-dis rp">
+					<h:outputFormat
+						value="#{i18n.formatString('ui.datascroller.rows')}"
+						rendered="#{empty cc.attrs.rowsLabel}">
+						<f:param value="#{cc.rows}" />
+					</h:outputFormat>
+					<h:outputFormat value="#{cc.attrs.rowsLabel}"
+						rendered="#{not empty cc.attrs.rowsLabel}">
+						<f:param value="#{cc.rows}" />
+					</h:outputFormat>
+				</h:panelGroup>
+			</h:panelGroup>
+			<rich:dataScroller id="ds" render="#{cc.attrs.render}" for="#{cc.attrs.datatable}"
+				binding="#{cc.dataScroller}" renderIfSinglePage="false"
+				execute="#{cc.attrs.execute}" />
+			<h:panelGroup
+				rendered="#{cc.attrs.renderPagesLabel == 'show' or cc.attrs.renderPagesLabel == 'auto' and cc.pages gt 1}"
+				styleClass="rf-ds" layout="block">
+				<h:panelGroup styleClass="rf-ds-btn rf-ds-btn-last rf-ds-dis rp">
+					<h:outputFormat
+						value="#{i18n.formatString('ui.datascroller.pages')}"
+						rendered="#{empty cc.attrs.pagesLabel}">
+						<f:param value="#{cc.pages}" />
+					</h:outputFormat>
+					<h:outputFormat value="#{cc.attrs.pagesLabel}"
+						rendered="#{not empty cc.attrs.pagesLabel}">
+						<f:param value="#{cc.pages}" />
+					</h:outputFormat>
+				</h:panelGroup>
+			</h:panelGroup>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

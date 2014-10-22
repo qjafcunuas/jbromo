@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{selectAllDataTableController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		TODO : conserver les cases sélectionnées avec les LAJB sort/filter <br />
+
+		<h3>
+			<h:outputText value="Select all" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataTable styleClass=""
+			columnClass="" model="" controller="" &gt;</code>
+		<code class="xhtml spaces1">&lt;rich:column&gt;</code>
+		<code class="xhtml spaces2">&lt;f:facet name="header"&gt;</code>
+		<code class="xhtml spaces3">&lt;jb:dataTableSelectAll value=""
+			disabled="" rendered="" title=" forId="slt" /&gt;</code>
+		<code class="xhtml spaces2">&lt;/f:facet&gt;</code>
+		<code class="xhtml spaces2">&lt;h:selectBooleanCheckbox
+			id="slt" value="" /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:column&gt;</code>
+		<code class="xhtml">&lt;/jb:dataTable&gt;</code>
+		<div class="clearBoth"></div>
+		
+		Note that sort and filter value display correct select checked value because of RichFaces filter and sort.
+		<h:form id="fda">
+			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<br />
+			<jb:dataTable id="dtc" model="#{selectAllDataTableModel}"
+				controller="#{selectAllDataTableController}" rows="10">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="iterator" />
+					</f:facet>
+					<h:outputText value="#{iter}" />
+				</rich:column>
+				<rich:column sortBy="#{row.element.primaryKey}">
+					<f:facet name="header">
+						<jb:columnHeader header="primary key" />
+					</f:facet>
+					<h:outputText value="#{row.element.primaryKey}" />
+				</rich:column>
+				<rich:column sortBy="#{row.element.name}" id="cName"
+					filterValue="#{selectAllDataTableModel.criteria.name}"
+					filterExpression="#{fn:containsIgnoreCase(row.element.name,selectAllDataTableModel.criteria.name)}">
+					<f:facet name="header">
+						<jb:columnHeader header="name" />
+					</f:facet>
+					<h:outputText value="#{row.element.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="Description" />
+					</f:facet>
+					<h:outputText id="desc" value="#{row.element.description}" />
+				</rich:column>
+				<rich:column styleClass="center">
+					<f:facet name="header">
+						<jb:dataTableSelectAll id="sAll"
+							value="#{selectAllDataTableModel.selectAllBox.checked}"
+							disabled="#{selectAllDataTableModel.selectAllBox.disabled}"
+							rendered="#{selectAllDataTableModel.selectAllBox.rendered}"
+							title="Select All" forId="slt" />
+					</f:facet>
+					<h:selectBooleanCheckbox id="slt" value="#{row.selectBox.checked}"
+						disabled="#{row.selectBox.disabled}"
+						rendered="#{row.selectBox.rendered}"
+						onclick="#{rich:element('dt')}.bromo.onSelectOne(#{rich:element('sltAll')}, this);" />
+				</rich:column>
+			</jb:dataTable>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

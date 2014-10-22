@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>jbromo-dao</artifactId>
+		<groupId>org.jbromo</groupId>
+		<version>0.5.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>jbromo-dao-jpa</artifactId>
+	<packaging>pom</packaging>
+	<name>JBromo DAO JPA Parent</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jbromo-dao-jpa.version>0.5.0-SNAPSHOT</jbromo-dao-jpa.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+            <dependency>
+                <groupId>org.jbromo</groupId>
+                <artifactId>jbromo-dao-jpa-model</artifactId>
+                <version>${jbromo-dao-jpa.version}</version>
+                <type>jar</type>
+            </dependency>
+           <dependency>
+                <groupId>org.jbromo</groupId>
+                <artifactId>jbromo-dao-jpa-model</artifactId>
+                <version>${jbromo-dao-jpa.version}</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jbromo</groupId>
+                <artifactId>jbromo-dao-jpa-lib</artifactId>
+                <version>${jbromo-dao-jpa.version}</version>
+                <type>jar</type>
+            </dependency>
+			<dependency>
+				<groupId>org.jbromo</groupId>
+				<artifactId>jbromo-dao-jpa-lib</artifactId>
+				<version>${jbromo-dao-jpa.version}</version>
+				<type>test-jar</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-dao-lib</artifactId>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-dao-lib</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+        <module>jbromo-dao-jpa-model</module>
+		<module>jbromo-dao-jpa-lib</module>
+		<module>jbromo-dao-jpa-container</module>
+	</modules>
+
+</project>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{messageLabelController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="messageLabel" />
+		</h3>
+		<code class="xhtml">&lt;jb:messageLabel label=""
+			styleClass="" /&gt;</code>
+		<div class="clearBoth" />
+		<jb:messageLabel label="#{messageLabelModel.fatal}" />
+		<jb:messageLabel label="#{messageLabelModel.error}" />
+		<jb:messageLabel label="#{messageLabelModel.warning}" />
+		<jb:messageLabel label="#{messageLabelModel.waiting}" />
+		<jb:messageLabel label="#{messageLabelModel.info}" />
+		<jb:messageLabel label="#{messageLabelModel.ok}" />
+
+
+		<h3>
+			<h:outputText value="messageLabels" />
+		</h3>
+		<code class="xhtml">&lt;jb:messageLabels labels=""
+			styleClass="" /&gt;</code>
+		<div class="clearBoth" />
+		<jb:messageLabels labels="#{messageLabelModel.messages}" />
+
+	</ui:define>
+
+</ui:composition>

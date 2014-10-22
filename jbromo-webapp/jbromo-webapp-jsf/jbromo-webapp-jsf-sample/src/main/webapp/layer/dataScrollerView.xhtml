@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{dataScrollerController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="dataScroller" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataScroller datatable="" styleClass=""
+			pagesLabel="" renderPagesLabel="show/hide/auto" rowsLabel=""
+			renderRowsLabel="show/hide/auto" render="" /&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="f">
+
+			<rich:dataTable id="dt" value="#{dataScrollerModel.rows}" var="row"
+				rows="10" iterationStatusVar="iter" styleClass="hide">
+				<rich:column>
+					<h:outputText value="#{iter}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{row.name}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{row.description}" />
+				</rich:column>
+			</rich:dataTable>
+			<jb:dataScroller datatable="dt" />
+			<h4>rows</h4>
+			<h:panelGrid columns="2">
+				<h:outputText value="rowsLabel=''{0} results''" />
+				<jb:dataScroller datatable="dt" rowsLabel="{0} results" />
+				<h:outputText value="renderRowsLabel=''show''" />
+				<jb:dataScroller datatable="dt" renderRowsLabel="show" />
+				<h:outputText value="renderRowsLabel=''hide''" />
+				<jb:dataScroller datatable="dt" renderRowsLabel="hide" />
+				<h:outputText value="renderRowsLabel=''auto''" />
+				<jb:dataScroller datatable="dt" renderRowsLabel="show" />
+			</h:panelGrid>
+			<h4>pages</h4>
+			<h:panelGrid columns="2">
+				<h:outputText value="pagesLabel=''{0} PAGES''" />
+				<jb:dataScroller datatable="dt" pagesLabel="{0} PAGES" />
+				<h:outputText value="renderPagesLabel=''show''" />
+				<jb:dataScroller datatable="dt" renderPagesLabel="show" />
+				<h:outputText value="renderPagesLabel=''hide''" />
+				<jb:dataScroller datatable="dt" renderPagesLabel="hide" />
+				<h:outputText value="renderPagesLabel=''auto''" />
+				<jb:dataScroller datatable="dt" renderPagesLabel="show" />
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

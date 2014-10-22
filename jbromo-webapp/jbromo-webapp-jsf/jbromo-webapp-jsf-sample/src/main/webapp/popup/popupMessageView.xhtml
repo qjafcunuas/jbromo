@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="popupMessage" />
+		</h3>
+		<code class="xhtml">&lt;jb:popupMessage id="popupMsg"
+			styleClass="" /&gt;</code>
+		<div class="clearBoth"></div>
+
+		<h4>
+			<h:outputText value="Info" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="info1"
+				styleClass="hide" value="Popup with default title and default button
+				label." /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.info('#{rich:clientId('info1')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="info1" styleClass="hide"
+				value="Popup with default title and default button label." />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.info('#{rich:clientId('info1')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:panelGroup id="info2"
+				styleClass="hide"&gt;</code>
+			<code class="xhtml spaces1">Set content messages</code>
+			<code class="xhtml">&lt;/h:panelGroup&gt;</code>
+			<code class="xhtml">&lt;h:outputText id="myTitle"
+				styleClass="hide" value="Set Popup title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.setTitle('#{rich:clientId('myTitle')}').setLabelOk('--
+				ok -- ').setCallbackOk('alert(\&quot;execute javascript after button
+				clicked\&quot;);').info('#{rich:clientId('info2')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:panelGroup id="info2" styleClass="hide">
+				<h:outputText
+					value="Note popup title label and button label set, and javascript when clicking button. " />
+				<br />
+				<hr />
+				<br />
+				<h:outputText value="Et beaucoup de blabla..." class="clearBoth" />
+				<br />
+				<h:outputText
+					value="usg dui g uuys dciiuys dcuyg uysdgc uyguhsg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uhuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dchiiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dchuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uyhsdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyhgusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuhys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyg5 " />
+			</h:panelGroup>
+			<h:outputText id="myTitle" value="My title" styleClass="hide" />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.setTitle('#{rich:clientId('myTitle')}').setLabelOk('-- ok -- ').setCallbackOk('alert(\&quot;execute javascript after button clicked\&quot;);').info('#{rich:clientId('info2')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+
+
+		<h4>
+			<h:outputText value="Warn" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="warn1"
+				styleClass="hide" value="Popup with default title and default button
+				label." /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.warn('#{rich:clientId('warn1')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="warn1" styleClass="hide"
+				value="Popup with default title and default button label." />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.warn('#{rich:clientId('warn1')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:panelGroup id="warn2"
+				styleClass="hide"&gt;</code>
+			<code class="xhtml spaces1">Set content messages</code>
+			<code class="xhtml">&lt;/h:panelGroup&gt;</code>
+			<code class="xhtml">&lt;h:outputText id="myTitle"
+				styleClass="hide" value="Set Popup title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.setTitle('#{rich:clientId('myTitle')}').setLabelOk('--
+				ok -- ').setCallbackOk('alert(\&quot;execute javascript after button
+				clicked\&quot;);').warn('#{rich:clientId('warn2')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:panelGroup id="warn2" styleClass="hide">
+				<h:outputText
+					value="Note popup title label and button label set, and javascript when clicking button. " />
+				<br />
+				<hr />
+				<br />
+				<h:outputText value="Et beaucoup de blabla..." class="clearBoth" />
+				<br />
+				<h:outputText
+					value="usg dui g uuys dciiuys dcuyg uysdgc uyguhsg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uhuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dchiiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dchuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uyhsdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyhgusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuhys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyg5 " />
+			</h:panelGroup>
+			<h:outputText id="myTitle2" value="My title" styleClass="hide" />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.setTitle('#{rich:clientId('myTitle2')}').setLabelOk('-- ok -- ').setCallbackOk('alert(\&quot;execute javascript after button clicked\&quot;);').warn('#{rich:clientId('warn2')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+
+		<h4>
+			<h:outputText value="Wait" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;a href="popupMsg.wait();return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.wait();window.setTimeout('popupMsg.hide();',2000);return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="wait1"
+				styleClass="hide" value="Popup with default title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.wait('#{rich:clientId('wait1')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="wait1" styleClass="hide"
+				value="Popup with default title." />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.wait('#{rich:clientId('wait1')}');window.setTimeout('popupMsg.hide();',2000);return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:panelGroup id="wait2"
+				styleClass="hide"&gt;</code>
+			<code class="xhtml spaces1">Set content messages</code>
+			<code class="xhtml">&lt;/h:panelGroup&gt;</code>
+			<code class="xhtml">&lt;h:outputText id="myTitle"
+				styleClass="hide" value="Set Popup title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.setTitle('#{rich:clientId('myTitle')}').wait('#{rich:clientId('warn2')}');return
+				false;" &gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:panelGroup id="wait2" styleClass="hide">
+				<h:outputText
+					value="Note popup title label and button label set, and javascript when clicking button. " />
+				<br />
+				<hr />
+				<br />
+				<h:outputText value="Et beaucoup de blabla..." class="clearBoth" />
+				<br />
+				<h:outputText
+					value="usg dui g uuys dciiuys dcuyg uysdgc uyguhsg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uhuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dchiiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dchuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uyhsdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyhgusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuhys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyg5 " />
+			</h:panelGroup>
+			<h:outputText id="myTitleWait2" value="My title" styleClass="hide" />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.setTitle('#{rich:clientId('myTitleWait2')}').wait('#{rich:clientId('wait2')}');window.setTimeout('popupMsg.hide();',2000);return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+
+		<h4>
+			<h:outputText value="Confirm" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="confirm1"
+				styleClass="hide" value="Popup with default title and default button
+				label." /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.confirm('#{rich:clientId('confirm1')}');return
+				false;" &gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="confirm1" styleClass="hide"
+				value="Popup with default title and default button label." />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.confirm('#{rich:clientId('confirm1')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:panelGroup id="confirm2"
+				styleClass="hide"&gt;</code>
+			<code class="xhtml spaces1">Set content messages</code>
+			<code class="xhtml">&lt;/h:panelGroup&gt;</code>
+			<code class="xhtml">&lt;h:outputText id="myTitle"
+				styleClass="hide" value="Set Popup title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.setTitle('#{rich:clientId('myTitle')}').setLabelOk('Yes').setLabelCancel('No').setCallbackOk('alert(\&quot;Ok:
+				execute javascript after button
+				clicked\&quot;);').setCallbackCancel('alert(\&quot;Cancel: execute
+				javascript after button
+				clicked\&quot;);').confirm('#{rich:clientId('confirm2')}');return
+				false;" &gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:panelGroup id="confirm2" styleClass="hide">
+				<h:outputText
+					value="Note popup title label and button label set, and javascript when clicking button. " />
+				<br />
+				<hr />
+				<br />
+				<h:outputText value="Et beaucoup de blabla..." class="clearBoth" />
+				<br />
+				<h:outputText
+					value="usg dui g uuys dciiuys dcuyg uysdgc uyguhsg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uhuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dchiiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dchuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uyhsdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyhgusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuhys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyg5 " />
+			</h:panelGroup>
+			<h:outputText id="myTitle3" value="My title" styleClass="hide" />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.setTitle('#{rich:clientId('myTitle3')}').setLabelOk('Yes').setLabelCancel('No').setCallbackOk('alert(\&quot;Ok: execute javascript after button clicked\&quot;);').setCallbackCancel('alert(\&quot;Cancel: execute javascript after button clicked\&quot;);').confirm('#{rich:clientId('confirm2')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+
+		<h4>
+			<h:outputText value="Delete" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="del1"
+				styleClass="hide" value="Popup with default title and default button
+				label." /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.confirm('#{rich:clientId('del1')}');return false;"
+				&gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="del1" styleClass="hide"
+				value="Popup with default title and default button label." />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.remove('#{rich:clientId('del1')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:panelGroup id="del2"
+				styleClass="hide"&gt;</code>
+			<code class="xhtml spaces1">Set content messages</code>
+			<code class="xhtml">&lt;/h:panelGroup&gt;</code>
+			<code class="xhtml">&lt;h:outputText id="myTitle"
+				styleClass="hide" value="Set Popup title" /&gt;</code>
+			<code class="xhtml">&lt;a
+				href="popupMsg.setTitle('#{rich:clientId('myTitle')}').setLabelOk('Yes').setLabelCancel('No').setCallbackOk('alert(\&quot;Ok:
+				execute javascript after button
+				clicked\&quot;);').setCallbackCancel('alert(\&quot;Cancel: execute
+				javascript after button
+				clicked\&quot;);').confirm('#{rich:clientId('del2')}');return
+				false;" &gt;Click here&lt;/a&gt;</code>
+			<div class="clearBoth"></div>
+			<h:panelGroup id="del2" styleClass="hide">
+				<h:outputText
+					value="Note popup title label and button label set, and javascript when clicking button. " />
+				<br />
+				<hr />
+				<br />
+				<h:outputText value="Et beaucoup de blabla..." class="clearBoth" />
+				<br />
+				<h:outputText
+					value="usg dui g uuys dciiuys dcuyg uysdgc uyguhsg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uhuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dchiiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dchuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uyhsdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyhgusg dui g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg duih g uuys dciiuys dcuyg uysdgc uygusg dui g uuys dciiuhys dcuyg uysdgc uygusg dui g uuys dciiuys dcuyg uysdgc uyg5 " />
+			</h:panelGroup>
+			<h:outputText id="myDelTitle2" value="My Delete title"
+				styleClass="hide" />
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.setTitle('#{rich:clientId('myDelTitle2')}').setLabelOk('Yes').setLabelCancel('No').setCallbackOk('alert(\&quot;Ok: execute javascript after button clicked\&quot;);').setCallbackCancel('alert(\&quot;Cancel: execute javascript after button clicked\&quot;);').remove('#{rich:clientId('del2')}');return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+
+		<h4>
+			<h:outputText value="Define your own popup type 'myType'" />
+		</h4>
+
+		<hr />
+		<h:panelGroup styleClass="left" style="width:75%;">
+			<code class="xhtml">&lt;h:outputText id="myType"
+				styleClass="hide" value="Popup with specific type. Note default
+				button label, and specific title and bitmap." /&gt;</code>
+			<code class="xhtml">&lt;a href="popupMsg.show('myType',
+				'#{rich:clientId('myTitleConform1')}',
+				'#{rich:clientId('myType1')}',true,false);return false;" &gt;Click
+				here&lt;/a&gt;</code>
+			<code class="xhtml">&lt;h:outputStylesheet&gt;</code>
+			<code class="xhtml spaces1">.jb-pmsg.myType div.icon {</code>
+			<code class="xhtml spaces2">background-image:
+				url("#{resource['org.jbromo.img:ajaxError.png']}");</code>
+			<code class="xhtml spaces2">width: 16px;</code>
+			<code class="xhtml spaces2">height: 16px;</code>
+			<code class="xhtml spaces1">}</code>
+			<code class="xhtml">&lt;/h:outputStylesheet/&gt;</code>
+			<div class="clearBoth"></div>
+			<h:outputText id="myTitleConform1" styleClass="hide"
+				value="My title for specif type" />
+			<h:outputText id="myType1" styleClass="hide"
+				value="Popup with specific type. Note default button label, and specific title and bitmap." />
+			<h:outputStylesheet>
+				.jb-pmsg.myType div.icon {
+					background-image:
+						url("#{resource['org.jbromo.img:ajaxError.png']}");
+					width: 16px;
+					height: 16px;
+				}
+			</h:outputStylesheet>
+		</h:panelGroup>
+		<a href="#"
+			onclick="popupMsg.show('myType', '#{rich:clientId('myTitleConform1')}', '#{rich:clientId('myType1')}', true, false);return false;"
+			class="right" style="white-space: nowrap;">#{message['view.popupWait.clickHere']}</a>
+		<div class="clearBoth"></div>
+		<hr />
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="popupWait" />
+		</h3>
+		<code class="xhtml">&lt;jb:popupWait id="popupWait" /&gt;</code>
+		<div class="clearBoth"></div>
+		<a href="#"
+			onclick="popupWait.show();window.setTimeout('popupWait.hide();',2000);return false;">#{message['view.popupWait.clickHere']}</a>
+
+		<h3>
+			<h:outputText value="attributes" />
+		</h3>
+		<code class="xhtml">&lt;jb:popupWait id="popupTitle"
+			title="Title" show="" styleClass="" /&gt;</code>
+		<div class="clearBoth"></div>
+		<jb:popupWait id="popupTitle" title="Title" />
+		<a href="#"
+			onclick="popupTitle.show();window.setTimeout('popupTitle.hide();',2000);return false;">#{message['view.popupWait.clickHere']}</a>
+
+		<h3>
+			<h:outputText value="Content" />
+		</h3>
+		<code class="xhtml"> &lt;jb:popupWait id="popupContent"
+			title="Content" show="" styleClass="" /&gt;</code>
+		<code class="xhtml spaces1">&lt;h:outputText value="" /&gt;</code>
+		<code class="xhtml"> &lt;/jb:popupWait&gt;</code>
+		<div class="clearBoth"></div>
+		<jb:popupWait id="popupContent">
+			<h:outputText value="#{message['view.popupWait.content']}" />
+		</jb:popupWait>
+		<a href="#"
+			onclick="popupContent.show();window.setTimeout('popupContent.hide();',2000);return false;">#{message['view.popupWait.clickHere']}</a>
+
+	</ui:define>
+
+</ui:composition>

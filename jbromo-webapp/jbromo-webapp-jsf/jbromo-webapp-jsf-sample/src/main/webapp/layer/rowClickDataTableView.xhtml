@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{rowClickDataTableController.onLoadPage}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="Clickable Row" />
+		</h3>
+		<code class="xhtml">&lt;jb:dataTable styleClass=""
+			columnClass="" model="" controller="" renderRow="server/id"&gt;</code>
+		<code class="xhtml spaces1">&lt;rich:column&gt;</code>
+		<code class="xhtml spaces2">&lt;f:facet name="header"&gt;</code>
+		<code class="xhtml spaces3">&lt;jb:columnHeader
+			header="primary key" filter="" sort="" /&gt;</code>
+		<code class="xhtml spaces2">&lt;/f:facet&gt;</code>
+		<code class="xhtml spaces2">&lt;h:outputText
+			value="#{row.element.primaryKey}" /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:column&gt;</code>
+		<code class="xhtml">&lt;/jb:dataTable&gt;</code>
+		<div class="clearBoth"></div>
+		<h:form id="fr">
+			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<h:panelGroup id="rc">
+				<jb:fieldset showLink="false"
+					rendered="#{not empty rowClickDataTableModel.rowClicked}">
+					<h:outputText
+						value="Row clicked name : #{rowClickDataTableModel.rowClicked.element.name}" />
+				</jb:fieldset>
+			</h:panelGroup>
+			<br />
+			<jb:dataTable id="dtc" model="#{rowClickDataTableModel}"
+				controller="#{rowClickDataTableController}" rows="10" renderRow="rc">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="iterator" />
+					</f:facet>
+					<h:outputText value="#{iter}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader id="chpk" header="primary key"
+							sortBy="primaryKey" />
+					</f:facet>
+					<h:outputText value="#{row.element.primaryKey}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="name"
+							filterValue="#{rowClickDataTableModel.criteria.name}"
+							sortBy="name" />
+					</f:facet>
+					<h:outputText value="#{row.element.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<jb:columnHeader header="Description" />
+					</f:facet>
+					<h:outputText id="desc" value="#{row.element.description}" />
+				</rich:column>
+			</jb:dataTable>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

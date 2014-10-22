@@ -1,0 +1,668 @@
+/*
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+select.selectCountry {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ae.png' ]
+}
+
+);
+}
+select.selectCountry,select.selectCountry option {
+	background-repeat: no-repeat;
+	background-position: 2px center;
+	padding-left: 20px;
+}
+
+select.selectCountry option[value="ar_AE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ae.png' ]
+}
+
+);
+}
+select.selectCountry option[value="sq_AL"],select.selectCountry option[value="sq_AL"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:al.png' ]
+}
+
+);
+}
+select.selectCountry option[value="hy_AM"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:am.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_AR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ar.png' ]
+}
+
+);
+}
+select.selectCountry option[value="de_AT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:at.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_AU"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:au.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fr_BE"],select.selectCountry option[value="nl_BE"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:be.png' ]
+}
+
+);
+}
+select.selectCountry option[value="bg_BG"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:bg.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_BH"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:bh.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ms_BN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:bn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_BO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:bo.png' ]
+}
+
+);
+}
+select.selectCountry option[value="pt_BR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:br.png' ]
+}
+
+);
+}
+select.selectCountry option[value="be_BY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:by.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_BZ"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:bz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_CA"],select.selectCountry option[value="fr_CA"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ca.png' ]
+}
+
+);
+}
+select.selectCountry option[value="de_CH"],select.selectCountry option[value="fr_CH"],select.selectCountry option[value="it_CH"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ch.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_CL"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:cl.png' ]
+}
+
+);
+}
+select.selectCountry option[value="zh_CN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:cn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_CO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:co.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_CR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:cr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="cs_CZ"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:cz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="de_DE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:de.png' ]
+}
+
+);
+}
+select.selectCountry option[value="da_DK"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:dk.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_DO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:do.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_DZ"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:dz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_EC"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ec.png' ]
+}
+
+);
+}
+select.selectCountry option[value="et_EE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ee.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_EG"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:eg.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ca_ES"],select.selectCountry option[value="es_ES"],select.selectCountry option[value="eu_ES"],select.selectCountry option[value="gl_ES"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:es.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fi_FI"],select.selectCountry option[value="sv_FI"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:fi.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fo_FO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:fo.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fr_FR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:fr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_GB"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:gb.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ka_GE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ge.png' ]
+}
+
+);
+}
+select.selectCountry option[value="el_GR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:gr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_GT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:gt.png' ]
+}
+
+);
+}
+select.selectCountry option[value="zh_HK"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:hk.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_HN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:hn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="hr_HR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:hr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="hu_HU"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:hu.png' ]
+}
+
+);
+}
+select.selectCountry option[value="in_ID"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:id.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_IE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ie.png' ]
+}
+
+);
+}
+select.selectCountry option[value="iw_IL"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:il.png' ]
+}
+
+);
+}
+select.selectCountry option[value="gu_IN"],select.selectCountry option[value="hi_IN"],select.selectCountry option[value="kn_IN"],select.selectCountry option[value="mr_IN"],select.selectCountry option[value="pa_IN"],select.selectCountry option[value="sa_IN"],select.selectCountry option[value="ta_IN"],select.selectCountry option[value="te_IN"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:in.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_IQ"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:iq.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fa_IR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ir.png' ]
+}
+
+);
+}
+select.selectCountry option[value="is_IS"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:dz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="it_IT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:it.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_JM"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:jm.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_JO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:jo.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ja_JP"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:jp.png' ]
+}
+
+);
+}
+select.selectCountry option[value="sw_KE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ke.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_KW"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:kw.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ko_KR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:kr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="kk_KZ"],select.selectCountry option[value="ky_KZ"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:kz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_LB"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:lb.png' ]
+}
+
+);
+}
+select.selectCountry option[value="de_LI"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:li.png' ]
+}
+
+);
+}
+select.selectCountry option[value="lt_LT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:lt.png' ]
+}
+
+);
+}
+select.selectCountry option[value="de_LU"],select.selectCountry option[value="fr_LU"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:lu.png' ]
+}
+
+);
+}
+select.selectCountry option[value="lv_LV"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:lv.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_LY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ly.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_MA"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ma.png' ]
+}
+
+);
+}
+select.selectCountry option[value="fr_MC"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:mc.png' ]
+}
+
+);
+}
+select.selectCountry option[value="mk_MK"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:mk.png' ]
+}
+
+);
+}
+select.selectCountry option[value="mn_MN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:mn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="zh_MO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:mo.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_MX"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:mx.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ms_MY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:my.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_NI"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ni.png' ]
+}
+
+);
+}
+select.selectCountry option[value="nl_NL"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:nl.png' ]
+}
+
+);
+}
+select.selectCountry option[value="nb_NO"],select.selectCountry option[value="nn_NO"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:no.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_NZ"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:nz.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_OM"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:om.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_PA"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pa.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_PE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pe.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_PH"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ph.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ur_PK"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pk.png' ]
+}
+
+);
+}
+select.selectCountry option[value="pl_PL"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pl.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_PR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="pt_PT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:pt.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_PY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:py.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_QA"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:qa.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ro_RO"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ro.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ru_RU"],select.selectCountry option[value="tt_RU"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ru.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_SA"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:sa.png' ]
+}
+
+);
+}
+select.selectCountry option[value="sv_SE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:se.png' ]
+}
+
+);
+}
+select.selectCountry option[value="zh_SG"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:sg.png' ]
+}
+
+);
+}
+select.selectCountry option[value="sk_SK"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:sk.png' ]
+}
+
+);
+}
+select.selectCountry option[value="sl_SI"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:si.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_SV"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:sv.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_SY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:sy.png' ]
+}
+
+);
+}
+select.selectCountry option[value="th_TH"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:th.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_TN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:tn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="tr_TR"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:tr.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_TT"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:tt.png' ]
+}
+
+);
+}
+select.selectCountry option[value="zh_TW"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:tw.png' ]
+}
+
+);
+}
+select.selectCountry option[value="uk_UA"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ua.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_US"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:us.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_UY"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:uy.png' ]
+}
+
+);
+}
+select.selectCountry option[value="es_VE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ve.png' ]
+}
+
+);
+}
+select.selectCountry option[value="vi_VN"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:vn.png' ]
+}
+
+);
+}
+select.selectCountry option[value="ar_YE"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:ye.png' ]
+}
+
+);
+}
+select.selectCountry option[value="af_ZA"],select.selectCountry option[value="en_ZA"]
+	{
+	background-image: url(#{ resource [ 'org.jbromo.img.country:za.png' ]
+}
+
+);
+}
+select.selectCountry option[value="en_ZW"] {
+	background-image: url(#{ resource [ 'org.jbromo.img.country:zw.png' ]
+}
+);
+}

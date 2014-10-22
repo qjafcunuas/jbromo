@@ -1,0 +1,84 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<composite:interface
+		componentType="org.jbromo.webapp.jsf.faces.composite.jsf.UISelectOneCountry">
+		<composite:attribute name="noSelectionLabel" required="false" />
+		<composite:attribute name="noReadonlyLabel" required="false" />
+		<composite:attribute name="styleClass" required="false"
+			default="jb-som" />
+		<composite:attribute name="values" required="false"
+			type="java.util.List" />
+		<composite:attribute name="value" required="true" />
+		<composite:attribute name="required" required="false"
+			type="java.lang.Boolean" />
+		<composite:attribute name="readonly" required="false"
+			type="java.lang.Boolean" />
+		<composite:attribute name="father" required="false" />
+		<composite:attribute name="map" required="false" />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.clientId}" class="#{cc.attrs.styleClass}">
+			<h:outputStylesheet library="org.jbromo.css" name="country.css"
+				target="head" />
+			<h:outputStylesheet library="org.jbromo.css" name="bromo.css"
+				target="head" />
+			<h:outputScript library="org.jbromo.js" name="selectMenu.js"
+				target="head" />
+			<!-- Read only -->
+			<jb:outputCountry locale="#{cc.attrs.value}"
+				rendered="#{not empty cc.attrs.value and cc.attrs.readonly}" />
+			<h:outputText value="#{cc.attrs.noSelectionLabel}"
+				rendered="#{empty cc.attrs.value and cc.attrs.readonly}" />
+
+			<!-- select menu -->
+			<h:panelGroup rendered="#{!cc.attrs.readonly}">
+				<h:selectOneMenu id="som" binding="#{cc.selectOne}"
+					hideNoSelectionOption="#{cc.attrs.required}"
+					value="#{cc.attrs.value}" required="#{cc.attrs.required}"
+					styleClass="selectCountry">
+					<f:selectItems id="si" binding="#{cc.selectItems}" var="item"
+						itemLabel="#{localeContext.getCountryLabel(item)}" />
+					<composite:insertChildren />
+				</h:selectOneMenu>
+				<rich:message for="som" />
+				<jb:onloadScript />
+				<h:outputScript>
+					if (#{not empty cc.attrs.father}) {
+						window.onBromoLoad.add(function(){
+							var child = document.getElementById("#{rich:clientId('som')}");
+							var map = document.getElementById("#{rich:clientId(cc.attrs.map.concat(':map'))}");
+							var father = document.getElementById("#{rich:clientId(cc.attrs.father.concat(':som'))}");
+							bromo.selectMenu.init(child);
+							child.setFather(father, map);
+						});
+					}
+					window.onBromoLoad.add(function(){
+						bromo.selectCountry.init(#{rich:element('som')}, "url('#{resource['org.jbromo.img.country:empty.png']}')");
+					});
+				</h:outputScript>
+			</h:panelGroup>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

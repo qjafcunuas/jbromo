@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<br />
+		<h3>
+			<h:outputText value="Wizard mono page" />
+		</h3>
+		<code class="xhtml">&lt;jb:togglePanel switchType="ajax"
+			id="top" model=""&gt;</code>
+		<code class="xhtml spaces1">insert children elements</code>
+		<code class="xhtml spaces1">&lt;rich:togglePanelItem
+			name="tpi1" &gt;</code>
+		<code class="xhtml spaces2">&lt;jb:wizardButtonBar execute=""
+			controller="" render="" /&gt;</code>
+		<code class="xhtml spaces1">&lt;/rich:togglePanelItem&gt;</code>
+		<code class="xhtml">&lt;/jb:dynamicTabPanel&gt;</code>
+		<div class="clearBoth"></div>
+		<br />
+		<h:outputText
+			value="Note url page doesn't change when you navigate into the wizard." />
+		<br />
+		<br />
+		<h:form id="fa">
+			<rich:panel>
+				<jb:togglePanel switchType="ajax" id="top"
+					model="#{togglePanelModel}">
+					<rich:togglePanelItem name="firstItem" id="firstItem">
+						<h:outputText value="First panel" />
+						<br />
+						<h:outputText value="Go to third panel:" />
+						<h:selectBooleanCheckbox
+							value="#{firstTogglePanelItemModel.nextItemThird}" />
+						<br />
+						<jb:wizardButtonBar execute="firstItem"
+							controller="#{firstTogglePanelItemController}" render="top"
+							renderedPrevious="false" />
+						<div class="clearBoth" />
+					</rich:togglePanelItem>
+					<rich:togglePanelItem name="secondItem" id="secondItem">
+						<h:outputText value="Second panel" />
+						<br />
+						<h:outputText
+							value="Note that second item controller implements onPrevious method." />
+						<br />
+						<jb:wizardButtonBar execute="secondItem"
+							controller="#{secondTogglePanelItemController}" render="top" />
+						<div class="clearBoth" />
+					</rich:togglePanelItem>
+					<rich:togglePanelItem name="thirdItem">
+						<h:outputText value="Third panel, from " />
+						<h:outputText value="first panel"
+							rendered="#{thirdTogglePanelItemModel.previousItemFirst}" />
+						<h:outputText value="second panel"
+							rendered="#{not thirdTogglePanelItemModel.previousItemFirst}" />
+						<br />
+						<h:outputText
+							value="Note that third item controller doesn't implement onPrevious method and uses default abstract implementation." />
+						<br />
+						<jb:wizardButtonBar
+							controller="#{thirdTogglePanelItemController}" render="top"
+							renderedNext="false" />
+						<jb:commandButton popupWait="true" imageClass="save left"
+							value="Goto multi-pages wizard" styleClass="jb-cb right"
+							action="#{thirdTogglePanelItemController.onNext()}">
+						</jb:commandButton>
+						<div class="clearBoth" />
+					</rich:togglePanelItem>
+				</jb:togglePanel>
+			</rich:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

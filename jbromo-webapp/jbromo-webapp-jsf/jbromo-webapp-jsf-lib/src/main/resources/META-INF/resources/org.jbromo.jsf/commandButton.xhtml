@@ -1,0 +1,88 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<composite:interface>
+		<composite:attribute name="styleClass" type="java.lang.String"
+			required="false" default="jb-cb" />
+		<composite:attribute name="imageClass" type="java.lang.String"
+			required="false" />
+		<composite:attribute name="title" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="disabled" required="false"
+			type="java.lang.Boolean" default="false" />
+		<composite:attribute name="oncallback" required="false"
+			type="java.lang.String"
+			shortDescription="Javascript function with one parameter (a callback to execute the delete call to the server), called before executing server called, like 'function(callback) {todo}']." />
+		<composite:attribute name="onclick" required="false"
+			type="java.lang.String"
+			shortDescription="Executed before oncallback." />
+		<composite:attribute name="oncomplete" required="false"
+			type="java.lang.String"
+			shortDescription="Executed after ajax request" />
+		<composite:attribute name="value" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="render" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="execute" required="false"
+			type="java.lang.String" />
+		<composite:attribute name="immediate" required="false"
+			type="java.lang.Boolean" default="false" />
+		<composite:attribute name="popupWait" required="false"
+			type="java.lang.Boolean" default="false" />
+		<composite:attribute name="action"
+			method-signature="java.lang.String action()" required="true" />
+		<composite:actionSource name="button" targets="cba cbh" />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.clientId}" class="#{cc.attrs.styleClass}">
+			<ui:param name="isAjax"
+				value="#{not empty cc.attrs.execute or not empty cc.attrs.render or not empty cc.attrs.oncomplete}" />
+			<button type="button" title="#{cc.attrs.title}"
+				onclick="#{cc.attrs.onclick};var fct=#{empty cc.attrs.oncallback?false:cc.attrs.oncallback};if (fct) {fct(&quot;#{rich:element(isAjax?'cba':'cbh')}.click();&quot;);return false;} else {#{rich:element(isAjax?'cba':'cbh')}.click();}">
+				<h:panelGroup layout="block" styleClass="img #{cc.attrs.imageClass}"
+					rendered="#{not empty cc.attrs.imageClass}" />
+				<h:outputText id="ot" value="#{cc.attrs.value}" styleClass="left" />
+				<h:outputScript>
+					if (#{cc.attrs.disabled}) {
+						#{rich:element('ot')}.parentNode.disabled = "disabled";
+					}
+				</h:outputScript>
+				<div class="clearBoth" />
+			</button>
+			<h:commandButton id="cbh" value=" " styleClass="hide"
+				immediate="#{cc.attrs.immediate}"
+				onclick="if (#{cc.attrs.popupWait}) {popupWait.show();};"
+				action="#{cc.attrs.action}" rendered="#{not isAjax}">
+				<composite:insertChildren />
+			</h:commandButton>
+			<a4j:commandButton id="cba" value=" " styleClass="hide" 
+				immediate="#{cc.attrs.immediate}" actionListener="#{cc.attrs.action}"
+				onbegin="if (#{cc.attrs.popupWait}) {popupWait.show();};"
+				oncomplete="#{cc.attrs.oncomplete};if (#{cc.attrs.popupWait}) {popupWait.hide();};"
+				render="#{cc.attrs.render}" execute="#{cc.attrs.execute}"
+				rendered="#{isAjax}">
+				<composite:insertChildren />
+			</a4j:commandButton>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

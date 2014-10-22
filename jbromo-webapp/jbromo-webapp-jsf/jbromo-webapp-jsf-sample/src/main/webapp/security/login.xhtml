@@ -1,0 +1,271 @@
+bi<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jb="http://java.sun.com/jsf/composite/org.jbromo.jsf"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h:form id="f">
+
+			<rich:tabPanel switchType="client" activeItem="file" id="tp">
+				<rich:tab header="File" id="file">
+					<h3>Files configuration</h3>
+					<h:outputText
+						value="Set JAAS configuration in jboss-web.xml. It should be defined in standalone.xml file (search security:1.1)" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;jboss-web&gt;</code>
+					<code class="xhtml spaces2">&lt;security-domain&gt;java:/jaas/other&lt;/security-domain&gt;</code>
+					<code class="xhtml spaces1">&lt;/jboss-web&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+					<h:outputText
+						value="Set users configuration in configuration/application-users.properties (login/pass: David/Vincent or Mark/Oliver)." />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">David=17152300f8de3478a02a35f35eb700cc</code>
+					<code class="xhtml spaces1">Mark=6f46238aa15a394503cef3b71d379e2a</code>
+					<div class="clearBoth"></div>
+					<br />
+
+					<h:outputText
+						value="Set roles configuration in configuration/application-roles.properties." />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">David=ADMIN,GUEST</code>
+					<code class="xhtml spaces1">Mark=GUEST</code>
+					<div class="clearBoth"></div>
+					<br />
+
+				</rich:tab>
+
+				<rich:tab header="LDAP" id="ldap">
+					<h3>LDAP authentication</h3>
+					<h:outputText
+						value="Set JAAS configuration in jboss-web.xml. It should be defined in standalone.xml file (search security:1.1)" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;jboss-web&gt;</code>
+					<code class="xhtml spaces2">&lt;security-domain&gt;java:/jaas/ldapRealm&lt;/security-domain&gt;</code>
+					<code class="xhtml spaces1">&lt;/jboss-web&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+					<h:outputText value="Set JAAS configuration in standalone.xml" />
+					<div class="clearBoth"></div>
+					<h:outputText value="Search urn:jboss:domain:security:" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;security-domain
+						name="ldapRealm"&gt;</code>
+					<code class="xhtml spaces2">&lt;authentication&gt;</code>
+					<code class="xhtml spaces3">&lt;login-module
+						code="org.jboss.security.auth.spi.LdapLoginModule"
+						flag="required"&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.factory.initial"
+						value="com.sun.jndi.ldap.LdapCtxFactory" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.provider.url"
+						value="ldap://ldap.net:3268" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.security.authentication" value="simple" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="allowEmptyPasswords" value="false" /&gt;</code>
+					<code class="xhtml spaces3">&lt;/login-module&gt;</code>
+					<code class="xhtml spaces2">&lt;/authentication&gt;</code>
+					<code class="xhtml spaces1">&lt;/security-domain&gt;</code>
+					<div class="clearBoth"></div>
+					<h:outputText value="Search urn:jboss:domain:ee:" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;global-modules&gt;</code>
+					<code class="xhtml spaces2">&lt;module name="sun.jdk"
+						slot="main" /&gt;</code>
+					<code class="xhtml spaces1">&lt;/global-modules&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+				</rich:tab>
+
+				<rich:tab header="DataBase" id="db">
+					<h3>DataBase authentication</h3>
+					<a href="security/db.sql">db.sql</a>
+					<div class="clearBoth"></div>
+					<h:outputText value="Set a datasource in standalone.xml" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;datasource jta="false"
+						jndi-name="java:jboss/datasources/jaasMysqlDS"
+						pool-name="jaasMysqlDS" enabled="true" use-ccm="false"&gt;</code>
+					<code class="xhtml spaces2">
+						&lt;connection-url&gt;jdbc:mysql://localhost:3306/userdb
+						&lt;/connection-url&gt; </code>
+					<code class="xhtml spaces2"> &lt;driver&gt;mysql
+						&lt;/driver&gt; </code>
+					<code class="xhtml spaces2">&lt;security&gt;</code>
+					<code class="xhtml spaces3"> &lt;user-name&gt;root
+						&lt;/user-name&gt; </code>
+					<code class="xhtml spaces3"> &lt;passwordroot
+						&lt;/password&gt; </code>
+					<code class="xhtml spaces2">&lt;/security&gt;</code>
+					<code class="xhtml spaces2">&lt;validation&gt;</code>
+					<code class="xhtml spaces3"> &lt;validate-on-match&gt;false
+						&lt;/validate-on-match&gt; </code>
+					<code class="xhtml spaces3">
+						&lt;background-validation&gt;false &lt;/background-validation&gt;
+					</code>
+					<code class="xhtml spaces2">&lt;/validation&gt;</code>
+					<code class="xhtml spaces2">&lt;statement&gt;</code>
+					<code class="xhtml spaces3">
+						&lt;share-prepared-statements&gt;false
+						&lt;/share-prepared-statements&gt; </code>
+					<code class="xhtml spaces2">&lt;/statement&gt;</code>
+					<code class="xhtml spaces1">&lt;/datasource&gt;</code>
+					<div class="clearBoth"></div>
+
+					<h:outputText
+						value="Set JAAS configuration in jboss-web.xml. It should be defined in standalone.xml file (search security:1.1)" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;jboss-web&gt;</code>
+					<code class="xhtml spaces2">&lt;security-domain&gt;java:/jaas/dbRealm&lt;/security-domain&gt;</code>
+					<code class="xhtml spaces1">&lt;/jboss-web&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+					<h:outputText value="Set JAAS configuration in standalone.xml" />
+					<div class="clearBoth"></div>
+					<h:outputText value="Search urn:jboss:domain:security:" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;security-domain
+						name="dbRealm"&gt;</code>
+					<code class="xhtml spaces2">&lt;authentication&gt;</code>
+					<code class="xhtml spaces3">&lt;login-module code="Database"
+						flag="required"&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="dsJndiName" value="java:jboss/datasources/jaasMysqlDS"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="principalsQuery" value="select password from userdb.users
+						where username = ?"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="rolesQuery" value="select roleName,'Roles' from
+						userdb.users_roles where username=?"/&gt;</code>
+					<code class="xhtml spaces3">&lt;/login-module&gt;</code>
+					<code class="xhtml spaces2">&lt;/authentication&gt;</code>
+					<code class="xhtml spaces1">&lt;/security-domain&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+				</rich:tab>
+				<rich:tab header="LDAP + DB" id="ldapdb">
+					<h3>LDAP authentication + DataBase authorization</h3>
+					<a href="security/db.sql">db.sql</a>
+					<div class="clearBoth"></div>
+					<h:outputText value="Set a datasource in standalone.xml" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;datasource jta="false"
+						jndi-name="java:jboss/datasources/jaasMysqlDS"
+						pool-name="jaasMysqlDS" enabled="true" use-ccm="false"&gt;</code>
+					<code class="xhtml spaces2">
+						&lt;connection-url&gt;jdbc:mysql://localhost:3306/userdb
+						&lt;/connection-url&gt; </code>
+					<code class="xhtml spaces2"> &lt;driver&gt;mysql
+						&lt;/driver&gt; </code>
+					<code class="xhtml spaces2">&lt;security&gt;</code>
+					<code class="xhtml spaces3"> &lt;user-name&gt;root
+						&lt;/user-name&gt; </code>
+					<code class="xhtml spaces3"> &lt;passwordroot
+						&lt;/password&gt; </code>
+					<code class="xhtml spaces2">&lt;/security&gt;</code>
+					<code class="xhtml spaces2">&lt;validation&gt;</code>
+					<code class="xhtml spaces3"> &lt;validate-on-match&gt;false
+						&lt;/validate-on-match&gt; </code>
+					<code class="xhtml spaces3">
+						&lt;background-validation&gt;false &lt;/background-validation&gt;
+					</code>
+					<code class="xhtml spaces2">&lt;/validation&gt;</code>
+					<code class="xhtml spaces2">&lt;statement&gt;</code>
+					<code class="xhtml spaces3">
+						&lt;share-prepared-statements&gt;false
+						&lt;/share-prepared-statements&gt; </code>
+					<code class="xhtml spaces2">&lt;/statement&gt;</code>
+					<code class="xhtml spaces1">&lt;/datasource&gt;</code>
+					<div class="clearBoth"></div>
+
+					<h:outputText
+						value="Set JAAS configuration in jboss-web.xml. It should be defined in standalone.xml file (search security:1.1)" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;jboss-web&gt;</code>
+					<code class="xhtml spaces2">&lt;security-domain&gt;java:/jaas/ldapDbRealm&lt;/security-domain&gt;</code>
+					<code class="xhtml spaces1">&lt;/jboss-web&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+					<h:outputText value="Set JAAS configuration in standalone.xml" />
+					<div class="clearBoth"></div>
+					<h:outputText value="Search urn:jboss:domain:security:" />
+					<div class="clearBoth"></div>
+					<code class="xhtml spaces1">&lt;security-domain
+						name="ldapDbRealm"&gt;</code>
+					<code class="xhtml spaces2">&lt;authentication&gt;</code>
+					<code class="xhtml spaces3">&lt;!-- Before the DB module
+						--&gt;</code>
+					<code class="xhtml spaces3">&lt;login-module
+						code="org.jboss.security.auth.spi.LdapLoginModule"
+						flag="required"&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="password-stacking" value="useFirstPass"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.factory.initial"
+						value="com.sun.jndi.ldap.LdapCtxFactory" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.provider.url"
+						value="ldap://ldap.net:3268" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="java.naming.security.authentication" value="simple" /&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="allowEmptyPasswords" value="false" /&gt;</code>
+					<code class="xhtml spaces3">&lt;/login-module&gt;</code>
+					<code class="xhtml spaces3">&lt;!-- After the LDAP module
+						--&gt;</code>
+					<code class="xhtml spaces3">&lt;login-module code="Database"
+						flag="required"&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="password-stacking" value="useFirstPass"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="dsJndiName" value="java:jboss/datasources/jaasMysqlDS"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="principalsQuery" value="select password from userdb.users
+						where username = ?"/&gt;</code>
+					<code class="xhtml spaces4">&lt;module-option
+						name="rolesQuery" value="select roleName,'Roles' from
+						userdb.users_roles where username=?"/&gt;</code>
+					<code class="xhtml spaces3">&lt;/login-module&gt;</code>
+					<code class="xhtml spaces2">&lt;/authentication&gt;</code>
+					<code class="xhtml spaces1">&lt;/security-domain&gt;</code>
+					<div class="clearBoth"></div>
+					<br />
+
+				</rich:tab>
+			</rich:tabPanel>
+			<br />
+
+			<rich:panel style="width:30%;margin-left:auto;margin-right:auto;">
+				<f:facet name="header">#{message['view.login.title']}</f:facet>
+				<rich:messages globalOnly='true' />
+				<h:panelGrid columns="2">
+					<h:outputLabel value="#{message['view.login.username']}" />
+					<jb:inputText required="true" value="#{loginModel.username}" />
+					<h:outputLabel value="#{message['view.login.password']}" />
+					<jb:inputSecret required="true" value="#{loginModel.password}" />
+					<f:facet name="footer">
+						<jb:commandButton value="#{message['default.action.login']}"
+							styleClass="right" imageClass="next right"
+							action="#{loginController.onLogin()}">
+						</jb:commandButton>
+					</f:facet>
+				</h:panelGrid>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

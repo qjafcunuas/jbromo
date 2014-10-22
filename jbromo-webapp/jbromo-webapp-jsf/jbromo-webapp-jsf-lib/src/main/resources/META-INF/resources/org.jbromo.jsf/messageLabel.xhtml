@@ -1,0 +1,53 @@
+<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
+	free of charge, to any person obtaining a copy of this software and associated 
+	documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit 
+	persons to whom the Software is furnished to do so, subject to the following 
+	conditions: The above copyright notice and this permission notice shall be 
+	included in all copies or substantial portions of the Software. THE SOFTWARE 
+	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<composite:interface>
+		<composite:attribute name="label" required="true"
+			type="org.jbromo.common.i18n.IMessageLabel" />
+		<composite:attribute name="styleClass" required="false" />
+	</composite:interface>
+
+	<composite:implementation>
+		<h:outputStylesheet target="head">
+.rf-msg-wait,.rf-msgs-wait {
+    background-image: url(#{resource['org.jbromo.img:loading16x16.gif']});
+    color: #{richSkin.generalTextColor};
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: block;
+    padding-left: 20px;
+    padding-right: 2px;
+    vertical-align: middle;
+}
+		</h:outputStylesheet>
+		<h:outputStylesheet library="org.richfaces" name="msg.ecss"
+			target="head" />
+
+		<div id="#{cc.clientId}" class="#{cc.attrs.styleClass}">
+			<h:panelGroup id="ml" styleClass="rf-msg">
+				<h:panelGroup
+					styleClass="rf-msg-#{cc.attrs.label.severity == 'FATAL'?'ftl':cc.attrs.label.severity == 'ERROR'?'err':cc.attrs.label.severity == 'WARNING'?'wrn':cc.attrs.label.severity == 'INFO'?'inf':cc.attrs.label.severity == 'OK'?'ok':cc.attrs.label.severity == 'WAITING'?'wait':'none'}">
+					<h:outputText styleClass="rf-msg-det"
+						value="#{i18n.formatLabel(cc.attrs.label)}" />
+				</h:panelGroup>
+			</h:panelGroup>
+		</div>
+	</composite:implementation>
+
+</ui:composition>
