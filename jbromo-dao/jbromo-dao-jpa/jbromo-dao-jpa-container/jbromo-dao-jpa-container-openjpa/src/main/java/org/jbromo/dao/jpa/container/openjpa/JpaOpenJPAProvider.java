@@ -44,4 +44,9 @@ public class JpaOpenJPAProvider implements IJpaProvider {
         return false;
     }
 
+    @Override
+    public boolean isFetchAliasable() {
+        return false;
+    }
+
 }

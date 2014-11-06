@@ -40,6 +40,7 @@ import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.common.exception.DaoExceptionFactory;
+import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.util.EntityUtil;
 
@@ -226,12 +227,20 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
             final Collection<?> col = (Collection<?>) value;
             if (!CollectionUtil.isEmpty(col)) {
                 final Object child = col.iterator().next();
-                alias = getFrom().leftJoinFetch(parentAlias, field.getName(),
-                        true);
+                alias = getFrom().leftJoinFetch(
+                        parentAlias,
+                        field.getName(),
+                        JpaProviderFactory.getInstance().getImplementation()
+                                .isFetchAliasable());
                 setAlias(child, alias);
-                for (final Field childfield : EntityUtil
-                        .getPersistedFields(child.getClass())) {
-                    loadEagerLoading(alias, childfield, child);
+                // Provider authorize alias on fetch query.
+                // So we can eager loading sub entities.
+                if (JpaProviderFactory.getInstance().getImplementation()
+                        .isFetchAliasable()) {
+                    for (final Field childfield : EntityUtil
+                            .getPersistedFields(child.getClass())) {
+                        loadEagerLoading(alias, childfield, child);
+                    }
                 }
             }
         }

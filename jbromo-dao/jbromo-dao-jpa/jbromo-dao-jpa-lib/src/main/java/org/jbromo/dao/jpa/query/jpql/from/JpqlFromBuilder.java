@@ -174,7 +174,7 @@ public class JpqlFromBuilder {
 
     /**
      * Define a right join element.
-     *
+     * 
      * @param parentAlias
      *            the alias to used.
      * @param field
@@ -189,7 +189,7 @@ public class JpqlFromBuilder {
     }
 
     /**
-     * Define a right join fetch element.
+     * Define a right join fetch  element.
      *
      * @param parentAlias
      *            the alias to used.
@@ -205,7 +205,7 @@ public class JpqlFromBuilder {
     }
 
     /**
-     * Build the JPQL select element.
+     * Build the JPQL select  element.
      *
      * @param builder
      *            the builder to add JPQL element.

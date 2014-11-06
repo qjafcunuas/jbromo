@@ -46,4 +46,11 @@ public interface IJpaProvider {
      */
     boolean isCompositePrimaryKeyUpdatedDuringPersist();
 
+    /**
+     * Return true if the provider authorize to set an alias on a fetch join.
+     * 
+     * @return true/false.
+     */
+    boolean isFetchAliasable();
+
 }

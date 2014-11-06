@@ -65,4 +65,9 @@ public class JpaHibernateProvider implements IJpaProvider {
         return true;
     }
 
+    @Override
+    public boolean isFetchAliasable() {
+        return true;
+    }
+
 }
