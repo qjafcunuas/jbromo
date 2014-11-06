@@ -597,10 +597,12 @@ public abstract class AbstractDefaultCRUDExtendedTest<E extends IEntity<PK>, PK 
         Assert.assertTrue(
                 "Entities should contained the created entity : test field "
                         + memberEntityField, entities.contains(entity));
+
         // with eager loading
         entities = getCrud().findAll(criteria, criteria, null);
         Assert.assertTrue("Entities should contained the created entity",
                 entities.contains(entity));
+        verifyEagerLoading(entities, criteria);
 
         // by pk
         Assert.assertEquals(entity,
@@ -646,6 +648,84 @@ public abstract class AbstractDefaultCRUDExtendedTest<E extends IEntity<PK>, PK 
                                 + memberEntityField + " for value "
                                 + anotherValue, entities.contains(entity));
             }
+        }
+    }
+
+    /**
+     * Verify that eager loading is valid on entities.
+     *
+     * @param entities
+     *            the entities to check.
+     * @param eagerLoading
+     *            the eager loading strategy.
+     * @throws InvocationException
+     *             exception.
+     */
+    private void verifyEagerLoading(final Collection<E> entities,
+            final E eagerLoading) throws InvocationException {
+        // Loop on entities.
+        for (final E entity : entities) {
+            verifyEagerLoading(entity, eagerLoading);
+        }
+    }
+
+    /**
+     * Verify that eager loading is valid on entity.
+     *
+     * @param entity
+     *            the entity to check.
+     * @param eagerLoading
+     *            the eager loading strategy.
+     * @throws InvocationException
+     *             exception.
+     */
+    private void verifyEagerLoading(final Object entity,
+            final Object eagerLoading) throws InvocationException {
+
+        // Loop on criteria fields.
+        for (final Field field : EntityUtil.getPersistedFields(eagerLoading)) {
+            verifyEagerLoading(entity, eagerLoading, field);
+        }
+    }
+
+    /**
+     * Verify that eager loading is valid on a field's entity.
+     *
+     * @param entity
+     *            the entity to check.
+     * @param entity
+     *            the entity to check.
+     * @param eagerLoading
+     *            the eager loading strategy.
+     * @throws InvocationException
+     *             exception.
+     */
+    private void verifyEagerLoading(final Object entity,
+            final Object eagerLoading,
+            final Field field) throws InvocationException {
+
+        final Object eagerValue = InvocationUtil.getValue(eagerLoading, field);
+        if (eagerValue == null) {
+            // No eager loading for this field.
+            return;
+        }
+        final Object entityValue = InvocationUtil.getValue(entity, field);
+        if (EntityUtil.isManyToOne(field) || EntityUtil.isOneToOne(field)) {
+            if (entityValue != null) {
+                verifyEagerLoading(entityValue, eagerValue);
+            }
+        } else if (EntityUtil.isManyToMany(field)
+                || EntityUtil.isOneToMany(field)) {
+            final Collection<?> eagerCol = (Collection<?>) eagerValue;
+            if (!eagerCol.isEmpty()) {
+                final Object eager = eagerCol.iterator().next();
+                for (final Object o : (Collection<?>) entityValue) {
+                    verifyEagerLoading(o, eager);
+                }
+            }
+        } else if (EntityUtil.isEmbedded(field)
+                || EntityUtil.isEmbeddedId(field)) {
+            verifyEagerLoading(entityValue, eagerValue);
         }
     }
 
