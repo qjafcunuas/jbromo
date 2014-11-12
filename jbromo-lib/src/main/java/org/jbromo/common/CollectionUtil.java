@@ -32,10 +32,10 @@ import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Define Collection Utility.
- * 
+ *
  * @author qjafcunuas
  * @version 1.0.0
- * 
+ *
  */
 @Slf4j
 public final class CollectionUtil {
@@ -318,6 +318,30 @@ public final class CollectionUtil {
     public static String toString(final Collection<?> collection,
             final String separator) {
         return StringUtils.join(collection, separator);
+    }
+
+    /**
+     * Return the object from the collection.
+     * 
+     * @param <O>
+     *            the object type.
+     * @param collection
+     *            the collection.
+     * @param tofind
+     *            the object to find in the collection.
+     * @return the object.
+     */
+    public static <O> O get(final Collection<O> collection,
+            final O tofind) {
+        if (collection == null || tofind == null) {
+            return null;
+        }
+        for (final O one : collection) {
+            if (tofind.equals(one)) {
+                return one;
+            }
+        }
+        return null;
     }
 
 }

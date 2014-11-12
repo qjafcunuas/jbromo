@@ -53,8 +53,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             on exception.
      */
-    <C extends Collection<E>> C create(final C transientInstance)
- throws EXP;
+    <C extends Collection<E>> C create(final C transientInstance) throws EXP;
 
     /**
      * Reads the instance of the objects.
@@ -67,8 +66,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             on exception.
      */
-    <C extends Collection<E>> C read(final C detachedInstance)
- throws EXP;
+    <C extends Collection<E>> C read(final C detachedInstance) throws EXP;
 
     /**
      * Updates the instance of the objects.
@@ -81,8 +79,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             on exception.
      */
-    <C extends Collection<E>> C update(final C detachedInstance)
- throws EXP;
+    <C extends Collection<E>> C update(final C detachedInstance) throws EXP;
 
     /**
      * Deletes objects instance.
@@ -92,8 +89,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             on exception
      */
-    void delete(final Collection<E> detachedInstance)
- throws EXP;
+    void delete(final Collection<E> detachedInstance) throws EXP;
 
     /**
      * Save the instance of the objects.
@@ -106,8 +102,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             on exception.
      */
-    <C extends Collection<E>> C save(final C detachedInstance)
- throws EXP;
+    <C extends Collection<E>> C save(final C detachedInstance) throws EXP;
 
     /**
      * Returns the object corresponding with the identifier which is passed in
@@ -119,8 +114,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             exception.
      */
-    Collection<E> findAllByPk(final Collection<PK> primaryKeys)
- throws EXP;
+    Collection<E> findAllByPk(final Collection<PK> primaryKeys) throws EXP;
 
     /**
      * Returns the object corresponding with the identifier which is passed in
@@ -135,8 +129,7 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @throws EXP
      *             exception.
      */
-    E findByPk(final PK primaryKey, final E eagerLoading)
- throws EXP;
+    E findByPk(final PK primaryKey, final E eagerLoading) throws EXP;
 
     /**
      * Returns the objects corresponding with the identifier which is passed in

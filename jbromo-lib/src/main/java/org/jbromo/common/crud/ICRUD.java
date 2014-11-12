@@ -20,11 +20,11 @@
  * THE SOFTWARE.
  */
 package org.jbromo.common.crud;
+
 import java.io.Serializable;
 import java.util.List;
 
 import org.jbromo.common.exception.MessageLabelException;
-
 
 /**
  * Define a CRUD interface.

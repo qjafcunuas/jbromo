@@ -390,6 +390,49 @@ public class CollectionUtilTest {
         one = ListUtil.toList(0, 1, null);
         two = ListUtil.toList(0, 1, null);
         Assert.assertTrue(CollectionUtil.identical(one, two));
+    }
+
+    /**
+     * Test the get method.
+     */
+    @Test
+    public void get() {
+        // null object/collection.
+        Assert.assertNull(CollectionUtil.get(null, null));
+        Assert.assertNull(CollectionUtil.get(null, new Object()));
+        Assert.assertNull(CollectionUtil.get(SetUtil.toSet(), null));
+
+        final Object o = new Object() {
+            @Override
+            public int hashCode() {
+                return -IntegerUtil.INT_13;
+            }
+
+            @Override
+            public boolean equals(final Object o) {
+                return o.hashCode() == -IntegerUtil.INT_13;
+            }
+        };
+
+        final Collection<Object> col = SetUtil.toSet();
+        col.add(o);
+        Assert.assertNull(CollectionUtil.get(col, new Object()));
+        Assert.assertEquals(o, CollectionUtil.get(col, o));
+
+        // Distinct object from o, but with same hashCode and equals method.
+        final Object o2 = new Object() {
+            @Override
+            public int hashCode() {
+                return -IntegerUtil.INT_13;
+            }
+
+            @Override
+            public boolean equals(final Object o) {
+                return o.hashCode() == -IntegerUtil.INT_13;
+            }
+        };
+        Assert.assertSame(o, CollectionUtil.get(col, o2));
+        Assert.assertNotSame(o2, CollectionUtil.get(col, o2));
 
     }
 
