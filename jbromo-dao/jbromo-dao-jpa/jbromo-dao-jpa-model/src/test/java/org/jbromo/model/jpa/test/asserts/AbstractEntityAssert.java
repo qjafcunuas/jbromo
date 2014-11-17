@@ -82,13 +82,34 @@ public abstract class AbstractEntityAssert<E extends IEntity<?>> {
      */
     private <O> void assertCollectionEquals(final Collection<O> one,
             final Collection<O> two, final Set<Object> tested) {
-        Assert.assertTrue(CollectionUtil.containsAll(one, two, true));
-        for (final O oneO : one) {
-            for (final O twoO : two) {
-                if (oneO.equals(twoO)) {
-                    assertEquals(oneO, twoO, tested);
+        // Find object type of collection.
+        Class<?> objectClass = null;
+        if (CollectionUtil.isNotEmpty(one)) {
+            for (final O o : one) {
+                if (o != null) {
+                    objectClass = one.iterator().next().getClass();
                     break;
                 }
+            }
+        } else if (CollectionUtil.isNotEmpty(two)) {
+            for (final O o : two) {
+                if (o != null) {
+                    objectClass = one.iterator().next().getClass();
+                    break;
+                }
+            }
+        }
+        Assert.assertTrue("Collections of " + objectClass + " are not equals",
+                CollectionUtil.containsAll(one, two, true));
+        O twoO;
+        for (final O oneO : one) {
+            twoO = CollectionUtil.get(two, oneO);
+            if (twoO != null) {
+                assertEquals(oneO, twoO, tested);
+                break;
+            } else {
+                // Should not happened.
+                Assert.fail("Cannot found object");
             }
         }
     }
@@ -125,6 +146,7 @@ public abstract class AbstractEntityAssert<E extends IEntity<?>> {
     @SuppressWarnings("unchecked")
     private <O> void assertEquals(final O one, final O two,
             final Set<Object> tested) {
+        log.trace("Compare object {} to {}", one, two);
         if (one == null && two == null) {
             return;
         }
@@ -244,20 +266,25 @@ public abstract class AbstractEntityAssert<E extends IEntity<?>> {
     private <O extends IEntity<Serializable>> void assertOneToManyEquals(
             final Collection<O> one, final Collection<O> two,
             final Set<Object> tested) {
-        if (CollectionUtil.isEmpty(one) && CollectionUtil.isEmpty(two)) {
+        Class<O> objectClass;
+        final boolean oneEmpty = CollectionUtil.isEmpty(one);
+        if (oneEmpty && CollectionUtil.isEmpty(two)) {
             return;
+        } else if (oneEmpty) {
+            objectClass = (Class<O>) two.iterator().next().getClass();
+        } else {
+            objectClass = (Class<O>) one.iterator().next().getClass();
         }
-        final Class<O> objectClass = (Class<O>) one.iterator().next()
-                .getClass();
         final Field pk = EntityUtil.getPrimaryKeyField(objectClass);
         if (EntityUtil.isEmbeddedId(pk)) {
             assertEquals(one, two, tested);
         } else {
-            Assert.assertEquals(one.size(), two.size());
+            Assert.assertEquals("Collection of " + objectClass, one.size(),
+                    two.size());
             // entity with @Id.
             // FIXME how to compare object ?
             // When updating with new object in OneToMany (so with no pk), the
-            // object to update have no pk, but the updated object hone one ...
+            // object to update have no pk, but the updated object have one ...
             // Ex from test : User has OneToMany addresses. If we add a new
             // address (with no pk) to a user, the user object contains an
             // address with no pk.

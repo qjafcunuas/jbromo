@@ -30,6 +30,7 @@ import javax.persistence.TypedQuery;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.jbromo.dao.common.Dao;
 import org.jbromo.dao.jpa.AbstractEntityDao;
@@ -43,6 +44,7 @@ import org.jbromo.sample.server.model.src.User;
  */
 @Dao
 @Stateless
+@Slf4j
 public class UserDao extends AbstractEntityDao<User, Long> implements
         IUserDao {
 

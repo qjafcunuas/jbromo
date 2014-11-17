@@ -341,9 +341,9 @@ public abstract class AbstractDefaultCRUDExtendedTest<E extends IEntity<PK>, PK 
             getTransaction().unjoin();
 
             // Read updated entity.
-            getTransaction().join();
             final Collection<PK> primaryKeys = EntityUtil
                     .getPrimaryKeys(entities);
+            getTransaction().join();
             final Collection<E> readed = getCrud().findAllByPk(primaryKeys);
             getEntityAssert().assertNotNull(readed);
             getEntityAssert().assertEquals(entities, readed);

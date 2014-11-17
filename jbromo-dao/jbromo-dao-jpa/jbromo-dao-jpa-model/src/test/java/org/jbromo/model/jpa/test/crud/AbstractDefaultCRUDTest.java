@@ -141,25 +141,67 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 		}
 	}
 
-	/**
-	 * CRUD JUnit.
-	 */
-	@Test
-	public void crud() {
-		// Create
-		final E entity = create();
-		try {
-			// Read
-			read(entity, true);
-			findByPk(entity, true);
+    /**
+     * CRUD JUnit.
+     */
+    @Test
+    public void crud() {
+        // Create
+        final E entity = create();
+        try {
+            // Read
+            read(entity, true);
+            findByPk(entity, true);
 
-			// Update
-			update(entity);
-		} finally {
-			// Delete
-			delete(entity);
-		}
-	}
+            // Update
+            update(entity);
+        } finally {
+            // Delete
+            delete(entity);
+        }
+    }
+
+    /**
+     * CRUD for null object JUnit.
+     */
+    @Test
+    public void crudNull() {
+        // Create
+        try {
+            getCrud().create(null);
+            Assert.fail("Should thrown an exception!");
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
+        }
+        // Read
+        try {
+            Assert.assertNull(getCrud().read(null));
+            Assert.fail("Should thrown an exception!");
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
+        }
+        // findByPk
+        try {
+            getCrud().findByPk(null);
+            Assert.fail("Should thrown an exception!");
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
+        }
+        // Update
+        try {
+            getCrud().update(null);
+            Assert.fail("Should thrown an exception!");
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
+        }
+        // Delete
+        try {
+            getCrud().delete(null);
+            Assert.fail("Should thrown an exception!");
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
+        }
+    }
 
 	/**
 	 * Save JUnit.
@@ -210,12 +252,6 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 	 * @return the created entity.
 	 */
 	protected E create() {
-		try {
-			getCrud().create(null);
-			Assert.fail("Should thrown an exception!");
-		} catch (final Exception e) {
-			Assert.assertTrue(true);
-		}
 		return create(true);
 	}
 
@@ -277,13 +313,6 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 	 * @return the read entity instance
 	 */
 	protected E read(final E entity, final boolean existed) {
-		// Null entity
-		try {
-			Assert.assertNull(getCrud().read(null));
-			Assert.fail("Should thrown an exception!");
-		} catch (final Exception e) {
-			Assert.assertTrue(true);
-		}
 		getEntityAssert().assertNotNull(entity);
 		try {
 			// Not null entity
@@ -320,13 +349,6 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 	 * @return the read entity instance
 	 */
 	protected E findByPk(final E entity, final boolean existed) {
-		try {
-			getCrud().findByPk(null);
-			Assert.fail("Should thrown an exception!");
-		} catch (final Exception e) {
-			Assert.assertTrue(true);
-		}
-
 		getEntityAssert().assertNotNull(entity);
 		try {
 			getTransaction().join();
@@ -356,12 +378,6 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 	 */
 	protected E update(final E entity) {
 
-		try {
-			getCrud().update(null);
-			Assert.fail("Should thrown an exception!");
-		} catch (final Exception e) {
-			Assert.assertTrue(true);
-		}
 		// Update model.
 		E updated = null;
 		getEntityBuilder().modify(entity, true);
@@ -411,12 +427,6 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
 	 *            the entity used for testing the Delete operation
 	 */
 	protected void delete(final E entity) {
-		try {
-			getCrud().delete(null);
-			Assert.fail("Should thrown an exception!");
-		} catch (final Exception e) {
-			Assert.assertTrue(true);
-		}
 		// Delete entity
 		try {
 			getCrud().delete(entity);

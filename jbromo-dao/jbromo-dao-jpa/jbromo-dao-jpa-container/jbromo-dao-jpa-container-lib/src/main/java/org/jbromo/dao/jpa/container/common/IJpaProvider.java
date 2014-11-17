@@ -48,9 +48,16 @@ public interface IJpaProvider {
 
     /**
      * Return true if the provider authorize to set an alias on a fetch join.
-     * 
+     *
      * @return true/false.
      */
     boolean isFetchAliasable();
+
+    /**
+     * Return true if the provider merges automatically oneToMany relationship.
+     *
+     * @return true/false.
+     */
+    boolean isOneToManyAutoMerge();
 
 }

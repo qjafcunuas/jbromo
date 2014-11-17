@@ -322,7 +322,7 @@ public final class CollectionUtil {
 
     /**
      * Return the object from the collection.
-     * 
+     *
      * @param <O>
      *            the object type.
      * @param collection
