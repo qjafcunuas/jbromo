@@ -123,6 +123,22 @@
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<!-- For unenhancing all classes, the EntityManagerFactory must be 
+								created prior to creating any Entities. -->
+							<reuseForks>false</reuseForks>
+							<!-- http://comments.gmane.org/gmane.comp.apache.openjpa.user/10303 -->
+							<!-- LinkageError: duplicate class definition for name: "org/apache/openjpa/jdbc/identifier/DBIdentifier$DBIdentifierType" -->
+							<argLine>-XX:+AlwaysLockClassLoader -javaagent:"${settings.localRepository}/org/apache/openjpa/openjpa-all/${openjpa.version}/openjpa-all-${openjpa.version}.jar"</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<profile>

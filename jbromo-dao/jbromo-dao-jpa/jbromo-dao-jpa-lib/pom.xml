@@ -125,50 +125,8 @@
 							<reuseForks>false</reuseForks>
 							<!-- http://comments.gmane.org/gmane.comp.apache.openjpa.user/10303 -->
 							<!-- LinkageError: duplicate class definition for name: "org/apache/openjpa/jdbc/identifier/DBIdentifier$DBIdentifierType" -->
-							<argLine>-XX:+AlwaysLockClassLoader</argLine>
+							<argLine>-XX:+AlwaysLockClassLoader -javaagent:"${settings.localRepository}/org/apache/openjpa/openjpa-all/${openjpa.version}/openjpa-all-${openjpa.version}.jar"</argLine>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<version>2.9</version>
-						<executions>
-							<execution>
-								<id>For enhancing entities at runtime.</id>
-								<goals>
-									<goal>unpack-dependencies</goal>
-								</goals>
-								<phase>generate-sources</phase>
-								<configuration>
-									<includeGroupIds>org.jbromo</includeGroupIds>
-									<includeArtifactIds>jbromo-dao-jpa-model</includeArtifactIds>
-									<excludeTransitive>true</excludeTransitive>
-									<includes>org/jbromo/model/jpa/AbstractEntityId.class,org/jbromo/sample/server/model/src/**/*.class</includes>
-									<outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.openjpa</groupId>
-						<artifactId>openjpa-maven-plugin</artifactId>
-						<version>2.3.0</version>
-						<executions>
-							<execution>
-								<id>enhancer</id>
-								<phase>process-test-classes</phase>
-								<goals>
-									<goal>test-enhance</goal>
-								</goals>
-							</execution>
-						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.openjpa</groupId>
-								<artifactId>openjpa-all</artifactId>
-								<version>2.3.0</version>
-							</dependency>
-						</dependencies>
 					</plugin>
 				</plugins>
 			</build>
