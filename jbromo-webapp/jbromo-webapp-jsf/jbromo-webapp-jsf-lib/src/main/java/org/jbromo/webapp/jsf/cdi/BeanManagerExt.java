@@ -31,15 +31,23 @@ import javax.el.ExpressionFactory;
 import javax.enterprise.context.spi.Context;
 import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.AnnotatedField;
+import javax.enterprise.inject.spi.AnnotatedMember;
+import javax.enterprise.inject.spi.AnnotatedMethod;
+import javax.enterprise.inject.spi.AnnotatedParameter;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.Decorator;
+import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.InjectionTarget;
+import javax.enterprise.inject.spi.InjectionTargetFactory;
 import javax.enterprise.inject.spi.InterceptionType;
 import javax.enterprise.inject.spi.Interceptor;
 import javax.enterprise.inject.spi.ObserverMethod;
+import javax.enterprise.inject.spi.ProducerFactory;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -222,6 +230,84 @@ public class BeanManagerExt implements BeanManager {
     @Override
     public ExpressionFactory wrapExpressionFactory(final ExpressionFactory arg0) {
         return this.beanManager.wrapExpressionFactory(arg0);
+    }
+
+    @Override
+    public boolean areInterceptorBindingsEquivalent(final Annotation arg0,
+            final Annotation arg1) {
+        return this.beanManager.areInterceptorBindingsEquivalent(arg0, arg1);
+    }
+
+    @Override
+    public boolean areQualifiersEquivalent(final Annotation arg0,
+            final Annotation arg1) {
+        return this.beanManager.areQualifiersEquivalent(arg0, arg1);
+    }
+
+    @Override
+    public <T> Bean<T> createBean(final BeanAttributes<T> arg0,
+            final Class<T> arg1, final InjectionTargetFactory<T> arg2) {
+        return this.beanManager.createBean(arg0, arg1, arg2);
+    }
+
+    @Override
+    public <T, X> Bean<T> createBean(final BeanAttributes<T> arg0,
+            final Class<X> arg1, final ProducerFactory<X> arg2) {
+        return this.beanManager.createBean(arg0, arg1, arg2);
+    }
+
+    @Override
+    public <T> BeanAttributes<T> createBeanAttributes(
+            final AnnotatedType<T> arg0) {
+        return this.beanManager.createBeanAttributes(arg0);
+    }
+
+    @Override
+    public BeanAttributes<?> createBeanAttributes(final AnnotatedMember<?> arg0) {
+        return this.beanManager.createBeanAttributes(arg0);
+    }
+
+    @Override
+    public InjectionPoint createInjectionPoint(final AnnotatedField<?> arg0) {
+        return this.beanManager.createInjectionPoint(arg0);
+    }
+
+    @Override
+    public InjectionPoint createInjectionPoint(final AnnotatedParameter<?> arg0) {
+        return this.beanManager.createInjectionPoint(arg0);
+    }
+
+    @Override
+    public <T extends Extension> T getExtension(final Class<T> arg0) {
+        return this.beanManager.getExtension(arg0);
+    }
+
+    @Override
+    public <T> InjectionTargetFactory<T> getInjectionTargetFactory(
+            final AnnotatedType<T> arg0) {
+        return this.beanManager.getInjectionTargetFactory(arg0);
+    }
+
+    @Override
+    public int getInterceptorBindingHashCode(final Annotation arg0) {
+        return this.beanManager.getInterceptorBindingHashCode(arg0);
+    }
+
+    @Override
+    public <X> ProducerFactory<X> getProducerFactory(
+            final AnnotatedField<? super X> arg0, final Bean<X> arg1) {
+        return this.beanManager.getProducerFactory(arg0, arg1);
+    }
+
+    @Override
+    public <X> ProducerFactory<X> getProducerFactory(
+            final AnnotatedMethod<? super X> arg0, final Bean<X> arg1) {
+        return this.beanManager.getProducerFactory(arg0, arg1);
+    }
+
+    @Override
+    public int getQualifierHashCode(final Annotation arg0) {
+        return this.beanManager.getQualifierHashCode(arg0);
     }
 
 }

@@ -32,7 +32,6 @@ import javax.inject.Inject;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
@@ -63,11 +62,6 @@ public class AbstractFacesTest {
         Assert.assertNotNull(getFacesContext().getExternalContext()
                 .getResponse());
         Assert.assertNotNull(getFacesContext().getELContext());
-    }
-
-    @After
-    public void toto() {
-        BromoWeldExtension.requestMap.clear();
     }
 
 }
