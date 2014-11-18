@@ -28,6 +28,13 @@
 
 	<name>JBromo Webapp JSF library</name>
 
+  <repositories>
+		<repository>
+			<id>jboss-releases</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+			</repository>
+  </repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jbromo</groupId>
