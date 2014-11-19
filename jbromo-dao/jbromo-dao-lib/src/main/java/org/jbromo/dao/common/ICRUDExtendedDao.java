@@ -28,14 +28,14 @@ import org.jbromo.dao.common.exception.DaoException;
 
 /**
  * Define a CRUD extended DAO interface.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the entity type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public interface ICRUDExtendedDao<E extends Serializable, PK extends Serializable>
-        extends ICRUDDao<E, PK>, ICRUDExtended<E, PK, DaoException> {
+public interface ICRUDExtendedDao<E extends Serializable, P extends Serializable>
+        extends ICRUDDao<E, P>, ICRUDExtended<E, P, DaoException> {
 
 }

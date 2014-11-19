@@ -38,17 +38,17 @@ import org.jbromo.webapp.jsf.component.datatable.DataTableRow;
 
 /**
  * Define a dataTable model for a bromo datatable.
- *
+ * 
  * @author qjafcunuas
- *
- * @param <RE>
+ * 
+ * @param <R>
  *            the row element type.
  * @param <M>
  *            the view model type.
  */
 @Slf4j
-public abstract class AbstractDataTableCRUDController<RE extends Serializable, M extends AbstractDataTableCRUDModel<RE>>
-        extends AbstractDataTableController<RE, M> {
+public abstract class AbstractDataTableCRUDController<R extends Serializable, M extends AbstractDataTableCRUDModel<R>>
+        extends AbstractDataTableController<R, M> {
 
     /**
      * serial version UID.
@@ -60,7 +60,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *
      * @return the CRUD service.
      */
-    protected abstract ICRUDService<RE, ?> getService();
+    protected abstract ICRUDService<R, ?> getService();
 
     /**
      * Create the clicked element by calling the service.
@@ -71,7 +71,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @throws ServiceException
      *             exception.
      */
-    protected RE create(final RE element) throws ServiceException {
+    protected R create(final R element) throws ServiceException {
         return getService().create(element);
     }
 
@@ -84,7 +84,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @throws ServiceException
      *             exception.
      */
-    protected RE read(final RE element) throws ServiceException {
+    protected R read(final R element) throws ServiceException {
         return getService().read(element);
     }
 
@@ -97,7 +97,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @throws ServiceException
      *             exception.
      */
-    protected RE update(final RE element) throws ServiceException {
+    protected R update(final R element) throws ServiceException {
         return getService().update(element);
     }
 
@@ -110,7 +110,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @throws ServiceException
      *             exception.
      */
-    protected RE save(final RE element) throws ServiceException {
+    protected R save(final R element) throws ServiceException {
         return getService().save(element);
     }
 
@@ -122,12 +122,12 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @throws ServiceException
      *             exception.
      */
-    protected void delete(final RE element) throws ServiceException {
+    protected void delete(final R element) throws ServiceException {
         getService().delete(element);
     }
 
     @Override
-    protected List<RE> findAll() throws ServiceException {
+    protected List<R> findAll() throws ServiceException {
         return getService().findAll();
     }
 
@@ -138,7 +138,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *             exception.
      */
     protected void loadElement() throws ServiceException {
-        final RE element = read(getModel().getRowClicked().getElement());
+        final R element = read(getModel().getRowClicked().getElement());
         loadElement(element);
     }
 
@@ -148,9 +148,9 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @param element
      *            the element to load.
      */
-    protected void loadElement(final RE element) {
+    protected void loadElement(final R element) {
         boolean found = false;
-        for (final DataTableRow<RE> row : getModel().getRows()) {
+        for (final DataTableRow<R> row : getModel().getRows()) {
             if (row.getElement().equals(element)) {
                 // updated element.
                 row.setElement(element);
@@ -169,7 +169,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      * @return next view id.
      */
     public String onNew() {
-        final DataTableCRUDRow<RE> row = getModel().createRow(
+        final DataTableCRUDRow<R> row = getModel().createRow(
                 getModel().newElementInstance());
         getModel().getRows().add(0, row);
         getModel().setRowClicked(row);
@@ -185,7 +185,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *            the row to edit.
      * @return next view id.
      */
-    public String onEdit(final DataTableCRUDRow<RE> row) {
+    public String onEdit(final DataTableCRUDRow<R> row) {
         try {
             getModel().setRowClicked(row);
             loadElement();
@@ -204,7 +204,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *            the row to edit.
      * @return next view id.
      */
-    public String onDelete(final DataTableCRUDRow<RE> row) {
+    public String onDelete(final DataTableCRUDRow<R> row) {
         try {
             getModel().setRowClicked(row);
             if (!row.isNewRow()) {
@@ -227,7 +227,7 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *            the row to edit.
      * @return next view id.
      */
-    public String onCancel(final DataTableCRUDRow<RE> row) {
+    public String onCancel(final DataTableCRUDRow<R> row) {
         try {
             getModel().setRowClicked(row);
             loadElement();
@@ -246,10 +246,10 @@ public abstract class AbstractDataTableCRUDController<RE extends Serializable, M
      *            the row to edit.
      * @return next view id.
      */
-    public String onSave(final DataTableCRUDRow<RE> row) {
+    public String onSave(final DataTableCRUDRow<R> row) {
         try {
             getModel().setRowClicked(row);
-            final RE saved = save(getModel().getRowClicked().getElement());
+            final R saved = save(getModel().getRowClicked().getElement());
             getModel().getRowClicked().setElement(saved);
             loadElement();
             getModel().getRowClicked().setReadonly(true);

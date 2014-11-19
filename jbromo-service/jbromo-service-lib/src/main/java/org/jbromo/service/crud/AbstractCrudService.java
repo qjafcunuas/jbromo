@@ -28,15 +28,15 @@ import org.jbromo.common.invocation.ParameterizedTypeUtil;
 
 /**
  * The class for implementation of CRUD services.
- *
+ * 
  * @author qjafcunuas
  * @param <M>
  *            the model type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public abstract class AbstractCrudService<M extends Serializable, PK extends Serializable>
-        implements ICRUDService<M, PK> {
+public abstract class AbstractCrudService<M extends Serializable, P extends Serializable>
+        implements ICRUDService<M, P> {
 
     /**
      * Serial version UID for class.

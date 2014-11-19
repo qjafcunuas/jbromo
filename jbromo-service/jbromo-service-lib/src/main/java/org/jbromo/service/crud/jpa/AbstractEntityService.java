@@ -41,15 +41,15 @@ import org.jbromo.service.exception.ServiceExceptionFactory;
 
 /**
  * The class for implementation of CRUD services.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the entity class giving by Service layer
- * @param <PK>
+ * @param <P>
  *            the entity class primary key
  */
-public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Serializable>
-        extends AbstractCrudService<E, PK> implements IEntityService<E, PK> {
+public abstract class AbstractEntityService<E extends IEntity<P>, P extends Serializable>
+        extends AbstractCrudService<E, P> implements IEntityService<E, P> {
 
     /**
      * Serial version UID for class.
@@ -61,7 +61,7 @@ public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Se
      *
      * @return the entityDao to get
      */
-    protected abstract IEntityDao<E, PK> getEntityDao();
+    protected abstract IEntityDao<E, P> getEntityDao();
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -184,7 +184,7 @@ public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Se
     }
 
     @Override
-    public E findByPk(final PK primaryKey) throws ServiceException {
+    public E findByPk(final P primaryKey) throws ServiceException {
         try {
             return getEntityDao().findByPk(primaryKey);
         } catch (final DaoException e) {
@@ -246,7 +246,7 @@ public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Se
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<PK> primaryKeys)
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys)
             throws ServiceException {
         try {
             return getEntityDao().findAllByPk(primaryKeys);
@@ -257,7 +257,7 @@ public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Se
     }
 
     @Override
-    public E findByPk(final PK primaryKey, final E eagerLoading)
+    public E findByPk(final P primaryKey, final E eagerLoading)
             throws ServiceException {
         try {
             return getEntityDao().findByPk(primaryKey, eagerLoading);
@@ -268,7 +268,7 @@ public abstract class AbstractEntityService<E extends IEntity<PK>, PK extends Se
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<PK> primaryKeys,
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys,
             final E eagerLoading) throws ServiceException {
         try {
             return getEntityDao().findAllByPk(primaryKeys, eagerLoading);

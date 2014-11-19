@@ -32,10 +32,10 @@ import org.jbromo.service.exception.ServiceException;
  * @author qjafcunuas
  * @param <E>
  *            the entity type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public interface ICRUDExtendedService<E extends Serializable, PK extends Serializable>
-        extends ICRUDService<E, PK>, ICRUDExtended<E, PK, ServiceException> {
+public interface ICRUDExtendedService<E extends Serializable, P extends Serializable>
+        extends ICRUDService<E, P>, ICRUDExtended<E, P, ServiceException> {
 
 }

@@ -28,101 +28,101 @@ import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Define a CRUD interface.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the serializable type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
- * @param <EXP>
+ * @param <X>
  *            the exception type.
  */
-public interface ICRUD<E extends Serializable, PK extends Serializable, EXP extends MessageLabelException>
+public interface ICRUD<E extends Serializable, P extends Serializable, X extends MessageLabelException>
         extends Serializable {
     /**
      * Creates the object.
-     *
+     * 
      * @param transientInstance
      *            the object to save.
      * @return the saved and persistent entity.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    E create(final E transientInstance) throws EXP;
+    E create(final E transientInstance) throws X;
 
     /**
      * The reader for service layer.
-     *
+     * 
      * @param transientInstance
      *            the object to read.
      * @return the readed object.
-     * @throws EXP
+     * @throws X
      *             the exception type handles by the service layer
      */
-    E read(final E transientInstance) throws EXP;
+    E read(final E transientInstance) throws X;
 
     /**
      * Updates the instance of the object.
-     *
+     * 
      * @param detachedInstance
      *            the object which have to be updated.
      * @return the updated object.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    E update(final E detachedInstance) throws EXP;
+    E update(final E detachedInstance) throws X;
 
     /**
      * Deletes an object instance.
-     *
+     * 
      * @param detachedInstance
      *            the object to delete.
      * @return true if entity existed before.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    boolean delete(final E detachedInstance) throws EXP;
+    boolean delete(final E detachedInstance) throws X;
 
     /**
      * Save the instance of the object. if instance has null primary key,
      * creates it, else updates it.
-     *
+     * 
      * @param detachedInstance
      *            the object which have to be saved.
      * @return the saved object.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    E save(final E detachedInstance) throws EXP;
+    E save(final E detachedInstance) throws X;
 
     /**
      * Returns the object corresponding with the identifier which is passed in
      * parameter.
-     *
+     * 
      * @param primaryKey
      *            the identifier of the searched object.
      * @return the object associated with the identifier.
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    E findByPk(final PK primaryKey) throws EXP;
+    E findByPk(final P primaryKey) throws X;
 
     /**
      * Returns all persisted objects.
-     *
+     * 
      * @return the list of all objects
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    List<E> findAll() throws EXP;
+    List<E> findAll() throws X;
 
     /**
      * Returns the number of persisted instances for this entity.
-     *
+     * 
      * @return the number of objects
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    Long count() throws EXP;
+    Long count() throws X;
 
 }

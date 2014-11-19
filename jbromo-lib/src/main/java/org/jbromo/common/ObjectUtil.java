@@ -259,6 +259,7 @@ public final class ObjectUtil {
     public static StringBuilder dump(final Object object) {
         if (object == null) {
             log.info("Null object!");
+            return null;
         }
         final StringBuilder builder = new StringBuilder(object.toString());
         try {

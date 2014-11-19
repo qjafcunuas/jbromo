@@ -25,18 +25,18 @@ import java.io.Serializable;
 
 /**
  * Interface designed for persistent objects.
- *
- * @param <PK>
+ * 
+ * @param <P>
  *            The primary key type.
  * @author qjafcunuas
  */
-public interface IEntity<PK extends Serializable> extends Serializable {
+public interface IEntity<P extends Serializable> extends Serializable {
 
     /**
      * Returns primary key for entity.
      *
      * @return the primary key
      */
-    PK getPrimaryKey();
+    P getPrimaryKey();
 
 }

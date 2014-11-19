@@ -113,7 +113,7 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      *
      * @param entities
@@ -121,16 +121,14 @@ public final class EntityUtil {
      * @return the primary keys.
      */
     @SuppressWarnings("unchecked")
-    public static <E extends IEntity<PK>, PK extends Serializable> Collection<PK> getPrimaryKeys(
+    public static <E extends IEntity<P>, P extends Serializable> Collection<P> getPrimaryKeys(
             final Collection<E> entities) {
         if (entities == null) {
             return null;
         }
-        final Set<PK> primaryKeys = new HashSet<PK>();
+        final Set<P> primaryKeys = new HashSet<P>();
         for (final E entity : entities) {
-            // if (!isNullPk(entity)) {
             primaryKeys.add(entity.getPrimaryKey());
-            // }
         }
         return CollectionUtil.toCollection(primaryKeys, entities.getClass());
     }
@@ -140,7 +138,7 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      *
      * @param entities
@@ -148,12 +146,12 @@ public final class EntityUtil {
      *
      * @return the mapped entities.
      */
-    public static <E extends IEntity<PK>, PK extends Serializable> Map<PK, E> mapByPk(
+    public static <E extends IEntity<P>, P extends Serializable> Map<P, E> mapByPk(
             final Collection<E> entities) {
         if (entities == null) {
             return null;
         }
-        final Map<PK, E> map = new HashMap<PK, E>();
+        final Map<P, E> map = new HashMap<P, E>();
         for (final E entity : entities) {
             map.put(entity.getPrimaryKey(), entity);
         }
@@ -179,10 +177,10 @@ public final class EntityUtil {
      * @return true if implements IEntity, false otherwise
      */
     public static boolean isEntity(final Class<?> clazz) {
-        if (clazz.getInterfaces().length > 0) {
-            if (ListUtil.toList(clazz.getInterfaces()).contains(IEntity.class)) {
-                return true;
-            }
+        if (clazz.getInterfaces().length > 0
+                && ListUtil.toList(clazz.getInterfaces()).contains(
+                        IEntity.class)) {
+            return true;
         }
         if (clazz.getSuperclass() != null) {
             return isEntity(clazz.getSuperclass());
@@ -196,13 +194,13 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param entity
      *            the entity to get primary key.
      * @return the entity primary key.
      */
-    public static <E extends IEntity<PK>, PK extends Serializable> PK getPrimaryKey(
+    public static <E extends IEntity<P>, P extends Serializable> P getPrimaryKey(
             final E entity) {
         if (entity == null) {
             return null;
@@ -224,13 +222,13 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param entity
      *            the entity to get primary key.
      * @return the entity primary key.
      */
-    public static <E extends IEntity<PK>, PK extends Serializable> PK readPrimaryKey(
+    public static <E extends IEntity<P>, P extends Serializable> P readPrimaryKey(
             final E entity) {
         if (JpaProviderFactory.getInstance().getImplementation() == null
                 || JpaProviderFactory.getInstance().getImplementation()
@@ -327,19 +325,19 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param entity
      *            the entity.
      * @return true/false.
      */
-    public static <E extends IEntity<PK>, PK extends Serializable> boolean isNullPk(
+    public static <E extends IEntity<P>, P extends Serializable> boolean isNullPk(
             final E entity) {
         if (entity == null) {
             return true;
         }
         final Field fieldPk = getPrimaryKeyField(entity.getClass());
-        final PK pk = getPrimaryKey(entity);
+        final P pk = getPrimaryKey(entity);
         if (pk == null) {
             return true;
         }
@@ -375,13 +373,13 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param entity
      *            the entity.
      * @return true/false.
      */
-    public static <E extends IEntity<PK>, PK extends Serializable> boolean isNotNullPk(
+    public static <E extends IEntity<P>, P extends Serializable> boolean isNotNullPk(
             final E entity) {
         return !isNullPk(entity);
     }
@@ -389,16 +387,16 @@ public final class EntityUtil {
     /**
      * Cast a class to an entity class.
      *
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param objectClass
      *            the object class to cast.
      * @return the entity class.
      */
     @SuppressWarnings("unchecked")
-    public static <PK extends Serializable> Class<IEntity<PK>> cast(
+    public static <P extends Serializable> Class<IEntity<P>> cast(
             final Class<?> objectClass) {
-        return (Class<IEntity<PK>>) objectClass;
+        return (Class<IEntity<P>>) objectClass;
     }
 
     /**
@@ -627,7 +625,7 @@ public final class EntityUtil {
      *
      * @param <E>
      *            the entity type.
-     * @param <PK>
+     * @param <P>
      *            the primary key type.
      * @param entity
      *            the entity to get mapsId field.
@@ -635,7 +633,7 @@ public final class EntityUtil {
      *            the mapsId value to get field.
      * @return the field value.
      */
-    public static <E extends IEntity<PK>, PK extends ICompositePk> Object getMapsIdFieldValue(
+    public static <E extends IEntity<P>, P extends ICompositePk> Object getMapsIdFieldValue(
             final E entity, final String value) {
         if (entity == null || value == null) {
             return null;

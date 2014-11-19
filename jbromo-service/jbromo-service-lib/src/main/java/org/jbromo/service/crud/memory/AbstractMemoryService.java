@@ -69,12 +69,12 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
      * The objects map.
      */
     @Getter(AccessLevel.PROTECTED)
-    private final Hashtable<Integer, M> map = new Hashtable<Integer, M>();
+    private final Map<Integer, M> map = new Hashtable<Integer, M>();
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public M save(final M model) throws ServiceException {
-        if (!getMap().contains(model)) {
+        if (!getMap().containsValue(model)) {
             return create(model);
         } else {
             return update(model);
@@ -173,8 +173,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
 
     @Override
     public List<M> findAll(final M criteria, final M eagerLoading,
-            final List<IOrderBy<M>> orderBy)
-            throws ServiceException {
+            final List<IOrderBy<M>> orderBy) throws ServiceException {
         final List<M> list = findAll(criteria);
         final Comparator<M> comparator = new Comparator<M>() {
             @Override
@@ -259,8 +258,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
 
     @Override
     public Collection<M> findAllByPk(final Collection<Integer> primaryKeys,
-            final M eagerLoading)
-            throws ServiceException {
+            final M eagerLoading) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }

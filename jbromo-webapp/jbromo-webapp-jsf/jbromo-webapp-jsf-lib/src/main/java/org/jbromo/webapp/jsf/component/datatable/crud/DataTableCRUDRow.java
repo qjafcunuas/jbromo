@@ -29,15 +29,14 @@ import org.jbromo.webapp.jsf.component.datatable.DataTableActionBarCell;
 import org.jbromo.webapp.jsf.component.datatable.DataTableRow;
 
 /**
- * Define a row for a bromo datatable.
+ * Define a row for a jbromo datatable.
  *
  * @author qjafcunuas
  *
- * @param <ELT>
+ * @param <E>
  *            the element row type.
  */
-public class DataTableCRUDRow<ELT extends Serializable> extends
-        DataTableRow<ELT> {
+public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
 
     /**
      * serial version UID.

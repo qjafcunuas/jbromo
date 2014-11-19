@@ -125,6 +125,9 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
      * @return the label.
      */
     private String getLabel(final Boolean value, final String typeLabel) {
+        if (value == null) {
+            return null;
+        }
         final FacesResourceBundle bundle = CDIFacesUtil
                 .getFacesResourceBundle();
         IMessageKey key = null;

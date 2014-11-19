@@ -33,30 +33,30 @@ import lombok.Setter;
 
 /**
  * Abstract class designed for persistent objects with Long as primary key.
- * 
+ *
  * @author qjafcunuas
  */
 @MappedSuperclass
 public abstract class AbstractEntityId extends AbstractEntity<Long> {
 
-	/**
-	 * Define default column name id.
-	 */
-	static final String COLUMN_NAME_ID = "ID";
+    /**
+     * Define default column name id.
+     */
+    static final String COLUMN_NAME_ID = "ID";
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = 570007284571594990L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 570007284571594990L;
 
-	/**
-	 * The primary key of the entity.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = COLUMN_NAME_ID, nullable = false)
-	@Getter
-	@Setter(AccessLevel.NONE)
-	private Long primaryKey;
+    /**
+     * The primary key of the entity.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = COLUMN_NAME_ID, nullable = false)
+    @Getter
+    @Setter(AccessLevel.NONE)
+    private Long primaryKey;
 
 }

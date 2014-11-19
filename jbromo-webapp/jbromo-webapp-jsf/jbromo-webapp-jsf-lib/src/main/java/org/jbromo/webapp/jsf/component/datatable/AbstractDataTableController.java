@@ -32,16 +32,16 @@ import org.jbromo.webapp.jsf.mvc.view.AbstractViewController;
 
 /**
  * Define a dataTable model for a bromo datatable.
- *
+ * 
  * @author qjafcunuas
- *
- * @param <RE>
+ * 
+ * @param <R>
  *            the row element type.
  * @param <M>
  *            the view model type.
  */
 @Slf4j
-public abstract class AbstractDataTableController<RE extends Serializable, M extends AbstractDataTableModel<RE>>
+public abstract class AbstractDataTableController<R extends Serializable, M extends AbstractDataTableModel<R>>
         extends AbstractViewController<M> {
 
     /**
@@ -56,7 +56,7 @@ public abstract class AbstractDataTableController<RE extends Serializable, M ext
      * @throws MessageLabelException
      *             exception.
      */
-    protected abstract List<RE> findAll() throws MessageLabelException;
+    protected abstract List<R> findAll() throws MessageLabelException;
 
     /**
      * Load elements into the model. The model's rows is cleared before added
@@ -67,7 +67,7 @@ public abstract class AbstractDataTableController<RE extends Serializable, M ext
      */
     public void loadElements() throws MessageLabelException {
         getModel().getRows().clear();
-        final List<RE> elements = findAll();
+        final List<R> elements = findAll();
         loadElements(elements);
     }
 
@@ -109,9 +109,9 @@ public abstract class AbstractDataTableController<RE extends Serializable, M ext
      * @param elements
      *            the elements to add.
      */
-    protected void loadElements(final Collection<RE> elements) {
-        DataTableRow<RE> row;
-        for (final RE element : elements) {
+    protected void loadElements(final Collection<R> elements) {
+        DataTableRow<R> row;
+        for (final R element : elements) {
             row = getModel().createRow(element);
             getModel().getRows().add(row);
         }
@@ -123,7 +123,7 @@ public abstract class AbstractDataTableController<RE extends Serializable, M ext
      * @param row
      *            the row to remove.
      */
-    protected void removeRow(final DataTableRow<RE> row) {
+    protected void removeRow(final DataTableRow<R> row) {
         getModel().getRows().remove(row);
     }
 
@@ -133,9 +133,9 @@ public abstract class AbstractDataTableController<RE extends Serializable, M ext
      * @param element
      *            the element to remove.
      */
-    protected void removeElement(final RE element) {
-        DataTableRow<RE> toRemove = null;
-        for (final DataTableRow<RE> row : getModel().getRows()) {
+    protected void removeElement(final R element) {
+        DataTableRow<R> toRemove = null;
+        for (final DataTableRow<R> row : getModel().getRows()) {
             if (row.getElement().equals(element)) {
                 toRemove = row;
             }

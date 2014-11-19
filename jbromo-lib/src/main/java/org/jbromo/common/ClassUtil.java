@@ -58,19 +58,6 @@ public final class ClassUtil {
         } else {
             return (Class<O>) object.getClass();
         }
-        // String className = object.getClass().getName();
-        // final int index = className.indexOf("_$$_javassist");
-        // if (index > 0) {
-        // className = className.substring(0, index);
-        // try {
-        // return (Class<O>) Class.forName(className);
-        // } catch (final ClassNotFoundException e) {
-        // log.error("Cannot get class of {}", object);
-        // throw new MessageLabelException(MessageKey.DEFAULT_MESSAGE, e);
-        // }
-        // } else {
-        // return (Class<O>) object.getClass();
-        // }
     }
 
     /**

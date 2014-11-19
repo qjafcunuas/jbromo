@@ -30,11 +30,11 @@ import org.jbromo.model.jpa.util.EntityUtil;
  * Abstract class designed for persistent objects.
  *
  * @author qjafcunuas
- * @param <PK>
+ * @param <P>
  *            Primary key
  */
-public abstract class AbstractEntity<PK extends Serializable> implements
-        IEntity<PK> {
+public abstract class AbstractEntity<P extends Serializable> implements
+        IEntity<P> {
 
     /**
      * Serial version UID.
@@ -43,7 +43,7 @@ public abstract class AbstractEntity<PK extends Serializable> implements
 
     @Override
     public int hashCode() {
-        final PK pk = EntityUtil.readPrimaryKey(this);
+        final P pk = EntityUtil.readPrimaryKey(this);
         if (pk == null) {
             return super.hashCode();
         } else {
@@ -63,14 +63,14 @@ public abstract class AbstractEntity<PK extends Serializable> implements
         if (!EntityUtil.isEntity(obj)) {
             return false;
         }
-        final IEntity<PK> entity = ObjectUtil.cast(obj, IEntity.class);
+        final IEntity<P> entity = ObjectUtil.cast(obj, IEntity.class);
         final Class<?> thisClass = EntityUtil.getClass(this);
         final Class<?> objClass = EntityUtil.getClass(entity);
         if (!thisClass.equals(objClass)) {
             return false;
         }
-        final PK objPk = EntityUtil.readPrimaryKey(entity);
-        final PK thisPk = EntityUtil.readPrimaryKey(this);
+        final P objPk = EntityUtil.readPrimaryKey(entity);
+        final P thisPk = EntityUtil.readPrimaryKey(this);
         return ObjectUtil.notNullAndEquals(objPk, thisPk);
     }
 

@@ -29,13 +29,13 @@ import org.jbromo.service.exception.ServiceException;
 
 /**
  * Define a CRUD Service interface.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the serializable type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public interface ICRUDService<E extends Serializable, PK extends Serializable>
-        extends ICRUD<E, PK, ServiceException>, IService {
+public interface ICRUDService<E extends Serializable, P extends Serializable>
+        extends ICRUD<E, P, ServiceException>, IService {
 }

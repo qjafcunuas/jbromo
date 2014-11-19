@@ -30,137 +30,137 @@ import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Define a CRUD extended interface.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the serializable type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
- * @param <EXP>
+ * @param <X>
  *            the exception type.
  */
-public interface ICRUDExtended<E extends Serializable, PK extends Serializable, EXP extends MessageLabelException>
-        extends ICRUD<E, PK, EXP> {
+public interface ICRUDExtended<E extends Serializable, P extends Serializable, X extends MessageLabelException>
+        extends ICRUD<E, P, X> {
 
     /**
      * Creates the objects.
-     *
+     * 
      * @param <C>
      *            the collection entity type.
      * @param transientInstance
      *            the objects to save.
      * @return the saved and persistent entities.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    <C extends Collection<E>> C create(final C transientInstance) throws EXP;
+    <C extends Collection<E>> C create(final C transientInstance) throws X;
 
     /**
      * Reads the instance of the objects.
-     *
+     * 
      * @param <C>
      *            the collection entity type.
      * @param detachedInstance
      *            the objects which have to be readed.
      * @return the readed objects.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    <C extends Collection<E>> C read(final C detachedInstance) throws EXP;
+    <C extends Collection<E>> C read(final C detachedInstance) throws X;
 
     /**
      * Updates the instance of the objects.
-     *
+     * 
      * @param <C>
      *            the collection entity type.
      * @param detachedInstance
      *            the objects which have to be updated.
      * @return the updated objects.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    <C extends Collection<E>> C update(final C detachedInstance) throws EXP;
+    <C extends Collection<E>> C update(final C detachedInstance) throws X;
 
     /**
      * Deletes objects instance.
-     *
+     * 
      * @param detachedInstance
      *            the objects to delete.
-     * @throws EXP
+     * @throws X
      *             on exception
      */
-    void delete(final Collection<E> detachedInstance) throws EXP;
+    void delete(final Collection<E> detachedInstance) throws X;
 
     /**
      * Save the instance of the objects.
-     *
+     * 
      * @param <C>
      *            the collection entity type.
      * @param detachedInstance
      *            the objects which have to be saved.
      * @return the saved objects.
-     * @throws EXP
+     * @throws X
      *             on exception.
      */
-    <C extends Collection<E>> C save(final C detachedInstance) throws EXP;
+    <C extends Collection<E>> C save(final C detachedInstance) throws X;
 
     /**
      * Returns the object corresponding with the identifier which is passed in
      * parameter.
-     *
+     * 
      * @param primaryKeys
      *            the identifier of the searched object.
      * @return the object associated with the identifier.
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    Collection<E> findAllByPk(final Collection<PK> primaryKeys) throws EXP;
+    Collection<E> findAllByPk(final Collection<P> primaryKeys) throws X;
 
     /**
      * Returns the object corresponding with the identifier which is passed in
      * parameter.
-     *
+     * 
      * @param primaryKey
      *            the identifier of {@link Serializable} type of the searched
      *            object
      * @param eagerLoading
      *            the eager loading.
      * @return the object associated with the identifier
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    E findByPk(final PK primaryKey, final E eagerLoading) throws EXP;
+    E findByPk(final P primaryKey, final E eagerLoading) throws X;
 
     /**
      * Returns the objects corresponding with the identifier which is passed in
      * parameter.
-     *
+     * 
      * @param primaryKeys
      *            the identifier of {@link Serializable} type of the searched
      *            object
      * @param eagerLoading
      *            the eager loading.
      * @return the object associated with the identifier
-     * @throws EXP
+     * @throws X
      *             exception.
      */
-    Collection<E> findAllByPk(final Collection<PK> primaryKeys,
-            final E eagerLoading) throws EXP;
+    Collection<E> findAllByPk(final Collection<P> primaryKeys,
+            final E eagerLoading) throws X;
 
     /**
      * Return entities according to criteria.
-     *
+     * 
      * @param criteria
      *            the entity for searching entities.
      * @return entities.
-     * @throws EXP
+     * @throws X
      *             the exception type handles by the service layer
      */
-    List<E> findAll(final E criteria) throws EXP;
+    List<E> findAll(final E criteria) throws X;
 
     /**
      * Return all entities.
-     *
+     * 
      * @param criteria
      *            the criteria.
      * @param eagerLoading
@@ -168,10 +168,10 @@ public interface ICRUDExtended<E extends Serializable, PK extends Serializable, 
      * @param orderBy
      *            the order by clause.
      * @return entities.
-     * @throws EXP
+     * @throws X
      *             exception.
      */
     List<E> findAll(final E criteria, final E eagerLoading,
-            final List<IOrderBy<E>> orderBy) throws EXP;
+            final List<IOrderBy<E>> orderBy) throws X;
 
 }

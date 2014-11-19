@@ -67,12 +67,12 @@ import org.jbromo.model.jpa.util.EntityUtil;
  * @author qjafcunuas
  * @param <E>
  *            the entity type
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
 @Slf4j
-public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serializable>
-        extends AbstractJpaDao<E> implements IEntityDao<E, PK> {
+public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializable>
+        extends AbstractJpaDao<E> implements IEntityDao<E, P> {
 
     /**
      * Serial version number.
@@ -212,7 +212,7 @@ public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serial
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E findByPk(final PK pk) throws DaoException {
+    public E findByPk(final P pk) throws DaoException {
         log.trace("Get entity {} for pk {}", getModelClass().getName(), pk);
         if (pk == null) {
             throw DaoExceptionFactory.getInstance().newInstance(
@@ -253,7 +253,7 @@ public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serial
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E findByPk(final PK pk, final E eagerLoading) throws DaoException {
+    public E findByPk(final P pk, final E eagerLoading) throws DaoException {
         if (eagerLoading == null) {
             return findByPk(pk);
         }
@@ -283,7 +283,7 @@ public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serial
     @SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public Collection<E> findAllByPk(final Collection<PK> primaryKeys,
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys,
             final E eagerLoading) throws DaoException {
         E eager = eagerLoading;
         if (eagerLoading == null) {
@@ -328,7 +328,7 @@ public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serial
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public Collection<E> findAllByPk(final Collection<PK> primaryKeys)
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys)
             throws DaoException {
         return findAllByPk(primaryKeys, (E) null);
     }
@@ -776,7 +776,7 @@ public abstract class AbstractEntityDao<E extends IEntity<PK>, PK extends Serial
     @Transactional(TxType.SUPPORTS)
     public <C extends Collection<E>> C read(final C detachedInstance)
             throws DaoException {
-        final Collection<PK> primaryKeys = EntityUtil
+        final Collection<P> primaryKeys = EntityUtil
                 .getPrimaryKeys(detachedInstance);
         return (C) findAllByPk(primaryKeys);
     }

@@ -28,14 +28,14 @@ import org.jbromo.webapp.jsf.component.datatable.DataTableRow;
 
 /**
  * Define a dataTable model for a bromo datatable.
- *
+ * 
  * @author qjafcunuas
- *
- * @param <RE>
+ * 
+ * @param <R>
  *            the row element type.
  */
-public abstract class AbstractDataTableCRUDModel<RE extends Serializable>
-        extends AbstractDataTableModel<RE> {
+public abstract class AbstractDataTableCRUDModel<R extends Serializable>
+        extends AbstractDataTableModel<R> {
 
     /**
      * serial version UID.
@@ -44,28 +44,28 @@ public abstract class AbstractDataTableCRUDModel<RE extends Serializable>
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Class<DataTableRow<RE>> getRowClass() {
-        return (Class<DataTableRow<RE>>) (Class<?>) DataTableCRUDRow.class;
+    protected Class<DataTableRow<R>> getRowClass() {
+        return (Class<DataTableRow<R>>) (Class<?>) DataTableCRUDRow.class;
     }
 
     @Override
-    public DataTableCRUDRow<RE> getRowClicked() {
-        return (DataTableCRUDRow<RE>) super.getRowClicked();
+    public DataTableCRUDRow<R> getRowClicked() {
+        return (DataTableCRUDRow<R>) super.getRowClicked();
     }
 
     @Override
-    protected DataTableCRUDRow<RE> newRowInstance() {
-        return (DataTableCRUDRow<RE>) super.newRowInstance();
+    protected DataTableCRUDRow<R> newRowInstance() {
+        return (DataTableCRUDRow<R>) super.newRowInstance();
     }
 
     @Override
-    protected RE newElementInstance() {
+    protected R newElementInstance() {
         return super.newElementInstance();
     }
 
     @Override
-    protected DataTableCRUDRow<RE> createRow(final RE element) {
-        return (DataTableCRUDRow<RE>) super.createRow(element);
+    protected DataTableCRUDRow<R> createRow(final R element) {
+        return (DataTableCRUDRow<R>) super.createRow(element);
     }
 
 }

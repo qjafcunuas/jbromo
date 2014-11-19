@@ -32,9 +32,9 @@ import org.jbromo.dao.common.exception.DaoException;
  * @author qjafcunuas
  * @param <E>
  *            the serializable type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public interface ICRUDDao<E extends Serializable, PK extends Serializable>
-        extends ICRUD<E, PK, DaoException>, IDao {
+public interface ICRUDDao<E extends Serializable, P extends Serializable>
+        extends ICRUD<E, P, DaoException>, IDao {
 }

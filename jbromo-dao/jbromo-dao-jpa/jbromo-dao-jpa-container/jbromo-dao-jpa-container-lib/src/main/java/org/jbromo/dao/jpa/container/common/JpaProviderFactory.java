@@ -36,46 +36,46 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaProviderFactory {
 
-	/**
-	 * The singleton instance.
-	 */
-	private static final JpaProviderFactory INSTANCE = new JpaProviderFactory();
+    /**
+     * The singleton instance.
+     */
+    private static final JpaProviderFactory INSTANCE = new JpaProviderFactory();
 
-	/**
-	 * The current implementation.
-	 */
-	@Getter
-	private IJpaProvider implementation;
+    /**
+     * The current implementation.
+     */
+    @Getter
+    private IJpaProvider implementation;
 
-	/**
-	 * Return the singleton instance.
-	 *
-	 * @return the instance.
-	 */
-	public static JpaProviderFactory getInstance() {
-		return INSTANCE;
-	}
+    /**
+     * Return the singleton instance.
+     *
+     * @return the instance.
+     */
+    public static JpaProviderFactory getInstance() {
+        return INSTANCE;
+    }
 
-	/**
-	 * Default constructor.
-	 */
-	private JpaProviderFactory() {
-		super();
-		log.info("Start loading implementation");
-		final Iterator<IJpaProvider> iter = ServiceLoader.load(
-				IJpaProvider.class).iterator();
-		if (iter.hasNext()) {
-			this.implementation = iter.next();
-			log.info("Use {} implementation", this.implementation.getClass());
-		} else {
+    /**
+     * Default constructor.
+     */
+    private JpaProviderFactory() {
+        super();
+        log.info("Start loading implementation");
+        final Iterator<IJpaProvider> iter = ServiceLoader.load(
+                IJpaProvider.class).iterator();
+        if (iter.hasNext()) {
+            this.implementation = iter.next();
+            log.info("Use {} implementation", this.implementation.getClass());
+        } else {
             log.error("Cannot find implementation of interface {}",
                     IJpaProvider.class);
-		}
-		while (iter.hasNext()) {
-			log.warn("Found more than one implementation of {} interface: {}",
-					IJpaProvider.class, iter.next().getClass());
-		}
+        }
+        while (iter.hasNext()) {
+            log.warn("Found more than one implementation of {} interface: {}",
+                    IJpaProvider.class, iter.next().getClass());
+        }
 
-	}
+    }
 
 }

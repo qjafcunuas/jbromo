@@ -20,17 +20,17 @@ import org.jbromo.webapp.jsf.sample.view.layer.service.IDataRowService;
 
 /**
  * Define default implementation for DataTable controller.
- *
+ * 
  * @author qjafcunuas
- *
- * @param <RE>
+ * 
+ * @param <E>
  *            the row element type.
  * @param <M>
  *            the view model type.
  */
 @Slf4j
-public abstract class AbstractInitDataTableController<RE extends Serializable, M extends AbstractDataTableModel<RE>>
-        extends AbstractDataTableController<RE, M> {
+public abstract class AbstractInitDataTableController<E extends Serializable, M extends AbstractDataTableModel<E>>
+        extends AbstractDataTableController<E, M> {
 
     /**
      * serial version UID.

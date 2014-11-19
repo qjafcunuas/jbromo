@@ -27,10 +27,10 @@ import javax.faces.component.UINamingContainer;
 
 /**
  * Define default framework UINamingContainer.
- * 
+ *
  * @author qjafcunuas
  * @version 1.0.0
- * 
+ *
  */
 public class UINamingContainerApp extends UINamingContainer {
 
@@ -41,21 +41,21 @@ public class UINamingContainerApp extends UINamingContainer {
 
     /**
      * Return the component's parent assignable to a class.
-     *
-     * @param <UI>
+     * 
+     * @param <U>
      *            the UI type.
      * @param parentClass
      *            the UI parent class to get component.
      * @return the parent component.
      */
-    protected <UI extends UIComponent> UI getParent(final Class<UI> parentClass) {
+    protected <U extends UIComponent> U getParent(final Class<U> parentClass) {
         return getParent(this, parentClass);
     }
 
     /**
      * Return the component's parent assignable to a class.
-     *
-     * @param <UI>
+     * 
+     * @param <U>
      *            the UI type.
      * @param component
      *            the component to get parent.
@@ -64,12 +64,12 @@ public class UINamingContainerApp extends UINamingContainer {
      * @return the parent component.
      */
     @SuppressWarnings("unchecked")
-    protected <UI extends UIComponent> UI getParent(
-            final UIComponent component, final Class<UI> parentClass) {
+    protected <U extends UIComponent> U getParent(final UIComponent component,
+            final Class<U> parentClass) {
         UIComponent parent = component.getParent();
         while (parent != null) {
             if (parentClass.isInstance(parent)) {
-                return (UI) parent;
+                return (U) parent;
             }
             parent = parent.getParent();
         }

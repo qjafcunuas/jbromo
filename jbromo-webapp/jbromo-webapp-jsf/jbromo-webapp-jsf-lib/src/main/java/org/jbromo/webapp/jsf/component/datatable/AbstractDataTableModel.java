@@ -46,14 +46,14 @@ import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
 
 /**
  * Define a dataTable model for a bromo datatable.
- *
+ * 
  * @author qjafcunuas
- *
- * @param <RE>
+ * 
+ * @param <E>
  *            the row element type.
  */
 @Slf4j
-public abstract class AbstractDataTableModel<RE extends Serializable> extends
+public abstract class AbstractDataTableModel<E extends Serializable> extends
         AbstractViewModel {
 
     /**
@@ -65,14 +65,14 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      * Define criteria filter.
      */
     @Setter
-    private RE criteria;
+    private E criteria;
 
     /**
      * Define the clicked row.
      */
     @Getter
     @Setter
-    private DataTableRow<RE> rowClicked;
+    private DataTableRow<E> rowClicked;
 
     /**
      * The order by table state.
@@ -84,13 +84,13 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
     /**
      * Define the row element class.
      */
-    private Class<RE> elementClass;
+    private Class<E> elementClass;
 
     /**
      * The rows.
      */
     @Getter
-    private final List<DataTableRow<RE>> rows = new ArrayList<DataTableRow<RE>>();
+    private final List<DataTableRow<E>> rows = new ArrayList<DataTableRow<E>>();
 
     /**
      * Define deleteAll checkbox model.
@@ -103,7 +103,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the row element class.
      */
-    protected Class<RE> getElementClass() {
+    protected Class<E> getElementClass() {
         if (this.elementClass == null) {
             this.elementClass = ParameterizedTypeUtil.getClass(this,
                     IntegerUtil.INT_0);
@@ -116,7 +116,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the criteria.
      */
-    public RE getCriteria() {
+    public E getCriteria() {
         if (this.criteria == null) {
             this.criteria = newCriteriaInstance();
         }
@@ -129,8 +129,8 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      * @return the row class.
      */
     @SuppressWarnings("unchecked")
-    protected Class<DataTableRow<RE>> getRowClass() {
-        return (Class<DataTableRow<RE>>) (Class<?>) DataTableRow.class;
+    protected Class<DataTableRow<E>> getRowClass() {
+        return (Class<DataTableRow<E>>) (Class<?>) DataTableRow.class;
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the new instance.
      */
-    protected DataTableRow<RE> newRowInstance() {
+    protected DataTableRow<E> newRowInstance() {
         try {
             return getRowClass().newInstance();
         } catch (final Exception e) {
@@ -153,7 +153,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the new instance.
      */
-    protected RE newElementInstance() {
+    protected E newElementInstance() {
         try {
             return getElementClass().newInstance();
         } catch (final Exception e) {
@@ -168,7 +168,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the new instance.
      */
-    protected RE newCriteriaInstance() {
+    protected E newCriteriaInstance() {
         return newElementInstance();
     }
 
@@ -179,8 +179,8 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *            the row's element.
      * @return the new instance.
      */
-    protected DataTableRow<RE> createRow(final RE element) {
-        final DataTableRow<RE> row = newRowInstance();
+    protected DataTableRow<E> createRow(final E element) {
+        final DataTableRow<E> row = newRowInstance();
         if (row != null) {
             row.getSelectBox().setRendered(getSelectAllBox().isRendered());
             row.setElement(element);
@@ -197,7 +197,7 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *            the sort.
      * @return the order by clause.
      */
-    protected abstract IOrderBy<RE> getOrderBy(final String columnRef,
+    protected abstract IOrderBy<E> getOrderBy(final String columnRef,
             final SORT sort);
 
     /**
@@ -205,12 +205,12 @@ public abstract class AbstractDataTableModel<RE extends Serializable> extends
      *
      * @return the orders by clause.
      */
-    public List<IOrderBy<RE>> getOrderBy() {
-        final List<IOrderBy<RE>> list = new ArrayList<IOrderBy<RE>>();
+    public List<IOrderBy<E>> getOrderBy() {
+        final List<IOrderBy<E>> list = new ArrayList<IOrderBy<E>>();
         if (getSortColumns() == null) {
             return list;
         }
-        IOrderBy<RE> orderBy;
+        IOrderBy<E> orderBy;
         for (final String columnRef : getSortColumns().getColumnRefs()) {
             orderBy = getOrderBy(columnRef, getSortColumns().getSort(columnRef));
             if (orderBy != null) {

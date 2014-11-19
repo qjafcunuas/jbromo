@@ -28,13 +28,13 @@ import org.jbromo.model.jpa.IEntity;
 
 /**
  * Define a Entity DAO interface.
- *
+ * 
  * @author qjafcunuas
  * @param <E>
  *            the entity type.
- * @param <PK>
+ * @param <P>
  *            the primary key type.
  */
-public interface IEntityDao<E extends IEntity<PK>, PK extends Serializable>
-        extends ICRUDExtendedDao<E, PK> {
+public interface IEntityDao<E extends IEntity<P>, P extends Serializable>
+        extends ICRUDExtendedDao<E, P> {
 }

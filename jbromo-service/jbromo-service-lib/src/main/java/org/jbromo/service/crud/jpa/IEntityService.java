@@ -28,15 +28,15 @@ import org.jbromo.service.crud.ICRUDExtendedService;
 
 /**
  * Specific interface used for Entity services.
- *
+ * 
  * @author qjafcunuas
- *
+ * 
  * @param <E>
  *            the entity type
- * @param <PK>
+ * @param <P>
  *            Primary key type
  */
-public interface IEntityService<E extends IEntity<PK>, PK extends Serializable>
-        extends ICRUDExtendedService<E, PK> {
+public interface IEntityService<E extends IEntity<P>, P extends Serializable>
+        extends ICRUDExtendedService<E, P> {
 
 }
