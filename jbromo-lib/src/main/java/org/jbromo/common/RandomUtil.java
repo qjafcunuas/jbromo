@@ -539,19 +539,14 @@ public final class RandomUtil {
         if (min == null || max == null) {
             return value;
         }
-        if (min != null) {
-            while (value.compareTo(min) < 0) {
-                value = value.multiply(BigDecimal.TEN);
-            }
+        while (value.compareTo(min) < 0) {
+            value = value.multiply(BigDecimal.TEN);
         }
-        if (max != null) {
-            while (value.compareTo(max) > 0) {
-                value = value.divide(BigDecimal.TEN, value.scale(),
-                        RoundingMode.HALF_DOWN);
-            }
+        while (value.compareTo(max) > 0) {
+            value = value.divide(BigDecimal.TEN, value.scale(),
+                    RoundingMode.HALF_DOWN);
         }
-        if (min != null && value.compareTo(min) < 0 || max != null
-                && value.compareTo(max) > 0) {
+        if (value.compareTo(min) < 0) {
             return nextBigDecimal(nullable, integer, fraction, min, max);
         } else {
             return value;
