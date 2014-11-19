@@ -36,9 +36,27 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-			<scope>test</scope>
+			<groupId>org.jbromo</groupId>
+			<artifactId>jbromo-service-lib</artifactId>
+			<exclusions>
+				<exclusion>
+			<groupId>org.jbromo</groupId>
+					<artifactId>jbromo-dao-jpa-model</artifactId>
+				</exclusion>
+				<exclusion>
+			<groupId>org.jbromo</groupId>
+					<artifactId>jbromo-dao-lib</artifactId>
+				</exclusion>
+				<exclusion>
+			<groupId>org.jbromo</groupId>
+					<artifactId>jbromo-dao-jpa-lib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -50,14 +68,9 @@
 			<artifactId>jsf-api</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
+		<!-- <dependency> <groupId>com.sun.faces</groupId> <artifactId>jsf-impl</artifactId> 
+			<scope>test</scope> </dependency> -->
 		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
-			<scope>test</scope>
-		</dependency>
-		 -->
-		 <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>test</scope>
