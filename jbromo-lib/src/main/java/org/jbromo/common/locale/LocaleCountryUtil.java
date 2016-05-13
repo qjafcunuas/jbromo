@@ -1,12 +1,23 @@
-/*
- * Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- * associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial
- * portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
- * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/*-
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package org.jbromo.common.locale;
 
@@ -30,11 +41,6 @@ public final class LocaleCountryUtil {
      * Map Locale by country iso code.
      */
     private static final Map<String, Locale> ISO_MAPPER = Collections.synchronizedMap(new HashMap<String, Locale>());
-
-    /**
-     * Define null locale, for setting null value into the iso mapper (Hashtable does'nt accept null value).
-     */
-    private static final Locale NULL_LOCALE = new Locale("null");
 
     /**
      * Default constructor.
@@ -103,43 +109,29 @@ public final class LocaleCountryUtil {
         if (StringUtil.isEmpty(isoCode)) {
             return null;
         }
-        if (ISO_MAPPER.containsKey(isoCode)) {
-            return getFromMapper(isoCode);
-        }
-        // Build full code (fr_FR...), but it can be not existed (en_EN for
-        // example).
-        final String fullCode = isoCode.toLowerCase().concat("_").concat(isoCode);
-        String code;
-        for (final Locale locale : Locale.getAvailableLocales()) {
-            code = LocaleLanguageUtil.getFullCode(locale);
-            if (fullCode.equals(code)) {
-                ISO_MAPPER.put(isoCode, locale);
-                return locale;
+        if (!ISO_MAPPER.containsKey(isoCode)) {
+            // Build full code (fr_FR...), but it can be not existed (en_EN for
+            // example).
+            final String fullCode = isoCode.toLowerCase().concat("_").concat(isoCode);
+            String code;
+            for (final Locale locale : Locale.getAvailableLocales()) {
+                // Test code like fr_FR.
+                code = LocaleLanguageUtil.getFullCode(locale);
+                if (fullCode.equals(code)) {
+                    ISO_MAPPER.put(isoCode, locale);
+                    break;
+                }
+                // Test code like FR.
+                code = getIsoCode(locale);
+                if (isoCode.equals(code)) {
+                    ISO_MAPPER.put(isoCode, locale);
+                }
             }
-            code = getIsoCode(locale);
-            if (isoCode.equals(code)) {
-                ISO_MAPPER.put(isoCode, locale);
+            if (!ISO_MAPPER.containsKey(isoCode)) {
+                ISO_MAPPER.put(isoCode, null);
             }
         }
-        if (ISO_MAPPER.containsKey(isoCode)) {
-            return getFromMapper(isoCode);
-        }
-        ISO_MAPPER.put(isoCode, NULL_LOCALE);
-        return null;
+        return ISO_MAPPER.get(isoCode);
     }
 
-    /**
-     * Return the value from the mapper.
-     * @param isoCode the iso code to get.
-     * @return the value.
-     */
-    private static Locale getFromMapper(final String isoCode) {
-        final Locale locale = ISO_MAPPER.get(isoCode);
-        if (ObjectUtil.same(locale, NULL_LOCALE)) {
-            return null;
-        } else {
-            return locale;
-        }
-
-    }
 }
