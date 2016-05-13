@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,9 +28,7 @@ import lombok.Getter;
 
 /**
  * Define locale comparator.
- *
  * @author qjafcunuas
- *
  */
 public abstract class AbstractLocaleComparator implements ILocaleComparator {
 
@@ -42,9 +40,7 @@ public abstract class AbstractLocaleComparator implements ILocaleComparator {
 
     /**
      * Default constructor.
-     *
-     * @param translate
-     *            the locale to use for translating other locale.
+     * @param translate the locale to use for translating other locale.
      */
     protected AbstractLocaleComparator(final Locale translate) {
         super();
@@ -67,9 +63,7 @@ public abstract class AbstractLocaleComparator implements ILocaleComparator {
 
     /**
      * Return the label of the locale.
-     *
-     * @param locale
-     *            the locale.
+     * @param locale the locale.
      * @return the label.
      */
     protected abstract String getLabel(final Locale locale);

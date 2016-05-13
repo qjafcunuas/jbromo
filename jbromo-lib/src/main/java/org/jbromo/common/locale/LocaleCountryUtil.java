@@ -31,23 +31,20 @@ import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.locale.comparator.LocaleComparatorFactory;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define Locale utility for country.
  * @author qjafcunuas
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LocaleCountryUtil {
 
     /**
      * Map Locale by country iso code.
      */
     private static final Map<String, Locale> ISO_MAPPER = Collections.synchronizedMap(new HashMap<String, Locale>());
-
-    /**
-     * Default constructor.
-     */
-    private LocaleCountryUtil() {
-        super();
-    }
 
     /**
      * Return the iso code of the locale.

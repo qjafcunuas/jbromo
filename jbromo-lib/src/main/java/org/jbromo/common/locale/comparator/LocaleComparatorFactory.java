@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,12 +23,14 @@ package org.jbromo.common.locale.comparator;
 
 import java.util.Locale;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define the locale comparator producer.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LocaleComparatorFactory {
 
     /**
@@ -37,15 +39,7 @@ public final class LocaleComparatorFactory {
     private static final LocaleComparatorFactory INSTANCE = new LocaleComparatorFactory();
 
     /**
-     * Default constructor.
-     */
-    private LocaleComparatorFactory() {
-        super();
-    }
-
-    /**
      * Return the singleton instance.
-     *
      * @return the instance.
      */
     public static LocaleComparatorFactory getInstance() {
@@ -54,9 +48,7 @@ public final class LocaleComparatorFactory {
 
     /**
      * Return a countries comparator.
-     *
-     * @param translate
-     *            the locale for translating countries.
+     * @param translate the locale for translating countries.
      * @return the countries comparator.
      */
     public ILocaleComparator getCountryComparator(final Locale translate) {
@@ -65,16 +57,11 @@ public final class LocaleComparatorFactory {
 
     /**
      * Return a countries comparator.
-     *
-     * @param translate
-     *            the locale for translating countries.
-     * @param distinct
-     *            if true, return translated for all languages (fr_FR,
-     *            fr_CA...), else return only for simple languages (fr, en...).
+     * @param translate the locale for translating countries.
+     * @param distinct if true, return translated for all languages (fr_FR, fr_CA...), else return only for simple languages (fr, en...).
      * @return the countries comparator.
      */
-    public ILocaleComparator getLanguageComparator(final Locale translate,
-            final boolean distinct) {
+    public ILocaleComparator getLanguageComparator(final Locale translate, final boolean distinct) {
         if (distinct) {
             return new LocaleLanguageCountryComparator(translate);
         } else {

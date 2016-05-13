@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +23,6 @@ package org.jbromo.common.invocation;
 
 /**
  * Invocation exception.
- *
  * @author qjafcunuas
  */
 public class InvocationException extends Exception {
@@ -33,11 +32,8 @@ public class InvocationException extends Exception {
 
     /**
      * Constructor using fields.
-     *
-     * @param message
-     *            the message information about the exception
-     * @param cause
-     *            the exception
+     * @param message the message information about the exception
+     * @param cause the exception
      */
     public InvocationException(final String message, final Throwable cause) {
         super(message, cause);
@@ -45,9 +41,7 @@ public class InvocationException extends Exception {
 
     /**
      * Constructor with message field.
-     *
-     * @param message
-     *            the message information about the exception
+     * @param message the message information about the exception
      */
     public InvocationException(final String message) {
         super(message);
@@ -55,9 +49,7 @@ public class InvocationException extends Exception {
 
     /**
      * Constructor with cause field.
-     *
-     * @param cause
-     *            the exception
+     * @param cause the exception
      */
     public InvocationException(final Throwable cause) {
         super(cause);

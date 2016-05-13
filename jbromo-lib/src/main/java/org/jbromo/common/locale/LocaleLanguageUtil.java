@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,26 +28,19 @@ import java.util.Locale;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.locale.comparator.LocaleComparatorFactory;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define Locale utility for language.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LocaleLanguageUtil {
 
     /**
-     * Default constructor.
-     */
-    private LocaleLanguageUtil() {
-        super();
-    }
-
-    /**
      * Return the iso code of the locale (fr, en...).
-     *
-     * @param locale
-     *            the locale.
+     * @param locale the locale.
      * @return the iso code.
      */
     public static String getIsoCode(final Locale locale) {
@@ -64,9 +57,7 @@ public final class LocaleLanguageUtil {
 
     /**
      * Return the full code of the locale.
-     *
-     * @param locale
-     *            the locale.
+     * @param locale the locale.
      * @return the full code.
      */
     public static String getFullCode(final Locale locale) {
@@ -83,18 +74,12 @@ public final class LocaleLanguageUtil {
 
     /**
      * Return the translated locale label.
-     *
-     * @param translate
-     *            the locale to translate.
-     * @param into
-     *            the locale must be translated into this locale.
-     * @param distinct
-     *            if true, return translated for all languages (fr_FR,
-     *            fr_CA...), else return only for simple languages (fr, en...).
+     * @param translate the locale to translate.
+     * @param into the locale must be translated into this locale.
+     * @param distinct if true, return translated for all languages (fr_FR, fr_CA...), else return only for simple languages (fr, en...).
      * @return the translated locale label.
      */
-    public static String translate(final Locale translate, final Locale into,
-            final boolean distinct) {
+    public static String translate(final Locale translate, final Locale into, final boolean distinct) {
         if (translate == null || into == null) {
             return null;
         }
@@ -107,26 +92,17 @@ public final class LocaleLanguageUtil {
 
     /**
      * Sort locale according to the label.
-     *
-     * @param translate
-     *            the locales to sort.
-     * @param into
-     *            locales must be translated into this locale for sorting order.
-     * @param distinct
-     *            if true, return translated for all languages (fr_FR,
-     *            fr_CA...), else return only for simple languages (fr, en...).
+     * @param translate the locales to sort.
+     * @param into locales must be translated into this locale for sorting order.
+     * @param distinct if true, return translated for all languages (fr_FR, fr_CA...), else return only for simple languages (fr, en...).
      */
-    public static void sort(final List<Locale> translate, final Locale into,
-            final boolean distinct) {
-        Collections.sort(translate, LocaleComparatorFactory.getInstance()
-                .getLanguageComparator(into, distinct));
+    public static void sort(final List<Locale> translate, final Locale into, final boolean distinct) {
+        Collections.sort(translate, LocaleComparatorFactory.getInstance().getLanguageComparator(into, distinct));
     }
 
     /**
      * Return the locale according to an iso code.
-     *
-     * @param isoCode
-     *            the iso code.
+     * @param isoCode the iso code.
      * @return the locale.
      */
     public static Locale toLocale(final String isoCode) {
@@ -143,11 +119,8 @@ public final class LocaleLanguageUtil {
 
     /**
      * Return the locale according to an iso code.
-     *
-     * @param isoLang
-     *            the iso lang code.
-     * @param isoCountry
-     *            the iso country code.
+     * @param isoLang the iso lang code.
+     * @param isoCountry the iso country code.
      * @return the locale.
      */
     public static Locale toLocale(final String isoLang, final String isoCountry) {

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,17 +27,13 @@ import org.jbromo.common.locale.LocaleCountryUtil;
 
 /**
  * Define locale country comparator (FR, CA ...).
- *
  * @author qjafcunuas
- *
  */
 public class LocaleCountryComparator extends AbstractLocaleComparator {
 
     /**
      * Default constructor.
-     *
-     * @param translate
-     *            the locale to use for translating other locale.
+     * @param translate the locale to use for translating other locale.
      */
     LocaleCountryComparator(final Locale translate) {
         super(translate);

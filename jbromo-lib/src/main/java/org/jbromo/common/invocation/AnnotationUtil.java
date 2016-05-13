@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,25 +41,19 @@ import javax.validation.constraints.Size;
 import org.jbromo.common.ClassUtil;
 import org.jbromo.common.ObjectUtil;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Annotation tools.
- *
  * @author qjafcunuas
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AnnotationUtil {
 
     /**
-     * private default constructor.
-     */
-    private AnnotationUtil() {
-        super();
-    }
-
-    /**
      * Get Max Size in Size annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the max size
      */
     public static Integer getSizeMax(final Field field) {
@@ -69,9 +63,7 @@ public final class AnnotationUtil {
 
     /**
      * Get Max Size in Size annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the max size
      */
     public static Integer getSizeMin(final Field field) {
@@ -81,9 +73,7 @@ public final class AnnotationUtil {
 
     /**
      * Get min value in Min annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the max size
      */
     public static Long getMin(final Field field) {
@@ -93,9 +83,7 @@ public final class AnnotationUtil {
 
     /**
      * Get max value in Max annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the max size
      */
     public static Long getMax(final Field field) {
@@ -105,9 +93,7 @@ public final class AnnotationUtil {
 
     /**
      * Get decimal value from DecimalMin annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the decimal min value
      */
     public static BigDecimal getDecimalMin(final Field field) {
@@ -117,9 +103,7 @@ public final class AnnotationUtil {
 
     /**
      * Get decimal value from DecimalMax annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the decimal max value
      */
     public static BigDecimal getDecimalMax(final Field field) {
@@ -129,9 +113,7 @@ public final class AnnotationUtil {
 
     /**
      * Get fraction value from Digits annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the fraction
      */
     public static Integer getDigitsFraction(final Field field) {
@@ -141,9 +123,7 @@ public final class AnnotationUtil {
 
     /**
      * Get Integer value from Digits annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the integer
      */
     public static Integer getDigitsInteger(final Field field) {
@@ -153,9 +133,7 @@ public final class AnnotationUtil {
 
     /**
      * Get not null value in NotNull annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true if not null, false if null authorized
      */
     public static boolean isNotNull(final Field field) {
@@ -164,9 +142,7 @@ public final class AnnotationUtil {
 
     /**
      * Return true if Valid annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isValid(final Field field) {
@@ -174,19 +150,13 @@ public final class AnnotationUtil {
     }
 
     /**
-     * Return annotation from a method, or if not found for the class of the
-     * method.
-     *
-     * @param <A>
-     *            the annotation type to get.
-     * @param method
-     *            the method to get the annotation.
-     * @param annotation
-     *            the annotation to get.
+     * Return annotation from a method, or if not found for the class of the method.
+     * @param <A> the annotation type to get.
+     * @param method the method to get the annotation.
+     * @param annotation the annotation to get.
      * @return the found annotation or null.
      */
-    public static <A extends Annotation> A getAnnotation(final Method method,
-            final Class<A> annotation) {
+    public static <A extends Annotation> A getAnnotation(final Method method, final Class<A> annotation) {
         // Has method this annotation ?
         for (final Annotation one : method.getAnnotations()) {
             if (annotation.isInstance(one)) {
@@ -207,22 +177,14 @@ public final class AnnotationUtil {
     }
 
     /**
-     * Return annotation from a method, or if not found for the class of the
-     * method.
-     *
-     * @param <A>
-     *            the annotation type to get.
-     * @param method
-     *            the method to get the annotation.
-     * @param methodClass
-     *            the class of the object on which is run the method (not where
-     *            the method is defined, but the eventually inheritance object).
-     * @param annotation
-     *            the annotation to get.
+     * Return annotation from a method, or if not found for the class of the method.
+     * @param <A> the annotation type to get.
+     * @param method the method to get the annotation.
+     * @param methodClass the class of the object on which is run the method (not where the method is defined, but the eventually inheritance object).
+     * @param annotation the annotation to get.
      * @return the found annotation or null.
      */
-    public static <A extends Annotation> A getAnnotation(final Method method,
-            final Class<?> methodClass, final Class<A> annotation) {
+    public static <A extends Annotation> A getAnnotation(final Method method, final Class<?> methodClass, final Class<A> annotation) {
         // Has method this annotation ?
         for (final Annotation one : method.getAnnotations()) {
             if (annotation.isInstance(one)) {
@@ -244,54 +206,35 @@ public final class AnnotationUtil {
 
     /**
      * Return annotation from a class.
-     *
-     * @param <A>
-     *            the annotation type to get.
-     * @param aClass
-     *            the class to get the annotation.
-     * @param annotation
-     *            the annotation to get.
+     * @param <A> the annotation type to get.
+     * @param aClass the class to get the annotation.
+     * @param annotation the annotation to get.
      * @return the found annotation or null.
      */
-    public static <A extends Annotation> A getAnnotation(final Class<?> aClass,
-            final Class<A> annotation) {
-        return getAnnotation(aClass, annotation,
-                new HashSet<Class<Annotation>>());
+    public static <A extends Annotation> A getAnnotation(final Class<?> aClass, final Class<A> annotation) {
+        return getAnnotation(aClass, annotation, new HashSet<Class<Annotation>>());
     }
 
     /**
      * Return annotation from a context.
-     *
-     * @param <A>
-     *            the annotation type to get.
-     * @param context
-     *            the invocation context.
-     * @param annotation
-     *            the annotation to get.
+     * @param <A> the annotation type to get.
+     * @param context the invocation context.
+     * @param annotation the annotation to get.
      * @return the found annotation or null.
      */
-    public static <A extends Annotation> A getAnnotation(
-            final InvocationContext context, final Class<A> annotation) {
-        return getAnnotation(context.getMethod(), context.getTarget()
-                .getClass(), annotation);
+    public static <A extends Annotation> A getAnnotation(final InvocationContext context, final Class<A> annotation) {
+        return getAnnotation(context.getMethod(), context.getTarget().getClass(), annotation);
     }
 
     /**
      * Return annotation from a class.
-     *
-     * @param <A>
-     *            the annotation type to get.
-     * @param aClass
-     *            the class to get the annotation.
-     * @param annotation
-     *            the annotation to get.
-     * @param alreadyScanned
-     *            for not scanning multiple times same annotation recursively
-     *            (for example, annotation Documented is recursive to itself).
+     * @param <A> the annotation type to get.
+     * @param aClass the class to get the annotation.
+     * @param annotation the annotation to get.
+     * @param alreadyScanned for not scanning multiple times same annotation recursively (for example, annotation Documented is recursive to itself).
      * @return the found annotation or null.
      */
-    private static <A extends Annotation> A getAnnotation(
-            final Class<?> aClass, final Class<A> annotation,
+    private static <A extends Annotation> A getAnnotation(final Class<?> aClass, final Class<A> annotation,
             final Set<Class<Annotation>> alreadyScanned) {
 
         // Has the class this annotation ?
@@ -319,8 +262,7 @@ public final class AnnotationUtil {
         // All class annotations doesn't inherit of the searched annotation.
         // Perhaps superclass have the searched annotation.
         if (aClass.getSuperclass() != null) {
-            return getAnnotation(aClass.getSuperclass(), annotation,
-                    new HashSet<Class<Annotation>>());
+            return getAnnotation(aClass.getSuperclass(), annotation, new HashSet<Class<Annotation>>());
         } else {
             return null;
         }
