@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,21 +26,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Test for the object util class.
- *
  * @author qjafcunuas
- *
  */
 public class ObjectUtilTest {
 
@@ -54,24 +52,21 @@ public class ObjectUtilTest {
 
     /**
      * Define a class without constructor with no parameter.
-     *
      * @author qjafcunuas
-     *
      */
     @AllArgsConstructor
     @Getter
     private static final class NoEmptyConstructor {
         /** an object field. */
         private final String name;
+
         /** an object field. */
         private final Integer age;
     }
 
     /**
      * Define an object that is not assignable as Comparable.
-     *
      * @author qjafcunuas
-     *
      */
     @ToString
     @AllArgsConstructor
@@ -82,17 +77,17 @@ public class ObjectUtilTest {
 
     /**
      * Define class for testing dump method.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
     private class DumpObject {
         /** A name. */
         private String name;
+
         /** A year. */
         private Integer year;
+
         /** A child. */
         private DumpObject child;
     }
@@ -105,14 +100,10 @@ public class ObjectUtilTest {
         Assert.assertFalse(ObjectUtil.notNullAndEquals(null, null));
         Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.TEN, null));
         Assert.assertFalse(ObjectUtil.notNullAndEquals(null, BigDecimal.TEN));
-        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.ONE,
-                BigDecimal.TEN));
-        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.TEN,
-                BigDecimal.ONE));
-        Assert.assertTrue(ObjectUtil.notNullAndEquals(BigDecimal.ONE,
-                BigDecimal.ONE));
-        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.ONE,
-                Integer.MIN_VALUE));
+        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.ONE, BigDecimal.TEN));
+        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.TEN, BigDecimal.ONE));
+        Assert.assertTrue(ObjectUtil.notNullAndEquals(BigDecimal.ONE, BigDecimal.ONE));
+        Assert.assertFalse(ObjectUtil.notNullAndEquals(BigDecimal.ONE, Integer.MIN_VALUE));
     }
 
     /**
@@ -137,14 +128,10 @@ public class ObjectUtilTest {
         Assert.assertTrue(ObjectUtil.nullOrNotNull(null, null));
         Assert.assertFalse(ObjectUtil.nullOrNotNull(null, BigDecimal.TEN));
         Assert.assertFalse(ObjectUtil.nullOrNotNull(BigDecimal.TEN, null));
-        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE,
-                BigDecimal.TEN));
-        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.TEN,
-                BigDecimal.ONE));
-        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE,
-                BigDecimal.ONE));
-        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE,
-                Integer.MIN_VALUE));
+        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE, BigDecimal.TEN));
+        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.TEN, BigDecimal.ONE));
+        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE, BigDecimal.ONE));
+        Assert.assertTrue(ObjectUtil.nullOrNotNull(BigDecimal.ONE, Integer.MIN_VALUE));
     }
 
     /**
@@ -153,10 +140,8 @@ public class ObjectUtilTest {
     @Test
     public void newInstance() {
         try {
-            Assert.assertEquals(String.class,
-                    ObjectUtil.newInstance(String.class).getClass());
-            Assert.assertEquals(ArrayList.class,
-                    ObjectUtil.newInstance(ArrayList.class).getClass());
+            Assert.assertEquals(String.class, ObjectUtil.newInstance(String.class).getClass());
+            Assert.assertEquals(ArrayList.class, ObjectUtil.newInstance(ArrayList.class).getClass());
         } catch (final MessageLabelException e) {
             Assert.fail(e.getMessage());
         }
@@ -174,8 +159,7 @@ public class ObjectUtilTest {
     @Test
     public void newInstanceClassObjects() {
         try {
-            ObjectUtil.newInstance(NoEmptyConstructor.class, "name",
-                    Integer.valueOf(IntegerUtil.INT_2));
+            ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2));
         } catch (final MessageLabelException e) {
             Assert.fail("Should create an instance for class with parameters constructor.");
         }
@@ -197,12 +181,9 @@ public class ObjectUtilTest {
         CollectionUtil.addAll(collection, IntegerUtil.INT_0, IntegerUtil.INT_1);
 
         try {
-            final Collection<?> col = ObjectUtil.cast(collection,
-                    Collection.class);
-            final Integer val = ObjectUtil.cast(IntegerUtil.INT_0,
-                    Integer.class);
-            final BigDecimal bd = ObjectUtil.cast(BigDecimal.ONE,
-                    BigDecimal.class);
+            final Collection<?> col = ObjectUtil.cast(collection, Collection.class);
+            final Integer val = ObjectUtil.cast(IntegerUtil.INT_0, Integer.class);
+            final BigDecimal bd = ObjectUtil.cast(BigDecimal.ONE, BigDecimal.class);
             final Number nb = ObjectUtil.cast(BigDecimal.ONE, Number.class);
         } catch (final Exception e) {
             Assert.fail("Cannot cast");
@@ -233,8 +214,7 @@ public class ObjectUtilTest {
     @Test
     public void compareComparable() {
         // Null values
-        Assert.assertEquals(ObjectUtil.compare((Integer) null, (Integer) null),
-                0);
+        Assert.assertEquals(ObjectUtil.compare((Integer) null, (Integer) null), 0);
         Assert.assertEquals(ObjectUtil.compare(1, (Integer) null), 1);
         Assert.assertEquals(ObjectUtil.compare((Integer) null, 1), -1);
 
@@ -260,12 +240,9 @@ public class ObjectUtilTest {
         Assert.assertEquals(ObjectUtil.compare((Object) 0, (Object) 1), -1);
 
         // Not comparable object
-        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("0"),
-                new NotComparableObject("0")), 0);
-        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("1"),
-                new NotComparableObject("0")), 1);
-        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("0"),
-                new NotComparableObject("1")), -1);
+        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("0"), new NotComparableObject("0")), 0);
+        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("1"), new NotComparableObject("0")), 1);
+        Assert.assertEquals(ObjectUtil.compare(new NotComparableObject("0"), new NotComparableObject("1")), -1);
     }
 
     /**

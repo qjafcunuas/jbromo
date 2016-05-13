@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,45 +26,31 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define List Utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ListUtil {
 
     /**
-     * Default constructor.
-     */
-    private ListUtil() {
-        super();
-    }
-
-    /**
      * Return true if list contains same elements.
-     *
-     * @param <M>
-     *            the model element of the list.
-     * @param one
-     *            the first list.
-     * @param two
-     *            the second list.
-     * @param sameSize
-     *            if true, collections must have same size; else collections can
-     *            not have the same size.
+     * @param <M> the model element of the list.
+     * @param one the first list.
+     * @param two the second list.
+     * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
-    public static <M> boolean containsAll(final List<M> one, final List<M> two,
-            final boolean sameSize) {
+    public static <M> boolean containsAll(final List<M> one, final List<M> two, final boolean sameSize) {
         return CollectionUtil.containsAll(one, two, sameSize);
     }
 
     /**
      * Return true if list is null or empty.
-     *
-     * @param list
-     *            the list to check.
+     * @param list the list to check.
      * @return true/false.
      */
     public static boolean isEmpty(final List<?> list) {
@@ -73,9 +59,7 @@ public final class ListUtil {
 
     /**
      * Return true if list is not null and not empty.
-     *
-     * @param list
-     *            the list to check.
+     * @param list the list to check.
      * @return true/false.
      */
     public static boolean isNotEmpty(final List<?> list) {
@@ -84,9 +68,7 @@ public final class ListUtil {
 
     /**
      * Return true if list is not null and has only one elements.
-     *
-     * @param list
-     *            the list to check.
+     * @param list the list to check.
      * @return true/false.
      */
     public static boolean hasOneElement(final List<?> list) {
@@ -95,9 +77,7 @@ public final class ListUtil {
 
     /**
      * Return true if list contains more than one elements.
-     *
-     * @param list
-     *            the list to check.
+     * @param list the list to check.
      * @return true/false.
      */
     public static boolean hasElements(final List<?> list) {
@@ -106,20 +86,16 @@ public final class ListUtil {
 
     /**
      * Build an array list from an array.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return true/false.
      */
     @SafeVarargs
     public static <T> List<T> toList(final T... values) {
         if (ArrayUtil.isEmpty(values)) {
-            return new ArrayList<T>();
+            return new ArrayList<>();
         }
-        final List<T> list = new ArrayList<T>(values.length
-                + IntegerUtil.INT_10);
+        final List<T> list = new ArrayList<>(values.length + IntegerUtil.INT_10);
         for (final T value : values) {
             list.add(value);
         }
@@ -128,11 +104,8 @@ public final class ListUtil {
 
     /**
      * Build an unmodifiable list from an array.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return true/false.
      */
     @SafeVarargs
@@ -145,27 +118,21 @@ public final class ListUtil {
 
     /**
      * Build an array list from a collection.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return true/false.
      */
     public static <T> List<T> toList(final Collection<T> values) {
         if (CollectionUtil.isEmpty(values)) {
-            return new ArrayList<T>();
+            return new ArrayList<>();
         }
-        return new ArrayList<T>(values);
+        return new ArrayList<>(values);
     }
 
     /**
      * Build an unmodifiable list from a collection.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return true/false.
      */
     public static <T> List<T> toUnmodifiableList(final Collection<T> values) {
@@ -177,9 +144,7 @@ public final class ListUtil {
 
     /**
      * Is assignable to a List.
-     *
-     * @param type
-     *            the type to check
+     * @param type the type to check
      * @return true if type is List.
      */
     public static boolean isList(final Class<?> type) {
@@ -188,9 +153,7 @@ public final class ListUtil {
 
     /**
      * Is assignable to a List.
-     *
-     * @param obj
-     *            the obj to check
+     * @param obj the obj to check
      * @return true if type is List.
      */
     public static boolean isList(final Object obj) {
@@ -199,11 +162,8 @@ public final class ListUtil {
 
     /**
      * Return the las element of a list (null if empty).
-     *
-     * @param <M>
-     *            the type element.
-     * @param list
-     *            the list.
+     * @param <M> the type element.
+     * @param list the list.
      * @return the last element.
      */
     public static <M> M getLast(final List<M> list) {

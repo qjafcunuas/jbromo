@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,25 +24,19 @@ package org.jbromo.common;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define BigDecimal utility class.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BigDecimalUtil {
-    /**
-     * Default constructor.
-     */
-    private BigDecimalUtil() {
-        super();
-    }
 
     /**
      * Add numbers and return a BigDecimal values.
-     *
-     * @param values
-     *            the values to add.
+     * @param values the values to add.
      * @return the BigDecimal sum.
      */
     public static BigDecimal add(final Number... values) {
@@ -73,11 +67,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a Short value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the Short value.
+     * @param value the BigDecimal value.
+     * @param add the Short value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final Short add) {
@@ -89,11 +80,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a Integer value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the Integer value.
+     * @param value the BigDecimal value.
+     * @param add the Integer value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final Integer add) {
@@ -105,11 +93,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a Long value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the Long value.
+     * @param value the BigDecimal value.
+     * @param add the Long value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final Long add) {
@@ -121,11 +106,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a Float value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the Float value.
+     * @param value the BigDecimal value.
+     * @param add the Float value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final Float add) {
@@ -137,11 +119,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a Double value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the Double value.
+     * @param value the BigDecimal value.
+     * @param add the Double value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final Double add) {
@@ -153,11 +132,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a BigInteger value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the BigInteger value.
+     * @param value the BigDecimal value.
+     * @param add the BigInteger value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final BigInteger add) {
@@ -169,11 +145,8 @@ public final class BigDecimalUtil {
 
     /**
      * Add a BigDecimal value to a BigDecimal object.
-     *
-     * @param value
-     *            the BigDecimal value.
-     * @param add
-     *            the BigDecimal value.
+     * @param value the BigDecimal value.
+     * @param add the BigDecimal value.
      * @return the sum.
      */
     public static BigDecimal add(final BigDecimal value, final BigDecimal add) {
@@ -185,11 +158,8 @@ public final class BigDecimalUtil {
 
     /**
      * Round BigDecimal with scale number after dot.
-     *
-     * @param value
-     *            the value to round.
-     * @param scale
-     *            the scale value.
+     * @param value the value to round.
+     * @param scale the scale value.
      * @return rounded value.
      */
     public static BigDecimal round(final BigDecimal value, final int scale) {

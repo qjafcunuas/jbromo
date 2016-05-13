@@ -126,7 +126,7 @@ public class FieldManyToManyBuilder extends
         }
         final List<E> entities = EntityCache.getInstance().getEntities(
                 entityClass);
-        return RandomUtil.random(false, entities);
+        return RandomUtil.nextSubCollection(false, entities);
     }
 
     @SuppressWarnings("unchecked")

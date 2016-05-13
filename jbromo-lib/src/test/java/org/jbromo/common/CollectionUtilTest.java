@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,9 +34,7 @@ import org.junit.Test;
 
 /**
  * Test for the Collection Util class.
- *
  * @author qjafcunuas
- *
  */
 public class CollectionUtilTest {
 
@@ -54,22 +52,17 @@ public class CollectionUtilTest {
     @Test
     public void containsAll() {
         // null, null, false
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, (Collection<Boolean>) null, false));
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, (Collection<Boolean>) null, false));
         // not null, null, false
-        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL,
-                (Collection<Boolean>) null, false));
+        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, (Collection<Boolean>) null, false));
         // null, not null, false
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, BooleanUtil.ALL, false));
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, BooleanUtil.ALL, false));
 
         // same
-        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL,
-                BooleanUtil.ALL, false));
+        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL, BooleanUtil.ALL, false));
 
         // empty
-        Assert.assertTrue(CollectionUtil.containsAll(ListUtil.toList(),
-                ListUtil.toList(), false));
+        Assert.assertTrue(CollectionUtil.containsAll(ListUtil.toList(), ListUtil.toList(), false));
 
         // Not null.
         final List<Integer> integers = new ArrayList<Integer>();
@@ -118,22 +111,17 @@ public class CollectionUtilTest {
     @Test
     public void containsAllSameSize() {
         // null, null, true
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, (Collection<Boolean>) null, true));
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, (Collection<Boolean>) null, true));
         // not null, null, true
-        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL,
-                (Collection<Boolean>) null, true));
+        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, (Collection<Boolean>) null, true));
         // null, not null, true
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, BooleanUtil.ALL, true));
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, BooleanUtil.ALL, true));
 
         // same
-        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL,
-                BooleanUtil.ALL, true));
+        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL, BooleanUtil.ALL, true));
 
         // empty
-        Assert.assertTrue(CollectionUtil.containsAll(ListUtil.toList(),
-                ListUtil.toList(), true));
+        Assert.assertTrue(CollectionUtil.containsAll(ListUtil.toList(), ListUtil.toList(), true));
 
         // Not null.
 
@@ -174,16 +162,12 @@ public class CollectionUtilTest {
         final List<Integer> anotherIntegers = new ArrayList<Integer>(integers);
         // Not same size.
         anotherIntegers.add(IntegerUtil.INT_0);
-        Assert.assertFalse(CollectionUtil.containsAll(integers,
-                anotherIntegers, true));
-        Assert.assertFalse(CollectionUtil.containsAll(anotherIntegers,
-                integers, true));
+        Assert.assertFalse(CollectionUtil.containsAll(integers, anotherIntegers, true));
+        Assert.assertFalse(CollectionUtil.containsAll(anotherIntegers, integers, true));
         // Same size.
         anotherIntegers.remove(IntegerUtil.INT_1);
-        Assert.assertFalse(CollectionUtil.containsAll(integers,
-                anotherIntegers, true));
-        Assert.assertFalse(CollectionUtil.containsAll(anotherIntegers,
-                integers, true));
+        Assert.assertFalse(CollectionUtil.containsAll(integers, anotherIntegers, true));
+        Assert.assertFalse(CollectionUtil.containsAll(anotherIntegers, integers, true));
 
         set.add(IntegerUtil.INT_1000);
         Assert.assertFalse(CollectionUtil.containsAll(integers, set, true));
@@ -201,15 +185,12 @@ public class CollectionUtilTest {
     public void containsAllArray() {
         Boolean[] array = null;
         // null, null, true
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, array, true));
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, array, true));
         // not null, null, true
-        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, array,
-                true));
+        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, array, true));
         // null, not null, true
-        array = new Boolean[] { Boolean.TRUE };
-        Assert.assertFalse(CollectionUtil.containsAll(
-                (Collection<Boolean>) null, array, true));
+        array = new Boolean[] {Boolean.TRUE};
+        Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, array, true));
     }
 
     /**
@@ -220,8 +201,7 @@ public class CollectionUtilTest {
         Assert.assertFalse(CollectionUtil.isCollection((Object) null));
         Assert.assertTrue(CollectionUtil.isCollection(new ArrayList<Object>()));
         Assert.assertTrue(CollectionUtil.isCollection(new HashSet<Object>()));
-        Assert.assertFalse(CollectionUtil
-                .isCollection(new HashMap<Object, Object>()));
+        Assert.assertFalse(CollectionUtil.isCollection(new HashMap<Object, Object>()));
     }
 
     /**
@@ -272,12 +252,10 @@ public class CollectionUtilTest {
             list.add(i);
         }
         // to Set
-        final Set<Integer> set = CollectionUtil.toCollection(list,
-                HashSet.class);
+        final Set<Integer> set = CollectionUtil.toCollection(list, HashSet.class);
         Assert.assertTrue(CollectionUtil.containsAll(list, set, false));
         // to List
-        final List<Integer> anotherList = CollectionUtil.toCollection(list,
-                ArrayList.class);
+        final List<Integer> anotherList = CollectionUtil.toCollection(list, ArrayList.class);
         Assert.assertEquals(list, anotherList);
         // Class not instantiable.
         Assert.assertNull(CollectionUtil.toCollection(list, List.class));
@@ -304,12 +282,9 @@ public class CollectionUtilTest {
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             list.add(i);
         }
-        Assert.assertTrue(CollectionUtil.indexOf(list, IntegerUtil.INT_0) == list
-                .indexOf(IntegerUtil.INT_0));
-        Assert.assertTrue(CollectionUtil.indexOf(list, IntegerUtil.INT_10) == list
-                .indexOf(IntegerUtil.INT_10));
-        Assert.assertTrue(CollectionUtil.indexOf(list, list.size() - 1) == list
-                .indexOf(list.size() - 1));
+        Assert.assertTrue(CollectionUtil.indexOf(list, IntegerUtil.INT_0) == list.indexOf(IntegerUtil.INT_0));
+        Assert.assertTrue(CollectionUtil.indexOf(list, IntegerUtil.INT_10) == list.indexOf(IntegerUtil.INT_10));
+        Assert.assertTrue(CollectionUtil.indexOf(list, list.size() - 1) == list.indexOf(list.size() - 1));
         Assert.assertTrue(CollectionUtil.indexOf(list, IntegerUtil.INT_1024) == -1);
     }
 
@@ -335,10 +310,8 @@ public class CollectionUtilTest {
     @Test
     public void toStringCollection() {
         final List<Integer> list = ListUtil.toList(1, 2);
-        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.SPACE),
-                "1 2");
-        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.POINT),
-                "1,2");
+        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.SPACE), "1 2");
+        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.POINT), "1,2");
     }
 
     /**
@@ -347,24 +320,18 @@ public class CollectionUtilTest {
     @Test
     public void identical() {
         // null, null
-        Assert.assertFalse(CollectionUtil.identical((Collection<Boolean>) null,
-                (Collection<Boolean>) null));
+        Assert.assertFalse(CollectionUtil.identical((Collection<Boolean>) null, (Collection<Boolean>) null));
         // not null, null
-        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.ALL,
-                (Collection<Boolean>) null));
+        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.ALL, (Collection<Boolean>) null));
         // null, not null
-        Assert.assertFalse(CollectionUtil.identical((Collection<Boolean>) null,
-                BooleanUtil.ALL));
+        Assert.assertFalse(CollectionUtil.identical((Collection<Boolean>) null, BooleanUtil.ALL));
 
         // Empty
-        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.EMPTY,
-                BooleanUtil.ALL));
-        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.ALL,
-                BooleanUtil.EMPTY));
+        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.EMPTY, BooleanUtil.ALL));
+        Assert.assertFalse(CollectionUtil.identical(BooleanUtil.ALL, BooleanUtil.EMPTY));
 
         // Same collection and not empty.
-        Assert.assertTrue(CollectionUtil.identical(BooleanUtil.ALL,
-                BooleanUtil.ALL));
+        Assert.assertTrue(CollectionUtil.identical(BooleanUtil.ALL, BooleanUtil.ALL));
 
         // Not same size
         List<Integer> one = ListUtil.toList(RandomUtil.nextInt());

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,26 +23,19 @@ package org.jbromo.common;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define String Utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThrowableUtil {
 
     /**
-     * Default constructor.
-     */
-    private ThrowableUtil() {
-        super();
-    }
-
-    /**
      * Return the stack trace as String.
-     *
-     * @param t
-     *            the throwable.
+     * @param t the throwable.
      * @return the string
      */
     public static String getStackTrace(final Throwable t) {

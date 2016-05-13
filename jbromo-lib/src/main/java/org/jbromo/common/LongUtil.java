@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,124 +21,144 @@
  */
 package org.jbromo.common;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define Long Utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LongUtil {
 
     /**
      * Constant 0.
      */
     public static final long LONG_0 = 0L;
+
     /**
      * Constant 1.
      */
     public static final long LONG_1 = 1L;
+
     /**
      * Constant 2.
      */
     public static final long LONG_2 = 2L;
+
     /**
      * Constant 3.
      */
     public static final long LONG_3 = 3L;
+
     /**
      * Constant 4.
      */
     public static final long LONG_4 = 4L;
+
     /**
      * Constant 5.
      */
     public static final long LONG_5 = 5L;
+
     /**
      * Constant 9.
      */
     public static final long LONG_9 = 9L;
+
     /**
      * Constant 10.
      */
     public static final long LONG_10 = 10L;
+
     /**
      * Constant 13.
      */
     public static final long LONG_13 = 13L;
+
     /**
      * Constant 16.
      */
     public static final long LONG_16 = 16L;
+
     /**
      * Constant 20.
      */
     public static final long LONG_20 = 20L;
+
     /**
      * Constant 24.
      */
     public static final long LONG_24 = 24L;
+
     /**
      * Constant 30.
      */
     public static final long LONG_30 = 30L;
+
     /**
      * Constant 32.
      */
     public static final long LONG_32 = 32L;
+
     /**
      * Constant 40.
      */
     public static final long LONG_40 = 40L;
+
     /**
      * Constant 50.
      */
     public static final long LONG_50 = 50L;
+
     /**
      * Constant 60.
      */
     public static final long LONG_60 = 60L;
+
     /**
      * Constant 100.
      */
     public static final long LONG_100 = 100L;
+
     /**
      * Constant 128.
      */
     public static final long LONG_128 = 128L;
+
     /**
      * Constant 200.
      */
     public static final long LONG_200 = 200L;
+
     /**
      * Constant 256.
      */
     public static final long LONG_256 = 256L;
+
     /**
      * Constant 512.
      */
     public static final long LONG_512 = 512L;
+
     /**
      * Constant 1000.
      */
     public static final long LONG_1000 = 1000L;
+
     /**
      * Constant 1024.
      */
     public static final long LONG_1024 = 1024L;
+
     /**
      * Constant 2000.
      */
     public static final long LONG_2000 = 2000L;
+
     /**
      * Constant 4000.
      */
     public static final long LONG_4000 = 4000L;
-
-    /**
-     * Default constructor.
-     */
-    private LongUtil() {
-        super();
-    }
 
 }

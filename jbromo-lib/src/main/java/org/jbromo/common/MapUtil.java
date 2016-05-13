@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,55 +21,41 @@
  */
 package org.jbromo.common;
 
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Define Map Utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MapUtil {
 
     /**
-     * Default constructor.
-     */
-    private MapUtil() {
-        super();
-    }
-
-    /**
      * Return true if map contains same keys and same elements.
-     *
-     * @param <K>
-     *            the key type of the map.
-     * @param <V>
-     *            the value type of the map.
-     * @param one
-     *            the first map.
-     * @param two
-     *            the second map.
+     * @param <K> the key type of the map.
+     * @param <V> the value type of the map.
+     * @param one the first map.
+     * @param two the second map.
      * @return true/false.
      */
-    public static <K, V> boolean containsAll(final Map<K, V> one,
-            final Map<K, V> two) {
+    public static <K, V> boolean containsAll(final Map<K, V> one, final Map<K, V> two) {
         if (one == null || two == null) {
             return false;
         }
         if (ObjectUtil.same(one, two)) {
             return true;
         }
-        return CollectionUtil
-                .containsAll(one.entrySet(), two.entrySet(), false);
+        return CollectionUtil.containsAll(one.entrySet(), two.entrySet(), false);
     }
 
     /**
      * Return true if map is null or empty.
-     *
-     * @param map
-     *            the map to check.
+     * @param map the map to check.
      * @return true/false.
      */
     public static boolean isEmpty(final Map<?, ?> map) {
@@ -78,9 +64,7 @@ public final class MapUtil {
 
     /**
      * Return true if map is not null and not empty.
-     *
-     * @param map
-     *            the map to check.
+     * @param map the map to check.
      * @return true/false.
      */
     public static boolean isNotEmpty(final Map<?, ?> map) {
@@ -89,9 +73,7 @@ public final class MapUtil {
 
     /**
      * Return true if map is not null and has only one elements.
-     *
-     * @param map
-     *            the map to check.
+     * @param map the map to check.
      * @return true/false.
      */
     public static boolean hasOneElement(final Map<?, ?> map) {
@@ -100,9 +82,7 @@ public final class MapUtil {
 
     /**
      * Return map if map contains more than one elements.
-     *
-     * @param map
-     *            the map to check.
+     * @param map the map to check.
      * @return true/false.
      */
     public static boolean hasElements(final Map<?, ?> map) {
@@ -111,10 +91,7 @@ public final class MapUtil {
 
     /**
      * Is assignable to a Map.
-     *
-     * @param type
-     *
-     *            the type to check
+     * @param type the type to check
      * @return true if type is Map.
      */
     public static boolean isMap(final Class<?> type) {
@@ -123,9 +100,7 @@ public final class MapUtil {
 
     /**
      * Is assignable to a Map.
-     *
-     * @param obj
-     *            the obj to check
+     * @param obj the obj to check
      * @return true if type is Map.
      */
     public static boolean isMap(final Object obj) {
@@ -134,70 +109,54 @@ public final class MapUtil {
 
     /**
      * Build a HashMap from a map.
-     *
-     * @param <K>
-     *            the key map type.
-     * @param <V>
-     *            the value map type.
-     * @param values
-     *            the values.
+     * @param <K> the key map type.
+     * @param <V> the value map type.
+     * @param values the values.
      * @return HashMap.
      */
     public static <K, V> Map<K, V> toMap(final Map<K, V> values) {
         if (values == null) {
             return toMap();
         }
-        final Map<K, V> map = new HashMap<K, V>(values.size()
-                + IntegerUtil.INT_10);
+        final Map<K, V> map = toMap();
         map.putAll(values);
         return map;
     }
 
     /**
      * Build a new HashMap.
-     *
-     * @param <K>
-     *            the key map type.
-     * @param <V>
-     *            the value map type.
+     * @param <K> the key map type.
+     * @param <V> the value map type.
      * @return HashMap.
      */
     public static <K, V> Map<K, V> toMap() {
-        return new HashMap<K, V>();
+        return new HashMap<>();
     }
 
     /**
      * Build a synchronized map.
-     * 
-     * @param <K>
-     *            the key map type.
-     * @param <V>
-     *            the value map type.
+     * @param <K> the key map type.
+     * @param <V> the value map type.
      * @return HashMap.
      */
     public static <K, V> Map<K, V> toSynchronizedMap() {
-        return new Hashtable<K, V>();
+        final Map<K, V> map = toMap();
+        return Collections.synchronizedMap(map);
     }
 
     /**
      * Build a synchronized from a map.
-     * 
-     * @param <K>
-     *            the key map type.
-     * @param <V>
-     *            the value map type.
-     * @param map
-     *            the map.
+     * @param <K> the key map type.
+     * @param <V> the value map type.
+     * @param map the map.
      * @return HashMap.
      */
     public static <K, V> Map<K, V> toSynchronizedMap(final Map<K, V> map) {
-        if (map == null) {
-            return toSynchronizedMap();
+        final Map<K, V> synch = toSynchronizedMap();
+        if (map != null) {
+            synch.putAll(map);
         }
-        final Map<K, V> ht = new Hashtable<K, V>(map.size()
-                + IntegerUtil.INT_10);
-        ht.putAll(map);
-        return ht;
+        return synch;
     }
 
 }

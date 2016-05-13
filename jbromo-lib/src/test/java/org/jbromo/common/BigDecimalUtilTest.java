@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,9 +29,7 @@ import org.junit.Test;
 
 /**
  * Define JUnit for BigDecimalUtil class.
- *
  * @author qjafcunuas
- *
  */
 public class BigDecimalUtilTest {
 
@@ -136,8 +134,7 @@ public class BigDecimalUtilTest {
         // not null + not null.
         value = BigDecimal.ZERO;
         add = 1.1f;
-        Assert.assertEquals(new BigDecimal("1.1"),
-                BigDecimalUtil.round(BigDecimalUtil.add(value, add), 1));
+        Assert.assertEquals(new BigDecimal("1.1"), BigDecimalUtil.round(BigDecimalUtil.add(value, add), 1));
     }
 
     /**
@@ -163,8 +160,7 @@ public class BigDecimalUtilTest {
         // not null + not null.
         value = BigDecimal.ZERO;
         add = 1.1;
-        Assert.assertEquals(new BigDecimal("1.1"),
-                BigDecimalUtil.round(BigDecimalUtil.add(value, add), 1));
+        Assert.assertEquals(new BigDecimal("1.1"), BigDecimalUtil.round(BigDecimalUtil.add(value, add), 1));
     }
 
     /**
@@ -258,18 +254,15 @@ public class BigDecimalUtilTest {
         // not null
         value = new BigDecimal("1.23456");
         scale = 2;
-        Assert.assertEquals(new BigDecimal("1.23"),
-                BigDecimalUtil.round(value, scale));
+        Assert.assertEquals(new BigDecimal("1.23"), BigDecimalUtil.round(value, scale));
 
         value = new BigDecimal("1.23499");
         scale = 2;
-        Assert.assertEquals(new BigDecimal("1.23"),
-                BigDecimalUtil.round(value, scale));
+        Assert.assertEquals(new BigDecimal("1.23"), BigDecimalUtil.round(value, scale));
 
         value = new BigDecimal("1.23500");
         scale = 2;
-        Assert.assertEquals(new BigDecimal("1.24"),
-                BigDecimalUtil.round(value, scale));
+        Assert.assertEquals(new BigDecimal("1.24"), BigDecimalUtil.round(value, scale));
     }
 
 }

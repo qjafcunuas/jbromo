@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,19 +26,17 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Test for the List Util class.
- *
  * @author qjafcunuas
- *
  */
 public class SetUtilTest {
 

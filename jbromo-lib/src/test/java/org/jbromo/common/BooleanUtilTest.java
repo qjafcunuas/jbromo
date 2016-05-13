@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +27,7 @@ import org.junit.Test;
 
 /**
  * Test for the Boolean util class.
- *
  * @author qjafcunuas
- *
  */
 public class BooleanUtilTest {
 

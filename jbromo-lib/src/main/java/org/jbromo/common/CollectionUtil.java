@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,46 +25,32 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jbromo.common.exception.MessageLabelException;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define Collection Utility.
- *
  * @author qjafcunuas
  * @version 1.0.0
- *
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CollectionUtil {
 
     /**
-     * Default constructor.
-     */
-    private CollectionUtil() {
-        super();
-    }
-
-    /**
-     * Return true if collections contains same elements, even if one collection
-     * contains more than one a same elements and the other collection contains
-     * only once it.
-     *
-     * @param <M>
-     *            the model element type of the collection.
-     * @param one
-     *            the first collection.
-     * @param two
-     *            the second collection.
-     * @param sameSize
-     *            if true, collections must have same size; else collections can
-     *            not have the same size.
+     * Return true if collections contains same elements, even if one collection contains more than one a same elements and the other collection
+     * contains only once it.
+     * @param <M> the model element type of the collection.
+     * @param one the first collection.
+     * @param two the second collection.
+     * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
-    public static <M> boolean containsAll(final Collection<M> one,
-            final Collection<M> two, final boolean sameSize) {
+    public static <M> boolean containsAll(final Collection<M> one, final Collection<M> two, final boolean sameSize) {
         if (one == null || two == null) {
             return false;
         }
@@ -88,20 +74,13 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection and array contains same elements.
-     *
-     * @param <M>
-     *            the model element type.
-     * @param one
-     *            the collection.
-     * @param two
-     *            the array.
-     * @param sameSize
-     *            if true, collections must have same size; else collections can
-     *            not have the same size.
+     * @param <M> the model element type.
+     * @param one the collection.
+     * @param two the array.
+     * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
-    public static <M> boolean containsAll(final Collection<M> one,
-            final M[] two, final boolean sameSize) {
+    public static <M> boolean containsAll(final Collection<M> one, final M[] two, final boolean sameSize) {
         if (one == null || two == null) {
             return false;
         }
@@ -111,17 +90,12 @@ public final class CollectionUtil {
 
     /**
      * Return true if collections contains same ordered elements.
-     *
-     * @param <M>
-     *            the model element type of the collection.
-     * @param one
-     *            the first collection.
-     * @param two
-     *            the second collection. not have the same size.
+     * @param <M> the model element type of the collection.
+     * @param one the first collection.
+     * @param two the second collection. not have the same size.
      * @return true/false.
      */
-    public static <M> boolean identical(final Collection<M> one,
-            final Collection<M> two) {
+    public static <M> boolean identical(final Collection<M> one, final Collection<M> two) {
         if (one == null || two == null) {
             return false;
         }
@@ -143,17 +117,12 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection contains an element of a class.
-     *
-     * @param <M>
-     *            the model element type.
-     * @param col
-     *            the collection.
-     * @param aClass
-     *            the class.
+     * @param <M> the model element type.
+     * @param col the collection.
+     * @param aClass the class.
      * @return true/false.
      */
-    public static <M> boolean contains(final Collection<M> col,
-            final Class<?> aClass) {
+    public static <M> boolean contains(final Collection<M> col, final Class<?> aClass) {
         if (col == null || aClass == null) {
             return false;
         }
@@ -167,9 +136,7 @@ public final class CollectionUtil {
 
     /**
      * Is assignable to a collection or a set.
-     *
-     * @param type
-     *            the type to check
+     * @param type the type to check
      * @return true if type is Collection, or Set
      */
     public static boolean isCollection(final Class<?> type) {
@@ -178,9 +145,7 @@ public final class CollectionUtil {
 
     /**
      * Is instance of a collection.
-     *
-     * @param obj
-     *            the obj to check
+     * @param obj the obj to check
      * @return true if type is Collection.
      */
     public static boolean isCollection(final Object obj) {
@@ -189,9 +154,7 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection is null or empty.
-     *
-     * @param col
-     *            the collection to check.
+     * @param col the collection to check.
      * @return true/false.
      */
     public static boolean isEmpty(final Collection<?> col) {
@@ -200,9 +163,7 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection is not null and not empty.
-     *
-     * @param col
-     *            the collection to check.
+     * @param col the collection to check.
      * @return true/false.
      */
     public static boolean isNotEmpty(final Collection<?> col) {
@@ -211,20 +172,14 @@ public final class CollectionUtil {
 
     /**
      * Return a collection from a list.
-     *
-     * @param <M>
-     *            the model of the element in the collection.
-     * @param <C>
-     *            the collection type to return.
-     * @param from
-     *            the collection of element to add to the returned collection.
-     * @param toClass
-     *            the collection type to return.
+     * @param <M> the model of the element in the collection.
+     * @param <C> the collection type to return.
+     * @param from the collection of element to add to the returned collection.
+     * @param toClass the collection type to return.
      * @return the collection.
      */
     @SuppressWarnings("unchecked")
-    public static <C extends Collection<M>, M> C toCollection(
-            final Collection<M> from, final Class<C> toClass) {
+    public static <C extends Collection<M>, M> C toCollection(final Collection<M> from, final Class<C> toClass) {
         if (toClass.equals(from.getClass())) {
             return (C) from;
         } else {
@@ -243,13 +198,9 @@ public final class CollectionUtil {
 
     /**
      * Add all elements into a collection.
-     *
-     * @param <T>
-     *            the element type.
-     * @param to
-     *            the collection to add all objects.
-     * @param elements
-     *            the elements to add to the collection.
+     * @param <T> the element type.
+     * @param to the collection to add all objects.
+     * @param elements the elements to add to the collection.
      */
     @SafeVarargs
     public static <T> void addAll(final Collection<T> to, final T... elements) {
@@ -262,9 +213,7 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection is not null and has only one elements.
-     *
-     * @param col
-     *            the collection to check.
+     * @param col the collection to check.
      * @return true/false.
      */
     public static boolean hasOneElement(final Collection<?> col) {
@@ -273,9 +222,7 @@ public final class CollectionUtil {
 
     /**
      * Return true if collection contains more than one elements.
-     *
-     * @param col
-     *            the collection to check.
+     * @param col the collection to check.
      * @return true/false.
      */
     public static boolean hasElements(final Collection<?> col) {
@@ -283,15 +230,10 @@ public final class CollectionUtil {
     }
 
     /**
-     * Return the index of element in a collection, or -1 if element is not in
-     * the collection.
-     *
-     * @param <O>
-     *            the object type.
-     * @param col
-     *            the collection.
-     * @param element
-     *            the element.
+     * Return the index of element in a collection, or -1 if element is not in the collection.
+     * @param <O> the object type.
+     * @param col the collection.
+     * @param element the element.
      * @return the index
      */
     public static <O> int indexOf(final Collection<O> col, final O element) {
@@ -306,33 +248,23 @@ public final class CollectionUtil {
     }
 
     /**
-     * Joins the elements of the provided collection into a single String
-     * containing the provided list of elements.
-     *
-     * @param collection
-     *            the collection.
-     * @param separator
-     *            the separator.
+     * Joins the elements of the provided collection into a single String containing the provided list of elements.
+     * @param collection the collection.
+     * @param separator the separator.
      * @return the string.
      */
-    public static String toString(final Collection<?> collection,
-            final String separator) {
+    public static String toString(final Collection<?> collection, final String separator) {
         return StringUtils.join(collection, separator);
     }
 
     /**
      * Return the object from the collection.
-     *
-     * @param <O>
-     *            the object type.
-     * @param collection
-     *            the collection.
-     * @param tofind
-     *            the object to find in the collection.
+     * @param <O> the object type.
+     * @param collection the collection.
+     * @param tofind the object to find in the collection.
      * @return the object.
      */
-    public static <O> O get(final Collection<O> collection,
-            final O tofind) {
+    public static <O> O get(final Collection<O> collection, final O tofind) {
         if (collection == null || tofind == null) {
             return null;
         }

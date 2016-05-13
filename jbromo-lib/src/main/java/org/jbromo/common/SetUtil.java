@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,33 +25,23 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define Set Utility.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SetUtil {
 
     /**
-     * Default constructor.
-     */
-    private SetUtil() {
-        super();
-    }
-
-    /**
      * Return true if set contains same elements.
-     *
-     * @param <M>
-     *            the model element of the collection.
-     * @param one
-     *            the first list.
-     * @param two
-     *            the second list.
+     * @param <M> the model element of the collection.
+     * @param one the first list.
+     * @param two the second list.
      * @return true/false.
      */
     public static <M> boolean containsAll(final Set<M> one, final Set<M> two) {
@@ -60,9 +50,7 @@ public final class SetUtil {
 
     /**
      * Return true if set is null or empty.
-     *
-     * @param set
-     *            the set to check.
+     * @param set the set to check.
      * @return true/false.
      */
     public static boolean isEmpty(final Set<?> set) {
@@ -71,9 +59,7 @@ public final class SetUtil {
 
     /**
      * Return true if set is not null and not empty.
-     *
-     * @param set
-     *            the set to check.
+     * @param set the set to check.
      * @return true/false.
      */
     public static boolean isNotEmpty(final Set<?> set) {
@@ -82,11 +68,8 @@ public final class SetUtil {
 
     /**
      * Build a set from an array.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return the set
      */
     @SafeVarargs
@@ -103,36 +86,29 @@ public final class SetUtil {
 
     /**
      * Build an empty set.
-     *
-     * @param <T>
-     *            the element type.
+     * @param <T> the element type.
      * @return the empty set.
      */
     public static <T> Set<T> toSet() {
-        return new HashSet<T>();
+        return new HashSet<>();
     }
 
     /**
      * Build an HashSet from a collection.
-     *
-     * @param <T>
-     *            the element type.
-     * @param values
-     *            the values.
+     * @param <T> the element type.
+     * @param values the values.
      * @return true/false.
      */
     public static <T> Set<T> toSet(final Collection<T> values) {
         if (CollectionUtil.isEmpty(values)) {
             return toSet();
         }
-        return new HashSet<T>(values);
+        return new HashSet<>(values);
     }
 
     /**
      * Is assignable to a Set.
-     *
-     * @param type
-     *            the type to check
+     * @param type the type to check
      * @return true if type is Set.
      */
     public static boolean isSet(final Class<?> type) {
@@ -141,9 +117,7 @@ public final class SetUtil {
 
     /**
      * Is assignable to a Set.
-     *
-     * @param obj
-     *            the obj to check
+     * @param obj the obj to check
      * @return true if type is Set.
      */
     public static boolean isSet(final Object obj) {
@@ -151,18 +125,14 @@ public final class SetUtil {
     }
 
     /**
-     * Re-set objects. It can be used when objects has been added in the Set
-     * object when result of hashCode method has changed.
-     *
-     * @param <O>
-     *            the object type.
-     * @param objects
-     *            the objects to re-set.
+     * Re-set objects. It can be used when objects has been added in the Set object when result of hashCode method has changed.
+     * @param <O> the object type.
+     * @param objects the objects to re-set.
      */
     public static <O> void reSet(final Set<O> objects) {
         try {
             if (isNotEmpty(objects)) {
-                final Set<O> set = new HashSet<O>();
+                final Set<O> set = new HashSet<>();
                 set.addAll(objects);
                 objects.clear();
                 objects.addAll(set);
@@ -174,9 +144,7 @@ public final class SetUtil {
 
     /**
      * Return true if set is not null and has only one elements.
-     *
-     * @param set
-     *            the set to check.
+     * @param set the set to check.
      * @return true/false.
      */
     public static boolean hasOneElement(final Set<?> set) {
@@ -185,9 +153,7 @@ public final class SetUtil {
 
     /**
      * Return true if set contains more than one elements.
-     *
-     * @param set
-     *            the set to check.
+     * @param set the set to check.
      * @return true/false.
      */
     public static boolean hasElements(final Set<?> set) {

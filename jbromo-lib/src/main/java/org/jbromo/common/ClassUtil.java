@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,29 +23,20 @@ package org.jbromo.common;
 
 import org.apache.commons.lang3.ClassUtils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Define utility on class.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ClassUtil {
 
     /**
-     * Default constructor.
-     */
-    private ClassUtil() {
-        super();
-    }
-
-    /**
      * Return class object.
-     *
-     * @param <O>
-     *            the object type.
-     * @param object
-     *            the object to get class.
+     * @param <O> the object type.
+     * @param object the object to get class.
      * @return the object class.
      */
     @SuppressWarnings("unchecked")
@@ -62,9 +53,7 @@ public final class ClassUtil {
 
     /**
      * Return class objects.
-     *
-     * @param objects
-     *            the objects to get class.
+     * @param objects the objects to get class.
      * @return the objects class.
      */
     public static Class<?>[] getClass(final Object... objects) {
@@ -80,11 +69,8 @@ public final class ClassUtil {
 
     /**
      * Is instance of a class.
-     *
-     * @param obj
-     *            the object to test if it is an instance of a class type.
-     * @param type
-     *            the type to check
+     * @param obj the object to test if it is an instance of a class type.
+     * @param type the type to check
      * @return true if type is of class type.
      */
     public static boolean isInstance(final Object obj, final Class<?> type) {
@@ -93,24 +79,17 @@ public final class ClassUtil {
 
     /**
      * Is assignable to a class.
-     *
-     * @param obj
-     *            the class to test if it is assignable of another class type.
-     * @param type
-     *            the type to check
+     * @param obj the class to test if it is assignable of another class type.
+     * @param type the type to check
      * @return true if type is List.
      */
-    public static boolean isAssignableFrom(final Class<?> obj,
-            final Class<?> type) {
+    public static boolean isAssignableFrom(final Class<?> obj, final Class<?> type) {
         return type != null && obj != null && type.isAssignableFrom(obj);
     }
 
     /**
-     * Return true if a class is primitive or primitive boxed (Integer, Long
-     * ...).
-     *
-     * @param theClass
-     *            the class to test.
+     * Return true if a class is primitive or primitive boxed (Integer, Long ...).
+     * @param theClass the class to test.
      * @return true/false.
      */
     public static boolean isPrimitive(final Class<?> theClass) {

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,16 +30,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Random utility.
- *
  * @author qjafcunuas
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RandomUtil {
 
     /**
@@ -53,31 +53,26 @@ public final class RandomUtil {
     /**
      * Define possible char.
      */
-    private static final StringBuffer SYMBOLS = new StringBuffer();
+    private static final StringBuilder SYMBOLS = new StringBuilder();
 
     /**
      * Define possible char.
      */
-    private static final StringBuffer SYMBOLS_LATIN = new StringBuffer();
+    private static final StringBuilder SYMBOLS_LATIN = new StringBuilder();
 
     /** List of arabe digit. */
-    private static final char[] ARAB = { '\u0635', '\u0628', '\u0627',
-            '\u062D', '\u0020', '\u0627', '\u0644', '\u062E', '\u064A',
-            '\u0631' };
+    private static final char[] ARAB = {'\u0635', '\u0628', '\u0627', '\u062D', '\u0020', '\u0627', '\u0644', '\u062E', '\u064A', '\u0631'};
 
     /** List of chinese digit. */
-    private static final char[] CHINESE = { '\u4F60', '\u597D', '\u5E03',
-            '\u9B6F', '\u8AFE', '\u6211', '\u559C', '\u6B61', '\u72D7' };
+    private static final char[] CHINESE = {'\u4F60', '\u597D', '\u5E03', '\u9B6F', '\u8AFE', '\u6211', '\u559C', '\u6B61', '\u72D7'};
 
     /** List of russe digit. */
-    private static final char[] RUSSE = { '\u041F', '\u0440', '\u0438',
-            '\u0432', '\u0435', '\u0442', '\u0020', '\u0424', '\u043B',
-            '\u043E', '\u0440', '\u0430', '\u043D' };
+    private static final char[] RUSSE = {'\u041F', '\u0440', '\u0438', '\u0432', '\u0435', '\u0442', '\u0020', '\u0424', '\u043B', '\u043E', '\u0440',
+                                         '\u0430', '\u043D'};
 
     /** List of thai digit. */
-    private static final char[] THAI = { '\u0E2A', '\u0E27', '\u0E31',
-            '\u0E2A', '\u0E14', '\u0E35', '\u0E0A', '\u0E35', '\u0E27',
-            '\u0E27', '\u0E34', '\u0E17', '\u0E22', '\u0E32' };
+    private static final char[] THAI = {'\u0E2A', '\u0E27', '\u0E31', '\u0E2A', '\u0E14', '\u0E35', '\u0E0A', '\u0E35', '\u0E27', '\u0E27', '\u0E34',
+                                        '\u0E17', '\u0E22', '\u0E32'};
 
     static {
         for (final char element : ARAB) {
@@ -108,15 +103,7 @@ public final class RandomUtil {
     }
 
     /**
-     * Default constructor.
-     */
-    private RandomUtil() {
-        super();
-    }
-
-    /**
      * Returns next long random value.
-     *
      * @return next long random value
      */
     public static long nextLong() {
@@ -125,9 +112,7 @@ public final class RandomUtil {
 
     /**
      * Returns next long random value. Returned value can be null.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable) {
@@ -138,12 +123,9 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next long random value, uniformly distributed value between 0
-     * (inclusive) and the specified value (exclusive), drawn from this random
+     * Returns a next long random value, uniformly distributed value between 0 (inclusive) and the specified value (exclusive), drawn from this random
      * number generator's sequence.
-     *
-     * @param max
-     *            max return value.
+     * @param max max return value.
      * @return next long random value
      */
     public static long nextLong(final long max) {
@@ -151,14 +133,10 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next long random value, uniformly distributed value between 0
-     * (inclusive) and the specified value (exclusive), drawn from this random
+     * Returns a next long random value, uniformly distributed value between 0 (inclusive) and the specified value (exclusive), drawn from this random
      * number generator's sequence. Retruned value can be null.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param max
-     *            max return value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param max max return value.
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable, final long max) {
@@ -169,14 +147,10 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next long random value, uniformly distributed value between
-     * specified min value (inclusive) and the specified max value (exclusive),
+     * Returns a next long random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
      * drawn from this random number generator's sequence.
-     *
-     * @param min
-     *            min return value.
-     * @param max
-     *            max return value.
+     * @param min min return value.
+     * @param max max return value.
      * @return next long random value
      */
     public static long nextLong(final long min, final long max) {
@@ -184,20 +158,14 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next long random value, uniformly distributed value between
-     * specified min value (inclusive) and the specified max value (exclusive),
+     * Returns a next long random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
      * drawn from this random number generator's sequence.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            min return value.
-     * @param max
-     *            max return value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min min return value.
+     * @param max max return value.
      * @return next long random value
      */
-    public static Long nextLong(final boolean nullable, final long min,
-            final long max) {
+    public static Long nextLong(final boolean nullable, final long min, final long max) {
         if (nullable && isNull()) {
             return null;
         }
@@ -205,23 +173,13 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next long random value, uniformly distributed value between
-     * specified min value (inclusive) and the specified max value (exclusive),
+     * Returns a next long random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
      * drawn from this random number generator's sequence.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            min return value.
-     * @param max
-     *            max return value.
+     * @param min min return value.
+     * @param max max return value.
      * @return next long random value
      */
-    public static Long nextLong(final boolean nullable, final Long min,
-            final Long max) {
-        if (nullable && isNull()) {
-            return null;
-        }
+    public static Long nextLong(final Long min, final Long max) {
         if (min == null && max == null) {
             return nextLong();
         } else if (max == null) {
@@ -234,8 +192,22 @@ public final class RandomUtil {
     }
 
     /**
+     * Returns a next long random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
+     * drawn from this random number generator's sequence.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min min return value.
+     * @param max max return value.
+     * @return next long random value
+     */
+    public static Long nextLong(final boolean nullable, final Long min, final Long max) {
+        if (nullable && isNull()) {
+            return null;
+        }
+        return nextLong(min, max);
+    }
+
+    /**
      * Returns next Double random value.
-     *
      * @return next Double random value
      */
     public static double nextDouble() {
@@ -244,9 +216,7 @@ public final class RandomUtil {
 
     /**
      * Returns next Double random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next Double random value
      */
     public static Double nextDouble(final boolean nullable) {
@@ -258,7 +228,6 @@ public final class RandomUtil {
 
     /**
      * Returns next int random value.
-     *
      * @return next int random value
      */
     public static int nextInt() {
@@ -267,9 +236,7 @@ public final class RandomUtil {
 
     /**
      * Returns next Integer random value. Returned value can be null.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next Integer random value
      */
     public static Integer nextInt(final boolean nullable) {
@@ -281,9 +248,7 @@ public final class RandomUtil {
 
     /**
      * Returns next int random value.
-     *
-     * @param max
-     *            the max value.
+     * @param max the max value.
      * @return next int random value
      */
     public static int nextInt(final int max) {
@@ -295,11 +260,8 @@ public final class RandomUtil {
 
     /**
      * Returns next int random value. Returned value can be null.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param max
-     *            the max value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param max the max value.
      * @return next int random value
      */
     public static Integer nextInt(final boolean nullable, final int max) {
@@ -311,11 +273,8 @@ public final class RandomUtil {
 
     /**
      * Returns next int random value.
-     *
-     * @param min
-     *            the min value.
-     * @param max
-     *            the max value.
+     * @param min the min value.
+     * @param max the max value.
      * @return next int random value
      */
     public static int nextInt(final int min, final int max) {
@@ -330,17 +289,12 @@ public final class RandomUtil {
 
     /**
      * Returns next int random value. Returned value can be null.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            the min value.
-     * @param max
-     *            the max value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min the min value.
+     * @param max the max value.
      * @return next int random value
      */
-    public static Integer nextInt(final boolean nullable, final int min,
-            final int max) {
+    public static Integer nextInt(final boolean nullable, final int min, final int max) {
         if (nullable && isNull()) {
             return null;
         }
@@ -349,7 +303,6 @@ public final class RandomUtil {
 
     /**
      * Return true if next value can be null.
-     *
      * @return true/false.
      */
     public static boolean isNull() {
@@ -359,7 +312,6 @@ public final class RandomUtil {
 
     /**
      * Returns next short random value.
-     *
      * @return next short random value
      */
     public static short nextShort() {
@@ -368,9 +320,7 @@ public final class RandomUtil {
 
     /**
      * Returns next short random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next short random value
      */
     public static Short nextShort(final boolean nullable) {
@@ -381,11 +331,8 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns next short random value, between 0 (inclusive) and the specified
-     * value (exclusive).
-     *
-     * @param max
-     *            the max value.
+     * Returns next short random value, between 0 (inclusive) and the specified value (exclusive).
+     * @param max the max value.
      * @return next short random value
      */
     public static short nextShort(final short max) {
@@ -396,13 +343,9 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns next short random value, between 0 (inclusive) and the specified
-     * value (exclusive).
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param max
-     *            the max value.
+     * Returns next short random value, between 0 (inclusive) and the specified value (exclusive).
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param max the max value.
      * @return next short random value
      */
     public static Short nextShort(final boolean nullable, final short max) {
@@ -413,14 +356,10 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next short random value, uniformly distributed value between
-     * specified min value (inclusive) and the specified max value (exclusive),
+     * Returns a next short random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
      * drawn from this random number generator's sequence.
-     *
-     * @param min
-     *            min return value.
-     * @param max
-     *            max return value.
+     * @param min min return value.
+     * @param max max return value.
      * @return next short random value
      */
     public static short nextShort(final short min, final short max) {
@@ -428,20 +367,14 @@ public final class RandomUtil {
     }
 
     /**
-     * Returns a next Short random value, uniformly distributed value between
-     * specified min value (inclusive) and the specified max value (exclusive),
+     * Returns a next Short random value, uniformly distributed value between specified min value (inclusive) and the specified max value (exclusive),
      * drawn from this random number generator's sequence.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            min return value.
-     * @param max
-     *            max return value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min min return value.
+     * @param max max return value.
      * @return next Short random value
      */
-    public static Short nextShort(final boolean nullable, final short min,
-            final short max) {
+    public static Short nextShort(final boolean nullable, final short min, final short max) {
         if (nullable && isNull()) {
             return null;
         }
@@ -450,60 +383,42 @@ public final class RandomUtil {
 
     /**
      * Returns next bigDecimal random value.
-     *
-     * @param integer
-     *            integer of bigDecimal
-     * @param fraction
-     *            fraction of bigDecimal
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
      * @return next bigDecimal random value
      */
-    public static BigDecimal nextFullBigDecimal(final int integer,
-            final int fraction) {
+    public static BigDecimal nextFullBigDecimal(final int integer, final int fraction) {
         return new BigDecimal(nextFullBigInteger(integer + fraction), fraction);
     }
 
     /**
      * Returns next bigDecimal random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param integer
-     *            integer of bigDecimal
-     * @param fraction
-     *            fraction of bigDecimal
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
      * @return next bigDecimal random value
      */
-    public static BigDecimal nextBigDecimal(final boolean nullable,
-            final int integer, final int fraction) {
+    public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction) {
         if (nullable && isNull()) {
             return null;
         }
         // 0 to 9 integer value.
-        BigInteger n = BigInteger.valueOf(nextInt(IntegerUtil.INT_0,
-                IntegerUtil.INT_10));
+        BigInteger n = BigInteger.valueOf(nextInt(IntegerUtil.INT_0, IntegerUtil.INT_10));
         for (int i = 1; i < integer + fraction; i++) {
-            n = n.multiply(BigInteger.TEN).add(
-                    BigInteger.valueOf(nextInt(IntegerUtil.INT_0,
-                            IntegerUtil.INT_10)));
+            n = n.multiply(BigInteger.TEN).add(BigInteger.valueOf(nextInt(IntegerUtil.INT_0, IntegerUtil.INT_10)));
         }
         return new BigDecimal(n, fraction);
     }
 
     /**
      * Returns next bigDecimal random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param integer
-     *            integer of bigDecimal
-     * @param fraction
-     *            fraction of bigDecimal
-     * @param min
-     *            min value of bigDecimal
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
+     * @param min min value of bigDecimal
      * @return next bigDecimal random value
      */
-    public static BigDecimal nextBigDecimal(final boolean nullable,
-            final int integer, final int fraction, final BigDecimal min) {
+    public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction, final BigDecimal min) {
         if (nullable && isNull()) {
             return null;
         }
@@ -516,25 +431,14 @@ public final class RandomUtil {
 
     /**
      * Returns next bigDecimal random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param integer
-     *            integer of bigDecimal
-     * @param fraction
-     *            fraction of bigDecimal
-     * @param min
-     *            min value of bigDecimal
-     * @param max
-     *            max value of bigDecimal bigDecimal random value
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
+     * @param min min value of bigDecimal
+     * @param max max value of bigDecimal bigDecimal random value
      * @return random value.
      */
-    public static BigDecimal nextBigDecimal(final boolean nullable,
-            final int integer, final int fraction, final BigDecimal min,
-            final BigDecimal max) {
-        if (nullable && isNull()) {
-            return null;
-        }
+    public static BigDecimal nextBigDecimal(final int integer, final int fraction, final BigDecimal min, final BigDecimal max) {
         BigDecimal value = nextBigDecimal(false, integer, fraction);
         if (min == null || max == null) {
             return value;
@@ -543,29 +447,40 @@ public final class RandomUtil {
             value = value.multiply(BigDecimal.TEN);
         }
         while (value.compareTo(max) > 0) {
-            value = value.divide(BigDecimal.TEN, value.scale(),
-                    RoundingMode.HALF_DOWN);
+            value = value.divide(BigDecimal.TEN, value.scale(), RoundingMode.HALF_DOWN);
         }
         if (value.compareTo(min) < 0) {
-            return nextBigDecimal(nullable, integer, fraction, min, max);
+            return nextBigDecimal(integer, fraction, min, max);
         } else {
             return value;
         }
     }
 
     /**
+     * Returns next bigDecimal random value.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
+     * @param min min value of bigDecimal
+     * @param max max value of bigDecimal bigDecimal random value
+     * @return random value.
+     */
+    public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction, final BigDecimal min,
+            final BigDecimal max) {
+        if (nullable && isNull()) {
+            return null;
+        }
+        return nextBigDecimal(integer, fraction, min, max);
+    }
+
+    /**
      * Returns next bigDecimal random value with a min value.
-     *
-     * @param integer
-     *            integer of bigDecimal
-     * @param fraction
-     *            fraction of bigDecimal
-     * @param min
-     *            with a min value
+     * @param integer integer of bigDecimal
+     * @param fraction fraction of bigDecimal
+     * @param min with a min value
      * @return next bigDecimal random value
      */
-    public static BigDecimal nextFullBigDecimal(final int integer,
-            final int fraction, final BigDecimal min) {
+    public static BigDecimal nextFullBigDecimal(final int integer, final int fraction, final BigDecimal min) {
         final BigDecimal next = nextFullBigDecimal(integer, fraction);
         if (min == null) {
             return next;
@@ -578,26 +493,20 @@ public final class RandomUtil {
 
     /**
      * Returns next BigInteger random value.
-     *
-     * @param integer
-     *            integer of BigInteger
+     * @param integer integer of BigInteger
      * @return next BigInteger random value
      */
     public static BigInteger nextFullBigInteger(final int integer) {
         // Don't want 0 for first left number (1 to 9).
-        BigInteger n = BigInteger.valueOf(nextInt(IntegerUtil.INT_1,
-                IntegerUtil.INT_9));
+        BigInteger n = BigInteger.valueOf(nextInt(IntegerUtil.INT_1, IntegerUtil.INT_9));
         for (int i = 1; i < integer; i++) {
-            n = n.multiply(BigInteger.TEN).add(
-                    BigInteger.valueOf(nextInt(IntegerUtil.INT_1,
-                            IntegerUtil.INT_9)));
+            n = n.multiply(BigInteger.TEN).add(BigInteger.valueOf(nextInt(IntegerUtil.INT_1, IntegerUtil.INT_9)));
         }
         return n;
     }
 
     /**
      * Returns next boolean random value.
-     *
      * @return next boolean random value
      */
     public static boolean nextBoolean() {
@@ -606,32 +515,28 @@ public final class RandomUtil {
 
     /**
      * Returns next not null Boolean random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next not null Boolean random value
      */
     public static Boolean nextBoolean(final boolean nullable) {
-        final short rand = nextShort(nullable ? (short) IntegerUtil.INT_3
-                : (short) IntegerUtil.INT_2);
+        final short rand = nextShort(nullable ? (short) IntegerUtil.INT_3 : (short) IntegerUtil.INT_2);
 
         Boolean random = null;
         switch (rand) {
-        case 0:
-            random = Boolean.TRUE;
-            break;
-        case 1:
-            random = Boolean.FALSE;
-            break;
-        default:
-            break;
+            case 0:
+                random = Boolean.TRUE;
+                break;
+            case 1:
+                random = Boolean.FALSE;
+                break;
+            default:
+                break;
         }
         return random;
     }
 
     /**
      * Returns next float random value.
-     *
      * @return next float random value
      */
     public static float nextFloat() {
@@ -640,9 +545,7 @@ public final class RandomUtil {
 
     /**
      * Returns next float random value.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return next float random value
      */
     public static Float nextFloat(final boolean nullable) {
@@ -654,19 +557,15 @@ public final class RandomUtil {
 
     /**
      * Returns a new random string (16 chars).
-     *
      * @return random string
      */
     public static String nextString() {
-        return Long
-                .toHexString(Double.doubleToLongBits(RANDOMIZER.nextDouble()));
+        return Long.toHexString(Double.doubleToLongBits(RANDOMIZER.nextDouble()));
     }
 
     /**
      * Returns a new random string (16 chars).
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return random string
      */
     public static String nextString(final boolean nullable) {
@@ -678,9 +577,7 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given size.
-     *
-     * @param size
-     *            size of string
+     * @param size size of string
      * @return random string.
      */
     public static String nextString(final int size) {
@@ -689,11 +586,8 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given size.
-     *
-     * @param min
-     *            the minimum size of string
-     * @param max
-     *            the maximum size of string
+     * @param min the minimum size of string
+     * @param max the maximum size of string
      * @return random string.
      */
     public static String nextString(final int min, final int max) {
@@ -703,11 +597,8 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given size.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param size
-     *            size of string
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param size size of string
      * @return random string.
      */
     public static String nextString(final boolean nullable, final int size) {
@@ -719,17 +610,12 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given min/max size.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            the minimum size of string
-     * @param max
-     *            the maximum size of string
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min the minimum size of string
+     * @param max the maximum size of string
      * @return random string.
      */
-    public static String nextString(final boolean nullable, final int min,
-            final int max) {
+    public static String nextString(final boolean nullable, final int min, final int max) {
         if (nullable && isNull()) {
             return null;
         }
@@ -738,25 +624,29 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given min/max size.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param min
-     *            the minimum size of string (can be null).
-     * @param max
-     *            the maximum size of string (can be null).
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param min the minimum size of string (can be null).
+     * @param max the maximum size of string (can be null).
      * @return random string.
      */
-    public static String nextString(final boolean nullable, final Integer min,
-            final Integer max) {
+    public static String nextString(final boolean nullable, final Integer min, final Integer max) {
         if (nullable && isNull()) {
             return null;
         }
+        return nextString(min, max);
+    }
+
+    /**
+     * Returns a random string with given min/max size.
+     * @param min the minimum size of string (can be null).
+     * @param max the maximum size of string (can be null).
+     * @return random string.
+     */
+    public static String nextString(final Integer min, final Integer max) {
         if (min == null && max == null) {
             return nextString();
         } else if (max == null) {
-            return nextString(min.intValue(), min.intValue()
-                    + IntegerUtil.INT_32);
+            return nextString(min.intValue(), min.intValue() + IntegerUtil.INT_32);
         } else if (min == null) {
             return nextString(max.intValue());
         } else {
@@ -766,16 +656,12 @@ public final class RandomUtil {
 
     /**
      * Returns a random string with given size.
-     *
-     * @param size
-     *            size of string
-     * @param symbolsList
-     *            the symbol list.
+     * @param size size of string
+     * @param symbolsList the symbol list.
      * @return random string.
      */
-    private static String nextString(final int size,
-            final StringBuffer symbolsList) {
-        final StringBuffer buffer = new StringBuffer();
+    private static String nextString(final int size, final StringBuilder symbolsList) {
+        final StringBuilder buffer = new StringBuilder();
         // Starting with char != ' '.
         char a = nextChar(symbolsList);
         while (a == ' ') {
@@ -793,13 +679,11 @@ public final class RandomUtil {
             }
             buffer.append(a);
         }
-        return buffer.length() == 0 && size > 0 ? nextString(size, symbolsList)
-                : buffer.toString();
+        return buffer.length() == 0 && size > 0 ? nextString(size, symbolsList) : buffer.toString();
     }
 
     /**
      * returns a random calendar.
-     *
      * @return random calendar.
      */
     public static Calendar nextCalendar() {
@@ -813,9 +697,7 @@ public final class RandomUtil {
 
     /**
      * returns a random calendar.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
+     * @param nullable if true, returned value can be null; else it cannot be null.
      * @return random calendar.
      */
     public static Calendar nextCalendar(final boolean nullable) {
@@ -827,18 +709,15 @@ public final class RandomUtil {
 
     /**
      * returns a random email with given size.
-     *
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param size
-     *            size of string.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param size size of string.
      * @return random email.
      */
     public static String nextEmail(final boolean nullable, final int size) {
         if (nullable && isNull()) {
             return null;
         }
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         if (size < EMAIL_SIZE_MIN) {
             // ie < a@b.fr
             buffer.append("ab@c.fr");
@@ -863,7 +742,6 @@ public final class RandomUtil {
 
     /**
      * Return next char.
-     *
      * @return the char.
      */
     public static char nextChar() {
@@ -872,7 +750,6 @@ public final class RandomUtil {
 
     /**
      * Return next latin char.
-     *
      * @return the char
      */
     public static char nextCharLatin() {
@@ -881,22 +758,17 @@ public final class RandomUtil {
 
     /**
      * Return next latin char.
-     *
-     * @param symbols
-     *            the possible char to return.
+     * @param symbols the possible char to return.
      * @return the char.
      */
-    private static char nextChar(final StringBuffer symbols) {
+    private static char nextChar(final StringBuilder symbols) {
         return symbols.charAt(RANDOMIZER.nextInt(symbols.length()));
     }
 
     /**
      * Return a randoming enum value.
-     *
-     * @param <T>
-     *            the enum type.
-     * @param values
-     *            the values
+     * @param <T> the enum type.
+     * @param values the values
      * @return the value
      */
     public static <T extends Enum<?>> T nextEnum(final T[] values) {
@@ -905,17 +777,12 @@ public final class RandomUtil {
 
     /**
      * Return a randoming enum value.
-     *
-     * @param <T>
-     *            the enum type.
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param values
-     *            the values
+     * @param <T> the enum type.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param values the values
      * @return the value
      */
-    public static <T extends Enum<T>> T nextEnum(final boolean nullable,
-            final T[] values) {
+    public static <T extends Enum<T>> T nextEnum(final boolean nullable, final T[] values) {
         if (nullable && isNull()) {
             return null;
         }
@@ -924,11 +791,8 @@ public final class RandomUtil {
 
     /**
      * Return a randoming collection value.
-     *
-     * @param <T>
-     *            the collection type element.
-     * @param values
-     *            the values
+     * @param <T> the collection type element.
+     * @param values the values
      * @return the value
      */
     public static <T> T nextCollection(final Collection<T> values) {
@@ -946,26 +810,21 @@ public final class RandomUtil {
 
     /**
      * Return a randoming collection value.
-     *
-     * @param <C>
-     *            the collection type.
-     * @param <T>
-     *            the element type of the collection.
-     * @param values
-     *            the values
+     * @param <C> the collection type.
+     * @param <T> the element type of the collection.
+     * @param values the values
      * @return the value
      */
     @SuppressWarnings("unchecked")
-    public static <C extends Collection<T>, T> C nextSubCollection(
-            final C values) {
-        if (CollectionUtil.isEmpty(values)) {
+    public static <C extends Collection<T>, T> C nextSubCollection(final C values) {
+        if (values == null) {
             return null;
         }
         C col;
         try {
             col = (C) values.getClass().newInstance();
         } catch (final Exception e) {
-            final Object[] args = new Object[] { values.getClass(), e };
+            final Object[] args = new Object[] {values.getClass(), e};
             log.error("Cannot instanciate class {} {}", args);
             return null;
         }
@@ -979,17 +838,12 @@ public final class RandomUtil {
 
     /**
      * Return a randoming collection value.
-     *
-     * @param <T>
-     *            the collection type element.
-     * @param nullable
-     *            if true, returned value can be null; else it cannot be null.
-     * @param values
-     *            the values
+     * @param <T> the collection type element.
+     * @param nullable if true, returned value can be null; else it cannot be null.
+     * @param values the values
      * @return the value
      */
-    public static <T> T nextCollection(final boolean nullable,
-            final Collection<T> values) {
+    public static <T> T nextCollection(final boolean nullable, final Collection<T> values) {
         if (nullable && isNull()) {
             return null;
         }
@@ -997,10 +851,62 @@ public final class RandomUtil {
     }
 
     /**
+     * Return true if class is boolean.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isBoolean(final Class<?> type) {
+        return type.isAssignableFrom(boolean.class) || type.isAssignableFrom(Boolean.class);
+    }
+
+    /**
+     * Return true if class is long.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isLong(final Class<?> type) {
+        return type.isAssignableFrom(long.class) || type.isAssignableFrom(Long.class);
+    }
+
+    /**
+     * Return true if class is int.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isInt(final Class<?> type) {
+        return type.isAssignableFrom(int.class) || type.isAssignableFrom(Integer.class);
+    }
+
+    /**
+     * Return true if class is short.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isShort(final Class<?> type) {
+        return type.isAssignableFrom(short.class) || type.isAssignableFrom(Short.class);
+    }
+
+    /**
+     * Return true if class is double.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isDouble(final Class<?> type) {
+        return type.isAssignableFrom(double.class) || type.isAssignableFrom(Double.class);
+    }
+
+    /**
+     * Return true if class is float.
+     * @param type the class type.
+     * @return true/false.
+     */
+    private static boolean isFloat(final Class<?> type) {
+        return type.isAssignableFrom(float.class) || type.isAssignableFrom(Float.class);
+    }
+
+    /**
      * Return another random value.
-     *
-     * @param value
-     *            the value.
+     * @param value the value.
      * @return the next value.
      */
     public static Object nextAnother(final Object value) {
@@ -1009,83 +915,49 @@ public final class RandomUtil {
         }
         Object nextValue = null;
         final Class<?> type = value.getClass();
-        if (type.isAssignableFrom(boolean.class)
-                || type.isAssignableFrom(Boolean.class)) {
+        if (isBoolean(type)) {
             nextValue = !((Boolean) value);
-        }
-        if (type.isAssignableFrom(long.class)
-                || type.isAssignableFrom(Long.class)) {
+        } else if (isLong(type)) {
             nextValue = nextLong();
-        }
-        if (type.isAssignableFrom(int.class)
-                || type.isAssignableFrom(Integer.class)) {
+        } else if (isInt(type)) {
             nextValue = nextInt();
-        }
-        if (type.isAssignableFrom(short.class)
-                || type.isAssignableFrom(Short.class)) {
+        } else if (isShort(type)) {
             nextValue = nextShort();
-        }
-        if (type.isAssignableFrom(double.class)
-                || type.isAssignableFrom(Double.class)) {
+        } else if (isDouble(type)) {
             nextValue = nextDouble();
-        }
-        if (type.isAssignableFrom(float.class)
-                || type.isAssignableFrom(Float.class)) {
+        } else if (isFloat(type)) {
             nextValue = nextFloat();
-        }
-        if (type.isAssignableFrom(String.class)) {
+        } else if (type.isAssignableFrom(String.class)) {
             final String str = (String) value;
             if (str.isEmpty()) {
                 nextValue = nextString(IntegerUtil.INT_1);
             } else {
                 nextValue = nextString(str.length());
             }
-        }
-        if (type.isAssignableFrom(BigDecimal.class)) {
+        } else if (type.isAssignableFrom(BigDecimal.class)) {
             final BigDecimal big = (BigDecimal) value;
             nextValue = nextBigDecimal(false, big.precision(), big.scale());
         }
 
         if (value.equals(nextValue)) {
-            return nextAnother(value);
-        } else {
-            return nextValue;
+            nextValue = nextAnother(value);
         }
-
+        return nextValue;
     }
 
     /**
      * Return a random collection.
-     *
-     * @param <C>
-     *            the collection type.
-     * @param <T>
-     *            the object type.
-     * @param empty
-     *            if true, returned collection can be empty.
-     * @param from
-     *            the elements to add to the returned collection.
-     *
+     * @param <C> the collection type.
+     * @param <T> the object type.
+     * @param empty if true, returned collection can be empty.
+     * @param from the elements to add to the returned collection.
      * @return the random collection.
      */
-    @SuppressWarnings("unchecked")
-    public static <T, C extends Collection<T>> C random(final boolean empty,
-            final C from) {
+    public static <T, C extends Collection<T>> C nextSubCollection(final boolean empty, final C from) {
         if (from == null) {
             return null;
         }
-        C to = null;
-        try {
-            to = (C) ObjectUtil.newInstance(from.getClass());
-        } catch (final MessageLabelException e) {
-            log.trace("Cannot instanciate collection " + from.getClass(), e);
-            return null;
-        }
-        for (final T one : from) {
-            if (nextBoolean()) {
-                to.add(one);
-            }
-        }
+        final C to = nextSubCollection(from);
         if (!empty && to.isEmpty() && !from.isEmpty()) {
             int random = nextInt(from.size());
             final Iterator<T> iter = from.iterator();

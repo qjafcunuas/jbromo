@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,45 +24,32 @@ package org.jbromo.common;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define array Utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ArrayUtil {
 
     /**
-     * Default constructor.
-     */
-    private ArrayUtil() {
-        super();
-    }
-
-    /**
      * Return an array from a collection.
-     *
-     * @param <M>
-     *            the model of the element in the collection.
-     * @param from
-     *            the collection of element to add to the returned array.
-     * @param modelClass
-     *            the model class.
+     * @param <M> the model of the element in the collection.
+     * @param from the collection of element to add to the returned array.
+     * @param modelClass the model class.
      * @return the array.
      */
     @SuppressWarnings("unchecked")
-    public static <M> M[] toArray(final Collection<M> from,
-            final Class<M> modelClass) {
+    public static <M> M[] toArray(final Collection<M> from, final Class<M> modelClass) {
         return from.toArray((M[]) Array.newInstance(modelClass, from.size()));
     }
 
     /**
      * Return true if array is null or empty.
-     *
-     * @param <M>
-     *            the element type.
-     * @param elements
-     *            the array to check.
+     * @param <M> the element type.
+     * @param elements the array to check.
      * @return true/false.
      */
     public static <M> boolean isEmpty(final M[] elements) {
@@ -71,20 +58,13 @@ public final class ArrayUtil {
 
     /**
      * Return true if collection and array contains same elements.
-     *
-     * @param <M>
-     *            the model element type.
-     * @param one
-     *            the collection.
-     * @param two
-     *            the array.
-     * @param sameSize
-     *            if true, collections must have same size; else collections can
-     *            not have the same size.
+     * @param <M> the model element type.
+     * @param one the collection.
+     * @param two the array.
+     * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
-    public static <M> boolean containsAll(final M[] one, final M[] two,
-            final boolean sameSize) {
+    public static <M> boolean containsAll(final M[] one, final M[] two, final boolean sameSize) {
         if (one == null || two == null) {
             return false;
         }

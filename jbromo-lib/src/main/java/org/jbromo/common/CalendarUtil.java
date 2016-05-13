@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,20 +27,18 @@ import java.util.Calendar;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Define Calendar utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CalendarUtil {
 
     /**
      * Define constant for second.
-     *
      * @author qjafcunuas
-     *
      */
     public static final class SECOND {
         /**
@@ -59,9 +57,7 @@ public final class CalendarUtil {
 
     /**
      * Define constant for minute.
-     *
      * @author qjafcunuas
-     *
      */
     public static final class MINUTE {
 
@@ -69,11 +65,11 @@ public final class CalendarUtil {
          * In second.
          */
         public static final Integer IN_SECOND = IntegerUtil.INT_60;
+
         /**
          * In milisecond.
          */
-        public static final Integer IN_MILLISECOND = MINUTE.IN_SECOND
-                * SECOND.IN_MILLISECOND;
+        public static final Integer IN_MILLISECOND = MINUTE.IN_SECOND * SECOND.IN_MILLISECOND;
 
         /**
          * Default constructor.
@@ -85,9 +81,7 @@ public final class CalendarUtil {
 
     /**
      * Define constant for hour.
-     *
      * @author qjafcunuas
-     *
      */
     public static final class HOUR {
 
@@ -95,16 +89,16 @@ public final class CalendarUtil {
          * In minute.
          */
         public static final Integer IN_MINUTE = IntegerUtil.INT_60;
+
         /**
          * In second.
          */
-        public static final Integer IN_SECOND = HOUR.IN_MINUTE
-                * IntegerUtil.INT_60;
+        public static final Integer IN_SECOND = HOUR.IN_MINUTE * IntegerUtil.INT_60;
+
         /**
          * In milisecond.
          */
-        public static final Integer IN_MILLISECOND = HOUR.IN_SECOND
-                * SECOND.IN_MILLISECOND;
+        public static final Integer IN_MILLISECOND = HOUR.IN_SECOND * SECOND.IN_MILLISECOND;
 
         /**
          * Default constructor.
@@ -116,9 +110,7 @@ public final class CalendarUtil {
 
     /**
      * Define constant for day.
-     *
      * @author qjafcunuas
-     *
      */
     public static final class DAY {
 
@@ -126,21 +118,21 @@ public final class CalendarUtil {
          * In hour.
          */
         public static final Integer IN_HOUR = IntegerUtil.INT_24;
+
         /**
          * In minute.
          */
-        public static final Integer IN_MINUTE = DAY.IN_HOUR
-                * IntegerUtil.INT_60;
+        public static final Integer IN_MINUTE = DAY.IN_HOUR * IntegerUtil.INT_60;
+
         /**
          * In second.
          */
-        public static final Integer IN_SECOND = DAY.IN_MINUTE
-                * IntegerUtil.INT_60;
+        public static final Integer IN_SECOND = DAY.IN_MINUTE * IntegerUtil.INT_60;
+
         /**
          * In milisecond.
          */
-        public static final Integer IN_MILLISECOND = DAY.IN_SECOND
-                * SECOND.IN_MILLISECOND;
+        public static final Integer IN_MILLISECOND = DAY.IN_SECOND * SECOND.IN_MILLISECOND;
 
         /**
          * Default constructor.
@@ -152,16 +144,12 @@ public final class CalendarUtil {
 
     /**
      * The string format.
-     *
      * @author qjafcunuas
-     *
      */
     public enum FORMAT {
         /** Ex: 20130701. */
-        YYYYMMDD("yyyyMMdd"),
-        /** Ex: 120500. */
-        HHMMSS("hhmmss"),
-        /** Ex: 20130701120000. */
+        YYYYMMDD("yyyyMMdd"), /** Ex: 120500. */
+        HHMMSS("hhmmss"), /** Ex: 20130701120000. */
         YYYYMMDDHHMMSS("yyyyMMddhhmmss");
 
         /**
@@ -172,9 +160,7 @@ public final class CalendarUtil {
 
         /**
          * Default constructor.
-         *
-         * @param pattern
-         *            the pattern to use.
+         * @param pattern the pattern to use.
          */
         private FORMAT(final String pattern) {
             this.formatter = new SimpleDateFormat(pattern);
@@ -182,9 +168,7 @@ public final class CalendarUtil {
 
         /**
          * Format a calendar to a string, for the corresponfing pattern.
-         *
-         * @param cal
-         *            the calendar to format.
+         * @param cal the calendar to format.
          * @return the string result.
          */
         private String toString(final Calendar cal) {
@@ -194,17 +178,8 @@ public final class CalendarUtil {
     }
 
     /**
-     * Default constructor.
-     */
-    private CalendarUtil() {
-        super();
-    }
-
-    /**
      * Return true if a class extends Calendar.
-     *
-     * @param clazz
-     *            the class
+     * @param clazz the class
      * @return true if extends Calendar, false otherwise
      */
     public static boolean isCalendar(final Class<?> clazz) {
@@ -213,9 +188,7 @@ public final class CalendarUtil {
 
     /**
      * Set time to 00:00:00.000 hour.
-     *
-     * @param cal
-     *            the calendar to set.
+     * @param cal the calendar to set.
      */
     public static void setZeroHour(final Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -224,9 +197,7 @@ public final class CalendarUtil {
 
     /**
      * Set time to 00:00.000 minute.
-     *
-     * @param cal
-     *            the calendar to set.
+     * @param cal the calendar to set.
      */
     public static void setZeroMinute(final Calendar cal) {
         cal.set(Calendar.MINUTE, 0);
@@ -235,9 +206,7 @@ public final class CalendarUtil {
 
     /**
      * Set time to 00.000 second.
-     *
-     * @param cal
-     *            the calendar to set.
+     * @param cal the calendar to set.
      */
     public static void setZeroSecond(final Calendar cal) {
         cal.set(Calendar.SECOND, 0);
@@ -246,9 +215,7 @@ public final class CalendarUtil {
 
     /**
      * Set time to 0 millisecond.
-     *
-     * @param cal
-     *            the calendar to set.
+     * @param cal the calendar to set.
      */
     public static void setZeroMillisecond(final Calendar cal) {
         cal.set(Calendar.MILLISECOND, 0);
@@ -256,11 +223,8 @@ public final class CalendarUtil {
 
     /**
      * Return the string date.
-     *
-     * @param cal
-     *            the calendar.
-     * @param format
-     *            the format to use.
+     * @param cal the calendar.
+     * @param format the format to use.
      * @return the string/
      */
     public static String toString(final Calendar cal, final FORMAT format) {

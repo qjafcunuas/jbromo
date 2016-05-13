@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,27 +21,20 @@
  */
 package org.jbromo.common;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Define Enum utility.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EnumUtil {
-    /**
-     * Default constructor.
-     */
-    private EnumUtil() {
-        super();
-    }
 
     /**
      * Return a list of enum value possible.
-     *
-     * @param <E>
-     *            the enum type.
-     * @param type
-     *            the enum type
+     * @param <E> the enum type.
+     * @param type the enum type
      * @return the list enum
      */
     public static <E extends Enum<E>> E[] getValues(final Class<E> type) {
@@ -53,9 +46,7 @@ public final class EnumUtil {
 
     /**
      * Return a list of enum value possible.
-     *
-     * @param type
-     *            the enum type
+     * @param type the enum type
      * @return the list enum
      */
     public static Enum<?>[] getConstants(final Class<?> type) {

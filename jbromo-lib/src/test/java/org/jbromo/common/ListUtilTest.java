@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,9 +33,7 @@ import org.junit.Test;
 
 /**
  * Test for the List Util class.
- *
  * @author qjafcunuas
- *
  */
 public class ListUtilTest {
 
@@ -277,15 +275,10 @@ public class ListUtilTest {
     public void getLast() {
         Assert.assertNull(ListUtil.getLast(null));
         Assert.assertNull(ListUtil.getLast(ListUtil.toList()));
-        Assert.assertEquals(
-                ListUtil.getLast(ListUtil.toList(IntegerUtil.INT_0)),
-                Integer.valueOf(IntegerUtil.INT_0));
-        Assert.assertEquals(ListUtil.getLast(ListUtil.toList(
-                IntegerUtil.INT_0, IntegerUtil.INT_1)), Integer
-                .valueOf(IntegerUtil.INT_1));
-        Assert.assertEquals(ListUtil.getLast(ListUtil.toList(
-                IntegerUtil.INT_0, IntegerUtil.INT_1, IntegerUtil.INT_2)),
-                Integer.valueOf(IntegerUtil.INT_2));
+        Assert.assertEquals(ListUtil.getLast(ListUtil.toList(IntegerUtil.INT_0)), Integer.valueOf(IntegerUtil.INT_0));
+        Assert.assertEquals(ListUtil.getLast(ListUtil.toList(IntegerUtil.INT_0, IntegerUtil.INT_1)), Integer.valueOf(IntegerUtil.INT_1));
+        Assert.assertEquals(ListUtil.getLast(ListUtil.toList(IntegerUtil.INT_0, IntegerUtil.INT_1, IntegerUtil.INT_2)),
+                            Integer.valueOf(IntegerUtil.INT_2));
     }
 
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,18 +24,16 @@ package org.jbromo.common;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JUnit IntegerUtil class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class LongUtilTest {
@@ -64,11 +62,9 @@ public class LongUtilTest {
         for (final Field field : fields) {
             pos = field.getName().indexOf(LONG_PREFIX);
             if (pos >= 0) {
-                value = Long.valueOf(field.getName().substring(
-                        pos + LONG_PREFIX.length()));
+                value = Long.valueOf(field.getName().substring(pos + LONG_PREFIX.length()));
                 try {
-                    Assert.assertEquals(Long.valueOf(field.getLong(null)),
-                            value);
+                    Assert.assertEquals(Long.valueOf(field.getLong(null)), value);
                 } catch (final Exception e) {
                     log.error("Cannot read value " + field.getName(), e);
                     Assert.fail("Cannot read value for field " + field.getName());

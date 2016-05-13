@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,84 +24,101 @@ package org.jbromo.common;
 import java.security.MessageDigest;
 import java.util.Collection;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define String Utility.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtil {
 
     /**
      * Empty String.
      */
     public static final String EMPTY = "";
+
     /**
      * Space.
      */
     public static final String SPACE = " ";
+
     /**
      * Dot.
      */
     public static final String DOT = ".";
+
     /**
      * The ? char.
      */
     public static final String QUESTION_MARK = "?";
+
     /**
      * The % char.
      */
     public static final String PERCENT = "%";
+
     /**
      * Star.
      */
     public static final String STAR = "*";
+
     /**
      * Slash.
      */
     public static final String SLASH = "/";
+
     /**
      * Define true value.
      */
     public static final String TRUE = "1";
+
     /**
      * Define false value.
      */
     public static final String FALSE = "0";
+
     /**
      * (.
      */
     public static final String PARENTHESIS_OPEN = "(";
+
     /**
      * ).
      */
     public static final String PARENTHESIS_CLOSE = ")";
+
     /**
      * =.
      */
     public static final String EQUALS = "=";
+
     /**
      * >.
      */
     public static final String SUPERIOR = ">";
+
     /**
      * >=.
      */
     public static final String SUPERIOR_OR_EQUALS = ">=";
+
     /**
      * <.
      */
     public static final String INFERIOR = "<";
+
     /**
      * <=.
      */
     public static final String INFERIOR_OR_EQUALS = "<=";
+
     /**
      * ,.
      */
@@ -113,17 +130,8 @@ public final class StringUtil {
     public static final int PASSWORD_SIZE = IntegerUtil.INT_40;
 
     /**
-     * Default constructor.
-     */
-    private StringUtil() {
-        super();
-    }
-
-    /**
      * Return same string with first char in uppercase.
-     *
-     * @param value
-     *            the value.
+     * @param value the value.
      * @return the capitalizing value.
      */
     public static String capitalize(final String value) {
@@ -132,12 +140,8 @@ public final class StringUtil {
 
     /**
      * Return same string with all words in uppercase.
-     *
-     * @param value
-     *            the value.
-     * @param separator
-     *            the separator to used for splitting string and capitalizing
-     *            all words.
+     * @param value the value.
+     * @param separator the separator to used for splitting string and capitalizing all words.
      * @return the capitalizing value.
      */
     public static String capitalize(final String value, final char... separator) {
@@ -146,9 +150,7 @@ public final class StringUtil {
 
     /**
      * Return true if string is null or empty.
-     *
-     * @param value
-     *            the value to check.
+     * @param value the value to check.
      * @return true/false.
      */
     public static boolean isEmpty(final String value) {
@@ -157,9 +159,7 @@ public final class StringUtil {
 
     /**
      * Return true if string is not null and not empty.
-     *
-     * @param value
-     *            the value to check.
+     * @param value the value to check.
      * @return true/false.
      */
     public static boolean isNotEmpty(final String value) {
@@ -168,11 +168,8 @@ public final class StringUtil {
 
     /**
      * Performs a SHA encryption process on the incoming string parameter.
-     *
-     * @param value
-     *            the value to encrypt.
-     * @return SHA-encrypted string if successful, or null if there are
-     *         problems.
+     * @param value the value to encrypt.
+     * @return SHA-encrypted string if successful, or null if there are problems.
      */
     public static String encrypt(final String value) {
         if (value == null) {
@@ -196,9 +193,7 @@ public final class StringUtil {
 
     /**
      * Convert bytes to string.
-     *
-     * @param bytes
-     *            the bytes to convert.
+     * @param bytes the bytes to convert.
      * @return the string.
      */
     private static String toHexString(final byte[] bytes) {
@@ -216,9 +211,7 @@ public final class StringUtil {
 
     /**
      * Concatenate strings. Null value are not concatenated.
-     *
-     * @param values
-     *            the string list to concatenate.
+     * @param values the string list to concatenate.
      * @return concatenated string
      */
     public static String concat(final String... values) {
@@ -239,28 +232,19 @@ public final class StringUtil {
     }
 
     /**
-     * Joins the elements of the provided collection into a single String
-     * containing the provided list of elements.
-     *
-     * @param collection
-     *            the collection.
-     * @param separator
-     *            the separator.
+     * Joins the elements of the provided collection into a single String containing the provided list of elements.
+     * @param collection the collection.
+     * @param separator the separator.
      * @return the string.
      */
-    public static String toString(final Collection<?> collection,
-            final String separator) {
+    public static String toString(final Collection<?> collection, final String separator) {
         return StringUtils.join(collection, separator);
     }
 
     /**
-     * Joins the elements of the provided array into a single String containing
-     * the provided list of elements.
-     *
-     * @param array
-     *            the array.
-     * @param separator
-     *            the separator.
+     * Joins the elements of the provided array into a single String containing the provided list of elements.
+     * @param array the array.
+     * @param separator the separator.
      * @return the string.
      */
     public static String toString(final Object[] array, final String separator) {

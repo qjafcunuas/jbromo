@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,17 +24,15 @@ package org.jbromo.common;
 import java.util.Calendar;
 import java.util.Date;
 
-import lombok.Getter;
-
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+
 /**
  * Test for the Calendar Util class.
- *
  * @author qjafcunuas
- *
  */
 public class CalendarUtilTest {
 
@@ -52,32 +50,34 @@ public class CalendarUtilTest {
 
     /**
      * Extended date.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     private class ExtendedDate {
         /** The year. */
         private final int year;
+
         /** The month. */
         private final int month;
+
         /** The day. */
         private final int day;
+
         /** The hour. */
         private final int hour;
+
         /** The minute. */
         private final int minute;
+
         /** The second. */
         private final int second;
+
         /** The millisecond. */
         private final int millisecond;
 
         /**
          * Default constructor.
-         *
-         * @param cal
-         *            the calendar.
+         * @param cal the calendar.
          */
         public ExtendedDate(final Calendar cal) {
             this.year = cal.get(Calendar.YEAR);
@@ -93,27 +93,17 @@ public class CalendarUtilTest {
 
     /**
      * Test value.
-     *
-     * @param cal
-     *            the calendar value to test.
-     * @param year
-     *            the year of the calendar must be equals to this value.
-     * @param month
-     *            the month of the calendar must be equals to this value.
-     * @param day
-     *            the day of the calendar must be equals to this value.
-     * @param hour
-     *            the hour of the calendar must be equals to this value.
-     * @param minute
-     *            the minute of the calendar must be equals to this value.
-     * @param second
-     *            the second of the calendar must be equals to this value.
-     * @param millisecond
-     *            the millisecond of the calendar must be equals to this value.
+     * @param cal the calendar value to test.
+     * @param year the year of the calendar must be equals to this value.
+     * @param month the month of the calendar must be equals to this value.
+     * @param day the day of the calendar must be equals to this value.
+     * @param hour the hour of the calendar must be equals to this value.
+     * @param minute the minute of the calendar must be equals to this value.
+     * @param second the second of the calendar must be equals to this value.
+     * @param millisecond the millisecond of the calendar must be equals to this value.
      */
-    private void assertEquals(final Calendar cal, final int year,
-            final int month, final int day, final int hour, final int minute,
-            final int second, final int millisecond) {
+    private void assertEquals(final Calendar cal, final int year, final int month, final int day, final int hour, final int minute, final int second,
+            final int millisecond) {
         Assert.assertTrue(cal.get(Calendar.YEAR) == year);
         Assert.assertTrue(cal.get(Calendar.MONTH) == month);
         Assert.assertTrue(cal.get(Calendar.DAY_OF_MONTH) == day);
@@ -208,8 +198,7 @@ public class CalendarUtilTest {
         final Calendar cal = Calendar.getInstance();
         final ExtendedDate date = new ExtendedDate(cal);
         CalendarUtil.setZeroSecond(cal);
-        assertEquals(cal, date.year, date.month, date.day, date.hour,
-                date.minute, 0, 0);
+        assertEquals(cal, date.year, date.month, date.day, date.hour, date.minute, 0, 0);
     }
 
     /**
@@ -220,8 +209,7 @@ public class CalendarUtilTest {
         final Calendar cal = Calendar.getInstance();
         final ExtendedDate date = new ExtendedDate(cal);
         CalendarUtil.setZeroMillisecond(cal);
-        assertEquals(cal, date.year, date.month, date.day, date.hour,
-                date.minute, date.second, 0);
+        assertEquals(cal, date.year, date.month, date.day, date.hour, date.minute, date.second, 0);
     }
 
     /**
@@ -229,18 +217,11 @@ public class CalendarUtilTest {
      */
     @Test
     public void fieldDay() {
-        Assert.assertEquals(
-                CalendarUtil.DAY.IN_MILLISECOND,
-                Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60
-                        * IntegerUtil.INT_60 * IntegerUtil.INT_1000));
-        Assert.assertEquals(
-                CalendarUtil.DAY.IN_SECOND,
-                Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60
-                        * IntegerUtil.INT_60));
-        Assert.assertEquals(CalendarUtil.DAY.IN_MINUTE,
-                Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60));
-        Assert.assertEquals(CalendarUtil.DAY.IN_HOUR,
-                Integer.valueOf(IntegerUtil.INT_24));
+        Assert.assertEquals(CalendarUtil.DAY.IN_MILLISECOND,
+                            Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60 * IntegerUtil.INT_60 * IntegerUtil.INT_1000));
+        Assert.assertEquals(CalendarUtil.DAY.IN_SECOND, Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60 * IntegerUtil.INT_60));
+        Assert.assertEquals(CalendarUtil.DAY.IN_MINUTE, Integer.valueOf(IntegerUtil.INT_24 * IntegerUtil.INT_60));
+        Assert.assertEquals(CalendarUtil.DAY.IN_HOUR, Integer.valueOf(IntegerUtil.INT_24));
     }
 
     /**
@@ -248,14 +229,9 @@ public class CalendarUtilTest {
      */
     @Test
     public void fieldHour() {
-        Assert.assertEquals(
-                CalendarUtil.HOUR.IN_MILLISECOND,
-                Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_60
-                        * IntegerUtil.INT_1000));
-        Assert.assertEquals(CalendarUtil.HOUR.IN_SECOND,
-                Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_60));
-        Assert.assertEquals(CalendarUtil.HOUR.IN_MINUTE,
-                Integer.valueOf(IntegerUtil.INT_60));
+        Assert.assertEquals(CalendarUtil.HOUR.IN_MILLISECOND, Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_60 * IntegerUtil.INT_1000));
+        Assert.assertEquals(CalendarUtil.HOUR.IN_SECOND, Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_60));
+        Assert.assertEquals(CalendarUtil.HOUR.IN_MINUTE, Integer.valueOf(IntegerUtil.INT_60));
     }
 
     /**
@@ -263,10 +239,8 @@ public class CalendarUtilTest {
      */
     @Test
     public void fieldMinute() {
-        Assert.assertEquals(CalendarUtil.MINUTE.IN_MILLISECOND,
-                Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_1000));
-        Assert.assertEquals(CalendarUtil.MINUTE.IN_SECOND,
-                Integer.valueOf(IntegerUtil.INT_60));
+        Assert.assertEquals(CalendarUtil.MINUTE.IN_MILLISECOND, Integer.valueOf(IntegerUtil.INT_60 * IntegerUtil.INT_1000));
+        Assert.assertEquals(CalendarUtil.MINUTE.IN_SECOND, Integer.valueOf(IntegerUtil.INT_60));
     }
 
     /**
@@ -274,8 +248,7 @@ public class CalendarUtilTest {
      */
     @Test
     public void fieldSecond() {
-        Assert.assertEquals(CalendarUtil.SECOND.IN_MILLISECOND,
-                Integer.valueOf(IntegerUtil.INT_1000));
+        Assert.assertEquals(CalendarUtil.SECOND.IN_MILLISECOND, Integer.valueOf(IntegerUtil.INT_1000));
     }
 
     /**
@@ -285,20 +258,13 @@ public class CalendarUtilTest {
     public void toStringFormat() {
         // Set calendar to 2014-02-01 03:04:05
         final Calendar cal = Calendar.getInstance();
-        cal.set(IntegerUtil.INT_2000, IntegerUtil.INT_1, IntegerUtil.INT_1,
-                IntegerUtil.INT_3, IntegerUtil.INT_4, IntegerUtil.INT_5);
+        cal.set(IntegerUtil.INT_2000, IntegerUtil.INT_1, IntegerUtil.INT_1, IntegerUtil.INT_3, IntegerUtil.INT_4, IntegerUtil.INT_5);
 
-        Assert.assertEquals(
-                CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDD),
-                "20000201");
+        Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDD), "20000201");
 
-        Assert.assertEquals(
-                CalendarUtil.toString(cal, CalendarUtil.FORMAT.HHMMSS),
-                "030405");
+        Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.HHMMSS), "030405");
 
-        Assert.assertEquals(
-                CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDDHHMMSS),
-                "20000201030405");
+        Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDDHHMMSS), "20000201030405");
 
     }
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,9 +29,7 @@ import org.junit.Test;
 
 /**
  * Test for the Collection Util class.
- *
  * @author qjafcunuas
- *
  */
 public class StringUtilTest {
 
@@ -121,10 +119,10 @@ public class StringUtilTest {
      */
     @Test
     public void toStringArray() {
-        final String[] strings = new String[] { "a", "b", "c" };
+        final String[] strings = new String[] {"a", "b", "c"};
         Assert.assertTrue(StringUtil.toString(strings, ";").equals("a;b;c"));
 
-        final Integer[] integers = new Integer[] { 1, 2, 3 };
+        final Integer[] integers = new Integer[] {1, 2, 3};
         Assert.assertTrue(StringUtil.toString(integers, "AA").equals("1AA2AA3"));
     }
 
@@ -146,18 +144,12 @@ public class StringUtilTest {
     @Test
     public void capitalizeSeparator() {
         Assert.assertNull(StringUtil.capitalize(null, ' '));
-        Assert.assertEquals(StringUtil.EMPTY,
-                StringUtil.capitalize(StringUtil.EMPTY, ' '));
-        Assert.assertEquals(StringUtil.SPACE,
-                StringUtil.capitalize(StringUtil.SPACE, ' '));
-        Assert.assertEquals("David Vincent",
-                StringUtil.capitalize("david vincent", ' '));
-        Assert.assertEquals("Jean-david Vincent",
-                StringUtil.capitalize("jean-david vincent", ' '));
-        Assert.assertEquals("Jean-David vincent",
-                StringUtil.capitalize("jean-david vincent", '-'));
-        Assert.assertEquals("Jean-David Vincent",
-                StringUtil.capitalize("jean-david vincent", ' ', '-'));
+        Assert.assertEquals(StringUtil.EMPTY, StringUtil.capitalize(StringUtil.EMPTY, ' '));
+        Assert.assertEquals(StringUtil.SPACE, StringUtil.capitalize(StringUtil.SPACE, ' '));
+        Assert.assertEquals("David Vincent", StringUtil.capitalize("david vincent", ' '));
+        Assert.assertEquals("Jean-david Vincent", StringUtil.capitalize("jean-david vincent", ' '));
+        Assert.assertEquals("Jean-David vincent", StringUtil.capitalize("jean-david vincent", '-'));
+        Assert.assertEquals("Jean-David Vincent", StringUtil.capitalize("jean-david vincent", ' ', '-'));
     }
 
     /**
@@ -166,8 +158,7 @@ public class StringUtilTest {
     @Test
     public void encrypt() {
         Assert.assertNull(StringUtil.encrypt(null));
-        Assert.assertEquals(StringUtil.encrypt("password"),
-                "5BAA61E4C9B93F3F0682250B6CF8331B7EE68FD8");
+        Assert.assertEquals(StringUtil.encrypt("password"), "5BAA61E4C9B93F3F0682250B6CF8331B7EE68FD8");
     }
 
 }

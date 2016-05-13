@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +27,7 @@ import org.jbromo.common.test.arquillian.ArquillianUtil;
 
 /**
  * Default implementation for bromo-common arquillian test.
- *
  * @author qjafcunuas
- *
  */
 public final class CommonArquillianUtil {
 
@@ -42,17 +40,12 @@ public final class CommonArquillianUtil {
 
     /**
      * Build an archive to deploy for arquillian test.
-     *
-     * @param classToTest
-     *            the class to test.
-     * @param beans
-     *            the beans descriptor.
+     * @param classToTest the class to test.
+     * @param beans the beans descriptor.
      * @return the archive to deploy.
      */
-    public static JavaArchive createTestArchive(final Class<?> classToTest,
-            final BeansDescriptor beans) {
-        return ArquillianUtil.createTestArchive(classToTest, beans,
-                CommonArquillianUtil.class.getPackage());
+    public static JavaArchive createTestArchive(final Class<?> classToTest, final BeansDescriptor beans) {
+        return ArquillianUtil.createTestArchive(classToTest, beans, CommonArquillianUtil.class.getPackage());
     }
 
 }

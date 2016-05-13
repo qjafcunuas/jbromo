@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,9 +34,7 @@ import org.junit.Test;
 
 /**
  * Define JUnit for ClassUtil class.
- *
  * @author qjafcunuas
- *
  */
 public class ClassUtilTest {
 
@@ -54,13 +52,10 @@ public class ClassUtilTest {
     @Test
     public void getClassTest() {
         Assert.assertNull(ClassUtil.getClass((Object) null));
-        Assert.assertEquals(ClassUtil.getClass(new ArrayList<Object>()),
-                ArrayList.class);
-        Assert.assertEquals(ClassUtil.getClass(new HashMap<Object, Object>()),
-                HashMap.class);
+        Assert.assertEquals(ClassUtil.getClass(new ArrayList<Object>()), ArrayList.class);
+        Assert.assertEquals(ClassUtil.getClass(new HashMap<Object, Object>()), HashMap.class);
         Assert.assertEquals(ClassUtil.getClass(new Object()), Object.class);
-        Assert.assertFalse(ClassUtil.getClass(Integer.SIZE)
-                .equals(Object.class));
+        Assert.assertFalse(ClassUtil.getClass(Integer.SIZE).equals(Object.class));
     }
 
     /**
@@ -69,8 +64,7 @@ public class ClassUtilTest {
     @Test
     public void getClassesTest() {
         Assert.assertNull(ClassUtil.getClass((Object[]) null));
-        final Object[] objects = new Object[] { ListUtil.toList(),
-                BigDecimal.ZERO };
+        final Object[] objects = new Object[] {ListUtil.toList(), BigDecimal.ZERO};
         Assert.assertTrue(ClassUtil.getClass(objects).length == 2);
         Assert.assertEquals(ClassUtil.getClass(objects)[0], ArrayList.class);
         Assert.assertEquals(ClassUtil.getClass(objects)[1], BigDecimal.class);
@@ -85,17 +79,12 @@ public class ClassUtilTest {
         Assert.assertFalse(ClassUtil.isInstance(new Object(), null));
         Assert.assertFalse(ClassUtil.isInstance(null, Object.class));
 
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(),
-                Object.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(),
-                ArrayList.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(),
-                List.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(),
-                Iterable.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), Object.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), ArrayList.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), List.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), Iterable.class));
 
-        Assert.assertFalse(ClassUtil.isInstance(new ArrayList<Object>(),
-                HashMap.class));
+        Assert.assertFalse(ClassUtil.isInstance(new ArrayList<Object>(), HashMap.class));
     }
 
     /**
@@ -107,17 +96,12 @@ public class ClassUtilTest {
         Assert.assertFalse(ClassUtil.isAssignableFrom(List.class, null));
         Assert.assertFalse(ClassUtil.isAssignableFrom(null, List.class));
 
-        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class,
-                Object.class));
-        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class,
-                ArrayList.class));
-        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class,
-                List.class));
-        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class,
-                Iterable.class));
+        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class, Object.class));
+        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class, ArrayList.class));
+        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class, List.class));
+        Assert.assertTrue(ClassUtil.isAssignableFrom(ArrayList.class, Iterable.class));
 
-        Assert.assertFalse(ClassUtil.isAssignableFrom(ArrayList.class,
-                HashMap.class));
+        Assert.assertFalse(ClassUtil.isAssignableFrom(ArrayList.class, HashMap.class));
     }
 
     /**

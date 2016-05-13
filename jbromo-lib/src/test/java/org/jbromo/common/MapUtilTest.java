@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,9 +32,7 @@ import org.junit.Test;
 
 /**
  * Test for the Map Util class.
- *
  * @author qjafcunuas
- *
  */
 public class MapUtilTest {
 
@@ -55,8 +53,7 @@ public class MapUtilTest {
         final Map<String, String> strings = new HashMap<String, String>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             integers.put(i, i + RandomUtil.nextInt(IntegerUtil.INT_100));
-            strings.put("string " + i,
-                    "string " + i + RandomUtil.nextInt(IntegerUtil.INT_100));
+            strings.put("string " + i, "string " + i + RandomUtil.nextInt(IntegerUtil.INT_100));
         }
         final Map<Integer, Integer> anotherMap = new HashMap<Integer, Integer>();
         anotherMap.putAll(integers);
@@ -69,15 +66,13 @@ public class MapUtilTest {
         Assert.assertTrue(MapUtil.containsAll(integers, integers));
         Assert.assertTrue(MapUtil.containsAll(integers, anotherMap));
 
-        anotherMap.put(IntegerUtil.INT_1000,
-                RandomUtil.nextInt(IntegerUtil.INT_100, IntegerUtil.INT_1000));
+        anotherMap.put(IntegerUtil.INT_1000, RandomUtil.nextInt(IntegerUtil.INT_100, IntegerUtil.INT_1000));
         Assert.assertFalse(MapUtil.containsAll(integers, anotherMap));
         anotherMap.keySet().remove(Integer.valueOf(IntegerUtil.INT_1000));
         anotherMap.keySet().remove(Integer.valueOf(IntegerUtil.INT_1));
         Assert.assertFalse(MapUtil.containsAll(integers, anotherMap));
 
-        Assert.assertTrue(MapUtil.containsAll(strings,
-                MapUtil.toSynchronizedMap(strings)));
+        Assert.assertTrue(MapUtil.containsAll(strings, MapUtil.toSynchronizedMap(strings)));
 
     }
 
@@ -183,8 +178,7 @@ public class MapUtilTest {
         // Not empty map.
         final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
-            map.put(RandomUtil.nextInt(IntegerUtil.INT_100),
-                    RandomUtil.nextInt(IntegerUtil.INT_100));
+            map.put(RandomUtil.nextInt(IntegerUtil.INT_100), RandomUtil.nextInt(IntegerUtil.INT_100));
         }
 
         final Map<Integer, Integer> hash = MapUtil.toMap(map);
@@ -200,7 +194,6 @@ public class MapUtilTest {
     public void toSynchronizedMap() {
         Assert.assertNotNull(MapUtil.toSynchronizedMap());
         Assert.assertTrue(MapUtil.toSynchronizedMap().isEmpty());
-        Assert.assertEquals(MapUtil.toSynchronizedMap().getClass(), Hashtable.class);
     }
 
     /**
@@ -217,8 +210,7 @@ public class MapUtilTest {
         // Not empty map.
         final Map<Integer, Integer> map = new Hashtable<Integer, Integer>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
-            map.put(RandomUtil.nextInt(IntegerUtil.INT_100),
-                    RandomUtil.nextInt(IntegerUtil.INT_100));
+            map.put(RandomUtil.nextInt(IntegerUtil.INT_100), RandomUtil.nextInt(IntegerUtil.INT_100));
         }
 
         final Map<Integer, Integer> hash = MapUtil.toSynchronizedMap(map);

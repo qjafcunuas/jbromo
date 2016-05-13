@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,9 +30,7 @@ import org.junit.Test;
 
 /**
  * Test for the Boolean util class.
- *
  * @author qjafcunuas
- *
  */
 public class ArrayUtilTest {
 
@@ -73,7 +71,7 @@ public class ArrayUtilTest {
      */
     @Test
     public void containsAll() {
-        final Integer[] integers = new Integer[] { 1, 2 };
+        final Integer[] integers = new Integer[] {1, 2};
         // null array
         Assert.assertFalse(ArrayUtil.containsAll(null, null, true));
         Assert.assertFalse(ArrayUtil.containsAll(null, null, false));
@@ -83,35 +81,29 @@ public class ArrayUtilTest {
         Assert.assertFalse(ArrayUtil.containsAll(integers, null, false));
 
         // empty array
-        Assert.assertTrue(ArrayUtil.containsAll(new Integer[] {},
-                new Integer[] {}, false));
-        Assert.assertTrue(ArrayUtil.containsAll(new Integer[] {},
-                new Integer[] {}, true));
-        Assert.assertFalse(ArrayUtil.containsAll(integers, new Integer[] {},
-                false));
-        Assert.assertFalse(ArrayUtil.containsAll(integers, new Integer[] {},
-                true));
-        Assert.assertFalse(ArrayUtil.containsAll(new Integer[] {}, integers,
-                false));
-        Assert.assertFalse(ArrayUtil.containsAll(new Integer[] {}, integers,
-                true));
+        Assert.assertTrue(ArrayUtil.containsAll(new Integer[] {}, new Integer[] {}, false));
+        Assert.assertTrue(ArrayUtil.containsAll(new Integer[] {}, new Integer[] {}, true));
+        Assert.assertFalse(ArrayUtil.containsAll(integers, new Integer[] {}, false));
+        Assert.assertFalse(ArrayUtil.containsAll(integers, new Integer[] {}, true));
+        Assert.assertFalse(ArrayUtil.containsAll(new Integer[] {}, integers, false));
+        Assert.assertFalse(ArrayUtil.containsAll(new Integer[] {}, integers, true));
 
-        Integer[] another = new Integer[] { 1, 2 };
+        Integer[] another = new Integer[] {1, 2};
 
         // same array
         Assert.assertTrue(ArrayUtil.containsAll(integers, integers, false));
         Assert.assertTrue(ArrayUtil.containsAll(integers, integers, true));
         Assert.assertTrue(ArrayUtil.containsAll(integers, another, false));
         Assert.assertTrue(ArrayUtil.containsAll(another, integers, true));
-        another = new Integer[] { 2, 1 };
+        another = new Integer[] {2, 1};
         Assert.assertTrue(ArrayUtil.containsAll(integers, another, false));
         Assert.assertTrue(ArrayUtil.containsAll(another, integers, true));
 
         // Not same array
-        another = new Integer[] { 0, 1, 2 };
+        another = new Integer[] {0, 1, 2};
         Assert.assertFalse(ArrayUtil.containsAll(integers, another, false));
         Assert.assertFalse(ArrayUtil.containsAll(another, integers, true));
-        another = new Integer[] { 0, 1 };
+        another = new Integer[] {0, 1};
         Assert.assertFalse(ArrayUtil.containsAll(integers, another, false));
         Assert.assertFalse(ArrayUtil.containsAll(another, integers, true));
     }

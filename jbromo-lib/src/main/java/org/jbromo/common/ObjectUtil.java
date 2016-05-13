@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,8 +24,6 @@ package org.jbromo.common;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.ClassUtils;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.exception.MessageLabelExceptionFactory;
@@ -34,29 +32,22 @@ import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.InvocationUtil.AccessType;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define utility class on object.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ObjectUtil {
 
     /**
-     * Default constructor.
-     */
-    private ObjectUtil() {
-        super();
-    }
-
-    /**
      * Return true if two objects are null or, not null and equals.
-     *
-     * @param obj1
-     *            first object.
-     * @param obj2
-     *            second object.
+     * @param obj1 first object.
+     * @param obj2 second object.
      * @return true/false.
      */
     public static boolean notNullAndEquals(final Object obj1, final Object obj2) {
@@ -69,11 +60,8 @@ public final class ObjectUtil {
 
     /**
      * Return true if two objects are equals.
-     *
-     * @param obj1
-     *            first object.
-     * @param obj2
-     *            second object.
+     * @param obj1 first object.
+     * @param obj2 second object.
      * @return true/false.
      */
     public static boolean equals(final Object obj1, final Object obj2) {
@@ -88,11 +76,8 @@ public final class ObjectUtil {
 
     /**
      * Return true if two objects are null of if two object are not null.
-     *
-     * @param obj1
-     *            first object.
-     * @param obj2
-     *            second object.
+     * @param obj1 first object.
+     * @param obj2 second object.
      * @return true/false.
      */
     public static boolean nullOrNotNull(final Object obj1, final Object obj2) {
@@ -101,15 +86,10 @@ public final class ObjectUtil {
 
     /**
      * Compare two comparable objects.
-     *
-     * @param o1
-     *            the first object
-     * @param o2
-     *            the other object
-     * @param <E>
-     *            the type of comparable element
-     * @return a negative integer, zero, or a positive integer as this object is
-     *         less than, equal to, or greater than the specified object.
+     * @param o1 the first object
+     * @param o2 the other object
+     * @param <E> the type of comparable element
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      */
     @SuppressWarnings("unchecked")
     public static <E> int compare(final Comparable<E> o1, final Comparable<E> o2) {
@@ -125,17 +105,11 @@ public final class ObjectUtil {
     }
 
     /**
-     * Compare two objects, by comparator if object is comparable, else by
-     * toString method.
-     *
-     * @param o1
-     *            the first object
-     * @param o2
-     *            the other object
-     * @param <O>
-     *            the type of comparable element
-     * @return a negative integer, zero, or a positive integer as this object is
-     *         less than, equal to, or greater than the specified object.
+     * Compare two objects, by comparator if object is comparable, else by toString method.
+     * @param o1 the first object
+     * @param o2 the other object
+     * @param <O> the type of comparable element
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      */
     @SuppressWarnings("unchecked")
     public static <O> int compare(final O o1, final O o2) {
@@ -156,78 +130,52 @@ public final class ObjectUtil {
 
     /**
      * Return a new instance of a class.
-     *
-     * @param <O>
-     *            the object type.
-     * @param objectClass
-     *            the object class
-     *
+     * @param <O> the object type.
+     * @param objectClass the object class
      * @return the new collection instance.
-     * @throws MessageLabelException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
-    public static <O> O newInstance(final Class<O> objectClass)
-            throws MessageLabelException {
+    public static <O> O newInstance(final Class<O> objectClass) throws MessageLabelException {
         try {
             return objectClass.getConstructor().newInstance();
         } catch (final Exception e) {
             log.error("Cannot instantiate class " + objectClass, e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     /**
      * Return a new instance of a class.
-     *
-     * @param <O>
-     *            the object type.
-     * @param objectClass
-     *            the object class
-     * @param parameters
-     *            the constructor parameters.
-     *
+     * @param <O> the object type.
+     * @param objectClass the object class
+     * @param parameters the constructor parameters.
      * @return the new collection instance.
-     * @throws MessageLabelException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
-    public static <O> O newInstance(final Class<O> objectClass,
-            final Object... parameters) throws MessageLabelException {
+    public static <O> O newInstance(final Class<O> objectClass, final Object... parameters) throws MessageLabelException {
         try {
-            return objectClass.getDeclaredConstructor(
-                    ClassUtil.getClass(parameters)).newInstance(parameters);
+            return objectClass.getDeclaredConstructor(ClassUtil.getClass(parameters)).newInstance(parameters);
         } catch (final Exception e) {
-            log.error(
-                    "Cannot instantiate class with parameters " + objectClass,
-                    e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            log.error("Cannot instantiate class with parameters " + objectClass, e);
+            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     /**
      * Cast an object.
-     *
-     * @param <O>
-     *            the object type.
-     * @param object
-     *            the object to cast.
-     * @param toClass
-     *            the class to cast.
+     * @param <O> the object type.
+     * @param object the object to cast.
+     * @param toClass the class to cast.
      * @return the casted object.
      */
-    @SuppressWarnings("unchecked")
     public static <O> O cast(final Object object, final Class<O> toClass) {
-        return (O) object;
+        return toClass.cast(object);
     }
 
     /**
      * Return true if objects are the same (one == two).
-     *
-     * @param one
-     *            one object.
-     * @param two
-     *            another object.
+     * @param one one object.
+     * @param two another object.
      * @return true/false.
      */
     public static boolean same(final Object one, final Object two) {
@@ -235,11 +183,8 @@ public final class ObjectUtil {
     }
 
     /**
-     * Return true if object is primitive or primitive boxed (Integer, Long
-     * ...).
-     *
-     * @param object
-     *            the object to test.
+     * Return true if object is primitive or primitive boxed (Integer, Long ...).
+     * @param object the object to test.
      * @return true/false.
      */
     public static boolean isPrimitive(final Object object) {
@@ -251,9 +196,7 @@ public final class ObjectUtil {
 
     /**
      * Dump object in logs.
-     *
-     * @param object
-     *            the object to dump.
+     * @param object the object to dump.
      * @return the dumped string.
      */
     public static StringBuilder dump(final Object object) {
@@ -267,43 +210,34 @@ public final class ObjectUtil {
             log.info(builder.toString());
             return builder;
         } catch (final InvocationException e) {
-            log.warn("Cannot dump object " + object);
+            log.warn("Cannot dump object " + object, e);
             return null;
         }
     }
 
     /**
      * Dump object into a builder.
-     *
-     * @param object
-     *            the object to dump.
-     * @param prefix
-     *            the prefix to used
-     * @param builder
-     *            the object for dumping.
-     * @param already
-     *            contains object already dumped.
-     * @exception InvocationException
-     *                exception.
+     * @param object the object to dump.
+     * @param prefix the prefix to used
+     * @param builder the object for dumping.
+     * @param already contains object already dumped.
+     * @exception InvocationException exception.
      */
-    private static void dump(final Object object, final String prefix,
-            final StringBuilder builder, final Set<Object> already)
-            throws InvocationException {
+    private static void dump(final Object object, final String prefix, final StringBuilder builder,
+            final Set<Object> already) throws InvocationException {
         if (object == null || already.contains(object)) {
             return;
         }
         already.add(object);
         Object value;
         for (final Field field : InvocationUtil.getFields(object.getClass())) {
-            value = InvocationUtil.getValue(object, field, AccessType.FIELD,
-                    false);
+            value = InvocationUtil.getValue(object, field, AccessType.FIELD, false);
             builder.append("\r\n");
             builder.append(prefix);
             builder.append(field.getName());
             builder.append(" : ");
             builder.append(value);
-            if (!isPrimitive(value)
-                    && !ClassUtil.isInstance(value, String.class)) {
+            if (!isPrimitive(value) && !ClassUtil.isInstance(value, String.class)) {
                 dump(value, prefix.concat("    "), builder, already);
             }
         }
