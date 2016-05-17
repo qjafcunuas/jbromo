@@ -25,9 +25,6 @@ import java.lang.reflect.Field;
 import java.util.Set;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.exception.MessageLabelExceptionFactory;
-import org.jbromo.common.i18n.MessageKey;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.InvocationUtil.AccessType;
@@ -120,7 +117,7 @@ public final class ObjectUtil {
         } else if (o2 == null) {
             return 1;
         } else if (Comparable.class.isInstance(o1)) {
-            return compare((Comparable<O>) o1, (Comparable<O>) o2);
+            return compare(Comparable.class.cast(o1), Comparable.class.cast(o2));
         } else {
             final String s1 = o1.toString();
             final String s2 = o2.toString();
@@ -132,15 +129,14 @@ public final class ObjectUtil {
      * Return a new instance of a class.
      * @param <O> the object type.
      * @param objectClass the object class
-     * @return the new collection instance.
-     * @throws MessageLabelException exception.
+     * @return the new object instance.
      */
-    public static <O> O newInstance(final Class<O> objectClass) throws MessageLabelException {
+    public static <O> O newInstance(final Class<O> objectClass) {
         try {
             return objectClass.getConstructor().newInstance();
         } catch (final Exception e) {
-            log.error("Cannot instantiate class " + objectClass, e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
+            log.error("Cannot instantiate class {}", objectClass, e);
+            return null;
         }
     }
 
@@ -149,15 +145,14 @@ public final class ObjectUtil {
      * @param <O> the object type.
      * @param objectClass the object class
      * @param parameters the constructor parameters.
-     * @return the new collection instance.
-     * @throws MessageLabelException exception.
+     * @return the new object instance.
      */
-    public static <O> O newInstance(final Class<O> objectClass, final Object... parameters) throws MessageLabelException {
+    public static <O> O newInstance(final Class<O> objectClass, final Object... parameters) {
         try {
             return objectClass.getDeclaredConstructor(ClassUtil.getClass(parameters)).newInstance(parameters);
         } catch (final Exception e) {
-            log.error("Cannot instantiate class with parameters " + objectClass, e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
+            log.error("Cannot instantiate class {} with parameters {}", new Object[] {objectClass, parameters, e});
+            return null;
         }
     }
 

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,9 +31,7 @@ import org.junit.Assert;
 
 /**
  * JUnit LikeCondition class.
- *
  * @author qjafcunuas
- *
  */
 public class LikeConditionTest extends AbstractConditionTest<LikeCondition> {
 
@@ -60,8 +58,7 @@ public class LikeConditionTest extends AbstractConditionTest<LikeCondition> {
 
         condition.build(builder, parameters);
         Assert.assertEquals(builder.toString(), "where " + query);
-        Assert.assertEquals(parameters.get(parameters.size() - 1),
-                StringUtil.PERCENT + condition.getValue() + StringUtil.PERCENT);
+        Assert.assertEquals(parameters.get(parameters.size() - 1), StringUtil.PERCENT + condition.getValue() + StringUtil.PERCENT);
 
         // Build with '*'.
         final String value = RandomUtil.nextString(IntegerUtil.INT_10);
@@ -72,8 +69,7 @@ public class LikeConditionTest extends AbstractConditionTest<LikeCondition> {
 
         condition.build(builder, parameters);
         Assert.assertEquals(builder.toString(), "where " + query);
-        Assert.assertEquals(parameters.get(parameters.size() - 1), value
-                + StringUtil.PERCENT);
+        Assert.assertEquals(parameters.get(parameters.size() - 1), value + StringUtil.PERCENT);
 
     }
 

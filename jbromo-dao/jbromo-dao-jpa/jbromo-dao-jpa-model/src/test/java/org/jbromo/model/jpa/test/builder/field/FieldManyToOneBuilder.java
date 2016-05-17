@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,18 +40,13 @@ import org.junit.Assert;
 
 /**
  * Define a string field builder.
- *
  * @author qjafcunuas
- *
  */
-public class FieldManyToOneBuilder extends
-        AbstractFieldBuilder<IEntity<Serializable>> {
+public class FieldManyToOneBuilder extends AbstractFieldBuilder<IEntity<Serializable>> {
 
     /**
      * Default constructor.
-     *
-     * @param fieldBuilderFactory
-     *            the field builder factory to used.
+     * @param fieldBuilderFactory the field builder factory to used.
      */
     FieldManyToOneBuilder(final FieldBuilderFactory fieldBuilderFactory) {
         super(fieldBuilderFactory);
@@ -63,12 +58,10 @@ public class FieldManyToOneBuilder extends
     }
 
     @Override
-    public List<ValidationValue<IEntity<Serializable>>> getValidationErrorValues(
-            final Field field) {
+    public List<ValidationValue<IEntity<Serializable>>> getValidationErrorValues(final Field field) {
         // No error values on ManyToOne, because entities fields are not saved
         // with their owner, except for null values.
-        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil
-                .toList();
+        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil.toList();
         addNull(field, values, false);
         for (final ValidationValue<IEntity<Serializable>> value : values) {
             value.setNullManyToOne(true);
@@ -77,21 +70,17 @@ public class FieldManyToOneBuilder extends
     }
 
     @Override
-    public List<ValidationValue<IEntity<Serializable>>> getValidationSuccessValues(
-            final Field field) {
-        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil
-                .toList();
+    public List<ValidationValue<IEntity<Serializable>>> getValidationSuccessValues(final Field field) {
+        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil.toList();
         addNull(field, values, true);
-        values.add(new ValidationValue<IEntity<Serializable>>(field, "no",
-                nextRandom(false, field)));
+        values.add(new ValidationValue<IEntity<Serializable>>(field, "no", nextRandom(false, field)));
         return values;
     }
 
     @Override
-    public IEntity<Serializable> nextRandom(final boolean nullable,
-            final Field field) {
+    public IEntity<Serializable> nextRandom(final boolean nullable, final Field field) {
         final boolean returnNull = nullable && EntityUtil.isNullable(field);
-        if (returnNull && RandomUtil.isNull()) {
+        if (RandomUtil.isNull(returnNull)) {
             return null;
         }
         final List<IEntity<Serializable>> entities = getEntities(field);
@@ -105,26 +94,19 @@ public class FieldManyToOneBuilder extends
 
     /**
      * Return cached entities for a field.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <PK>
-     *            the primary key type.
-     * @param field
-     *            the field to get cached entities.
+     * @param <E> the entity type.
+     * @param <PK> the primary key type.
+     * @param field the field to get cached entities.
      * @return entities.
      */
     @SuppressWarnings("unchecked")
-    private <E extends IEntity<PK>, PK extends Serializable> List<IEntity<Serializable>> getEntities(
-            final Field field) {
-        final Class<IEntity<Serializable>> entityClass = (Class<IEntity<Serializable>>) field
-                .getType();
+    private <E extends IEntity<PK>, PK extends Serializable> List<IEntity<Serializable>> getEntities(final Field field) {
+        final Class<IEntity<Serializable>> entityClass = (Class<IEntity<Serializable>>) field.getType();
         return EntityCache.getInstance().getEntities(entityClass);
     }
 
     @Override
-    public void setFieldValue(final Object to, final Field field,
-            final Object fieldValue) {
+    public void setFieldValue(final Object to, final Field field, final Object fieldValue) {
         Method method = null;
         try {
             if (InvocationUtil.hasSetter(field)) {

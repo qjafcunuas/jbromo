@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@ package org.jbromo.dao.jpa.query.jpql.expression;
 
 /**
  * JUnit SumExpression class.
- *
  * @author qjafcunuas
- *
  */
 public class AvgExpressionTest extends AbstractExpressionTest<AvgExpression> {
 

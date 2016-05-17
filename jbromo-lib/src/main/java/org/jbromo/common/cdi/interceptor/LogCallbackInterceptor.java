@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,15 +25,13 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.cdi.annotation.LogCallback;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define TraceCallback interceptor implementation.
- *
  * @author qjafcunuas
- *
  */
 @LogCallback
 @Interceptor
@@ -41,12 +39,9 @@ import org.jbromo.common.cdi.annotation.LogCallback;
 public class LogCallbackInterceptor {
     /**
      * Intercept all method called for logging.
-     *
-     * @param ctx
-     *            the context.
+     * @param ctx the context.
      * @return the return object.
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     @AroundInvoke
     public Object intercept(final InvocationContext ctx) throws Exception {
@@ -58,8 +53,7 @@ public class LogCallbackInterceptor {
             return ctx.proceed();
         } finally {
             if (log.isTraceEnabled()) {
-                final Object[] args = new Object[] { klass, method,
-                        ctx.getParameters(), System.currentTimeMillis() - time };
+                final Object[] args = new Object[] {klass, method, ctx.getParameters(), System.currentTimeMillis() - time};
                 log.trace("Processing time for {}.{}{} is {}ms", args);
             }
         }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,11 +25,8 @@ import java.io.Serializable;
 
 /**
  * JUnit AbstractJpqlQueyBuilder class.
- *
- * @param <M>
- *            the model type.
+ * @param <M> the model type.
  * @author qjafcunuas
- *
  */
 public class AbstractJpqlQueryBuilderTest<M extends Serializable> {
 

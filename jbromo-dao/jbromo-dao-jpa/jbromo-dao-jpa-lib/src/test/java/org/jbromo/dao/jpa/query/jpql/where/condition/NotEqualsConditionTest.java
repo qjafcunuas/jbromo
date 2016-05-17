@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,12 +23,9 @@ package org.jbromo.dao.jpa.query.jpql.where.condition;
 
 /**
  * JUnit NotEqualsCondition class.
- *
  * @author qjafcunuas
- *
  */
-public class NotEqualsConditionTest extends
-        AbstractConditionTest<NotEqualsCondition> {
+public class NotEqualsConditionTest extends AbstractConditionTest<NotEqualsCondition> {
 
     @Override
     protected String getOperator() {

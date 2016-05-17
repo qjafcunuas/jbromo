@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,33 +23,30 @@ package org.jbromo.model.common.dto;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.invocation.InvocationException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Test for the AbstractOrderBy class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class OrderByTest {
 
     /**
      * Private class for test.
-     *
      * @author qjafcunuas
-     *
      */
     private class MyEntity implements Serializable {
         /**
          * serial version uid.
          */
         private static final long serialVersionUID = -7483137016662485160L;
+
         /**
          * The name.
          */
@@ -63,8 +60,7 @@ public class OrderByTest {
     @Test
     public void test() {
         try {
-            final AbstractOrderBy<OrderByTest.MyEntity> orderBy = new AbstractOrderBy<OrderByTest.MyEntity>(
-                    "name") {
+            final AbstractOrderBy<OrderByTest.MyEntity> orderBy = new AbstractOrderBy<OrderByTest.MyEntity>("name") {
                 /**
                  * serial version uid.
                  */

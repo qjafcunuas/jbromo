@@ -1,22 +1,14 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
-import java.lang.reflect.Field;
-import java.util.List;
-
-import javax.persistence.Embedded;
-
-import lombok.extern.slf4j.Slf4j;
-
-import org.jbromo.common.ListUtil;
-import org.jbromo.common.ObjectUtil;
-import org.jbromo.common.RandomUtil;
-import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.invocation.AnnotationUtil;
-import org.jbromo.common.invocation.InvocationException;
-import org.jbromo.common.invocation.InvocationUtil;
-import org.jbromo.model.jpa.util.EntityUtil;
-import org.junit.Assert;
-n
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -34,32 +26,27 @@ import java.util.List;
 
 import javax.persistence.Embedded;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.RandomUtil;
-import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.AnnotationUtil;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.model.jpa.util.EntityUtil;
 import org.junit.Assert;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define a string field builder.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class FieldEmbeddedBuilder extends AbstractFieldBuilder<Object> {
 
     /**
      * Default constructor.
-     *
-     * @param fieldBuilderFactory
-     *            the field builder factory to used.
+     * @param fieldBuilderFactory the field builder factory to used.
      */
     FieldEmbeddedBuilder(final FieldBuilderFactory fieldBuilderFactory) {
         super(fieldBuilderFactory);
@@ -71,17 +58,14 @@ public class FieldEmbeddedBuilder extends AbstractFieldBuilder<Object> {
     }
 
     @Override
-    public List<ValidationValue<Object>> getValidationErrorValues(
-            final Field field) {
+    public List<ValidationValue<Object>> getValidationErrorValues(final Field field) {
         final List<ValidationValue<Object>> values = ListUtil.toList();
         List<ValidationValue<Object>> embeddedValues = null;
         AbstractFieldBuilder<Object> fieldBuilder;
         Object value = null;
-        for (final Field embeddedField : EntityUtil.getPersistedFields(field
-                .getType())) {
+        for (final Field embeddedField : EntityUtil.getPersistedFields(field.getType())) {
             fieldBuilder = getFieldBuilderFactory().getBuilder(embeddedField);
-            embeddedValues = fieldBuilder
-                    .getValidationErrorValues(embeddedField);
+            embeddedValues = fieldBuilder.getValidationErrorValues(embeddedField);
             for (final ValidationValue<Object> embeddedValue : embeddedValues) {
                 value = nextRandom(true, field);
                 fieldBuilder.setFieldValue(value, embeddedField, embeddedValue);
@@ -92,32 +76,24 @@ public class FieldEmbeddedBuilder extends AbstractFieldBuilder<Object> {
     }
 
     @Override
-    public List<ValidationValue<Object>> getValidationSuccessValues(
-            final Field field) {
+    public List<ValidationValue<Object>> getValidationSuccessValues(final Field field) {
         Assert.fail("Not implemented");
         return null;
     }
 
     @Override
-    public void setFieldValue(final Object to, final Field field,
-            final Object fieldValue) {
+    public void setFieldValue(final Object to, final Field field, final Object fieldValue) {
         try {
             final Object toValue = InvocationUtil.getValue(to, field);
-            Assert.assertNotNull(
-                    "Null value return by getter on embedded field " + field,
-                    toValue);
+            Assert.assertNotNull("Null value return by getter on embedded field " + field, toValue);
             AbstractFieldBuilder<Object> fieldBuilder = null;
             Object embeddedValue = null;
-            for (final Field embeddedField : EntityUtil
-                    .getPersistedFields(fieldValue.getClass())) {
+            for (final Field embeddedField : EntityUtil.getPersistedFields(fieldValue.getClass())) {
                 // Read value from field.
-                embeddedValue = InvocationUtil.getValue(fieldValue,
-                        embeddedField);
+                embeddedValue = InvocationUtil.getValue(fieldValue, embeddedField);
                 // Set value into to object.
-                fieldBuilder = getFieldBuilderFactory().getBuilder(
-                        embeddedField);
-                fieldBuilder.setFieldValue(toValue, embeddedField,
-                        embeddedValue);
+                fieldBuilder = getFieldBuilderFactory().getBuilder(embeddedField);
+                fieldBuilder.setFieldValue(toValue, embeddedField, embeddedValue);
             }
         } catch (final InvocationException e) {
             Assert.fail(e.getMessage());
@@ -127,24 +103,15 @@ public class FieldEmbeddedBuilder extends AbstractFieldBuilder<Object> {
     @Override
     public Object nextRandom(final boolean nullable, final Field field) {
         final boolean returnNull = nullable && !AnnotationUtil.isNotNull(field);
-        if (returnNull && RandomUtil.isNull()) {
-            try {
-                return ObjectUtil.newInstance(field.getType());
-            } catch (final MessageLabelException e) {
-                log.error("Cannot create new instance of field " + field, e);
-                Assert.fail("Cannot create new instance for field " + field);
-                return null;
-            }
+        if (RandomUtil.isNull(returnNull)) {
+            return ObjectUtil.newInstance(field.getType());
         }
         try {
             final Object object = field.getType().newInstance();
             Object fieldValue;
-            for (final Field embeddedField : EntityUtil
-                    .getPersistedFields(field.getType())) {
-                fieldValue = getFieldBuilderFactory().getBuilder(embeddedField)
-                        .nextRandom(nullable, embeddedField);
-                getFieldBuilderFactory().getBuilder(embeddedField)
-                        .setFieldValue(object, embeddedField, fieldValue);
+            for (final Field embeddedField : EntityUtil.getPersistedFields(field.getType())) {
+                fieldValue = getFieldBuilderFactory().getBuilder(embeddedField).nextRandom(nullable, embeddedField);
+                getFieldBuilderFactory().getBuilder(embeddedField).setFieldValue(object, embeddedField, fieldValue);
             }
             return object;
         } catch (final Exception e) {

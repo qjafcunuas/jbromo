@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,9 +33,7 @@ import org.jbromo.common.test.cdi.CdiRunner;
 
 /**
  * Define utility class for Arquillian Test.
- *
  * @author qjafcunuas
- *
  */
 public final class ArquillianUtil {
 
@@ -47,59 +45,39 @@ public final class ArquillianUtil {
     }
 
     /**
-     * Creates a new archive of the specified type. The archive will be backed
-     * by the default without beans.xml file.
-     * 
-     * @param classToTest
-     *            the class to test.
-     * @param packageToLoad
-     *            the package to load into the archive.
+     * Creates a new archive of the specified type. The archive will be backed by the default without beans.xml file.
+     * @param classToTest the class to test.
+     * @param packageToLoad the package to load into the archive.
      * @return the archive to deploy.
      */
-    private static JavaArchive createArchive(final Class<?> classToTest,
-            final Package... packageToLoad) {
-        return ShrinkWrap
-                .create(JavaArchive.class, classToTest.getSimpleName() + ".jar")
-                .addPackages(true, packageToLoad).deleteClass(CdiRunner.class);
+    private static JavaArchive createArchive(final Class<?> classToTest, final Package... packageToLoad) {
+        return ShrinkWrap.create(JavaArchive.class, classToTest.getSimpleName() + ".jar").addPackages(true, packageToLoad)
+                .deleteClass(CdiRunner.class);
     }
 
     /**
-     * Creates a new archive of the specified type. The archive will be be
-     * backed by the default.
-     *
-     * @param classToTest
-     *            the class to test.
-     * @param beans
-     *            the beans descriptor.
-     * @param packageToLoad
-     *            the package to load into the archive.
+     * Creates a new archive of the specified type. The archive will be be backed by the default.
+     * @param classToTest the class to test.
+     * @param beans the beans descriptor.
+     * @param packageToLoad the package to load into the archive.
      * @return the archive to deploy.
      */
-    public static JavaArchive createTestArchive(final Class<?> classToTest,
-            final BeansDescriptor beans, final Package... packageToLoad) {
+    public static JavaArchive createTestArchive(final Class<?> classToTest, final BeansDescriptor beans, final Package... packageToLoad) {
         final JavaArchive arch = createArchive(classToTest, packageToLoad);
         setBeansDescriptor(beans, arch);
         return arch;
     }
 
     /**
-     * Creates a new archive of the specified type. The archive will be be
-     * backed by the default
-     *
-     * @param classToTest
-     *            the class to test.
-     * @param beans
-     *            the beans descriptor.
-     * @param packageToLoad
-     *            the package to load into the archive.
+     * Creates a new archive of the specified type. The archive will be be backed by the default
+     * @param classToTest the class to test.
+     * @param beans the beans descriptor.
+     * @param packageToLoad the package to load into the archive.
      * @return the archive to deploy.
      */
-    public static JavaArchive createTestDependenciesArchive(
-            final Class<?> classToTest, final BeansDescriptor beans,
-            final Package... packageToLoad) {
+    public static JavaArchive createTestDependenciesArchive(final Class<?> classToTest, final BeansDescriptor beans, final Package... packageToLoad) {
 
-        final JavaArchive arch = createTestArchive(classToTest, null,
-                packageToLoad);
+        final JavaArchive arch = createTestArchive(classToTest, null, packageToLoad);
         loadRuntimeAndTestDependencies(arch);
         setBeansDescriptor(beans, arch);
 
@@ -108,40 +86,29 @@ public final class ArquillianUtil {
 
     /**
      * Set beans.xml file into archive.
-     *
-     * @param beans
-     *            the beans to set. if null, set an empty file.
-     * @param arch
-     *            the archive to set file.
+     * @param beans the beans to set. if null, set an empty file.
+     * @param arch the archive to set file.
      */
-    private static void setBeansDescriptor(final BeansDescriptor beans,
-            final JavaArchive arch) {
+    private static void setBeansDescriptor(final BeansDescriptor beans, final JavaArchive arch) {
         if (beans == null) {
             arch.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         } else {
-            arch.addAsManifestResource(new StringAsset(beans.exportAsString()),
-                    "beans.xml");
+            arch.addAsManifestResource(new StringAsset(beans.exportAsString()), "beans.xml");
         }
     }
 
     /**
      * Load runtime and test dependencies libraries into an archive.
-     *
-     * @param arch
-     *            the archive to add dependencies libraries.
+     * @param arch the archive to add dependencies libraries.
      */
     private static void loadRuntimeAndTestDependencies(final JavaArchive arch) {
-        final JavaArchive[] libs = Maven.resolver().loadPomFromFile("pom.xml")
-                .importRuntimeAndTestDependencies().resolve()
-                .withTransitivity().as(JavaArchive.class);
+        final JavaArchive[] libs = Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve().withTransitivity()
+                .as(JavaArchive.class);
         for (final JavaArchive one : libs) {
-            if (one.getName().contains("bromo")
-                    || one.getName().contains("commons-lang3")
-                    || one.getName().contains("commons-collections")) {
+            if (one.getName().contains("bromo") || one.getName().contains("commons-lang3") || one.getName().contains("commons-collections")) {
                 for (final ArchivePath path : one.getContent().keySet()) {
                     if (path.get().indexOf(".class") > 0) {
-                        arch.addClass(path.get().replace("/", ".")
-                                .substring(1, path.get().indexOf(".class")));
+                        arch.addClass(path.get().replace("/", ".").substring(1, path.get().indexOf(".class")));
                     }
                 }
             }

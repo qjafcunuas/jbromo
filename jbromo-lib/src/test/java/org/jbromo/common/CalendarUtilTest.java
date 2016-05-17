@@ -259,12 +259,13 @@ public class CalendarUtilTest {
         // Set calendar to 2014-02-01 03:04:05
         final Calendar cal = Calendar.getInstance();
         cal.set(IntegerUtil.INT_2000, IntegerUtil.INT_1, IntegerUtil.INT_1, IntegerUtil.INT_3, IntegerUtil.INT_4, IntegerUtil.INT_5);
-
+        Assert.assertTrue(CalendarUtil.FORMAT.values().length > 0);
         Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDD), "20000201");
-
         Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.HHMMSS), "030405");
-
         Assert.assertEquals(CalendarUtil.toString(cal, CalendarUtil.FORMAT.YYYYMMDDHHMMSS), "20000201030405");
 
+        for (final CalendarUtil.FORMAT format : CalendarUtil.FORMAT.values()) {
+            Assert.assertEquals(format, CalendarUtil.FORMAT.valueOf(format.name()));
+        }
     }
 }

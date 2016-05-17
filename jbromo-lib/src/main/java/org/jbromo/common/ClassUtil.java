@@ -99,4 +99,58 @@ public final class ClassUtil {
         return ClassUtils.isPrimitiveOrWrapper(theClass);
     }
 
+    /**
+     * Return true if class is boolean.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isBoolean(final Class<?> type) {
+        return type != null && (type.equals(boolean.class) || type.equals(Boolean.class));
+    }
+
+    /**
+     * Return true if class is long.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isLong(final Class<?> type) {
+        return type != null && (type.equals(long.class) || type.equals(Long.class));
+    }
+
+    /**
+     * Return true if class is int.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isInt(final Class<?> type) {
+        return type != null && (type.equals(int.class) || type.equals(Integer.class));
+    }
+
+    /**
+     * Return true if class is short.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isShort(final Class<?> type) {
+        return type != null && (type.equals(short.class) || type.equals(Short.class));
+    }
+
+    /**
+     * Return true if class is double.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isDouble(final Class<?> type) {
+        return type != null && (type.equals(double.class) || type.equals(Double.class));
+    }
+
+    /**
+     * Return true if class is float.
+     * @param type the class type.
+     * @return true/false.
+     */
+    public static boolean isFloat(final Class<?> type) {
+        return type != null && (type.equals(float.class) || type.equals(Float.class));
+    }
+
 }

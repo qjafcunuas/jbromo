@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,18 +40,13 @@ import org.junit.Assert;
 
 /**
  * Define a OneToOne field builder.
- *
  * @author qjafcunuas
- *
  */
-public class FieldOneToOneBuilder extends
-        AbstractFieldBuilder<IEntity<Serializable>> {
+public class FieldOneToOneBuilder extends AbstractFieldBuilder<IEntity<Serializable>> {
 
     /**
      * Default constructor.
-     *
-     * @param fieldBuilderFactory
-     *            the field builder factory to used.
+     * @param fieldBuilderFactory the field builder factory to used.
      */
     FieldOneToOneBuilder(final FieldBuilderFactory fieldBuilderFactory) {
         super(fieldBuilderFactory);
@@ -63,32 +58,26 @@ public class FieldOneToOneBuilder extends
     }
 
     @Override
-    public List<ValidationValue<IEntity<Serializable>>> getValidationErrorValues(
-            final Field field) {
+    public List<ValidationValue<IEntity<Serializable>>> getValidationErrorValues(final Field field) {
         // No error values on ManyToMany, because entities fields are not saved
         // with their owner, except for null values.
-        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil
-                .toList();
+        final List<ValidationValue<IEntity<Serializable>>> values = ListUtil.toList();
         addNull(field, values, false);
         return values;
     }
 
     @Override
-    public List<ValidationValue<IEntity<Serializable>>> getValidationSuccessValues(
-            final Field field) {
+    public List<ValidationValue<IEntity<Serializable>>> getValidationSuccessValues(final Field field) {
         final List<ValidationValue<IEntity<Serializable>>> values = ListUtil.toList();
         addNull(field, values, true);
-        values.add(new ValidationValue<IEntity<Serializable>>(field, "no",
-                nextRandom(false, field)));
+        values.add(new ValidationValue<IEntity<Serializable>>(field, "no", nextRandom(false, field)));
         return values;
     }
 
     @Override
-    public IEntity<Serializable> nextRandom(final boolean nullable,
-            final Field field) {
-        final boolean returnNull = nullable
-                && EntityUtil.isNullable(field);
-        if (returnNull && RandomUtil.isNull()) {
+    public IEntity<Serializable> nextRandom(final boolean nullable, final Field field) {
+        final boolean returnNull = nullable && EntityUtil.isNullable(field);
+        if (RandomUtil.isNull(returnNull)) {
             return null;
         }
         final List<IEntity<Serializable>> entities = getEntities(field);
@@ -102,26 +91,19 @@ public class FieldOneToOneBuilder extends
 
     /**
      * Return cached entities for a field.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <PK>
-     *            the primary key type.
-     * @param field
-     *            the field to get cached entities.
+     * @param <E> the entity type.
+     * @param <PK> the primary key type.
+     * @param field the field to get cached entities.
      * @return entities.
      */
     @SuppressWarnings("unchecked")
-    private <E extends IEntity<PK>, PK extends Serializable> List<IEntity<Serializable>> getEntities(
-            final Field field) {
-        final Class<IEntity<Serializable>> entityClass = (Class<IEntity<Serializable>>) field
-                .getType();
+    private <E extends IEntity<PK>, PK extends Serializable> List<IEntity<Serializable>> getEntities(final Field field) {
+        final Class<IEntity<Serializable>> entityClass = (Class<IEntity<Serializable>>) field.getType();
         return EntityCache.getInstance().getEntities(entityClass);
     }
 
     @Override
-    public void setFieldValue(final Object to, final Field field,
-            final Object fieldValue) {
+    public void setFieldValue(final Object to, final Field field, final Object fieldValue) {
         Method method = null;
         try {
             method = InvocationUtil.getSetter(to, field);

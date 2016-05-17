@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,57 +26,43 @@ import org.jbromo.common.i18n.IMessageLabel;
 
 /**
  * Define default MessageLabelException factory interface.
- *
  * @author qjafcunuas
- *
- * @param <E>
- *            the exception type.
+ * @param <E> the exception type.
  */
 public interface IMessageLabelExceptionFactory<E extends MessageLabelException> {
 
     /**
      * Return the exception class managed by this factory.
-     *
      * @return the exception class.
      */
     Class<E> getExceptionClass();
 
     /**
      * Create a new instance of an exception.
-     *
-     * @param key
-     *            the message key.
+     * @param key the message key.
      * @return the new instance.
      */
     E newInstance(final IMessageKey key);
 
     /**
      * Create a new instance of an exception.
-     *
-     * @param key
-     *            the message key.
-     * @param cause
-     *            the cause.
+     * @param key the message key.
+     * @param cause the cause.
      * @return the new instance.
      */
     E newInstance(final IMessageKey key, final Throwable cause);
 
     /**
      * Create a new instance of an exception.
-     *
-     * @param label
-     *            the message label.
+     * @param label the message label.
      * @return the new instance.
      */
     E newInstance(final IMessageLabel label);
 
     /**
      * Create a new instance of an exception.
-     *
-     * @param label
-     *            the message label.
-     * @param cause
-     *            the cause.
+     * @param label the message label.
+     * @param cause the cause.
      * @return the new instance.
      */
     E newInstance(final IMessageLabel label, final Throwable cause);

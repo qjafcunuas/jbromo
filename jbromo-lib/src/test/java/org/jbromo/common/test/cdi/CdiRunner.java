@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,12 +27,12 @@ import java.util.List;
 
 import javax.enterprise.inject.spi.BeanManager;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.test.common.IContainer;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Implements the JUnit 4 standard test case class model with Weld container.
@@ -42,11 +42,8 @@ public class CdiRunner extends BlockJUnit4ClassRunner {
 
     /**
      * Default constructor.
-     *
-     * @param klass
-     *            the class to test.
-     * @throws InitializationError
-     *             exception.
+     * @param klass the class to test.
+     * @throws InitializationError exception.
      */
     public CdiRunner(final Class<Object> klass) throws InitializationError {
         super(klass);
@@ -56,8 +53,7 @@ public class CdiRunner extends BlockJUnit4ClassRunner {
      * Start all containers.
      */
     private void start() {
-        final List<IContainer> containers = CdiContainerLoader.getInstance()
-                .getContainers();
+        final List<IContainer> containers = CdiContainerLoader.getInstance().getContainers();
         // Start containers.
         log.info("Start {} containers", containers.size());
         for (final IContainer container : containers) {
@@ -72,8 +68,7 @@ public class CdiRunner extends BlockJUnit4ClassRunner {
 
         // Fire event for all started container.
         log.info("Fire started container event.");
-        CdiContainerLoader.getInstance().getCdiContainer()
-                .select(BeanManager.class).fireEvent(new CdiStartedEvent());
+        CdiContainerLoader.getInstance().getCdiContainer().select(BeanManager.class).fireEvent(new CdiStartedEvent());
 
     }
 
@@ -81,12 +76,10 @@ public class CdiRunner extends BlockJUnit4ClassRunner {
      * Stop all containers.
      */
     private void stop() {
-        final List<IContainer> containers = CdiContainerLoader.getInstance()
-                .getContainers();
+        final List<IContainer> containers = CdiContainerLoader.getInstance().getContainers();
         // Fire event for all started container.
         log.info("Fire shutdown container event.");
-        CdiContainerLoader.getInstance().getCdiContainer()
-                .select(BeanManager.class).fireEvent(new CdiShutdownEvent());
+        CdiContainerLoader.getInstance().getCdiContainer().select(BeanManager.class).fireEvent(new CdiShutdownEvent());
 
         // Pre-stop containers.
         log.info("Pre-stop {} containers", containers.size());
@@ -114,8 +107,7 @@ public class CdiRunner extends BlockJUnit4ClassRunner {
 
     @Override
     protected Object createTest() throws Exception {
-        return CdiContainerLoader.getInstance().getCdiContainer()
-                .select(getTestClass().getJavaClass());
+        return CdiContainerLoader.getInstance().getCdiContainer().select(getTestClass().getJavaClass());
     }
 
 }

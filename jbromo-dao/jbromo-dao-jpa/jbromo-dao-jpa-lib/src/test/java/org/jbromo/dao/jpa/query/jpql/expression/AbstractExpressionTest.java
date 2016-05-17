@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,18 +23,14 @@ package org.jbromo.dao.jpa.query.jpql.expression;
 
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.StringUtil;
-import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Define JUnit AbstractExpression class.
- *
- * @param <E>
- *            the expression to test.
+ * @param <E> the expression to test.
  * @author qjafcunuas
- *
  */
 public abstract class AbstractExpressionTest<E extends AbstractExpression> {
 
@@ -46,28 +42,20 @@ public abstract class AbstractExpressionTest<E extends AbstractExpression> {
     /**
      * The expression class.
      */
-    private final Class<E> expressionClass = ParameterizedTypeUtil.getClass(
-            this, 0);
+    private final Class<E> expressionClass = ParameterizedTypeUtil.getClass(this, 0);
 
     /**
      * Return the expression's operator.
-     *
      * @return the operator.
      */
     protected abstract String getOperator();
 
     /**
      * Return a new instance of the expression.
-     *
      * @return new instance.
      */
     protected E newInstance() {
-        try {
-            return ObjectUtil.newInstance(this.expressionClass, FIELD_NAME);
-        } catch (final MessageLabelException e) {
-            Assert.fail(e.getMessage());
-            return null;
-        }
+        return ObjectUtil.newInstance(this.expressionClass, FIELD_NAME);
     }
 
     /**
@@ -105,8 +93,7 @@ public abstract class AbstractExpressionTest<E extends AbstractExpression> {
         final E expression = newInstance();
         final StringBuilder builder = new StringBuilder("Test expression ");
         expression.build(builder);
-        Assert.assertEquals(builder.toString(), "Test expression "
-                + getOperator() + StringUtil.PARENTHESIS_OPEN + FIELD_NAME
-                + StringUtil.PARENTHESIS_CLOSE);
+        Assert.assertEquals(builder.toString(),
+                            "Test expression " + getOperator() + StringUtil.PARENTHESIS_OPEN + FIELD_NAME + StringUtil.PARENTHESIS_CLOSE);
     }
 }

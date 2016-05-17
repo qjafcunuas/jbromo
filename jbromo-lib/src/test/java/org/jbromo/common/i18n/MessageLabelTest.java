@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,10 +21,9 @@
  */
 package org.jbromo.common.i18n;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Getter;
 
 import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
@@ -32,11 +31,11 @@ import org.jbromo.common.exception.AbstractMessageLabelExceptionTest;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+
 /**
  * Define JUnit MessageLabel class.
- *
  * @author qjafcunuas
- *
  */
 public class MessageLabelTest {
 
@@ -44,6 +43,11 @@ public class MessageLabelTest {
      * A message key for test.
      */
     public static final IMessageKey MESSAGE_KEY = new IMessageKey() {
+
+        /**
+         * serialVersionUID.
+         */
+        private static final long serialVersionUID = 5202980546725541235L;
 
         @Override
         public String getKey() {
@@ -66,7 +70,7 @@ public class MessageLabelTest {
          * The label parameters.
          */
         @Getter
-        private final List<Object> parameters = new ArrayList<Object>();
+        private final List<Serializable> parameters = new ArrayList<Serializable>();
 
         @Override
         public IMessageKey getKey() {
@@ -83,8 +87,7 @@ public class MessageLabelTest {
     /**
      * An exception for test.
      */
-    public static final Exception EXCEPTION = new Exception(
-            "The test exception");
+    public static final Exception EXCEPTION = new Exception("The test exception");
 
     /**
      * Test constructor.
@@ -92,7 +95,7 @@ public class MessageLabelTest {
     @Test
     public void constructor() {
         MessageLabel ml;
-        final List<Object> parameters = ListUtil.toList((Object) 1, 2);
+        final List<Serializable> parameters = ListUtil.toList((Serializable) 1, 2);
 
         // No parameters.
         ml = new MessageLabel();
@@ -116,8 +119,7 @@ public class MessageLabelTest {
         Assert.assertEquals(ml.getKey(), MESSAGE_KEY);
         Assert.assertNotNull(ml.getParameters());
         Assert.assertFalse(ml.getParameters().isEmpty());
-        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters,
-                true));
+        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters, true));
         Assert.assertEquals(ml.getParameters().get(0), 1);
         Assert.assertEquals(ml.getParameters().get(1), 2);
         Assert.assertEquals(ml.getSeverity(), MessageSeverity.ERROR);
@@ -131,14 +133,12 @@ public class MessageLabelTest {
         Assert.assertEquals(ml.getSeverity(), MessageSeverity.INFO);
 
         // Key and parameters array
-        ml = new MessageLabel(MESSAGE_KEY, ArrayUtil.toArray(parameters,
-                Object.class));
+        ml = new MessageLabel(MESSAGE_KEY, ArrayUtil.toArray(parameters, Serializable.class));
         Assert.assertNotNull(ml);
         Assert.assertEquals(ml.getKey(), MESSAGE_KEY);
         Assert.assertNotNull(ml.getParameters());
         Assert.assertFalse(ml.getParameters().isEmpty());
-        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters,
-                true));
+        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters, true));
         Assert.assertEquals(ml.getParameters().get(0), 1);
         Assert.assertEquals(ml.getParameters().get(1), 2);
         Assert.assertEquals(ml.getSeverity(), MessageSeverity.ERROR);
@@ -149,24 +149,31 @@ public class MessageLabelTest {
         Assert.assertEquals(ml.getKey(), MESSAGE_KEY);
         Assert.assertNotNull(ml.getParameters());
         Assert.assertFalse(ml.getParameters().isEmpty());
-        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters,
-                true));
+        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters, true));
         Assert.assertEquals(ml.getParameters().get(0), 1);
         Assert.assertEquals(ml.getParameters().get(1), 2);
         Assert.assertEquals(ml.getSeverity(), MessageSeverity.INFO);
 
         // Key, severity and parameters array
-        ml = new MessageLabel(MESSAGE_KEY, MessageSeverity.INFO,
-                ArrayUtil.toArray(parameters, Object.class));
+        ml = new MessageLabel(MESSAGE_KEY, MessageSeverity.INFO, ArrayUtil.toArray(parameters, Serializable.class));
         Assert.assertNotNull(ml);
         Assert.assertEquals(ml.getKey(), MESSAGE_KEY);
         Assert.assertNotNull(ml.getParameters());
         Assert.assertFalse(ml.getParameters().isEmpty());
-        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters,
-                true));
+        Assert.assertTrue(ListUtil.containsAll(ml.getParameters(), parameters, true));
         Assert.assertEquals(ml.getParameters().get(0), 1);
         Assert.assertEquals(ml.getParameters().get(1), 2);
         Assert.assertEquals(ml.getSeverity(), MessageSeverity.INFO);
+    }
 
+    /**
+     * Test setSeverity method.
+     */
+    @Test
+    public void setSeverity() {
+        final MessageLabel ml = new MessageLabel(MESSAGE_KEY, MessageSeverity.INFO);
+        Assert.assertEquals(MessageSeverity.INFO, ml.getSeverity());
+        ml.setSeverity(MessageSeverity.ERROR);
+        Assert.assertEquals(MessageSeverity.ERROR, ml.getSeverity());
     }
 }

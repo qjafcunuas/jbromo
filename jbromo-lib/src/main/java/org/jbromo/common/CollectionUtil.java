@@ -26,18 +26,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jbromo.common.exception.MessageLabelException;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define Collection Utility.
  * @author qjafcunuas
- * @version 1.0.0
  */
-@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CollectionUtil {
 
@@ -183,15 +179,11 @@ public final class CollectionUtil {
         if (toClass.equals(from.getClass())) {
             return (C) from;
         } else {
-            C values;
-            try {
-                values = ObjectUtil.newInstance(toClass);
+            final C values = ObjectUtil.newInstance(toClass);
+            if (values != null) {
                 values.addAll(from);
-                return values;
-            } catch (final MessageLabelException e) {
-                log.trace("Cannot instanciate class " + toClass, e);
-                return null;
             }
+            return values;
         }
 
     }

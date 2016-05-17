@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,8 +21,6 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.query.jpql.AbstractJpqlQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.JpqlEntityQueryBuilder;
@@ -30,27 +28,24 @@ import org.jbromo.dao.jpa.query.jpql.where.predicate.AbstractUniquePredicateTest
 import org.jbromo.sample.server.model.src.User;
 import org.junit.Assert;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JUnit JpqlWhereBuilder class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
-public class JpqlWhereBuilderTest extends
-        AbstractUniquePredicateTest<JpqlWhereBuilder> {
+public class JpqlWhereBuilderTest extends AbstractUniquePredicateTest<JpqlWhereBuilder> {
 
     @Override
     protected JpqlWhereBuilder newInstance() {
-        return new JpqlWhereBuilder(new AbstractJpqlQueryBuilder<User>(null,
-                User.class));
+        return new JpqlWhereBuilder(new AbstractJpqlQueryBuilder<User>(null, User.class));
     }
 
     @Override
     protected JpqlWhereBuilder newEntityInstance() {
         try {
-            return new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null,
-                    User.class));
+            return new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class));
         } catch (final DaoException e) {
             log.error("Cannot instanciate class", e);
             Assert.fail(e.getMessage());

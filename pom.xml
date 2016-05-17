@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2013-2014 The JBromo Authors. Permission is hereby granted, 
-	free of charge, to any person obtaining a copy of this software and associated 
-	documentation files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, publish, 
-	distribute, sublicense, and/or sell copies of the Software, and to permit 
-	persons to whom the Software is furnished to do so, subject to the following 
-	conditions: The above copyright notice and this permission notice shall be 
-	included in all copies or substantial portions of the Software. THE SOFTWARE 
-	IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
-	BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
-	BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<!-- <![CDATA[ Copyright (C) 2013-2014 The JBromo Authors. Permission is 
+	hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software 
+	without restriction, including without limitation the rights to use, copy, 
+	modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+	Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions: The above copyright notice and this 
+	permission notice shall be included in all copies or substantial portions 
+	of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
+	KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
+	NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+	DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+	ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+	DEALINGS IN THE SOFTWARE. ]]> -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -24,16 +25,22 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+		<sonar.sources>src/main</sonar.sources>
+		<sonar.tests>src/test</sonar.tests>
+		<sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
 		<javaee.version>6.0</javaee.version>
 		<deltaspike.version>1.0.0</deltaspike.version>
 		<openjpa.version>2.3.0</openjpa.version>
-		<owb.version>1.2.7-SNAPSHOT</owb.version>
+		<owb.version>1.2.8</owb.version>
+		<jacoco.version>0.7.6.201602180812</jacoco.version>
 		<jboss.managed.version>7.2.0.Final</jboss.managed.version>
 		<jboss.managed.home>C:\Users\qjafcunuas\Projets\autre\server\jboss-as-7.2.0.Final.junit</jboss.managed.home>
 		<jboss.remote.version>7.2.0.Final</jboss.remote.version>
 		<jboss.remote.address>127.0.0.1</jboss.remote.address>
 		<jboss.remote.port>9999</jboss.remote.port>
-		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+		<lombok.version>1.16.8</lombok.version>
+		<delombok.version>${lombok.version}.0</delombok.version>
 	</properties>
 
 	<dependencyManagement>
@@ -221,13 +228,13 @@
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.16.8</version>
+				<version>${lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.2.1</version>
+				<version>3.4</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-collections</groupId>
@@ -251,7 +258,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -282,7 +289,7 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-all</artifactId>
-				<version>1.8.4</version>
+				<version>1.10.19</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -361,6 +368,30 @@
 	</dependencies>
 
 	<profiles>
+		<profile>
+			<id>delombok</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok-maven-plugin</artifactId>
+						<version>${delombok.version}</version>
+						<executions>
+							<execution>
+								<id>delombok</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>delombok</goal>
+								</goals>
+								<configuration>
+									<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>weld-managed</id>
 			<activation>
@@ -525,6 +556,7 @@
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<executions>
 							<execution>
+								<id>integration-test</id>
 								<goals>
 									<goal>integration-test</goal>
 									<goal>verify</goal>
@@ -567,16 +599,106 @@
 					<version>1.0.0.Alpha5</version>
 					<scope>test</scope>
 				</dependency>
-				<!-- <dependency> <groupId>org.jacoco</groupId> <artifactId>org.jacoco.core</artifactId> 
-					<version>0.6.3.201306030806</version> </dependency> -->
 			</dependencies>
 		</profile>
 	</profiles>
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<configuration>
+					<append>true</append>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefire.argLine</propertyName>
+							<destFile>${sonar.jacoco.reportPath}</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>failsafe.argLine</propertyName>
+							<destFile>${sonar.jacoco.itReportPath}</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-merge-ut</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${session.topLevelProject.build.directory}/jacoco.exec</destFile>
+							<fileSets>
+								<fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>jacoco.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-merge-it</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${session.topLevelProject.build.directory}/jacoco-it.exec</destFile>
+							<fileSets>
+								<fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>jacoco-it.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+							<goal>report-integration</goal>
+							<!-- from 0.7.7 goal>report-aggregate</goal -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>${surefire.argLine}</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<argLine>${failsafe.argLine}</argLine>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<testResources>
@@ -591,13 +713,23 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.version}</version>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.17</version>
+					<version>2.19.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.19.1</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.0</version>
+					<version>3.5.1</version>
 					<configuration>
 						<source>1.7</source>
 						<target>1.7</target>
@@ -606,7 +738,7 @@
 
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
+					<version>3.0.0</version>
 					<executions>
 						<execution>
 							<goals>
@@ -625,7 +757,7 @@
 
 				<plugin>
 					<artifactId>maven-ejb-plugin</artifactId>
-					<version>2.3</version>
+					<version>2.5.1</version>
 					<configuration>
 						<ejbVersion>3.1</ejbVersion>
 						<archive>
@@ -636,13 +768,85 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.16</version>
+					<groupId>rg.projectlombok</groupId>
+					<artifactId>lombok-maven-plugin</artifactId>
+					<version>${lombok.version}</version>
+					<executions>
+						<execution>
+							<id>delombok</id>
+							<goals>
+								<goal>delombok</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.9</version>
+			</plugin>
+			<!-- <plugin> <groupId>org.fusesource.mvnplugins</groupId> <artifactId>maven-graph-plugin</artifactId> 
+				<version>1.38</version> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.19.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.12</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>changes-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.6</version>
+				<configuration>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<modules>
 		<module>jbromo-lib</module>
@@ -651,4 +855,5 @@
 		<module>jbromo-service</module>
 		<module>jbromo-webapp</module>
 	</modules>
+
 </project>

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,148 +30,100 @@ import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Define a CRUD extended interface.
- * 
  * @author qjafcunuas
- * @param <E>
- *            the serializable type.
- * @param <P>
+ * @param <E> the serializable type.
+ * @param
+ *            <P>
  *            the primary key type.
- * @param <X>
- *            the exception type.
+ * @param <X> the exception type.
  */
-public interface ICRUDExtended<E extends Serializable, P extends Serializable, X extends MessageLabelException>
-        extends ICRUD<E, P, X> {
+public interface ICRUDExtended<E extends Serializable, P extends Serializable, X extends MessageLabelException> extends ICRUD<E, P, X> {
 
     /**
      * Creates the objects.
-     * 
-     * @param <C>
-     *            the collection entity type.
-     * @param transientInstance
-     *            the objects to save.
+     * @param <C> the collection entity type.
+     * @param transientInstance the objects to save.
      * @return the saved and persistent entities.
-     * @throws X
-     *             on exception.
+     * @throws X on exception.
      */
     <C extends Collection<E>> C create(final C transientInstance) throws X;
 
     /**
      * Reads the instance of the objects.
-     * 
-     * @param <C>
-     *            the collection entity type.
-     * @param detachedInstance
-     *            the objects which have to be readed.
+     * @param <C> the collection entity type.
+     * @param detachedInstance the objects which have to be readed.
      * @return the readed objects.
-     * @throws X
-     *             on exception.
+     * @throws X on exception.
      */
     <C extends Collection<E>> C read(final C detachedInstance) throws X;
 
     /**
      * Updates the instance of the objects.
-     * 
-     * @param <C>
-     *            the collection entity type.
-     * @param detachedInstance
-     *            the objects which have to be updated.
+     * @param <C> the collection entity type.
+     * @param detachedInstance the objects which have to be updated.
      * @return the updated objects.
-     * @throws X
-     *             on exception.
+     * @throws X on exception.
      */
     <C extends Collection<E>> C update(final C detachedInstance) throws X;
 
     /**
      * Deletes objects instance.
-     * 
-     * @param detachedInstance
-     *            the objects to delete.
-     * @throws X
-     *             on exception
+     * @param detachedInstance the objects to delete.
+     * @throws X on exception
      */
     void delete(final Collection<E> detachedInstance) throws X;
 
     /**
      * Save the instance of the objects.
-     * 
-     * @param <C>
-     *            the collection entity type.
-     * @param detachedInstance
-     *            the objects which have to be saved.
+     * @param <C> the collection entity type.
+     * @param detachedInstance the objects which have to be saved.
      * @return the saved objects.
-     * @throws X
-     *             on exception.
+     * @throws X on exception.
      */
     <C extends Collection<E>> C save(final C detachedInstance) throws X;
 
     /**
-     * Returns the object corresponding with the identifier which is passed in
-     * parameter.
-     * 
-     * @param primaryKeys
-     *            the identifier of the searched object.
+     * Returns the object corresponding with the identifier which is passed in parameter.
+     * @param primaryKeys the identifier of the searched object.
      * @return the object associated with the identifier.
-     * @throws X
-     *             exception.
+     * @throws X exception.
      */
     Collection<E> findAllByPk(final Collection<P> primaryKeys) throws X;
 
     /**
-     * Returns the object corresponding with the identifier which is passed in
-     * parameter.
-     * 
-     * @param primaryKey
-     *            the identifier of {@link Serializable} type of the searched
-     *            object
-     * @param eagerLoading
-     *            the eager loading.
+     * Returns the object corresponding with the identifier which is passed in parameter.
+     * @param primaryKey the identifier of {@link Serializable} type of the searched object
+     * @param eagerLoading the eager loading.
      * @return the object associated with the identifier
-     * @throws X
-     *             exception.
+     * @throws X exception.
      */
     E findByPk(final P primaryKey, final E eagerLoading) throws X;
 
     /**
-     * Returns the objects corresponding with the identifier which is passed in
-     * parameter.
-     * 
-     * @param primaryKeys
-     *            the identifier of {@link Serializable} type of the searched
-     *            object
-     * @param eagerLoading
-     *            the eager loading.
+     * Returns the objects corresponding with the identifier which is passed in parameter.
+     * @param primaryKeys the identifier of {@link Serializable} type of the searched object
+     * @param eagerLoading the eager loading.
      * @return the object associated with the identifier
-     * @throws X
-     *             exception.
+     * @throws X exception.
      */
-    Collection<E> findAllByPk(final Collection<P> primaryKeys,
-            final E eagerLoading) throws X;
+    Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws X;
 
     /**
      * Return entities according to criteria.
-     * 
-     * @param criteria
-     *            the entity for searching entities.
+     * @param criteria the entity for searching entities.
      * @return entities.
-     * @throws X
-     *             the exception type handles by the service layer
+     * @throws X the exception type handles by the service layer
      */
     List<E> findAll(final E criteria) throws X;
 
     /**
      * Return all entities.
-     * 
-     * @param criteria
-     *            the criteria.
-     * @param eagerLoading
-     *            the eager loading.
-     * @param orderBy
-     *            the order by clause.
+     * @param criteria the criteria.
+     * @param eagerLoading the eager loading.
+     * @param orderBy the order by clause.
      * @return entities.
-     * @throws X
-     *             exception.
+     * @throws X exception.
      */
-    List<E> findAll(final E criteria, final E eagerLoading,
-            final List<IOrderBy<E>> orderBy) throws X;
+    List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws X;
 
 }

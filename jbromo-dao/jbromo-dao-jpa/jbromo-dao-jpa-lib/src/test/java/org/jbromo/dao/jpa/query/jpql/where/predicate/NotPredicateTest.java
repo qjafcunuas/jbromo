@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 /**
  * Define JUnit NotPredicate class.
- *
  * @author qjafcunuas
- *
  */
 public class NotPredicateTest extends AbstractUniquePredicateTest<NotPredicate> {
 

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,9 +26,7 @@ import org.junit.Test;
 
 /**
  * JUnit JoinOperator class.
- *
  * @author qjafcunuas
- *
  */
 public class JoinOperatorTest {
 
@@ -38,28 +36,20 @@ public class JoinOperatorTest {
     @Test
     public void test() {
         test(JoinOperator.INNER_JOIN, "inner join ", JoinOperator.INNER_JOIN);
-        test(JoinOperator.INNER_JOIN_FETCH, "inner join fetch ",
-                JoinOperator.INNER_JOIN);
+        test(JoinOperator.INNER_JOIN_FETCH, "inner join fetch ", JoinOperator.INNER_JOIN);
         test(JoinOperator.LEFT_JOIN, "left join ", JoinOperator.LEFT_JOIN);
-        test(JoinOperator.LEFT_JOIN_FETCH, "left join fetch ",
-                JoinOperator.LEFT_JOIN);
+        test(JoinOperator.LEFT_JOIN_FETCH, "left join fetch ", JoinOperator.LEFT_JOIN);
         test(JoinOperator.RIGHT_JOIN, "right join ", JoinOperator.RIGHT_JOIN);
-        test(JoinOperator.RIGHT_JOIN_FETCH, "right join fetch ",
-                JoinOperator.RIGHT_JOIN);
+        test(JoinOperator.RIGHT_JOIN_FETCH, "right join fetch ", JoinOperator.RIGHT_JOIN);
     }
 
     /**
      * Test an operator.
-     *
-     * @param join
-     *            the operator to test.
-     * @param expression
-     *            the operator expression value.
-     * @param withoutFetch
-     *            the without fetch operator value.
+     * @param join the operator to test.
+     * @param expression the operator expression value.
+     * @param withoutFetch the without fetch operator value.
      */
-    private void test(final JoinOperator join, final String expression,
-            final JoinOperator withoutFetch) {
+    private void test(final JoinOperator join, final String expression, final JoinOperator withoutFetch) {
         Assert.assertNotNull(join.getExpression());
         Assert.assertEquals(join.getExpression(), expression);
         Assert.assertNotNull(join.getWithoutFetch());

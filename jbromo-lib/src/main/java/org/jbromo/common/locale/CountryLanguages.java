@@ -21,7 +21,6 @@
  */
 package org.jbromo.common.locale;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,7 +54,7 @@ public class CountryLanguages implements IDto {
      * The languages of the country.
      */
     @Getter
-    private final List<Locale> languages = new ArrayList<Locale>();
+    private final List<Locale> languages = ListUtil.toList();
 
     /**
      * Default constructor. Languages list will be filtered according to the country.

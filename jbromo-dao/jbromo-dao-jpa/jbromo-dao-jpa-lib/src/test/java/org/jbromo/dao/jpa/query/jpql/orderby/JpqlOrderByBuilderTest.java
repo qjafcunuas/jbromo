@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,9 +26,7 @@ import org.junit.Test;
 
 /**
  * JUnit JpqlOrderByBuilder class.
- *
  * @author qjafcunuas
- *
  */
 public class JpqlOrderByBuilderTest {
 
@@ -67,14 +65,10 @@ public class JpqlOrderByBuilderTest {
 
     /**
      * Validate orderBy builder.
-     *
-     * @param orderBy
-     *            the orderBy builder to validate.
-     * @param orderByQuery
-     *            the waited from query
+     * @param orderBy the orderBy builder to validate.
+     * @param orderByQuery the waited from query
      */
-    private void validate(final JpqlOrderByBuilder orderBy,
-            final String orderByQuery) {
+    private void validate(final JpqlOrderByBuilder orderBy, final String orderByQuery) {
         Assert.assertEquals(orderBy.toString(), orderByQuery);
         final StringBuilder builder = new StringBuilder("test: ");
         orderBy.build(builder);

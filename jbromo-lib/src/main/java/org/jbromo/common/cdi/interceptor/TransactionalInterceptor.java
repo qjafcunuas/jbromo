@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,21 +26,21 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
+import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+
+import org.jbromo.common.cdi.annotation.Transactional;
+import org.jbromo.common.invocation.AnnotationUtil;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jbromo.common.cdi.annotation.Transactional;
-import org.jbromo.common.invocation.AnnotationUtil;
-
 /**
  * Define Transactional interceptor implementation to use in JSE environnement.
- *
  * @author qjafcunuas
- *
  */
 @Transactional
 @Interceptor
@@ -63,27 +63,17 @@ public class TransactionalInterceptor {
 
     /**
      * Intercept all method called for logging.
-     *
-     * @param ctx
-     *            the context.
+     * @param ctx the context.
      * @return the return object.
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     @AroundInvoke
     public Object intercept(final InvocationContext ctx) throws Exception {
         boolean started = false;
         try {
-            final Transactional transaction = AnnotationUtil.getAnnotation(ctx,
-                    Transactional.class);
-            if (transaction != null) {
-                switch (transaction.value()) {
-                case REQUIRED:
-                    started = startTransaction();
-                    break;
-                default:
-                    break;
-                }
+            final Transactional transaction = AnnotationUtil.getAnnotation(ctx, Transactional.class);
+            if (transaction != null && transaction.value().equals(Transactional.TxType.REQUIRED)) {
+                started = startTransaction();
             }
             if (getUserTransaction().getStatus() == Status.STATUS_ACTIVE) {
                 getEntityManager().joinTransaction();
@@ -109,12 +99,11 @@ public class TransactionalInterceptor {
 
     /**
      * Start the transaction if necessary.
-     *
      * @return false if transaction was already started before, else true.
-     * @throws Exception
-     *             exception.
+     * @throws SystemException exception.
+     * @throws NotSupportedException exception.
      */
-    private boolean startTransaction() throws Exception {
+    private boolean startTransaction() throws NotSupportedException, SystemException {
         if (getUserTransaction().getStatus() == Status.STATUS_NO_TRANSACTION) {
             log.trace("Start transaction");
             getUserTransaction().begin();

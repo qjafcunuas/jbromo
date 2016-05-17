@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,12 +29,9 @@ import org.jbromo.common.i18n.MessageKey;
 
 /**
  * Define the DaoException Factory implementation.
- *
  * @author qjafcunuas
- *
  */
-public final class DaoExceptionFactory implements
-        IMessageLabelExceptionFactory<DaoException> {
+public final class DaoExceptionFactory implements IMessageLabelExceptionFactory<DaoException> {
 
     /**
      * The singleton.
@@ -57,7 +54,6 @@ public final class DaoExceptionFactory implements
 
     /**
      * Return the singleton instance.
-     *
      * @return the instance.
      */
     public static DaoExceptionFactory getInstance() {
@@ -74,8 +70,7 @@ public final class DaoExceptionFactory implements
     }
 
     @Override
-    public DaoException newInstance(final IMessageKey key,
-            final Throwable cause) {
+    public DaoException newInstance(final IMessageKey key, final Throwable cause) {
         if (MessageKey.ENTITY_VALIDATION_ERROR.equals(key)) {
             return new DaoValidationException(cause);
         } else {
@@ -93,8 +88,7 @@ public final class DaoExceptionFactory implements
     }
 
     @Override
-    public DaoException newInstance(final IMessageLabel label,
-            final Throwable cause) {
+    public DaoException newInstance(final IMessageLabel label, final Throwable cause) {
         if (MessageKey.ENTITY_VALIDATION_ERROR.equals(label.getKey())) {
             return new DaoValidationException(label.getParameters(), cause);
         } else {

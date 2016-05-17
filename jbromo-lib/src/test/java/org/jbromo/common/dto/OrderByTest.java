@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +27,7 @@ import org.junit.Test;
 
 /**
  * Define JUnit IOrderBy test.
- *
  * @author qjafcunuas
- *
  */
 public class OrderByTest {
 
@@ -39,14 +37,15 @@ public class OrderByTest {
     @Test
     public void sort() {
         for (final SORT sort : IOrderBy.SORT.values()) {
+            Assert.assertEquals(sort, IOrderBy.SORT.valueOf(sort.name()));
             switch (sort) {
-            case ASCENDING:
-            case DESCENDING:
-            case UNSORTED:
-                break;
-            default:
-                Assert.fail("Not tested");
-                break;
+                case ASCENDING:
+                case DESCENDING:
+                case UNSORTED:
+                    break;
+                default:
+                    Assert.fail("Not tested");
+                    break;
             }
         }
     }

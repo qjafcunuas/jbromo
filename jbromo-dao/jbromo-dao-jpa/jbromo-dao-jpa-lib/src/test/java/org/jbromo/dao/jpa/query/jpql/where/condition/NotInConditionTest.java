@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,16 +26,13 @@ import org.jbromo.common.RandomUtil;
 
 /**
  * JUnit NotInCondition class.
- *
  * @author qjafcunuas
- *
  */
 public class NotInConditionTest extends AbstractConditionTest<NotInCondition> {
 
     @Override
     protected NotInCondition newInstance() {
-        return new NotInCondition(FIELD_NAME, ListUtil.toList(
-                RandomUtil.nextInt(), RandomUtil.nextInt()));
+        return new NotInCondition(FIELD_NAME, ListUtil.toList(RandomUtil.nextInt(), RandomUtil.nextInt()));
     }
 
     @Override

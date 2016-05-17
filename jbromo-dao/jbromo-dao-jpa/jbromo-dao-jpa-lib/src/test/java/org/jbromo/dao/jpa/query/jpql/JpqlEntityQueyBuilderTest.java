@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,8 +21,6 @@
  */
 package org.jbromo.dao.jpa.query.jpql;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.dao.jpa.query.jpql.where.predicate.AndPredicate;
@@ -36,27 +34,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JUnit AbstractJpqlQueyBuilder class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
-public class JpqlEntityQueyBuilderTest extends
-        AbstractJpqlQueryBuilderTest<IEntity<?>> {
+public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEntity<?>> {
 
     /**
      * Return a new instance of an entity query builder.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entityClass
-     *            the entity class.
+     * @param <E> the entity type.
+     * @param entityClass the entity class.
      * @return the builder.
      */
-    private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(
-            final Class<E> entityClass) {
+    private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(final Class<E> entityClass) {
         try {
             return new JpqlEntityQueryBuilder<E>(null, entityClass);
         } catch (final DaoException e) {
@@ -67,20 +60,14 @@ public class JpqlEntityQueyBuilderTest extends
 
     /**
      * Return a new instance of an entity query builder.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entityClass
-     *            the entity class.
-     * @param eagerLoading
-     *            the eager loading.
+     * @param <E> the entity type.
+     * @param entityClass the entity class.
+     * @param eagerLoading the eager loading.
      * @return the builder.
      */
-    private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(
-            final Class<E> entityClass, final E eagerLoading) {
+    private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(final Class<E> entityClass, final E eagerLoading) {
         try {
-            return new JpqlEntityQueryBuilder<E>(null, entityClass,
-                    eagerLoading);
+            return new JpqlEntityQueryBuilder<E>(null, entityClass, eagerLoading);
         } catch (final DaoException e) {
             Assert.fail("Cannot instantiate builder for class " + entityClass);
             return null;
@@ -110,9 +97,7 @@ public class JpqlEntityQueyBuilderTest extends
         try {
             queryBuilder.getWhere().equals("name", "toto");
             queryBuilder.getOrderBy().asc("name");
-            validate(queryBuilder,
-                    "select distinct o from " + UserGroup.class.getName()
-                            + " o where name = ?1 order by name ASC ");
+            validate(queryBuilder, "select distinct o from " + UserGroup.class.getName() + " o where name = ?1 order by name ASC ");
         } catch (final DaoException e) {
             Assert.fail(e.getMessage());
         }
@@ -127,19 +112,13 @@ public class JpqlEntityQueyBuilderTest extends
         try {
             queryBuilder.getOrderBy().asc("firstname");
             queryBuilder.getOrderBy().asc("lastname");
-            queryBuilder.getFrom().join(queryBuilder.getFrom().getRootAlias(),
-                    "manyToOneGroup", false);
+            queryBuilder.getFrom().join(queryBuilder.getFrom().getRootAlias(), "manyToOneGroup", false);
 
             final AndPredicate and = queryBuilder.getWhere().and();
             and.equals("firstname", "titi");
             and.notEquals("name", "tutu");
-            validate(
-                    queryBuilder,
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o "
-                            + "inner join o.manyToOneGroup "
-                            + "where firstname = ?1 and name != ?2 order by firstname ASC,lastname ASC ");
+            validate(queryBuilder, "select distinct o from " + User.class.getName() + " o " + "inner join o.manyToOneGroup "
+                                   + "where firstname = ?1 and name != ?2 order by firstname ASC,lastname ASC ");
         } catch (final DaoException e) {
             Assert.fail(e.getMessage());
         }
@@ -147,14 +126,10 @@ public class JpqlEntityQueyBuilderTest extends
 
     /**
      * Validate queryBuilder according to a waited query.
-     *
-     * @param queryBuilder
-     *            the query builder.
-     * @param query
-     *            the waited query.
+     * @param queryBuilder the query builder.
+     * @param query the waited query.
      */
-    private void validate(final JpqlEntityQueryBuilder<?> queryBuilder,
-            final String query) {
+    private void validate(final JpqlEntityQueryBuilder<?> queryBuilder, final String query) {
         Assert.assertNotNull(queryBuilder.toString());
         Assert.assertEquals(queryBuilder.toString(), query);
     }
@@ -174,15 +149,12 @@ public class JpqlEntityQueyBuilderTest extends
 
         // Empty eager loading.
         User user = new User();
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
-        validate(queryBuilder, "select distinct o from " + User.class.getName()
-                + " o ");
+        validate(queryBuilder, "select distinct o from " + User.class.getName() + " o ");
 
         // eager loading + criteria
         try {
@@ -191,13 +163,10 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
-            Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o where o.login = ?1 ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o where o.login = ?1 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -215,19 +184,16 @@ public class JpqlEntityQueyBuilderTest extends
         User user = new User();
         UserGroup group = new UserGroup();
         user.setManyToOneGroup(group);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
         Assert.assertNotNull(queryBuilder.getAlias(group));
         Assert.assertEquals(queryBuilder.getAlias(group), "o.manyToOneGroup");
         Assert.assertNotNull(queryBuilder.getEager("o.manyToOneGroup"));
         Assert.assertEquals(queryBuilder.getEager("o.manyToOneGroup"), group);
-        Assert.assertEquals(queryBuilder.toString(), "select distinct o from "
-                + User.class.getName() + " o left join fetch o.manyToOneGroup ");
+        Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.manyToOneGroup ");
 
         // Only criteria
         try {
@@ -242,11 +208,8 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertNull(queryBuilder.getAlias(group));
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o1"));
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
+            Assert.assertEquals(queryBuilder.toString(),
+                                "select distinct o from " + User.class.getName() + " o where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -262,21 +225,15 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertNotNull(queryBuilder.getAlias(group));
-            Assert.assertEquals(queryBuilder.getAlias(group),
-                    "o.manyToOneGroup");
+            Assert.assertEquals(queryBuilder.getAlias(group), "o.manyToOneGroup");
             Assert.assertNotNull(queryBuilder.getEager("o.manyToOneGroup"));
-            Assert.assertEquals(queryBuilder.getEager("o.manyToOneGroup"),
-                    group);
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o left join fetch o.manyToOneGroup where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
+            Assert.assertEquals(queryBuilder.getEager("o.manyToOneGroup"), group);
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
+                                                         + " o left join fetch o.manyToOneGroup where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -294,19 +251,16 @@ public class JpqlEntityQueyBuilderTest extends
         User user = new User();
         UserGroup group = new UserGroup();
         user.setOneToOneGroup(group);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
         Assert.assertNotNull(queryBuilder.getAlias(group));
         Assert.assertEquals(queryBuilder.getAlias(group), "o.oneToOneGroup");
         Assert.assertNotNull(queryBuilder.getEager("o.oneToOneGroup"));
         Assert.assertEquals(queryBuilder.getEager("o.oneToOneGroup"), group);
-        Assert.assertEquals(queryBuilder.toString(), "select distinct o from "
-                + User.class.getName() + " o left join fetch o.oneToOneGroup ");
+        Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.oneToOneGroup ");
 
         // Only criteria
         try {
@@ -321,11 +275,8 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertNull(queryBuilder.getAlias(group));
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o.group"));
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
+            Assert.assertEquals(queryBuilder.toString(),
+                                "select distinct o from " + User.class.getName() + " o where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -341,19 +292,15 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertNotNull(queryBuilder.getAlias(group));
             Assert.assertEquals(queryBuilder.getAlias(group), "o.oneToOneGroup");
             Assert.assertNotNull(queryBuilder.getEager("o.oneToOneGroup"));
             Assert.assertEquals(queryBuilder.getEager("o.oneToOneGroup"), group);
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o left join fetch o.oneToOneGroup where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
+                                                         + " o left join fetch o.oneToOneGroup where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -371,26 +318,20 @@ public class JpqlEntityQueyBuilderTest extends
         User user = new User();
         UserGroup group = new UserGroup();
         user.getManyToManyGroups().add(group);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
         Assert.assertNotNull(queryBuilder.getAlias(group));
-        if (JpaProviderFactory.getInstance().getImplementation()
-                .isFetchAliasable()) {
+        if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
             Assert.assertEquals(queryBuilder.getAlias(group), "o1");
             Assert.assertNotNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.getEager("o1"), group);
             Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o left join fetch o.manyToManyGroups o1 ");
+                                "select distinct o from " + User.class.getName() + " o left join fetch o.manyToManyGroups o1 ");
         } else {
-            Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o left join fetch o.manyToManyGroups ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.manyToManyGroups ");
 
         }
 
@@ -407,11 +348,8 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertNull(queryBuilder.getAlias(group));
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o1"));
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
+                                                         + " o inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -427,27 +365,20 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertNotNull(queryBuilder.getAlias(group));
-            if (JpaProviderFactory.getInstance().getImplementation()
-                    .isFetchAliasable()) {
+            if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
                 Assert.assertEquals(queryBuilder.getAlias(group), "o1");
                 Assert.assertNotNull(queryBuilder.getEager("o1"));
                 Assert.assertEquals(queryBuilder.getEager("o1"), group);
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.manyToManyGroups o1 inner join o.manyToManyGroups o2 where o.login = ?1 and o2.name = ?2 ");
+                Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class
+                        .getName() + " o left join fetch o.manyToManyGroups o1 inner join o.manyToManyGroups o2 where o.login = ?1 and o2.name = ?2 ");
             } else {
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.manyToManyGroups inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
+                Assert.assertEquals(queryBuilder
+                        .toString(), "select distinct o from " + User.class.getName()
+                                     + " o left join fetch o.manyToManyGroups inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
             }
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
@@ -467,16 +398,13 @@ public class JpqlEntityQueyBuilderTest extends
         UserAddress address = new UserAddress(user);
         City city = new City();
         address.setCity(city);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
         Assert.assertNotNull(queryBuilder.getAlias(address));
-        if (JpaProviderFactory.getInstance().getImplementation()
-                .isFetchAliasable()) {
+        if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
             Assert.assertEquals(queryBuilder.getAlias(address), "o1");
             Assert.assertNotNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.getEager("o1"), address);
@@ -484,15 +412,10 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertEquals(queryBuilder.getAlias(city), "o1.city");
             Assert.assertNotNull(queryBuilder.getEager("o1.city"));
             Assert.assertEquals(queryBuilder.getEager("o1.city"), city);
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o left join fetch o.addresses o1 left join fetch o1.city ");
-        } else {
             Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o left join fetch o.addresses ");
+                                "select distinct o from " + User.class.getName() + " o left join fetch o.addresses o1 left join fetch o1.city ");
+        } else {
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.addresses ");
         }
 
         // Only criteria
@@ -512,11 +435,9 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o1"));
             Assert.assertNull(queryBuilder.getEager("o2"));
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
+            Assert.assertEquals(queryBuilder
+                    .toString(), "select distinct o from " + User.class.getName()
+                                 + " o inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -534,12 +455,10 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
-            if (JpaProviderFactory.getInstance().getImplementation()
-                    .isFetchAliasable()) {
+            if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
                 Assert.assertNotNull(queryBuilder.getAlias(address));
                 Assert.assertEquals(queryBuilder.getAlias(address), "o1");
                 Assert.assertNotNull(queryBuilder.getEager("o1"));
@@ -548,17 +467,11 @@ public class JpqlEntityQueyBuilderTest extends
                 Assert.assertEquals(queryBuilder.getAlias(city), "o1.city");
                 Assert.assertNotNull(queryBuilder.getEager("o1.city"));
                 Assert.assertEquals(queryBuilder.getEager("o1.city"), city);
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.addresses o1 left join fetch o1.city inner join o.addresses o2 where o.login = ?1 and o2.street = ?2 and o2.city.name = ?3 ");
+                Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class
+                        .getName() + " o left join fetch o.addresses o1 left join fetch o1.city inner join o.addresses o2 where o.login = ?1 and o2.street = ?2 and o2.city.name = ?3 ");
             } else {
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.addresses inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
+                Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class
+                        .getName() + " o left join fetch o.addresses inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
             }
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
@@ -576,26 +489,19 @@ public class JpqlEntityQueyBuilderTest extends
         // Only eager loading.
         User user = new User();
         UserSurname surname = new UserSurname(user, null);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class,
-                user);
+        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
         Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom()
-                .getRootAlias());
+        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
         Assert.assertNotNull(queryBuilder.getEager("o"));
         Assert.assertEquals(queryBuilder.getEager("o"), user);
         Assert.assertNotNull(queryBuilder.getAlias(surname));
-        if (JpaProviderFactory.getInstance().getImplementation()
-                .isFetchAliasable()) {
+        if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
             Assert.assertEquals(queryBuilder.getAlias(surname), "o1");
             Assert.assertNotNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.getEager("o1"), surname);
-            Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o left join fetch o.surnames o1 ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.surnames o1 ");
         } else {
-            Assert.assertEquals(queryBuilder.toString(),
-                    "select distinct o from " + User.class.getName()
-                            + " o left join fetch o.surnames ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.surnames ");
         }
 
         // Only criteria
@@ -610,11 +516,8 @@ public class JpqlEntityQueyBuilderTest extends
             Assert.assertNull(queryBuilder.getAlias(surname));
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o1"));
-            Assert.assertEquals(
-                    queryBuilder.toString(),
-                    "select distinct o from "
-                            + User.class.getName()
-                            + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
+            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
+                                                         + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
         } catch (final DaoException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
@@ -629,27 +532,21 @@ public class JpqlEntityQueyBuilderTest extends
             queryBuilder = newInstance(User.class, user);
             queryBuilder.getWhere().and(user);
             Assert.assertNotNull(queryBuilder.getAlias(user));
-            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder
-                    .getFrom().getRootAlias());
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertNotNull(queryBuilder.getAlias(surname));
-            if (JpaProviderFactory.getInstance().getImplementation()
-                    .isFetchAliasable()) {
+            if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
                 Assert.assertEquals(queryBuilder.getAlias(surname), "o1");
                 Assert.assertNotNull(queryBuilder.getEager("o1"));
                 Assert.assertEquals(queryBuilder.getEager("o1"), surname);
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.surnames o1 inner join o.surnames o2 where o.login = ?1 and o2.surname = ?2 ");
+                Assert.assertEquals(queryBuilder
+                        .toString(), "select distinct o from " + User.class.getName()
+                                     + " o left join fetch o.surnames o1 inner join o.surnames o2 where o.login = ?1 and o2.surname = ?2 ");
             } else {
-                Assert.assertEquals(
-                        queryBuilder.toString(),
-                        "select distinct o from "
-                                + User.class.getName()
-                                + " o left join fetch o.surnames inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
+                Assert.assertEquals(queryBuilder
+                        .toString(), "select distinct o from " + User.class.getName()
+                                     + " o left join fetch o.surnames inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
             }
         } catch (final DaoException e) {
             log.error("Cannot build query", e);

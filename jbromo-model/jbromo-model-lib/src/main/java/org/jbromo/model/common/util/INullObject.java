@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@ package org.jbromo.model.common.util;
 
 /**
  * Define null object for criteria.
- *
  * @author qjafcunuas
- *
  */
 public interface INullObject {
 

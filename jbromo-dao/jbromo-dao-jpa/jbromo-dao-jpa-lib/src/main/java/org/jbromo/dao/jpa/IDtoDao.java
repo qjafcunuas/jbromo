@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,24 +29,17 @@ import org.jbromo.dao.common.exception.DaoException;
 
 /**
  * Define a Entity DAO interface.
- *
- * @param <D>
- *            the DTO type.
+ * @param <D> the DTO type.
  * @author qjafcunuas
- *
  */
 public interface IDtoDao<D extends IDto> extends IDao {
 
     /**
      * Return all DTO.
-     *
-     * @param <C>
-     *            the criteria type.
-     * @param criteria
-     *            the criteria.
+     * @param <C> the criteria type.
+     * @param criteria the criteria.
      * @return dto.
-     * @throws DaoException
-     *             exception.
+     * @throws DaoException exception.
      */
     <C> List<D> findAll(final C criteria) throws DaoException;
 

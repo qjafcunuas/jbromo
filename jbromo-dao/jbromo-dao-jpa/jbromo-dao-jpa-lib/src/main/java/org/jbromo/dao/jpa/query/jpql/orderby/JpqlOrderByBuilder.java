@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,16 +21,14 @@
  */
 package org.jbromo.dao.jpa.query.jpql.orderby;
 
+import org.jbromo.common.StringUtil;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import org.jbromo.common.StringUtil;
-
 /**
  * Build order by clause.
- *
  * @author qjafcunuas
- *
  */
 public class JpqlOrderByBuilder {
     /**
@@ -41,9 +39,7 @@ public class JpqlOrderByBuilder {
 
     /**
      * Build the JPQL orderBy element.
-     *
-     * @param builder
-     *            the builder to add JPQL element.
+     * @param builder the builder to add JPQL element.
      */
     public void build(final StringBuilder builder) {
         if (this.orderBy.length() > 0) {
@@ -55,9 +51,7 @@ public class JpqlOrderByBuilder {
 
     /**
      * Add an order ASC by clause.
-     *
-     * @param clause
-     *            the clause to add.
+     * @param clause the clause to add.
      */
     public void asc(final String clause) {
         order(clause, "ASC");
@@ -65,9 +59,7 @@ public class JpqlOrderByBuilder {
 
     /**
      * Add an order by DESC clause.
-     *
-     * @param clause
-     *            the clause to add.
+     * @param clause the clause to add.
      */
     public void desc(final String clause) {
         order(clause, "DESC");
@@ -75,15 +67,12 @@ public class JpqlOrderByBuilder {
 
     /**
      * Add an order by clause.
-     *
-     * @param clause
-     *            the clause to add.
-     * @param order
-     *            the order value (ASC or DESC).
+     * @param clause the clause to add.
+     * @param order the order value (ASC or DESC).
      */
     private void order(final String clause, final String order) {
         if (this.orderBy.length() != 0) {
-            this.orderBy.append(StringUtil.POINT);
+            this.orderBy.append(StringUtil.COMMA);
         }
         this.orderBy.append(clause);
         this.orderBy.append(StringUtil.SPACE);

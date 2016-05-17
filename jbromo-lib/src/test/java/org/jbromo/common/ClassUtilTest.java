@@ -129,7 +129,78 @@ public class ClassUtilTest {
         Assert.assertFalse(ClassUtil.isPrimitive(String.class));
         Assert.assertTrue(ClassUtil.isPrimitive(Byte.class));
         Assert.assertTrue(ClassUtil.isPrimitive(byte.class));
+    }
 
+    /**
+     * Test isBoolean method.
+     */
+    @Test
+    public void isBoolean() {
+        Assert.assertFalse(ClassUtil.isBoolean(null));
+        Assert.assertFalse(ClassUtil.isBoolean(Integer.class));
+        Assert.assertFalse(ClassUtil.isBoolean(Object.class));
+        Assert.assertTrue(ClassUtil.isBoolean(boolean.class));
+        Assert.assertTrue(ClassUtil.isBoolean(Boolean.class));
+    }
+
+    /**
+     * Test isDouble method.
+     */
+    @Test
+    public void isDouble() {
+        Assert.assertFalse(ClassUtil.isDouble(null));
+        Assert.assertFalse(ClassUtil.isDouble(Integer.class));
+        Assert.assertFalse(ClassUtil.isDouble(Object.class));
+        Assert.assertTrue(ClassUtil.isDouble(double.class));
+        Assert.assertTrue(ClassUtil.isDouble(Double.class));
+    }
+
+    /**
+     * Test isFloat method.
+     */
+    @Test
+    public void isFloat() {
+        Assert.assertFalse(ClassUtil.isFloat(null));
+        Assert.assertFalse(ClassUtil.isFloat(Integer.class));
+        Assert.assertFalse(ClassUtil.isFloat(Object.class));
+        Assert.assertTrue(ClassUtil.isFloat(float.class));
+        Assert.assertTrue(ClassUtil.isFloat(Float.class));
+    }
+
+    /**
+     * Test isInt method.
+     */
+    @Test
+    public void isInt() {
+        Assert.assertFalse(ClassUtil.isInt(null));
+        Assert.assertFalse(ClassUtil.isInt(Double.class));
+        Assert.assertFalse(ClassUtil.isInt(Object.class));
+        Assert.assertTrue(ClassUtil.isInt(int.class));
+        Assert.assertTrue(ClassUtil.isInt(Integer.class));
+    }
+
+    /**
+     * Test isLong method.
+     */
+    @Test
+    public void isLong() {
+        Assert.assertFalse(ClassUtil.isLong(null));
+        Assert.assertFalse(ClassUtil.isLong(Double.class));
+        Assert.assertFalse(ClassUtil.isLong(Object.class));
+        Assert.assertTrue(ClassUtil.isLong(long.class));
+        Assert.assertTrue(ClassUtil.isLong(Long.class));
+    }
+
+    /**
+     * Test isShort method.
+     */
+    @Test
+    public void isShort() {
+        Assert.assertFalse(ClassUtil.isShort(null));
+        Assert.assertFalse(ClassUtil.isShort(Double.class));
+        Assert.assertFalse(ClassUtil.isShort(Object.class));
+        Assert.assertTrue(ClassUtil.isShort(short.class));
+        Assert.assertTrue(ClassUtil.isShort(Short.class));
     }
 
 }

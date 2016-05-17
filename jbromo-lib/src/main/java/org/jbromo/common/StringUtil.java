@@ -95,34 +95,34 @@ public final class StringUtil {
     public static final String PARENTHESIS_CLOSE = ")";
 
     /**
-     * =.
+     * Equals.
      */
     public static final String EQUALS = "=";
 
     /**
-     * >.
+     * Superior.
      */
     public static final String SUPERIOR = ">";
 
     /**
-     * >=.
+     * Superior or equals.
      */
     public static final String SUPERIOR_OR_EQUALS = ">=";
 
     /**
-     * <.
+     * Inferior.
      */
     public static final String INFERIOR = "<";
 
     /**
-     * <=.
+     * Inferior or equals.
      */
     public static final String INFERIOR_OR_EQUALS = "<=";
 
     /**
-     * ,.
+     * Comma.
      */
-    public static final String POINT = ",";
+    public static final String COMMA = ",";
 
     /**
      * Define the max size for persisted crypted password.
@@ -179,12 +179,7 @@ public final class StringUtil {
             final MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.reset();
             md.update(value.getBytes("UTF-8"));
-            final String encrypted = toHexString(md.digest());
-            if (encrypted.length() > PASSWORD_SIZE) {
-                return encrypted.substring(0, PASSWORD_SIZE);
-            } else {
-                return encrypted;
-            }
+            return toHexString(md.digest());
         } catch (final Exception e) {
             log.error("Cannot encrypt value", e);
             return null;

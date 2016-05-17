@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -139,18 +138,9 @@ public class ObjectUtilTest {
      */
     @Test
     public void newInstance() {
-        try {
-            Assert.assertEquals(String.class, ObjectUtil.newInstance(String.class).getClass());
-            Assert.assertEquals(ArrayList.class, ObjectUtil.newInstance(ArrayList.class).getClass());
-        } catch (final MessageLabelException e) {
-            Assert.fail(e.getMessage());
-        }
-        try {
-            ObjectUtil.newInstance(NoEmptyConstructor.class);
-            Assert.fail("Should not create an instance for class without constructor with no parameter.");
-        } catch (final MessageLabelException e) {
-            Assert.assertTrue(true);
-        }
+        Assert.assertEquals(String.class, ObjectUtil.newInstance(String.class).getClass());
+        Assert.assertEquals(ArrayList.class, ObjectUtil.newInstance(ArrayList.class).getClass());
+        Assert.assertNull(ObjectUtil.newInstance(NoEmptyConstructor.class));
     }
 
     /**
@@ -158,17 +148,10 @@ public class ObjectUtilTest {
      */
     @Test
     public void newInstanceClassObjects() {
-        try {
-            ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2));
-        } catch (final MessageLabelException e) {
-            Assert.fail("Should create an instance for class with parameters constructor.");
-        }
-        try {
-            ObjectUtil.newInstance(NoEmptyConstructor.class, "name", "name");
-            Assert.fail("Should not create an instance for class with bad parameters constructor.");
-        } catch (final MessageLabelException e) {
-            Assert.assertTrue(true);
-        }
+        Assert.assertEquals(NoEmptyConstructor.class,
+                            ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2)).getClass());
+        Assert.assertNull("Should not create an instance for class with bad parameters constructor.",
+                          ObjectUtil.newInstance(NoEmptyConstructor.class, "name", "name"));
     }
 
     /**
@@ -259,6 +242,7 @@ public class ObjectUtilTest {
      */
     @Test
     public void dump() {
+        Assert.assertNull(ObjectUtil.dump(null));
         final DumpObject object = new DumpObject();
         object.setName(RandomUtil.nextString());
         object.setYear(RandomUtil.nextInt());

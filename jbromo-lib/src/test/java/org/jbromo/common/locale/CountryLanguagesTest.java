@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,39 +24,34 @@ package org.jbromo.common.locale;
 import java.util.List;
 import java.util.Locale;
 
+import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.ListUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Define JUnit CountryLanguages class.
- *
  * @author qjafcunuas
- *
  */
 public class CountryLanguagesTest {
 
     /**
      * Return a new instance for Canada.
-     *
      * @return the new instance.
      */
     private CountryLanguages newCanada() {
-        // Chinese must be removed be constructor.
-        final List<Locale> languages = ListUtil.toList(
-                Locale.CANADA_FRENCH, Locale.CANADA, Locale.CHINESE);
+        // Chinese must be removed by constructor.
+        final List<Locale> languages = ListUtil.toList(Locale.CANADA_FRENCH, Locale.CANADA, Locale.CHINESE);
         return new CountryLanguages(Locale.CANADA, languages);
     }
 
     /**
      * Return a new instance for France.
-     *
      * @return the new instance.
      */
     private CountryLanguages newFrance() {
-        // Chinese must be removed be constructor.
-        final List<Locale> languages = ListUtil.toList(Locale.FRENCH,
-                Locale.CHINESE);
+        // Chinese must be removed by constructor.
+        final List<Locale> languages = ListUtil.toList(Locale.FRENCH, Locale.CHINESE);
         return new CountryLanguages(Locale.FRANCE, languages);
     }
 
@@ -95,17 +90,26 @@ public class CountryLanguagesTest {
      */
     @Test
     public void equalsMethod() {
-        // null
-        Assert.assertTrue(new CountryLanguages(null, null)
-                .equals(new CountryLanguages(null, null)));
-
         final CountryLanguages canada1 = newCanada();
-        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA,
-                null);
-        final CountryLanguages france = newFrance();
-        Assert.assertEquals(canada1, canada2);
-        Assert.assertFalse(canada1.equals(france));
+        // null
+        Assert.assertTrue(new CountryLanguages(null, null).equals(new CountryLanguages(null, null)));
+        Assert.assertFalse(new CountryLanguages(Locale.CANADA, null).equals(new CountryLanguages(null, null)));
+        Assert.assertFalse(new CountryLanguages(null, null).equals(new CountryLanguages(Locale.CANADA, null)));
+        Assert.assertTrue(new CountryLanguages(Locale.CANADA, null).equals(new CountryLanguages(Locale.CANADA, null)));
 
+        // Same object.
+        Assert.assertEquals(canada1, canada1);
+
+        // Not same class.
+        Assert.assertNotEquals(canada1, IntegerUtil.INT_0);
+
+        // Same countries.
+        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA, null);
+        Assert.assertEquals(canada1, canada2);
+
+        // Distinct countries.
+        final CountryLanguages france = newFrance();
+        Assert.assertFalse(canada1.equals(france));
     }
 
     /**
@@ -114,13 +118,14 @@ public class CountryLanguagesTest {
     @Test
     public void hashCodeMethod() {
         // null
-        Assert.assertTrue(new CountryLanguages(null, null).hashCode() == new CountryLanguages(
-                null, null).hashCode());
+        Assert.assertTrue(new CountryLanguages(null, null).hashCode() == new CountryLanguages(null, null).hashCode());
+        Assert.assertFalse(new CountryLanguages(Locale.CANADA, null).hashCode() == new CountryLanguages(null, null).hashCode());
+        Assert.assertFalse(new CountryLanguages(null, null).hashCode() == new CountryLanguages(Locale.CANADA, null).hashCode());
 
         final CountryLanguages canada1 = newCanada();
-        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA,
-                null);
+        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA, null);
         final CountryLanguages france = newFrance();
+        Assert.assertEquals(canada1.hashCode(), canada1.hashCode());
         Assert.assertEquals(canada1.hashCode(), canada2.hashCode());
         Assert.assertFalse(canada1.hashCode() == france.hashCode());
     }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,9 @@ import org.junit.runner.RunWith;
 
 /**
  * Define JUnit LogCallbackInterceptor Test.
- *
  * @author qjafcunuas
- *
  */
 @RunWith(CdiRunner.class)
-public class LogCallbackInterceptorTest extends
-        AbstractLogCallbackInterceptorTestImpl {
+public class LogCallbackInterceptorTest extends AbstractLogCallbackInterceptorTestImpl {
 
 }

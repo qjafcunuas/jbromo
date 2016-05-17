@@ -21,25 +21,22 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.model.jpa.AbstractEntityId;
 import org.jbromo.sample.server.model.src.common.UserCalendar;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Define the user.
- *
  * @author qjafcunuas
- *
  */
 @Entity
 @Table(name = "USER")
-@NamedQueries(value = {
-        @NamedQuery(name = User.NAMED_QUERY_FIND_ALL, query = "select o from User o"),
-        @NamedQuery(name = User.NAMED_QUERY_FIND_BY_LOGIN, query = "select o from User o where o.login = ?1") })
+@NamedQueries(value = {@NamedQuery(name = User.NAMED_QUERY_FIND_ALL, query = "select o from User o"),
+                       @NamedQuery(name = User.NAMED_QUERY_FIND_BY_LOGIN, query = "select o from User o where o.login = ?1")})
 public class User extends AbstractEntityId {
 
     /**
@@ -137,24 +134,23 @@ public class User extends AbstractEntityId {
      * The ManyToMany user roles.
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "USER_TO_USER_GROUP", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_GROUP_ID"))
+    @JoinTable(name = "USER_TO_USER_GROUP", joinColumns = @JoinColumn(name = "USER_ID") , inverseJoinColumns = @JoinColumn(name = "USER_GROUP_ID") )
     private Set<UserGroup> manyToManyGroups;
 
     /**
      * The addresses.
      */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<UserAddress> addresses;
 
     /**
      * The surnames.
      */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<UserSurname> surnames;
 
     /**
      * Return true if user is active.
-     *
      * @return true/false
      */
     public boolean isActive() {
@@ -163,7 +159,6 @@ public class User extends AbstractEntityId {
 
     /**
      * Return the groups.
-     *
      * @return the groups.
      */
     public Set<UserGroup> getManyToManyGroups() {
@@ -175,7 +170,6 @@ public class User extends AbstractEntityId {
 
     /**
      * Return the addresses.
-     *
      * @return the addresses.
      */
     public Set<UserAddress> getAddresses() {
@@ -187,7 +181,6 @@ public class User extends AbstractEntityId {
 
     /**
      * Return the surnames.
-     *
      * @return the surnames.
      */
     public Set<UserSurname> getSurnames() {
@@ -199,7 +192,6 @@ public class User extends AbstractEntityId {
 
     /**
      * Return the user calendar.
-     *
      * @return the calendar.
      */
     public UserCalendar getCalendar() {

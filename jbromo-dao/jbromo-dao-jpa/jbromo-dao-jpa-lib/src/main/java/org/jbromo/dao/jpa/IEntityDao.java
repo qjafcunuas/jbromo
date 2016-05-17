@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,13 +28,11 @@ import org.jbromo.model.jpa.IEntity;
 
 /**
  * Define a Entity DAO interface.
- * 
  * @author qjafcunuas
- * @param <E>
- *            the entity type.
- * @param <P>
+ * @param <E> the entity type.
+ * @param
+ *            <P>
  *            the primary key type.
  */
-public interface IEntityDao<E extends IEntity<P>, P extends Serializable>
-        extends ICRUDExtendedDao<E, P> {
+public interface IEntityDao<E extends IEntity<P>, P extends Serializable> extends ICRUDExtendedDao<E, P> {
 }

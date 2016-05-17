@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,17 +28,14 @@ import org.junit.Test;
 
 /**
  * JUnit JpqlFromBuilder class.
- *
  * @author qjafcunuas
- *
  */
 public class JpqlFromBuilderTest {
 
     /**
      * Define the beginning of the from query.
      */
-    private static final String ROOT_FROM_QUERY = "from "
-            + User.class.getName() + " o ";
+    private static final String ROOT_FROM_QUERY = "from " + User.class.getName() + " o ";
 
     /**
      * Define the root alias.
@@ -47,11 +44,8 @@ public class JpqlFromBuilderTest {
 
     /**
      * Validate from builder.
-     *
-     * @param from
-     *            the from builder to validate.
-     * @param fromQuery
-     *            the waited from query
+     * @param from the from builder to validate.
+     * @param fromQuery the waited from query
      */
     private void validate(final JpqlFromBuilder from, final String fromQuery) {
         Assert.assertEquals(from.toString(), fromQuery);
@@ -62,7 +56,6 @@ public class JpqlFromBuilderTest {
 
     /**
      * Return a new instance of from query.
-     *
      * @return the new instance.
      */
     private JpqlFromBuilder newInstance() {
@@ -84,8 +77,7 @@ public class JpqlFromBuilderTest {
     @Test
     public void getRootAlias() {
         Assert.assertNotNull(new JpqlFromBuilder(User.class).getRootAlias());
-        Assert.assertEquals(new JpqlFromBuilder(User.class).getRootAlias(),
-                ROOT_ALIAS);
+        Assert.assertEquals(new JpqlFromBuilder(User.class).getRootAlias(), ROOT_ALIAS);
     }
 
     /**
@@ -123,8 +115,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from
-                    .join(from.getRootAlias(), "manyToManyGroups", newAlias);
+            alias = from.join(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "inner join o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -161,8 +152,7 @@ public class JpqlFromBuilderTest {
         for (final Boolean newAlias : BooleanUtil.ALL) {
             aliasId = 1;
             // alias o1
-            alias = from.joinFetch(from.getRootAlias(), "manyToOneGroup",
-                    newAlias);
+            alias = from.joinFetch(from.getRootAlias(), "manyToOneGroup", newAlias);
             query += "inner join fetch o.manyToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -173,8 +163,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o2
-            alias = from.joinFetch(from.getRootAlias(), "oneToOneGroup",
-                    newAlias);
+            alias = from.joinFetch(from.getRootAlias(), "oneToOneGroup", newAlias);
             query += "inner join fetch o.oneToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -185,8 +174,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from.joinFetch(from.getRootAlias(), "manyToManyGroups",
-                    newAlias);
+            alias = from.joinFetch(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "inner join fetch o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -223,8 +211,7 @@ public class JpqlFromBuilderTest {
         for (final Boolean newAlias : BooleanUtil.ALL) {
             aliasId = 1;
             // alias o1
-            alias = from.rightJoin(from.getRootAlias(), "manyToOneGroup",
-                    newAlias);
+            alias = from.rightJoin(from.getRootAlias(), "manyToOneGroup", newAlias);
             query += "right join o.manyToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -235,8 +222,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o2
-            alias = from.rightJoin(from.getRootAlias(), "oneToOneGroup",
-                    newAlias);
+            alias = from.rightJoin(from.getRootAlias(), "oneToOneGroup", newAlias);
             query += "right join o.oneToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -247,8 +233,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from.rightJoin(from.getRootAlias(), "manyToManyGroups",
-                    newAlias);
+            alias = from.rightJoin(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "right join o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -285,8 +270,7 @@ public class JpqlFromBuilderTest {
         for (final Boolean newAlias : BooleanUtil.ALL) {
             aliasId = 1;
             // alias o1
-            alias = from.rightJoinFetch(from.getRootAlias(), "manyToOneGroup",
-                    newAlias);
+            alias = from.rightJoinFetch(from.getRootAlias(), "manyToOneGroup", newAlias);
             query += "right join fetch o.manyToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -297,8 +281,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o2
-            alias = from.rightJoinFetch(from.getRootAlias(), "oneToOneGroup",
-                    newAlias);
+            alias = from.rightJoinFetch(from.getRootAlias(), "oneToOneGroup", newAlias);
             query += "right join fetch o.oneToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -309,8 +292,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from.rightJoinFetch(from.getRootAlias(),
-                    "manyToManyGroups", newAlias);
+            alias = from.rightJoinFetch(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "right join fetch o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -321,8 +303,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o4
-            alias = from.rightJoinFetch(from.getRootAlias(), "surnames",
-                    newAlias);
+            alias = from.rightJoinFetch(from.getRootAlias(), "surnames", newAlias);
             query += "right join fetch o.surnames ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -348,8 +329,7 @@ public class JpqlFromBuilderTest {
         for (final Boolean newAlias : BooleanUtil.ALL) {
             aliasId = 1;
             // alias o1
-            alias = from.leftJoin(from.getRootAlias(), "manyToOneGroup",
-                    newAlias);
+            alias = from.leftJoin(from.getRootAlias(), "manyToOneGroup", newAlias);
             query += "left join o.manyToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -360,8 +340,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o2
-            alias = from.leftJoin(from.getRootAlias(), "oneToOneGroup",
-                    newAlias);
+            alias = from.leftJoin(from.getRootAlias(), "oneToOneGroup", newAlias);
             query += "left join o.oneToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -372,8 +351,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from.leftJoin(from.getRootAlias(), "manyToManyGroups",
-                    newAlias);
+            alias = from.leftJoin(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "left join o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -410,8 +388,7 @@ public class JpqlFromBuilderTest {
         for (final Boolean newAlias : BooleanUtil.ALL) {
             aliasId = 1;
             // alias o1
-            alias = from.leftJoinFetch(from.getRootAlias(), "manyToOneGroup",
-                    newAlias);
+            alias = from.leftJoinFetch(from.getRootAlias(), "manyToOneGroup", newAlias);
             query += "left join fetch o.manyToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -422,8 +399,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o2
-            alias = from.leftJoinFetch(from.getRootAlias(), "oneToOneGroup",
-                    newAlias);
+            alias = from.leftJoinFetch(from.getRootAlias(), "oneToOneGroup", newAlias);
             query += "left join fetch o.oneToOneGroup ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -434,8 +410,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o3
-            alias = from.leftJoinFetch(from.getRootAlias(), "manyToManyGroups",
-                    newAlias);
+            alias = from.leftJoinFetch(from.getRootAlias(), "manyToManyGroups", newAlias);
             query += "left join fetch o.manyToManyGroups ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);
@@ -446,8 +421,7 @@ public class JpqlFromBuilderTest {
             validate(from, query);
 
             // alias o4
-            alias = from.leftJoinFetch(from.getRootAlias(), "surnames",
-                    newAlias);
+            alias = from.leftJoinFetch(from.getRootAlias(), "surnames", newAlias);
             query += "left join fetch o.surnames ";
             if (newAlias) {
                 Assert.assertEquals(alias, ROOT_ALIAS + aliasId++);

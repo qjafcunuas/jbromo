@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,19 +21,17 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.RandomUtil;
 import org.jbromo.dao.common.exception.DaoException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define JUnit OrPredicate class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class OrPredicateTest extends AbstractMultiPredicateTest<OrPredicate> {
@@ -47,8 +45,7 @@ public class OrPredicateTest extends AbstractMultiPredicateTest<OrPredicate> {
     @Test
     public void or() {
         final AbstractMultiPredicate predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt(),
-                RandomUtil.nextInt(), RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             final OrPredicate or = predicate.or();
             validate(predicate, "");
@@ -58,13 +55,11 @@ public class OrPredicateTest extends AbstractMultiPredicateTest<OrPredicate> {
 
             // Add one element to or predicate.
             or.equals(FIELD_NAME + "2", parameters[1]);
-            validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0],
-                    parameters[1]);
+            validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0], parameters[1]);
 
             // Add another element to or predicate.
             or.greaterThan(FIELD_NAME + "3", parameters[2]);
-            validate(predicate, "(name1 <= ?1 or name2 = ?2 or name3 > ?3 ) ",
-                    parameters[0], parameters[1], parameters[2]);
+            validate(predicate, "(name1 <= ?1 or name2 = ?2 or name3 > ?3 ) ", parameters[0], parameters[1], parameters[2]);
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
@@ -77,9 +72,7 @@ public class OrPredicateTest extends AbstractMultiPredicateTest<OrPredicate> {
     @Test
     public void predicates() {
         final AbstractMultiPredicate predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt(),
-                RandomUtil.nextInt(), RandomUtil.nextInt(),
-                RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt(), RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             final OrPredicate or = predicate.or();
             final AndPredicate and = predicate.and();
@@ -91,21 +84,16 @@ public class OrPredicateTest extends AbstractMultiPredicateTest<OrPredicate> {
 
             // Add one element to or predicate.
             or.equals(FIELD_NAME + "2", parameters[1]);
-            super.validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ",
-                    parameters[0], parameters[1]);
+            super.validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0], parameters[1]);
 
             // Add one element to and predicate.
             and.notEquals(FIELD_NAME + "3", parameters[2]);
-            validate(predicate, "(name3 != ?1 or name1 <= ?2 or name2 = ?3 ) ",
-                    parameters[2], parameters[0], parameters[1]);
+            validate(predicate, "(name3 != ?1 or name1 <= ?2 or name2 = ?3 ) ", parameters[2], parameters[0], parameters[1]);
 
             // Add one element to and predicate.
             and.greaterThan(FIELD_NAME + "4", parameters[IntegerUtil.INT_3]);
-            validate(
-                    predicate,
-                    "(name3 != ?1 and name4 > ?2 or name1 <= ?3 or name2 = ?4 ) ",
-                    parameters[2], parameters[IntegerUtil.INT_3],
-                    parameters[0], parameters[1]);
+            validate(predicate, "(name3 != ?1 and name4 > ?2 or name1 <= ?3 or name2 = ?4 ) ", parameters[2], parameters[IntegerUtil.INT_3],
+                     parameters[0], parameters[1]);
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);

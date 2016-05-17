@@ -44,23 +44,24 @@ public final class BigDecimalUtil {
         for (final Number value : values) {
             if (value == null) {
                 return null;
+            } else if (ClassUtil.isInstance(value, Short.class)) {
+                sum = add(sum, (Short) value);
+            } else if (ClassUtil.isInstance(value, Integer.class)) {
+                sum = add(sum, (Integer) value);
+            } else if (ClassUtil.isInstance(value, Long.class)) {
+                sum = add(sum, (Long) value);
+            } else if (ClassUtil.isInstance(value, Float.class)) {
+                sum = add(sum, (Float) value);
+            } else if (ClassUtil.isInstance(value, Double.class)) {
+                sum = add(sum, (Double) value);
+            } else if (ClassUtil.isInstance(value, BigInteger.class)) {
+                sum = add(sum, (BigInteger) value);
+            } else if (ClassUtil.isInstance(value, BigDecimal.class)) {
+                sum = add(sum, (BigDecimal) value);
             } else {
-                if (ClassUtil.isInstance(value, Short.class)) {
-                    sum = add(sum, (Short) value);
-                } else if (ClassUtil.isInstance(value, Integer.class)) {
-                    sum = add(sum, (Integer) value);
-                } else if (ClassUtil.isInstance(value, Long.class)) {
-                    sum = add(sum, (Long) value);
-                } else if (ClassUtil.isInstance(value, Float.class)) {
-                    sum = add(sum, (Float) value);
-                } else if (ClassUtil.isInstance(value, Double.class)) {
-                    sum = add(sum, (Double) value);
-                } else if (ClassUtil.isInstance(value, BigInteger.class)) {
-                    sum = add(sum, (BigInteger) value);
-                } else if (ClassUtil.isInstance(value, BigDecimal.class)) {
-                    sum = add(sum, (BigDecimal) value);
-                }
+                sum = add(sum, value.doubleValue());
             }
+
         }
         return sum;
     }

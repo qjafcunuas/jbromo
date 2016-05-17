@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@ package org.jbromo.dao;
 
 /**
  * Define root package to integrate for arquillian test.
- *
  * @author qjafcunuas
- *
  */
 public class BromoDaoArquillianRoot {
 

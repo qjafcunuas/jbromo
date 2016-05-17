@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +25,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.jbromo.common.ObjectUtil;
-import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
@@ -38,24 +37,19 @@ import org.junit.Test;
 
 /**
  * Define default JUnit AbstractCompositePk class.
- *
  * @author qjafcunuas
- *
- * @param <PK>
- *            the primary key type.
+ * @param <PK> the primary key type.
  */
 public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
 
     /**
      * Return the entity factory.
-     *
      * @return the entity factory.
      */
     protected abstract AbstractEntityBuilderFactory getEntityFactory();
 
     /**
      * Return the field builder factory.
-     *
      * @return the field builder factory.
      */
     protected FieldBuilderFactory getFieldBuilderFactory() {
@@ -64,7 +58,6 @@ public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
 
     /**
      * Return the primary key class.
-     *
      * @return the primary key class.
      */
     protected Class<PK> getPrimaryKeyClass() {
@@ -78,8 +71,7 @@ public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
     public void constructorEmpty() {
         try {
             final PK pk = newInstance(true);
-            for (final Field field : EntityUtil.getPersistedFields(pk
-                    .getClass())) {
+            for (final Field field : EntityUtil.getPersistedFields(pk.getClass())) {
                 Assert.assertNull(InvocationUtil.getValue(pk, field));
             }
         } catch (final InvocationException e) {
@@ -92,8 +84,7 @@ public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
      */
     @Test
     public void constructorFull() {
-        final List<Field> fields = EntityUtil
-                .getPersistedFields(getPrimaryKeyClass());
+        final List<Field> fields = EntityUtil.getPersistedFields(getPrimaryKeyClass());
         try {
             final PK pk = newInstance(false);
             Assert.assertNotNull(pk);
@@ -107,10 +98,7 @@ public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
 
     /**
      * Return a new instance of the primary key.
-     *
-     * @param nullField
-     *            if true, call the constructor with no argument; else call the
-     *            constructor with all arguments.
+     * @param nullField if true, call the constructor with no argument; else call the constructor with all arguments.
      * @return the new instance.
      */
     private PK newInstance(final boolean nullField) {
@@ -119,21 +107,17 @@ public abstract class AbstractCompositePkTest<PK extends AbstractCompositePk> {
                 return ObjectUtil.newInstance(getPrimaryKeyClass());
             }
 
-            final List<Field> fields = EntityUtil
-                    .getPersistedFields(getPrimaryKeyClass());
+            final List<Field> fields = EntityUtil.getPersistedFields(getPrimaryKeyClass());
             Object value;
             final PK pk = ObjectUtil.newInstance(getPrimaryKeyClass());
             for (final Field field : fields) {
-                value = getFieldBuilderFactory().getBuilder(field).nextRandom(
-                        false, field);
+                value = getFieldBuilderFactory().getBuilder(field).nextRandom(false, field);
                 InvocationUtil.injectValue(pk, field, value);
             }
             return pk;
-        } catch (final MessageLabelException e) {
+        } catch (final InvocationException e) {
             Assert.fail(e.getMessage());
-        } catch (InvocationException e) {
-            Assert.fail(e.getMessage());
-		}
+        }
         return null;
 
     }

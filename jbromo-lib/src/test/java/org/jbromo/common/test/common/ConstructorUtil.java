@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,39 +27,29 @@ import java.lang.reflect.Modifier;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.junit.Assert;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Constructor util class.
- *
  * @author qjafcunuas
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ConstructorUtil {
 
     /**
-     * Default constructor.
-     */
-    private ConstructorUtil() {
-        super();
-    }
-
-    /**
      * Execute a private constructor.
-     *
-     * @param <O>
-     *            the object type.
-     * @param objectClass
-     *            the object class.
+     * @param <O> the object type.
+     * @param objectClass the object class.
      */
     public static <O> void executePrivate(final Class<O> objectClass) {
         try {
-            final Constructor<O> constructor = InvocationUtil
-                    .getConstructor(objectClass);
+            final Constructor<O> constructor = InvocationUtil.getConstructor(objectClass);
             if (Modifier.isPrivate(constructor.getModifiers())) {
                 constructor.setAccessible(true);
                 constructor.newInstance();
             } else {
-                Assert.fail("Constructor is not private for class "
-                        + objectClass);
+                Assert.fail("Constructor is not private for class " + objectClass);
             }
         } catch (final Exception e) {
             Assert.fail(e.getMessage());

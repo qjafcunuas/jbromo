@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,18 +21,16 @@
  */
 package org.jbromo.dao.jpa.query.jpql;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.dto.IDto;
 import org.jbromo.dao.common.exception.DaoException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JUnit JpqlDtoQueryBuilder class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class JpqlDtoQueryBuilderTest {

@@ -27,13 +27,11 @@ import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define Set Utility.
  * @author qjafcunuas
  */
-@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SetUtil {
 
@@ -130,15 +128,12 @@ public final class SetUtil {
      * @param objects the objects to re-set.
      */
     public static <O> void reSet(final Set<O> objects) {
-        try {
-            if (isNotEmpty(objects)) {
-                final Set<O> set = new HashSet<>();
-                set.addAll(objects);
-                objects.clear();
-                objects.addAll(set);
-            }
-        } catch (final Exception e) {
-            log.error("Cannot reset objects", e);
+        if (isNotEmpty(objects)) {
+            @SuppressWarnings("unchecked")
+            final Set<O> set = ObjectUtil.newInstance(objects.getClass());
+            set.addAll(objects);
+            objects.clear();
+            objects.addAll(set);
         }
     }
 

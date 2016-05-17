@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,9 @@ import org.jbromo.common.StringUtil;
 
 /**
  * JUnit LessThanCondition class.
- *
  * @author qjafcunuas
- *
  */
-public class LessThanConditionTest extends
-        AbstractConditionTest<LessThanCondition> {
+public class LessThanConditionTest extends AbstractConditionTest<LessThanCondition> {
 
     @Override
     protected String getOperator() {

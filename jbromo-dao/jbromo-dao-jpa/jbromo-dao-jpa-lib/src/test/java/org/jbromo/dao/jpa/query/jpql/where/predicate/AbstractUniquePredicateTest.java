@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,24 +21,22 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.RandomUtil;
 import org.jbromo.dao.common.exception.DaoException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JUnit AbstractUniquePredicate class.
- *
  * @author qjafcunuas
- *
- * @param <P>
+ * @param
+ *            <P>
  *            the predicate type.
  */
 @Slf4j
-public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredicate>
-        extends AbstractPredicateTest<P> {
+public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredicate> extends AbstractPredicateTest<P> {
 
     @Override
     @Test
@@ -50,13 +48,11 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
     }
 
     @Override
-    protected void validate(final AbstractPredicate predicate,
-            final String query, final Object... parameters) {
+    protected void validate(final AbstractPredicate predicate, final String query, final Object... parameters) {
         if (query.isEmpty()) {
             super.validate(predicate, query, parameters);
         } else if (predicate.isNeedParenthesis()) {
-            super.validate(predicate, getOperator() + " (" + query + ") ",
-                    parameters);
+            super.validate(predicate, getOperator() + " (" + query + ") ", parameters);
         } else {
             super.validate(predicate, getOperator() + " " + query, parameters);
         }
@@ -66,8 +62,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
     @Test
     public void multiCriteria() {
         final P predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt(),
-                RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             predicate.lessOrEquals(FIELD_NAME, parameters[0]);
         } catch (final DaoException e) {
@@ -87,8 +82,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
     @Test
     public void and() {
         final P predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt(),
-                RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             final AndPredicate and = predicate.and();
             validate(predicate, "");
@@ -97,8 +91,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
 
             // Add one element to and predicate.
             and.equals(FIELD_NAME + "2", parameters[1]);
-            validate(predicate, "name1 <= ?1 and name2 = ?2 ", parameters[0],
-                    parameters[1]);
+            validate(predicate, "name1 <= ?1 and name2 = ?2 ", parameters[0], parameters[1]);
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -110,8 +103,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
     @Test
     public void or() {
         final P predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt(),
-                RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             final OrPredicate or = predicate.or();
             validate(predicate, "");
@@ -120,8 +112,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
 
             // Add one element to or predicate.
             or.equals(FIELD_NAME + "2", parameters[1]);
-            validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0],
-                    parameters[1]);
+            validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0], parameters[1]);
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
@@ -132,7 +123,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
     @Test
     public void not() {
         final P predicate = newInstance();
-        final int[] parameters = new int[] { RandomUtil.nextInt() };
+        final int[] parameters = new int[] {RandomUtil.nextInt()};
         try {
             final NotPredicate not = predicate.not();
             validate(predicate, "");

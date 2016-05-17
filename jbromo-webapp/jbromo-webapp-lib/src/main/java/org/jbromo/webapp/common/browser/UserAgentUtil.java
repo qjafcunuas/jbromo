@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@ package org.jbromo.webapp.common.browser;
 
 /**
  * Define user-agent inspector.
- *
  * @author qjafcunuas
- *
  */
 public final class UserAgentUtil {
 
@@ -38,19 +36,17 @@ public final class UserAgentUtil {
 
     /**
      * Return the browser css label.
-     *
-     * @param userAgent
-     *            the user agent.
+     * @param userAgent the user agent.
      * @return the css label.
      */
     public static String getBrowserLabel(final String userAgent) {
         final String value = userAgent.toLowerCase();
-        if (value.indexOf("firefox") > 0) {
+        if (value.contains("firefox")) {
             return "ff";
-        }
-        if (value.indexOf("msie") > 0) {
+        } else if (value.contains("msie")) {
             return "ie";
+        } else {
+            return null;
         }
-        return null;
     }
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,10 +21,8 @@
  */
 package org.jbromo.common.exception;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
-
-import lombok.Getter;
 
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.i18n.IMessageKey;
@@ -33,11 +31,11 @@ import org.jbromo.common.i18n.MessageSeverity;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+
 /**
  * Define JUnit MessageLabelException class.
- *
  * @author qjafcunuas
- *
  */
 public abstract class AbstractMessageLabelExceptionTest {
 
@@ -45,6 +43,11 @@ public abstract class AbstractMessageLabelExceptionTest {
      * A message key for test.
      */
     public static final IMessageKey MESSAGE_KEY = new IMessageKey() {
+
+        /**
+         * serialVersionUID.
+         */
+        private static final long serialVersionUID = -900612107907927705L;
 
         @Override
         public String getKey() {
@@ -67,7 +70,7 @@ public abstract class AbstractMessageLabelExceptionTest {
          * The label parameters.
          */
         @Getter
-        private final List<Object> parameters = new ArrayList<Object>();
+        private final List<Serializable> parameters = ListUtil.toList();
 
         @Override
         public IMessageKey getKey() {
@@ -83,9 +86,7 @@ public abstract class AbstractMessageLabelExceptionTest {
 
     /**
      * Return a new message label.
-     *
-     * @param key
-     *            the key to used.
+     * @param key the key to used.
      * @return the message label.
      */
     public static IMessageLabel getMessageLabel(final IMessageKey key) {
@@ -100,7 +101,7 @@ public abstract class AbstractMessageLabelExceptionTest {
              * The label parameters.
              */
             @Getter
-            private final List<Object> parameters = new ArrayList<Object>();
+            private final List<Serializable> parameters = ListUtil.toList();
 
             @Override
             public IMessageKey getKey() {
@@ -118,12 +119,10 @@ public abstract class AbstractMessageLabelExceptionTest {
     /**
      * An exception for test.
      */
-    public static final Exception EXCEPTION = new Exception(
-            "The test exception");
+    public static final Exception EXCEPTION = new Exception("The test exception");
 
     /**
      * Return the factory to used.
-     *
      * @return the factory.
      */
     protected abstract IMessageLabelExceptionFactory<?> getFactory();
@@ -142,8 +141,7 @@ public abstract class AbstractMessageLabelExceptionTest {
      */
     @Test
     public void constructorKey() {
-        final MessageLabelException myExp = getFactory().newInstance(
-                MESSAGE_KEY);
+        final MessageLabelException myExp = getFactory().newInstance(MESSAGE_KEY);
         Assert.assertNotNull(myExp.getLabel());
         Assert.assertNotNull(myExp.getLabel().getKey());
         Assert.assertEquals(myExp.getLabel().getKey(), MESSAGE_KEY);
@@ -154,13 +152,11 @@ public abstract class AbstractMessageLabelExceptionTest {
      */
     @Test
     public void constructorKeyExp() {
-        final MessageLabelException myExp = getFactory().newInstance(
-                MESSAGE_KEY, EXCEPTION);
+        final MessageLabelException myExp = getFactory().newInstance(MESSAGE_KEY, EXCEPTION);
         Assert.assertNotNull(myExp.getLabel());
         Assert.assertNotNull(myExp.getLabel().getKey());
         Assert.assertEquals(myExp.getLabel().getKey(), MESSAGE_KEY);
-        Assert.assertEquals(ListUtil.getLast(myExp.getLabel().getParameters()),
-                EXCEPTION);
+        Assert.assertEquals(ListUtil.getLast(myExp.getLabel().getParameters()), EXCEPTION);
     }
 
     /**
@@ -169,8 +165,7 @@ public abstract class AbstractMessageLabelExceptionTest {
     @Test
     public void constructorLabel() {
         MESSAGE_LABEL.getParameters().clear();
-        final MessageLabelException myExp = getFactory().newInstance(
-                MESSAGE_LABEL);
+        final MessageLabelException myExp = getFactory().newInstance(MESSAGE_LABEL);
         Assert.assertNotNull(myExp.getLabel());
         Assert.assertEquals(myExp.getLabel(), MESSAGE_LABEL);
     }
@@ -182,8 +177,7 @@ public abstract class AbstractMessageLabelExceptionTest {
     public void constructorLabelExp() {
         // null cause
         MESSAGE_LABEL.getParameters().clear();
-        MessageLabelException myExp = getFactory().newInstance(MESSAGE_LABEL,
-                null);
+        MessageLabelException myExp = getFactory().newInstance(MESSAGE_LABEL, null);
         Assert.assertNotNull(myExp.getLabel());
         Assert.assertEquals(myExp.getLabel(), MESSAGE_LABEL);
         Assert.assertNull(myExp.getCause());
@@ -197,8 +191,7 @@ public abstract class AbstractMessageLabelExceptionTest {
         Assert.assertNotNull(myExp.getLabel());
         Assert.assertEquals(myExp.getLabel(), MESSAGE_LABEL);
         Assert.assertEquals(myExp.getCause(), EXCEPTION);
-        Assert.assertEquals(ListUtil.getLast(myExp.getLabel().getParameters()),
-                EXCEPTION);
+        Assert.assertEquals(ListUtil.getLast(myExp.getLabel().getParameters()), EXCEPTION);
 
         /**
          * Not null cause.
@@ -210,12 +203,8 @@ public abstract class AbstractMessageLabelExceptionTest {
             Assert.assertNotNull(myExp.getLabel());
             Assert.assertEquals(myExp.getLabel(), MESSAGE_LABEL);
             Assert.assertEquals(myExp.getCause(), EXCEPTION);
-            Assert.assertEquals(
-                    ListUtil.getLast(myExp.getLabel().getParameters()),
-                    EXCEPTION);
-            Assert.assertEquals(
-                    myExp.getLabel().getParameters().indexOf(EXCEPTION), myExp
-                            .getLabel().getParameters().size() - 1);
+            Assert.assertEquals(ListUtil.getLast(myExp.getLabel().getParameters()), EXCEPTION);
+            Assert.assertEquals(myExp.getLabel().getParameters().indexOf(EXCEPTION), myExp.getLabel().getParameters().size() - 1);
         } finally {
             MESSAGE_LABEL.getParameters().clear();
         }

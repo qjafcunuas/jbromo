@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,15 +41,14 @@ import org.jbromo.service.exception.ServiceExceptionFactory;
 
 /**
  * The class for implementation of CRUD services.
- * 
  * @author qjafcunuas
- * @param <E>
- *            the entity class giving by Service layer
- * @param <P>
- *            the entity class primary key
+ * @param <E> the entity class giving by Service layer.
+ * @param
+ *            <P>
+ *            the entity class primary key.
  */
-public abstract class AbstractEntityService<E extends IEntity<P>, P extends Serializable>
-        extends AbstractCrudService<E, P> implements IEntityService<E, P> {
+public abstract class AbstractEntityService<E extends IEntity<P>, P extends Serializable> extends AbstractCrudService<E, P>
+    implements IEntityService<E, P> {
 
     /**
      * Serial version UID for class.
@@ -58,7 +57,6 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
 
     /**
      * The getter for entityDao.
-     *
      * @return the entityDao to get
      */
     protected abstract IEntityDao<E, P> getEntityDao();
@@ -79,15 +77,13 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Transactional(TxType.REQUIRED)
     public E create(final E entity) throws ServiceException {
         if (entity == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.ENTITY_TO_CREATE_IS_NULL);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_CREATE_IS_NULL);
         }
 
         try {
             return getEntityDao().create(entity);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -96,8 +92,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Transactional(TxType.SUPPORTS)
     public E read(final E entity) throws ServiceException {
         if (entity == null || entity.getPrimaryKey() == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
         }
         try {
             return getEntityDao().findByPk(entity.getPrimaryKey());
@@ -109,8 +104,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public <C extends Collection<E>> C read(final C transientInstance)
-            throws ServiceException {
+    public <C extends Collection<E>> C read(final C transientInstance) throws ServiceException {
         try {
             return getEntityDao().read(transientInstance);
         } catch (final DaoException e) {
@@ -123,15 +117,13 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Transactional(TxType.REQUIRED)
     public E update(final E entity) throws ServiceException {
         if (entity == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.ENTITY_TO_UPDATE_IS_NULL);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_UPDATE_IS_NULL);
         }
 
         try {
             return getEntityDao().update(entity);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -140,26 +132,21 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Transactional(TxType.REQUIRED)
     public boolean delete(final E entity) throws ServiceException {
         if (entity == null || entity.getPrimaryKey() == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
         }
         try {
             return getEntityDao().delete(entity);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
-    public List<E> findAll(final E criteria, final E eagerLoading,
-            final List<IOrderBy<E>> orderBy)
-            throws ServiceException {
+    public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws ServiceException {
         try {
             return getEntityDao().findAll(criteria, eagerLoading, orderBy);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -168,8 +155,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
         try {
             return getEntityDao().findAll(criteria);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -178,8 +164,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
         try {
             return getEntityDao().findAll();
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -188,93 +173,78 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
         try {
             return getEntityDao().findByPk(primaryKey);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C create(final C transientInstance)
-            throws ServiceException {
+    public <C extends Collection<E>> C create(final C transientInstance) throws ServiceException {
         try {
             return getEntityDao().create(transientInstance);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C update(final C detachedInstance)
-            throws ServiceException {
+    public <C extends Collection<E>> C update(final C detachedInstance) throws ServiceException {
         try {
             return getEntityDao().update(detachedInstance);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public void delete(final Collection<E> detachedInstance)
-            throws ServiceException {
+    public void delete(final Collection<E> detachedInstance) throws ServiceException {
         try {
             getEntityDao().delete(detachedInstance);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C save(final C detachedInstance)
-            throws ServiceException {
+    public <C extends Collection<E>> C save(final C detachedInstance) throws ServiceException {
         try {
             return getEntityDao().save(detachedInstance);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys)
-            throws ServiceException {
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws ServiceException {
         try {
             return getEntityDao().findAllByPk(primaryKeys);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
-    public E findByPk(final P primaryKey, final E eagerLoading)
-            throws ServiceException {
+    public E findByPk(final P primaryKey, final E eagerLoading) throws ServiceException {
         try {
             return getEntityDao().findByPk(primaryKey, eagerLoading);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys,
-            final E eagerLoading) throws ServiceException {
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws ServiceException {
         try {
             return getEntityDao().findAllByPk(primaryKeys, eagerLoading);
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 
@@ -283,8 +253,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
         try {
             return getEntityDao().count();
         } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
         }
     }
 

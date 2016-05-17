@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,18 +27,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ListUtil;
 import org.junit.Assert;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Define Cache Data test. All data defined in the cache are accessible every
- * where. It should be removed at the end of a test.
- *
+ * Define Cache Data test. All data defined in the cache are accessible every where. It should be removed at the end of a test.
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class CacheData {
@@ -62,9 +59,7 @@ public class CacheData {
 
     /**
      * Return the class of an object.
-     *
-     * @param theClass
-     *            the theClass to get class.
+     * @param theClass the theClass to get class.
      * @return the class object.
      */
     protected Class<?> getClass(final Class<?> theClass) {
@@ -73,11 +68,8 @@ public class CacheData {
 
     /**
      * Return true if object is in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object.
+     * @param <E> the object type.
+     * @param object the object.
      * @return true/false.
      */
     public <E> boolean contains(final E object) {
@@ -89,11 +81,8 @@ public class CacheData {
 
     /**
      * Return objects list according to a class for the current space.
-     *
-     * @param <E>
-     *            the object type.
-     * @param theClass
-     *            the class to get objects.
+     * @param <E> the object type.
+     * @param theClass the class to get objects.
      * @return objects list.
      */
     public <E> List<E> getObjects(final Class<?> theClass) {
@@ -102,7 +91,6 @@ public class CacheData {
 
     /**
      * Return objects ordering by creation date.
-     *
      * @return objects list.
      */
     public List<Object> getSorted() {
@@ -111,14 +99,9 @@ public class CacheData {
 
     /**
      * Return objects list according to a class for the current space.
-     *
-     * @param <E>
-     *            the object type.
-     * @param theClass
-     *            the class to get objects.
-     * @param clone
-     *            if true, the returned list is not the same list than from the
-     *            mapper.
+     * @param <E> the object type.
+     * @param theClass the class to get objects.
+     * @param clone if true, the returned list is not the same list than from the mapper.
      * @return objects list.
      */
     @SuppressWarnings("unchecked")
@@ -141,11 +124,8 @@ public class CacheData {
 
     /**
      * Add an object in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object to add.
+     * @param <E> the object type.
+     * @param object the object to add.
      */
     public <E> void add(final E object) {
         if (object == null) {
@@ -161,14 +141,10 @@ public class CacheData {
     }
 
     /**
-     * Updates an object in the cache. If the object is null, return true. If
-     * the object exists in the cache, update it and return true. If the object
+     * Updates an object in the cache. If the object is null, return true. If the object exists in the cache, update it and return true. If the object
      * doesn't exist in the cache, don't add it and return false.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object to add.
+     * @param <E> the object type.
+     * @param object the object to add.
      * @return true/false.
      */
     public <E> boolean update(final E object) {
@@ -188,14 +164,10 @@ public class CacheData {
     }
 
     /**
-     * Add or updates an object in the cache. If the object is null, return
-     * null. If the object exists in the cache, update it and return false. If
+     * Add or updates an object in the cache. If the object is null, return null. If the object exists in the cache, update it and return false. If
      * the object doesn't exist in the cache, add it and return true.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object to add.
+     * @param <E> the object type.
+     * @param object the object to add.
      * @return true/false.
      */
     public <E> Boolean addOrUpdate(final E object) {
@@ -213,11 +185,8 @@ public class CacheData {
 
     /**
      * Update objects in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param objects
-     *            the objects to update.
+     * @param <E> the object type.
+     * @param objects the objects to update.
      */
     public <E> void update(final Collection<E> objects) {
         if (CollectionUtil.isEmpty(objects)) {
@@ -230,11 +199,8 @@ public class CacheData {
 
     /**
      * Add objects in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param objects
-     *            the objects to add.
+     * @param <E> the object type.
+     * @param objects the objects to add.
      */
     public <E> void add(final Collection<E> objects) {
         if (CollectionUtil.isEmpty(objects)) {
@@ -246,13 +212,9 @@ public class CacheData {
     }
 
     /**
-     * Remove an object from the cache. It return false if object to remove is
-     * null or object is not in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object to remove.
+     * Remove an object from the cache. It return false if object to remove is null or object is not in the cache.
+     * @param <E> the object type.
+     * @param object the object to remove.
      * @return true/false.
      */
     public <E> boolean remove(final E object) {
@@ -266,11 +228,8 @@ public class CacheData {
 
     /**
      * Update objects in the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param objects
-     *            the objects to update.
+     * @param <E> the object type.
+     * @param objects the objects to update.
      */
     public <E> void remove(final Collection<E> objects) {
         if (CollectionUtil.isEmpty(objects)) {
@@ -283,11 +242,8 @@ public class CacheData {
 
     /**
      * Remove all objects from the cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param theClass
-     *            the class'objects to remove.
+     * @param <E> the object type.
+     * @param theClass the class'objects to remove.
      */
     public <E> void remove(final Class<E> theClass) {
         if (theClass == null) {
@@ -300,7 +256,6 @@ public class CacheData {
 
     /**
      * Remove all objects from the cache.
-     *
      */
     public void removeAll() {
         for (final List<?> one : this.mapByClass.values()) {
@@ -312,17 +267,14 @@ public class CacheData {
 
     /**
      * Logs if cache is not empty and clear the cache.
-     *
      * @return true if the cache was empty, else return false.
      */
     public boolean clear() {
         boolean empty = true;
-        for (final Map.Entry<Class<?>, List<?>> entry : this.mapByClass
-                .entrySet()) {
+        for (final Map.Entry<Class<?>, List<?>> entry : this.mapByClass.entrySet()) {
             if (!entry.getValue().isEmpty()) {
                 empty = false;
-                log.warn("Cache contains {} {} elements", entry.getValue()
-                        .size(), entry.getKey().getSimpleName());
+                log.warn("Cache contains {} {} elements", entry.getValue().size(), entry.getKey().getSimpleName());
                 entry.getValue().clear();
             }
         }
@@ -333,11 +285,8 @@ public class CacheData {
 
     /**
      * Return object from cache.
-     *
-     * @param <E>
-     *            the object type.
-     * @param object
-     *            the object to get.
+     * @param <E> the object type.
+     * @param object the object to get.
      * @return the object.
      */
     public <E> E get(final E object) {

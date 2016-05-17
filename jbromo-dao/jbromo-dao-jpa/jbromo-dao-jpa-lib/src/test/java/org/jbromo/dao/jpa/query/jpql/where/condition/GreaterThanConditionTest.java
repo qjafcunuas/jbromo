@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,9 @@ import org.jbromo.common.StringUtil;
 
 /**
  * JUnit GreaterThanCondition class.
- *
  * @author qjafcunuas
- *
  */
-public class GreaterThanConditionTest extends
-        AbstractConditionTest<GreaterThanCondition> {
+public class GreaterThanConditionTest extends AbstractConditionTest<GreaterThanCondition> {
 
     @Override
     protected String getOperator() {

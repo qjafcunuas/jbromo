@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,17 +25,16 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Test for the ParameterizedType util class.
- *
  * @author qjafcunuas
- *
  */
 public class ParameterizedTypeUtilTest {
 
@@ -70,19 +69,38 @@ public class ParameterizedTypeUtilTest {
     }
 
     /**
-     * Test the getClass method.
+     * Test constructor.
      */
     @Test
-    public void testGetClass() {
+    public void constructor() {
+        ConstructorUtil.executePrivate(ParameterizedTypeUtil.class);
+    }
+
+    /**
+     * Test the getClass(object,position) method.
+     */
+    @Test
+    public void testGetClassObjectPosition() {
         AbstractObject<?> obj = new MyObject();
-        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(
-                obj, AbstractObject.class, 0)));
+        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(obj, 0)));
+        Assert.assertNull(ParameterizedTypeUtil.getClass(obj, 10));
 
         obj = new MyObjectObject();
-        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(
-                obj, AbstractObjectObject.class, 0)));
-        Assert.assertTrue(String.class.equals(ParameterizedTypeUtil.getClass(
-                obj, AbstractObjectObject.class, 1)));
+        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(obj, 0)));
+        Assert.assertTrue(String.class.equals(ParameterizedTypeUtil.getClass(obj, 1)));
+    }
+
+    /**
+     * Test the getClass(object,class,position) method.
+     */
+    @Test
+    public void testGetClassObjectClassPosition() {
+        AbstractObject<?> obj = new MyObject();
+        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(obj, AbstractObject.class, 0)));
+
+        obj = new MyObjectObject();
+        Assert.assertTrue(Integer.class.equals(ParameterizedTypeUtil.getClass(obj, AbstractObjectObject.class, 0)));
+        Assert.assertTrue(String.class.equals(ParameterizedTypeUtil.getClass(obj, AbstractObjectObject.class, 1)));
     }
 
     /**
@@ -96,8 +114,7 @@ public class ParameterizedTypeUtilTest {
         Assert.assertNotNull(list);
         Assert.assertTrue(list.size() == 1);
         Assert.assertTrue(list.contains(String.class));
-        Assert.assertTrue(ParameterizedTypeUtil.getGenericType(field, 0)
-                .equals(String.class));
+        Assert.assertTrue(ParameterizedTypeUtil.getGenericType(field, 0).equals(String.class));
 
     }
 

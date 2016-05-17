@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,10 +24,6 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 import java.util.Iterator;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.ListUtil;
@@ -49,12 +45,15 @@ import org.jbromo.sample.server.model.test.EntityBuilderFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define JUnit AbstractPredicate class.
- *
  * @author qjafcunuas
- *
- * @param <P>
+ * @param
+ *            <P>
  *            the predicate type.
  */
 @Slf4j
@@ -69,42 +68,29 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
      * The predicate class.
      */
     @Getter(AccessLevel.PROTECTED)
-    private final Class<P> predicateClass = ParameterizedTypeUtil.getClass(
-            this, 0);
+    private final Class<P> predicateClass = ParameterizedTypeUtil.getClass(this, 0);
 
     /**
      * Return the expression's operator.
-     *
      * @return the operator.
      */
     protected abstract String getOperator();
 
     /**
      * Return a new instance of the predicate to test.
-     *
      * @return the new instance.
      */
     protected P newInstance() {
-        try {
-            return ObjectUtil.newInstance(getPredicateClass(),
-                    new JpqlWhereBuilder(new AbstractJpqlQueryBuilder<User>(null,
-                            User.class)));
-        } catch (final MessageLabelException e) {
-            Assert.fail(e.getMessage());
-            return null;
-        }
+        return ObjectUtil.newInstance(getPredicateClass(), new JpqlWhereBuilder(new AbstractJpqlQueryBuilder<User>(null, User.class)));
     }
 
     /**
      * Return a new instance of the predicate to test.
-     *
      * @return the new instance.
      */
     protected P newEntityInstance() {
         try {
-            return ObjectUtil.newInstance(getPredicateClass(),
-                    new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null,
-                            User.class)));
+            return ObjectUtil.newInstance(getPredicateClass(), new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class)));
         } catch (final MessageLabelException e) {
             Assert.fail(e.getMessage());
             return null;
@@ -113,16 +99,11 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
 
     /**
      * Validate predicate to waited query.
-     *
-     * @param predicate
-     *            the predicate.
-     * @param query
-     *            the waited query.
-     * @param parameters
-     *            the query parameters.
+     * @param predicate the predicate.
+     * @param query the waited query.
+     * @param parameters the query parameters.
      */
-    protected void validate(final AbstractPredicate predicate,
-            final String query, final Object... parameters) {
+    protected void validate(final AbstractPredicate predicate, final String query, final Object... parameters) {
         // Build
         final List<Object> list = ListUtil.toList();
         final StringBuilder builder = new StringBuilder("predicate: ");
@@ -131,35 +112,26 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         Assert.assertEquals(builder.toString(), "predicate: " + query);
         Assert.assertEquals(predicate.toString(), query);
         // Verify parameters.
-        Assert.assertTrue(CollectionUtil.identical(list,
-                ListUtil.toList(parameters)));
+        Assert.assertTrue(CollectionUtil.identical(list, ListUtil.toList(parameters)));
     }
 
     /**
      * Validate predicate to waited query.
-     *
-     * @param predicate
-     *            the predicate.
-     * @param query
-     *            the waited query, wich method add parenthesis around.
-     * @param parameters
-     *            the query parameters.
+     * @param predicate the predicate.
+     * @param query the waited query, wich method add parenthesis around.
+     * @param parameters the query parameters.
      */
-    protected void validateParenthesis(final AbstractPredicate predicate,
-            final String query, final Object... parameters) {
+    protected void validateParenthesis(final AbstractPredicate predicate, final String query, final Object... parameters) {
         // Build
         final List<Object> list = ListUtil.toList();
         final StringBuilder builder = new StringBuilder("predicate: ");
         predicate.build(builder, list);
-        final String queryp = predicate.isNeedParenthesis() && !query.isEmpty() ? "("
-                + query + ") "
-                : query;
+        final String queryp = predicate.isNeedParenthesis() && !query.isEmpty() ? "(" + query + ") " : query;
         // Verify query.
         Assert.assertEquals(builder.toString(), "predicate: " + queryp);
         Assert.assertEquals(predicate.toString(), queryp);
         // Verify parameters.
-        Assert.assertTrue(CollectionUtil.identical(list,
-                ListUtil.toList(parameters)));
+        Assert.assertTrue(CollectionUtil.identical(list, ListUtil.toList(parameters)));
     }
 
     /**
@@ -230,8 +202,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         }
         // Two parameters
         predicate = newInstance();
-        parameters = ListUtil.toList(RandomUtil.nextInt(),
-                RandomUtil.nextInt());
+        parameters = ListUtil.toList(RandomUtil.nextInt(), RandomUtil.nextInt());
         try {
             predicate.in(FIELD_NAME, parameters);
             validate(predicate, "name in (?1 ) ", parameters);
@@ -268,8 +239,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         }
         // Two parameters
         predicate = newInstance();
-        parameters = ListUtil.toList(RandomUtil.nextInt(),
-                RandomUtil.nextInt());
+        parameters = ListUtil.toList(RandomUtil.nextInt(), RandomUtil.nextInt());
         try {
             predicate.notIn(FIELD_NAME, parameters);
             validate(predicate, "name not in (?1 ) ", parameters);
@@ -285,15 +255,12 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
     @Test
     public void like() {
         final P predicate = newInstance();
-        final String parameter = RandomUtil.nextString().replace(
-                StringUtil.STAR, "1");
+        final String parameter = RandomUtil.nextString().replace(StringUtil.STAR, "1");
         try {
             predicate.like(FIELD_NAME, null);
             validate(predicate, "");
-            predicate.like(FIELD_NAME, StringUtil.STAR + parameter
-                    + StringUtil.STAR);
-            validate(predicate, "name like ?1 ", StringUtil.PERCENT + parameter
-                    + StringUtil.PERCENT);
+            predicate.like(FIELD_NAME, StringUtil.STAR + parameter + StringUtil.STAR);
+            validate(predicate, "name like ?1 ", StringUtil.PERCENT + parameter + StringUtil.PERCENT);
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
@@ -432,28 +399,22 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "o.firstname like ?1 ", "%Bruno");
 
             // UserGroup
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
             predicate = newInstance();
             predicate.and(group);
             validate(predicate, "o.name = ?1 ", group.getName());
 
             // User
-            user = EntityBuilderFactory.getInstance().getBuilder(User.class)
-                    .newEntity(false);
+            user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getAddresses().clear();
             user.getSurnames().clear();
             predicate = newInstance();
             predicate.and(user);
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -469,25 +430,18 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
 
             // User + manyToOne
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getAddresses().clear();
             user.getSurnames().clear();
             user.setManyToOneGroup(group);
             final AbstractPredicate predicate = newEntityInstance();
             predicate.and(user);
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and o.manyToOneGroup.name = ?8 ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), user
-                            .getManyToOneGroup().getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and o.manyToOneGroup.name = ?8 ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getManyToOneGroup().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -505,12 +459,9 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             Object[] parameters;
             // create user and groups.
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final UserGroup anotherGroup = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final UserGroup anotherGroup = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             // Set groups to user.
             user.getAddresses().clear();
             user.getSurnames().clear();
@@ -521,30 +472,19 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             final AbstractPredicate predicate = newInstance();
             predicate.and(user);
             // Order parameter according to group position.
-            if (ObjectUtil.same(user.getManyToManyGroups().iterator().next(),
-                    group)) {
-                parameters = new Object[] { user.getLogin(),
-                        user.getEncryptedPassword(), user.getFirstname(),
-                        user.getLastname(), user.getActive(),
+            if (ObjectUtil.same(user.getManyToManyGroups().iterator().next(), group)) {
+                parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
 
-                        user.getCalendar().getCreationDate(),
-                        user.getCalendar().getUpdateDate(), group.getName(),
-                        anotherGroup.getName() };
+                        user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), group.getName(), anotherGroup.getName()};
             } else {
-                parameters = new Object[] { user.getLogin(),
-                        user.getEncryptedPassword(), user.getFirstname(),
-                        user.getLastname(), user.getActive(),
-                        user.getCalendar().getCreationDate(),
-                        user.getCalendar().getUpdateDate(),
-                        anotherGroup.getName(), group.getName() };
+                parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                           user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), anotherGroup.getName(),
+                                           group.getName()};
             }
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.name = ?8 or o1.name = ?9 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName()
-                    + " o inner join o.manyToManyGroups o1 ");
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.name = ?8 or o1.name = ?9 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.manyToManyGroups o1 ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -561,25 +501,18 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
 
         try {
             // User + oneToOne
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getSurnames().clear();
             user.getAddresses().clear();
             user.setOneToOneGroup(group);
             final AbstractPredicate predicate = newEntityInstance();
             predicate.and(user);
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and o.oneToOneGroup.name = ?8 ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), user.getOneToOneGroup()
-                            .getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and o.oneToOneGroup.name = ?8 ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getOneToOneGroup().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -590,23 +523,19 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
 
     /**
      * Build a user with n addresses.
-     *
-     * @param count
-     *            the addresses number.
+     * @param count the addresses number.
      * @return the user.
      */
     private User buildAddresses(final int count) {
         User user = null;
         while (user == null || user.getAddresses().size() < count) {
-            user = EntityBuilderFactory.getInstance().getBuilder(User.class)
-                    .newEntity(false);
+            user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
         }
         while (user.getAddresses().size() != count) {
             user.getAddresses().remove(user.getAddresses().iterator().next());
         }
         for (final UserAddress address : user.getAddresses()) {
-            address.setCity(EntityBuilderFactory.getInstance()
-                    .getBuilder(City.class).newEntity(false));
+            address.setCity(EntityBuilderFactory.getInstance().getBuilder(City.class).newEntity(false));
             Assert.assertSame(user, address.getUser());
         }
         user.getSurnames().clear();
@@ -615,16 +544,13 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
 
     /**
      * Build a user with n surnames.
-     *
-     * @param count
-     *            the surnames number.
+     * @param count the surnames number.
      * @return the user.
      */
     private User buildSurnames(final int count) {
         User user = null;
         while (user == null || user.getSurnames().size() < count) {
-            user = EntityBuilderFactory.getInstance().getBuilder(User.class)
-                    .newEntity(false);
+            user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
         }
         while (user.getSurnames().size() != count) {
             user.getSurnames().remove(user.getSurnames().iterator().next());
@@ -653,23 +579,17 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             // Build waited parameters
             final Iterator<UserAddress> iter = user.getAddresses().iterator();
             UserAddress address = iter.next();
-            parameters = new Object[] { user.getLogin(),
-                    user.getEncryptedPassword(), user.getFirstname(),
-                    user.getLastname(), user.getActive(),
-                    user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), address.getStreet(),
-                    address.getCity().getName(),
-                    address.getCity().getPostcode(), null, null, null };
+            parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                       user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), address.getStreet(),
+                                       address.getCity().getName(), address.getCity().getPostcode(), null, null, null};
             address = iter.next();
             parameters[IntegerUtil.INT_10] = address.getStreet();
             parameters[IntegerUtil.INT_11] = address.getCity().getName();
             parameters[IntegerUtil.INT_12] = address.getCity().getPostcode();
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.street = ?8 and o1.city.name = ?9 and o1.city.postcode = ?10 or o1.street = ?11 and o1.city.name = ?12 and o1.city.postcode = ?13 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.addresses o1 ");
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.street = ?8 and o1.city.name = ?9 and o1.city.postcode = ?10 or o1.street = ?11 and o1.city.name = ?12 and o1.city.postcode = ?13 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.addresses o1 ");
 
             // Build a user with only city as not null.
             user = new User();
@@ -678,10 +598,8 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             user.getAddresses().iterator().next().getCity().setName("Cambrai");
             predicate = newEntityInstance();
             predicate.and(user);
-            validate(predicate, "o1.city.name = ?1 ", user.getAddresses()
-                    .iterator().next().getCity().getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.addresses o1 ");
+            validate(predicate, "o1.city.name = ?1 ", user.getAddresses().iterator().next().getCity().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.addresses o1 ");
 
             // Build a user with 2 surnames.
             user = buildSurnames(2);
@@ -690,18 +608,13 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             // Build waited parameters
             final Iterator<UserSurname> iterS = user.getSurnames().iterator();
             final UserSurname surname = iterS.next();
-            parameters = new Object[] { user.getLogin(),
-                    user.getEncryptedPassword(), user.getFirstname(),
-                    user.getLastname(), user.getActive(),
-                    user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), surname.getSurname(),
-                    iterS.next().getSurname() };
-            validate(
-                    predicate,
-                    "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.surname = ?8 or o1.surname = ?9 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.surnames o1 ");
+            parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                       user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), surname.getSurname(),
+                                       iterS.next().getSurname()};
+            validate(predicate,
+                     "o.login = ?1 and o.encryptedPassword = ?2 and o.firstname = ?3 and o.lastname = ?4 and o.active = ?5 and o.calendar.creationDate = ?6 and o.calendar.updateDate = ?7 and (o1.surname = ?8 or o1.surname = ?9 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.surnames o1 ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -735,28 +648,22 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "o.firstname like ?1 ", "%Bruno");
 
             // UserGroup
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
             predicate = newInstance();
             predicate.or(group);
             validate(predicate, "o.name = ?1 ", group.getName());
 
             // User
-            user = EntityBuilderFactory.getInstance().getBuilder(User.class)
-                    .newEntity(false);
+            user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getAddresses().clear();
             user.getSurnames().clear();
             predicate = newInstance();
             predicate.or(user);
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 ) ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 ) ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -772,25 +679,18 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
 
             // User + manyToOne
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getAddresses().clear();
             user.getSurnames().clear();
             user.setManyToOneGroup(group);
             final AbstractPredicate predicate = newEntityInstance();
             predicate.or(user);
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o.manyToOneGroup.name = ?8 ) ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), user
-                            .getManyToOneGroup().getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o.manyToOneGroup.name = ?8 ) ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getManyToOneGroup().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -808,12 +708,9 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             Object[] parameters;
             // create user and groups.
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final UserGroup anotherGroup = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final UserGroup anotherGroup = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             // Set groups to user.
             user.getAddresses().clear();
             user.getSurnames().clear();
@@ -824,30 +721,19 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             final AbstractPredicate predicate = newInstance();
             predicate.or(user);
             // Order parameter according to group position.
-            if (ObjectUtil.same(user.getManyToManyGroups().iterator().next(),
-                    group)) {
-                parameters = new Object[] { user.getLogin(),
-                        user.getEncryptedPassword(), user.getFirstname(),
-                        user.getLastname(), user.getActive(),
+            if (ObjectUtil.same(user.getManyToManyGroups().iterator().next(), group)) {
+                parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
 
-                        user.getCalendar().getCreationDate(),
-                        user.getCalendar().getUpdateDate(), group.getName(),
-                        anotherGroup.getName() };
+                        user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), group.getName(), anotherGroup.getName()};
             } else {
-                parameters = new Object[] { user.getLogin(),
-                        user.getEncryptedPassword(), user.getFirstname(),
-                        user.getLastname(), user.getActive(),
-                        user.getCalendar().getCreationDate(),
-                        user.getCalendar().getUpdateDate(),
-                        anotherGroup.getName(), group.getName() };
+                parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                           user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), anotherGroup.getName(),
+                                           group.getName()};
             }
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.name = ?8 or o1.name = ?9 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName()
-                    + " o inner join o.manyToManyGroups o1 ");
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.name = ?8 or o1.name = ?9 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.manyToManyGroups o1 ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -864,25 +750,18 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
 
         try {
             // User + oneToOne
-            final UserGroup group = EntityBuilderFactory.getInstance()
-                    .getBuilder(UserGroup.class).newEntity(false);
-            final User user = EntityBuilderFactory.getInstance()
-                    .getBuilder(User.class).newEntity(false);
+            final UserGroup group = EntityBuilderFactory.getInstance().getBuilder(UserGroup.class).newEntity(false);
+            final User user = EntityBuilderFactory.getInstance().getBuilder(User.class).newEntity(false);
             user.getAddresses().clear();
             user.getSurnames().clear();
             user.setOneToOneGroup(group);
             final AbstractPredicate predicate = newEntityInstance();
             predicate.or(user);
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o.oneToOneGroup.name = ?8 ) ",
-                    user.getLogin(), user.getEncryptedPassword(), user
-                            .getFirstname(), user.getLastname(), user
-                            .getActive(), user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), user.getOneToOneGroup()
-                            .getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o ");
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o.oneToOneGroup.name = ?8 ) ",
+                     user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                     user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getOneToOneGroup().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);
@@ -909,24 +788,18 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             // Build waited parameters
             final Iterator<UserAddress> iter = user.getAddresses().iterator();
             UserAddress address = iter.next();
-            parameters = new Object[] { user.getLogin(),
-                    user.getEncryptedPassword(), user.getFirstname(),
-                    user.getLastname(), user.getActive(),
-                    user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), address.getStreet(),
-                    address.getCity().getName(),
-                    address.getCity().getPostcode(), null, null, null };
+            parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                       user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), address.getStreet(),
+                                       address.getCity().getName(), address.getCity().getPostcode(), null, null, null};
             address = iter.next();
             parameters[IntegerUtil.INT_10] = address.getStreet();
             parameters[IntegerUtil.INT_11] = address.getCity().getName();
             parameters[IntegerUtil.INT_12] = address.getCity().getPostcode();
 
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.street = ?8 or o1.city.name = ?9 or o1.city.postcode = ?10 or o1.street = ?11 or o1.city.name = ?12 or o1.city.postcode = ?13 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.addresses o1 ");
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.street = ?8 or o1.city.name = ?9 or o1.city.postcode = ?10 or o1.street = ?11 or o1.city.name = ?12 or o1.city.postcode = ?13 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.addresses o1 ");
 
             // Build a user with only city as not null.
             user = new User();
@@ -935,10 +808,8 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             user.getAddresses().iterator().next().getCity().setName("Cambrai");
             predicate = newEntityInstance();
             predicate.or(user);
-            validate(predicate, "o1.city.name = ?1 ", user.getAddresses()
-                    .iterator().next().getCity().getName());
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.addresses o1 ");
+            validate(predicate, "o1.city.name = ?1 ", user.getAddresses().iterator().next().getCity().getName());
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.addresses o1 ");
 
             // Build a user with 2 surnames.
             user = buildSurnames(2);
@@ -947,18 +818,13 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             // Build waited parameters
             final Iterator<UserSurname> iterS = user.getSurnames().iterator();
             final UserSurname surname = iterS.next();
-            parameters = new Object[] { user.getLogin(),
-                    user.getEncryptedPassword(), user.getFirstname(),
-                    user.getLastname(), user.getActive(),
-                    user.getCalendar().getCreationDate(),
-                    user.getCalendar().getUpdateDate(), surname.getSurname(),
-                    iterS.next().getSurname() };
-            validate(
-                    predicate,
-                    "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.surname = ?8 or o1.surname = ?9 ) ",
-                    parameters);
-            Assert.assertEquals(predicate.getFrom().toString(), "from "
-                    + User.class.getName() + " o inner join o.surnames o1 ");
+            parameters = new Object[] {user.getLogin(), user.getEncryptedPassword(), user.getFirstname(), user.getLastname(), user.getActive(),
+                                       user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), surname.getSurname(),
+                                       iterS.next().getSurname()};
+            validate(predicate,
+                     "(o.login = ?1 or o.encryptedPassword = ?2 or o.firstname = ?3 or o.lastname = ?4 or o.active = ?5 or o.calendar.creationDate = ?6 or o.calendar.updateDate = ?7 or o1.surname = ?8 or o1.surname = ?9 ) ",
+                     parameters);
+            Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.surnames o1 ");
 
         } catch (final DaoException e) {
             log.error(e.getMessage(), e);

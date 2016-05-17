@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,22 +26,16 @@ import org.junit.Test;
 
 /**
  * JUnit JpqlSelectBuilder class.
- *
  * @author qjafcunuas
- *
  */
 public class JpqlSelectBuilderTest {
 
     /**
      * Validate select builder.
-     *
-     * @param select
-     *            the select builder to validate.
-     * @param selectQuery
-     *            the waited select query
+     * @param select the select builder to validate.
+     * @param selectQuery the waited select query
      */
-    private void validate(final JpqlSelectBuilder select,
-            final String selectQuery) {
+    private void validate(final JpqlSelectBuilder select, final String selectQuery) {
         Assert.assertEquals(select.toString(), selectQuery);
         final StringBuilder builder = new StringBuilder("test: ");
         select.build(builder);

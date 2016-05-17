@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,18 +26,14 @@ import java.util.List;
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.ObjectUtil;
-import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * JUnit AbstractCondition class.
- *
  * @author qjafcunuas
- *
- * @param <C>
- *            the condition type.
+ * @param <C> the condition type.
  */
 public abstract class AbstractConditionTest<C extends AbstractCondition<?>> {
 
@@ -49,29 +45,20 @@ public abstract class AbstractConditionTest<C extends AbstractCondition<?>> {
     /**
      * The condition class.
      */
-    private final Class<C> conditionClass = ParameterizedTypeUtil.getClass(
-            this, 0);
+    private final Class<C> conditionClass = ParameterizedTypeUtil.getClass(this, 0);
 
     /**
      * Return the operator.
-     *
      * @return the operator.
      */
     protected abstract String getOperator();
 
     /**
      * Return a new instance of the condition.
-     *
      * @return new instance.
      */
     protected C newInstance() {
-        try {
-            return ObjectUtil.newInstance(this.conditionClass, FIELD_NAME,
-                    new Object());
-        } catch (final MessageLabelException e) {
-            Assert.fail(e.getMessage());
-            return null;
-        }
+        return ObjectUtil.newInstance(this.conditionClass, FIELD_NAME, new Object());
     }
 
     /**
@@ -97,9 +84,7 @@ public abstract class AbstractConditionTest<C extends AbstractCondition<?>> {
 
     /**
      * Test build method.
-     *
-     * @param query
-     *            the waited query.
+     * @param query the waited query.
      */
     protected void build(final String query) {
         final C condition = newInstance();
@@ -113,8 +98,7 @@ public abstract class AbstractConditionTest<C extends AbstractCondition<?>> {
         if (condition.getValue() == null) {
             Assert.assertTrue(parameters.isEmpty());
         } else {
-            Assert.assertEquals(parameters.get(parameters.size() - 1),
-                    condition.getValue());
+            Assert.assertEquals(parameters.get(parameters.size() - 1), condition.getValue());
         }
     }
 

@@ -116,7 +116,7 @@ public final class RandomUtil {
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextLong();
@@ -140,7 +140,7 @@ public final class RandomUtil {
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable, final long max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextLong(max);
@@ -166,7 +166,7 @@ public final class RandomUtil {
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable, final long min, final long max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextLong(min, max);
@@ -200,7 +200,7 @@ public final class RandomUtil {
      * @return next long random value
      */
     public static Long nextLong(final boolean nullable, final Long min, final Long max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextLong(min, max);
@@ -220,7 +220,7 @@ public final class RandomUtil {
      * @return next Double random value
      */
     public static Double nextDouble(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextDouble();
@@ -240,7 +240,7 @@ public final class RandomUtil {
      * @return next Integer random value
      */
     public static Integer nextInt(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextInt();
@@ -265,7 +265,7 @@ public final class RandomUtil {
      * @return next int random value
      */
     public static Integer nextInt(final boolean nullable, final int max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextInt(max);
@@ -295,7 +295,7 @@ public final class RandomUtil {
      * @return next int random value
      */
     public static Integer nextInt(final boolean nullable, final int min, final int max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextInt(min, max);
@@ -303,11 +303,16 @@ public final class RandomUtil {
 
     /**
      * Return true if next value can be null.
+     * @param nullable if false, return false.
      * @return true/false.
      */
-    public static boolean isNull() {
-        final short val = nextShort((short) IntegerUtil.INT_10);
-        return val == 0;
+    public static boolean isNull(final boolean nullable) {
+        if (nullable) {
+            final short val = nextShort((short) IntegerUtil.INT_10);
+            return val == 0;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -324,7 +329,7 @@ public final class RandomUtil {
      * @return next short random value
      */
     public static Short nextShort(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextShort();
@@ -349,7 +354,7 @@ public final class RandomUtil {
      * @return next short random value
      */
     public static Short nextShort(final boolean nullable, final short max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextShort(max);
@@ -375,7 +380,7 @@ public final class RandomUtil {
      * @return next Short random value
      */
     public static Short nextShort(final boolean nullable, final short min, final short max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextShort(min, max);
@@ -399,7 +404,7 @@ public final class RandomUtil {
      * @return next bigDecimal random value
      */
     public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         // 0 to 9 integer value.
@@ -419,7 +424,7 @@ public final class RandomUtil {
      * @return next bigDecimal random value
      */
     public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction, final BigDecimal min) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         BigDecimal value = nextBigDecimal(false, integer, fraction);
@@ -431,7 +436,6 @@ public final class RandomUtil {
 
     /**
      * Returns next bigDecimal random value.
-     * @param nullable if true, returned value can be null; else it cannot be null.
      * @param integer integer of bigDecimal
      * @param fraction fraction of bigDecimal
      * @param min min value of bigDecimal
@@ -440,20 +444,17 @@ public final class RandomUtil {
      */
     public static BigDecimal nextBigDecimal(final int integer, final int fraction, final BigDecimal min, final BigDecimal max) {
         BigDecimal value = nextBigDecimal(false, integer, fraction);
-        if (min == null || max == null) {
-            return value;
-        }
-        while (value.compareTo(min) < 0) {
+        final int scale = value.scale();
+        while (min != null && value.compareTo(min) < 0) {
             value = value.multiply(BigDecimal.TEN);
         }
-        while (value.compareTo(max) > 0) {
-            value = value.divide(BigDecimal.TEN, value.scale(), RoundingMode.HALF_DOWN);
+        while (max != null && value.compareTo(max) > 0) {
+            value = value.divide(BigDecimal.TEN);
         }
-        if (value.compareTo(min) < 0) {
-            return nextBigDecimal(integer, fraction, min, max);
-        } else {
-            return value;
+        while (min != null && value.compareTo(min) < 0) {
+            value = value.multiply(BigDecimal.TEN);
         }
+        return value.setScale(scale, RoundingMode.HALF_DOWN);
     }
 
     /**
@@ -467,7 +468,7 @@ public final class RandomUtil {
      */
     public static BigDecimal nextBigDecimal(final boolean nullable, final int integer, final int fraction, final BigDecimal min,
             final BigDecimal max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextBigDecimal(integer, fraction, min, max);
@@ -549,7 +550,7 @@ public final class RandomUtil {
      * @return next float random value
      */
     public static Float nextFloat(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextFloat();
@@ -569,7 +570,7 @@ public final class RandomUtil {
      * @return random string
      */
     public static String nextString(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextString();
@@ -602,7 +603,7 @@ public final class RandomUtil {
      * @return random string.
      */
     public static String nextString(final boolean nullable, final int size) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextString(size);
@@ -616,7 +617,7 @@ public final class RandomUtil {
      * @return random string.
      */
     public static String nextString(final boolean nullable, final int min, final int max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextString(min, max);
@@ -630,7 +631,7 @@ public final class RandomUtil {
      * @return random string.
      */
     public static String nextString(final boolean nullable, final Integer min, final Integer max) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextString(min, max);
@@ -661,25 +662,27 @@ public final class RandomUtil {
      * @return random string.
      */
     private static String nextString(final int size, final StringBuilder symbolsList) {
+        if (size <= 0) {
+            return StringUtil.EMPTY;
+        }
         final StringBuilder buffer = new StringBuilder();
         // Starting with char != ' '.
-        char a = nextChar(symbolsList);
-        while (a == ' ') {
+        char a;
+        do {
             a = nextChar(symbolsList);
-        }
+        } while (a == ' ');
         buffer.append(a);
         for (int idx = 2; idx < size; ++idx) {
             buffer.append(nextChar(symbolsList));
         }
         // Ending with char != ' '.
         if (buffer.length() < size) {
-            a = nextChar(symbolsList);
-            while (a == ' ') {
+            do {
                 a = nextChar(symbolsList);
-            }
+            } while (a == ' ');
             buffer.append(a);
         }
-        return buffer.length() == 0 && size > 0 ? nextString(size, symbolsList) : buffer.toString();
+        return buffer.toString();
     }
 
     /**
@@ -701,7 +704,7 @@ public final class RandomUtil {
      * @return random calendar.
      */
     public static Calendar nextCalendar(final boolean nullable) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextCalendar();
@@ -714,7 +717,7 @@ public final class RandomUtil {
      * @return random email.
      */
     public static String nextEmail(final boolean nullable, final int size) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         final StringBuilder buffer = new StringBuilder();
@@ -783,7 +786,7 @@ public final class RandomUtil {
      * @return the value
      */
     public static <T extends Enum<T>> T nextEnum(final boolean nullable, final T[] values) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextEnum(values);
@@ -821,15 +824,9 @@ public final class RandomUtil {
             return null;
         }
         C col;
-        try {
-            col = (C) values.getClass().newInstance();
-        } catch (final Exception e) {
-            final Object[] args = new Object[] {values.getClass(), e};
-            log.error("Cannot instanciate class {} {}", args);
-            return null;
-        }
+        col = (C) ObjectUtil.newInstance(values.getClass());
         col.addAll(values);
-        final int size = nextInt(1, values.size());
+        final int size = nextInt(values.size());
         while (col.size() > size) {
             col.remove(nextCollection(col));
         }
@@ -844,97 +841,45 @@ public final class RandomUtil {
      * @return the value
      */
     public static <T> T nextCollection(final boolean nullable, final Collection<T> values) {
-        if (nullable && isNull()) {
+        if (isNull(nullable)) {
             return null;
         }
         return nextCollection(values);
     }
 
     /**
-     * Return true if class is boolean.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isBoolean(final Class<?> type) {
-        return type.isAssignableFrom(boolean.class) || type.isAssignableFrom(Boolean.class);
-    }
-
-    /**
-     * Return true if class is long.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isLong(final Class<?> type) {
-        return type.isAssignableFrom(long.class) || type.isAssignableFrom(Long.class);
-    }
-
-    /**
-     * Return true if class is int.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isInt(final Class<?> type) {
-        return type.isAssignableFrom(int.class) || type.isAssignableFrom(Integer.class);
-    }
-
-    /**
-     * Return true if class is short.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isShort(final Class<?> type) {
-        return type.isAssignableFrom(short.class) || type.isAssignableFrom(Short.class);
-    }
-
-    /**
-     * Return true if class is double.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isDouble(final Class<?> type) {
-        return type.isAssignableFrom(double.class) || type.isAssignableFrom(Double.class);
-    }
-
-    /**
-     * Return true if class is float.
-     * @param type the class type.
-     * @return true/false.
-     */
-    private static boolean isFloat(final Class<?> type) {
-        return type.isAssignableFrom(float.class) || type.isAssignableFrom(Float.class);
-    }
-
-    /**
      * Return another random value.
+     * @param <O> the object type.
      * @param value the value.
      * @return the next value.
      */
-    public static Object nextAnother(final Object value) {
+    @SuppressWarnings("unchecked")
+    public static <O> O nextAnother(final O value) {
         if (value == null) {
             return null;
         }
         Object nextValue = null;
         final Class<?> type = value.getClass();
-        if (isBoolean(type)) {
+        if (ClassUtil.isBoolean(type)) {
             nextValue = !((Boolean) value);
-        } else if (isLong(type)) {
+        } else if (ClassUtil.isLong(type)) {
             nextValue = nextLong();
-        } else if (isInt(type)) {
+        } else if (ClassUtil.isInt(type)) {
             nextValue = nextInt();
-        } else if (isShort(type)) {
+        } else if (ClassUtil.isShort(type)) {
             nextValue = nextShort();
-        } else if (isDouble(type)) {
+        } else if (ClassUtil.isDouble(type)) {
             nextValue = nextDouble();
-        } else if (isFloat(type)) {
+        } else if (ClassUtil.isFloat(type)) {
             nextValue = nextFloat();
-        } else if (type.isAssignableFrom(String.class)) {
+        } else if (type.equals(String.class)) {
             final String str = (String) value;
             if (str.isEmpty()) {
                 nextValue = nextString(IntegerUtil.INT_1);
             } else {
                 nextValue = nextString(str.length());
             }
-        } else if (type.isAssignableFrom(BigDecimal.class)) {
+        } else if (BigDecimal.class.isAssignableFrom(type)) {
             final BigDecimal big = (BigDecimal) value;
             nextValue = nextBigDecimal(false, big.precision(), big.scale());
         }
@@ -942,7 +887,7 @@ public final class RandomUtil {
         if (value.equals(nextValue)) {
             nextValue = nextAnother(value);
         }
-        return nextValue;
+        return (O) nextValue;
     }
 
     /**

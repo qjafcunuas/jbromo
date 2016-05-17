@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -39,42 +39,36 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.LongUtil;
 import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Test for the Annotation util class.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class AnnotationUtilTest {
 
     /**
      * Define an object for test.
-     *
      * @author qjafcunuas
-     *
      */
-    @Target({ ElementType.METHOD, ElementType.TYPE })
+    @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     private @interface OneAnnotation {
     }
 
     /**
      * Define an object for test.
-     *
      * @author qjafcunuas
-     *
      */
-    @Target({ ElementType.METHOD, ElementType.TYPE })
+    @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Inherited
     @OneAnnotation
@@ -83,9 +77,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define one class with one annotation.
-     *
      * @author qjafcunuas
-     *
      */
     @OneAnnotation
     private class OneClass {
@@ -94,9 +86,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define a super class of OneClass.
-     *
      * @author qjafcunuas
-     *
      */
     private class OneSuperClass extends OneClass {
 
@@ -104,9 +94,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define one class with inherited annotation.
-     *
      * @author qjafcunuas
-     *
      */
     @OneTwoAnnotation
     private class OneTwoClass {
@@ -115,9 +103,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define a super class of OneTwoClass.
-     *
      * @author qjafcunuas
-     *
      */
     private class OneTwoSuperClass extends OneTwoClass {
 
@@ -125,9 +111,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define one class with inherited annotation on method.
-     *
      * @author qjafcunuas
-     *
      */
     static final class MethodClass {
         /** one method. */
@@ -146,8 +130,10 @@ public class AnnotationUtilTest {
 
         /** The one method object. */
         private static Method oneMethod;
+
         /** The oneTwo method object. */
         private static Method oneTwoMethod;
+
         /** The no method object. */
         private static Method noMethod;
 
@@ -155,8 +141,7 @@ public class AnnotationUtilTest {
         static {
             try {
                 oneMethod = InvocationUtil.getMethod(MethodClass.class, "one");
-                oneTwoMethod = InvocationUtil.getMethod(MethodClass.class,
-                        "oneTwo");
+                oneTwoMethod = InvocationUtil.getMethod(MethodClass.class, "oneTwo");
                 noMethod = InvocationUtil.getMethod(MethodClass.class, "no");
             } catch (final InvocationException e) {
                 log.error("Cannot found method", e);
@@ -167,9 +152,7 @@ public class AnnotationUtilTest {
 
     /**
      * Define one class with one annotation, and methods with annotation.
-     *
      * @author qjafcunuas
-     *
      */
     @OneAnnotation
     static final class MethodOneClass {
@@ -184,16 +167,15 @@ public class AnnotationUtilTest {
 
         /** The one method object. */
         private static Method oneMethod;
+
         /** The oneTwo method object. */
         private static Method oneTwoMethod;
 
         /** Initialize method object. */
         static {
             try {
-                oneMethod = InvocationUtil.getMethod(MethodOneClass.class,
-                        "one");
-                oneTwoMethod = InvocationUtil.getMethod(MethodOneClass.class,
-                        "oneTwo");
+                oneMethod = InvocationUtil.getMethod(MethodOneClass.class, "one");
+                oneTwoMethod = InvocationUtil.getMethod(MethodOneClass.class, "oneTwo");
             } catch (final InvocationException e) {
                 log.error("Cannot found method", e);
                 Assert.fail("Cannot found method");
@@ -203,49 +185,59 @@ public class AnnotationUtilTest {
 
     /**
      * A class used for validation constraint annotation.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     static final class ValidationConstraint {
         /** field with no constraint. */
         private Integer noConstraint;
+
         /** size min annotation. */
         @Size(min = 0)
         private Integer sizeMin;
+
         /** size max annotation. */
         @Size(max = IntegerUtil.INT_100)
         private Integer sizeMax;
+
         /** size min/max annotation. */
         @Size(min = 1, max = IntegerUtil.INT_1000)
         private Integer sizeMinMax;
+
         /** min annotation. */
         @Min(value = LongUtil.LONG_0)
         private Long min;
+
         /** max annotation. */
         @Max(value = LongUtil.LONG_100)
         private Long max;
+
         /** min/max annotation. */
         @Min(value = LongUtil.LONG_1)
         @Max(value = LongUtil.LONG_1000)
         private Long minMax;
+
         /** decimalMin annotation. */
         @DecimalMin(value = "0.00")
         private BigDecimal decimalMin;
+
         /** decimalMax annotation. */
         @DecimalMax(value = "100.00")
         private BigDecimal decimalMax;
+
         /** decimalMin/decimalMax annotation. */
         @DecimalMin(value = "1.00")
         @DecimalMax(value = "1000.00")
         private BigDecimal decimalMinMax;
+
         /** digits annotation. */
         @Digits(integer = 1, fraction = 2)
         private Integer digits;
+
         /** NotNull annotation. */
         @NotNull
         private Integer notNull;
+
         /** Valid annotation. */
         @Valid
         private Integer valid;
@@ -264,25 +256,16 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getAnnotationClass() {
-        Assert.assertNull(AnnotationUtil.getAnnotation(String.class,
-                OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneClass.class,
-                OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneSuperClass.class,
-                OneAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(OneClass.class,
-                OneTwoAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(OneSuperClass.class,
-                OneTwoAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(String.class, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneClass.class, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneSuperClass.class, OneAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(OneClass.class, OneTwoAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(OneSuperClass.class, OneTwoAnnotation.class));
 
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoClass.class,
-                OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                OneTwoSuperClass.class, OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoClass.class,
-                OneTwoAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                OneTwoSuperClass.class, OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoClass.class, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoSuperClass.class, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoClass.class, OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(OneTwoSuperClass.class, OneTwoAnnotation.class));
     }
 
     /**
@@ -291,46 +274,28 @@ public class AnnotationUtilTest {
     @Test
     public void getAnnotationMethod() {
         // MethodClass
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodClass.oneMethod, OneAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.oneMethod,
-                OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodClass.oneMethod, OneAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.oneMethod, OneTwoAnnotation.class));
 
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodClass.oneTwoMethod, OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodClass.oneTwoMethod, OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodClass.oneTwoMethod, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodClass.oneTwoMethod, OneTwoAnnotation.class));
 
-        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.noMethod,
-                OneAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.noMethod,
-                OneTwoAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.noMethod, OneAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodClass.noMethod, OneTwoAnnotation.class));
 
         // MethodOneClass for method only
-        Assert.assertNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneMethod, OneAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneMethod, OneTwoAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodOneClass.oneMethod, OneAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodOneClass.oneMethod, OneTwoAnnotation.class));
 
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneTwoMethod, OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneTwoMethod, OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodOneClass.oneTwoMethod, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodOneClass.oneTwoMethod, OneTwoAnnotation.class));
 
         // MethodOneClass for method and class
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneMethod, MethodOneClass.class,
-                OneAnnotation.class));
-        Assert.assertNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneMethod, MethodOneClass.class,
-                OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodOneClass.oneMethod, MethodOneClass.class, OneAnnotation.class));
+        Assert.assertNull(AnnotationUtil.getAnnotation(MethodOneClass.oneMethod, MethodOneClass.class, OneTwoAnnotation.class));
 
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneTwoMethod, MethodOneClass.class,
-                OneAnnotation.class));
-        Assert.assertNotNull(AnnotationUtil.getAnnotation(
-                MethodOneClass.oneTwoMethod, MethodOneClass.class,
-                OneTwoAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodOneClass.oneTwoMethod, MethodOneClass.class, OneAnnotation.class));
+        Assert.assertNotNull(AnnotationUtil.getAnnotation(MethodOneClass.oneTwoMethod, MethodOneClass.class, OneTwoAnnotation.class));
     }
 
     /**
@@ -338,15 +303,13 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getSizeMax() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getSizeMax(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "sizeMax");
         Assert.assertTrue(AnnotationUtil.getSizeMax(field) == IntegerUtil.INT_100);
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "sizeMinMax");
+        field = InvocationUtil.getField(ValidationConstraint.class, "sizeMinMax");
         Assert.assertTrue(AnnotationUtil.getSizeMax(field) == IntegerUtil.INT_1000);
     }
 
@@ -355,15 +318,13 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getSizeMin() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getSizeMin(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "sizeMin");
         Assert.assertTrue(AnnotationUtil.getSizeMin(field) == IntegerUtil.INT_0);
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "sizeMinMax");
+        field = InvocationUtil.getField(ValidationConstraint.class, "sizeMinMax");
         Assert.assertTrue(AnnotationUtil.getSizeMin(field) == IntegerUtil.INT_1);
     }
 
@@ -372,8 +333,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getMax() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getMax(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "max");
@@ -388,8 +348,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getMin() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getMin(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "min");
@@ -404,19 +363,14 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getDecimalMax() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getDecimalMax(field));
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "decimalMax");
-        Assert.assertEquals(AnnotationUtil.getDecimalMax(field),
-                new BigDecimal("100.00"));
+        field = InvocationUtil.getField(ValidationConstraint.class, "decimalMax");
+        Assert.assertEquals(AnnotationUtil.getDecimalMax(field), new BigDecimal("100.00"));
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "decimalMinMax");
-        Assert.assertEquals(AnnotationUtil.getDecimalMax(field),
-                new BigDecimal("1000.00"));
+        field = InvocationUtil.getField(ValidationConstraint.class, "decimalMinMax");
+        Assert.assertEquals(AnnotationUtil.getDecimalMax(field), new BigDecimal("1000.00"));
     }
 
     /**
@@ -424,19 +378,14 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getDecimalMin() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getDecimalMin(field));
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "decimalMin");
-        Assert.assertEquals(AnnotationUtil.getDecimalMin(field),
-                new BigDecimal("0.00"));
+        field = InvocationUtil.getField(ValidationConstraint.class, "decimalMin");
+        Assert.assertEquals(AnnotationUtil.getDecimalMin(field), new BigDecimal("0.00"));
 
-        field = InvocationUtil.getField(ValidationConstraint.class,
-                "decimalMinMax");
-        Assert.assertEquals(AnnotationUtil.getDecimalMin(field),
-                new BigDecimal("1.00"));
+        field = InvocationUtil.getField(ValidationConstraint.class, "decimalMinMax");
+        Assert.assertEquals(AnnotationUtil.getDecimalMin(field), new BigDecimal("1.00"));
     }
 
     /**
@@ -444,8 +393,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getDigitsInteger() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getDigitsInteger(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "digits");
@@ -457,8 +405,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void getDigitsFraction() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertNull(AnnotationUtil.getDigitsFraction(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "digits");
@@ -470,8 +417,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void isNotNull() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertFalse(AnnotationUtil.isNotNull(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "notNull");
@@ -483,8 +429,7 @@ public class AnnotationUtilTest {
      */
     @Test
     public void isValid() {
-        Field field = InvocationUtil.getField(ValidationConstraint.class,
-                "noConstraint");
+        Field field = InvocationUtil.getField(ValidationConstraint.class, "noConstraint");
         Assert.assertFalse(AnnotationUtil.isValid(field));
 
         field = InvocationUtil.getField(ValidationConstraint.class, "valid");

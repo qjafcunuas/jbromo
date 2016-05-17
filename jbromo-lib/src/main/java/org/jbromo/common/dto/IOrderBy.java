@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,33 +21,27 @@
  */
 package org.jbromo.common.dto;
 
-import java.io.Serializable;
-
 /**
  * Define interface for ordering data.
- *
- * @param <M>
- *            the model type.
  * @author qjafcunuas
- *
  */
-public interface IOrderBy<M extends Serializable> extends IDto {
+public interface IOrderBy extends IDto {
 
     /**
      * Define the sort type.
-     *
      * @author qjafcunuas
-     *
      */
     public enum SORT {
         /**
          * Ascending sort.
          */
         ASCENDING,
+
         /**
          * Descending sort.
          */
         DESCENDING,
+
         /**
          * unsorted sort.
          */
@@ -56,14 +50,12 @@ public interface IOrderBy<M extends Serializable> extends IDto {
 
     /**
      * Return the order.
-     *
      * @return the order.
      */
     String getOrder();
 
     /**
      * Return the sort type.
-     *
      * @return the sort.
      */
     SORT getSort();

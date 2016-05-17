@@ -26,10 +26,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
 
@@ -51,8 +51,64 @@ public final class InvocationUtil {
      */
     public enum AccessType {
         /** Define access by field value. */
-        FIELD, /** Define access by getter method. */
-        GETTER
+        FIELD {
+            @SuppressWarnings("unchecked")
+            @Override
+            <V> V getValue(final Object object, final Field field, final boolean accessible) throws InvocationException {
+                Object value;
+                try {
+                    if (accessible) {
+                        value = field.get(object);
+                    } else {
+                        boolean isAccessible;
+                        isAccessible = field.isAccessible();
+                        field.setAccessible(true);
+                        value = field.get(object);
+                        field.setAccessible(isAccessible);
+                    }
+                    return (V) value;
+                } catch (final IllegalArgumentException e) {
+                    final StringBuilder description = new StringBuilder();
+                    description.append("Search : inappropriate argument in the field '").append(field.getName()).append("' call");
+                    throw new InvocationException(description.toString(), e);
+                } catch (final IllegalAccessException e) {
+                    final StringBuilder description = new StringBuilder();
+                    description.append("Search : illegal access of the field '").append(field.getName()).append("'");
+                    throw new InvocationException(description.toString(), e);
+                }
+            }
+        },
+
+        /** Define access by getter method. */
+        GETTER {
+            @Override
+            <V> V getValue(final Object object, final Field field, final boolean accessible) throws InvocationException {
+                final Method method = InvocationUtil.getGetter(object, field);
+                V value;
+                if (accessible) {
+                    value = InvocationUtil.invokeMethod(method, object);
+                } else {
+                    boolean isAccessible;
+                    isAccessible = method.isAccessible();
+                    method.setAccessible(true);
+                    value = InvocationUtil.invokeMethod(method, object);
+                    method.setAccessible(isAccessible);
+                }
+                return value;
+            }
+        };
+
+        /**
+         * Get value from a field.
+         * @param object object to get field value.
+         * @param field the field.
+         * @param accessible if false, return value even if the value is not accessible (exist, but not public).
+         * @param <V> the returned value type.
+         * @return value of given field.
+         * @throws InvocationException invocation exception when invoke method problem
+         */
+        abstract <V> V getValue(final Object object, final Field field, final boolean accessible) throws InvocationException;
+
     }
 
     /**
@@ -156,23 +212,22 @@ public final class InvocationUtil {
             final Class<?>... parameterTypes) throws InvocationException {
         try {
             return objectClass.getDeclaredConstructor(parameterTypes);
-        } catch (final Exception e) {
-            if (parameterTypes != null && parameterTypes.length > 0) {
-                for (int index = 0; index < parameterTypes.length; index++) {
+        } catch (final NoSuchMethodException e) {
+            log.trace("Constructor with parameters {} not found on {}", new Object[] {parameterTypes, objectClass, e});
+            Constructor<T> constructor = null;
+            if (!ArrayUtil.isEmpty(parameterTypes)) {
+                for (int index = 0; index < parameterTypes.length && constructor == null; index++) {
                     Class<?> superclass = parameterTypes[index].getSuperclass();
                     final Class<?> indexClass = parameterTypes[index];
-                    while (superclass != null) {
+                    while (superclass != null && constructor == null) {
                         parameterTypes[index] = superclass;
-                        final Constructor<T> constructor = getConstructorRecursively(objectClass, parameterTypes);
-                        if (constructor != null) {
-                            return constructor;
-                        }
+                        constructor = getConstructorRecursively(objectClass, parameterTypes);
                         superclass = superclass.getSuperclass();
                     }
                     parameterTypes[index] = indexClass;
                 }
             }
-            return null;
+            return constructor;
         }
     }
 
@@ -188,10 +243,7 @@ public final class InvocationUtil {
             try {
                 modelClass.getMethod(methodName, parameterTypes);
                 return true;
-            } catch (final SecurityException e) {
-                log.trace(e.getMessage(), e);
-                return false;
-            } catch (final NoSuchMethodException e) {
+            } catch (final SecurityException | NoSuchMethodException e) {
                 log.trace(e.getMessage(), e);
                 return false;
             }
@@ -331,63 +383,6 @@ public final class InvocationUtil {
     }
 
     /**
-     * Get value from a field, by using getter method.
-     * @param object object to get field value.
-     * @param field the field.
-     * @param accessible if false, return value even if the value is not accessible (exist, but not public).
-     * @param <V> the returned value type.
-     * @return value of given field.
-     * @throws InvocationException invocation exception when invoke method problem
-     */
-    private static <V> V getPropertyValue(final Object object, final Field field, final boolean accessible) throws InvocationException {
-        final Method method = InvocationUtil.getGetter(object, field);
-        if (accessible) {
-            return InvocationUtil.invokeMethod(method, object);
-        } else {
-            boolean isAccessible;
-            isAccessible = method.isAccessible();
-            method.setAccessible(true);
-            final V value = InvocationUtil.invokeMethod(method, object);
-            method.setAccessible(isAccessible);
-            return value;
-        }
-    }
-
-    /**
-     * Get value from a field.
-     * @param object object to get field value.
-     * @param field the field.
-     * @param accessible if false, return value even if the value is not accessible (exist, but not public).
-     * @param <V> the returned value type.
-     * @return value of given field.
-     * @throws InvocationException invocation exception when invoke method problem
-     */
-    @SuppressWarnings("unchecked")
-    private static <V> V getFieldValue(final Object object, final Field field, final boolean accessible) throws InvocationException {
-        try {
-            if (accessible) {
-                return (V) field.get(object);
-            } else {
-                boolean isAccessible;
-                isAccessible = field.isAccessible();
-                field.setAccessible(true);
-                final V value = (V) field.get(object);
-                field.setAccessible(isAccessible);
-                return value;
-            }
-        } catch (final IllegalArgumentException e) {
-            final StringBuilder description = new StringBuilder();
-            description.append("Search : inappropriate argument in the field '").append(field.getName()).append("' call");
-            throw new InvocationException(description.toString(), e);
-        } catch (final IllegalAccessException e) {
-            final StringBuilder description = new StringBuilder();
-            description.append("Search : illegal access of the field '").append(field.getName()).append("'");
-            throw new InvocationException(description.toString(), e);
-        }
-
-    }
-
-    /**
      * Get value from a field.
      * @param object object to get field value.
      * @param field the field.
@@ -403,14 +398,7 @@ public final class InvocationUtil {
         if (object == null || field == null || accessType == null) {
             return null;
         }
-        switch (accessType) {
-            case FIELD:
-                return getFieldValue(object, field, accessible);
-            case GETTER:
-                return getPropertyValue(object, field, accessible);
-            default:
-                return null;
-        }
+        return accessType.getValue(object, field, accessible);
     }
 
     /**
@@ -420,7 +408,7 @@ public final class InvocationUtil {
      */
     public static List<Field> getFields(final Class<?> objectClass) {
         if (objectClass == null) {
-            return new ArrayList<>();
+            return ListUtil.toList();
         }
         final List<Field> fields = ListUtil.toList(objectClass.getDeclaredFields());
         Class<?> superclass = objectClass.getSuperclass();
@@ -428,7 +416,7 @@ public final class InvocationUtil {
             fields.addAll(ListUtil.toList(superclass.getDeclaredFields()));
             superclass = superclass.getSuperclass();
         }
-        Field field = null;
+        Field field;
         for (int index = 0; index < fields.size(); index++) {
             field = fields.get(index);
             if (field.getName().contains("this$0")
@@ -469,7 +457,7 @@ public final class InvocationUtil {
     @SuppressWarnings("rawtypes")
     public static boolean isFromInterfaceType(final Field field, final Class clazz) {
         if (field != null && clazz != null) {
-            final List<Class> fullInheritance = new ArrayList<Class>();
+            final List<Class> fullInheritance = ListUtil.toList();
             Class classType = field.getType();
             while (classType != null) {
                 fullInheritance.add(classType.getClass());
@@ -490,7 +478,7 @@ public final class InvocationUtil {
     @SuppressWarnings("rawtypes")
     public static boolean isFromInterfaceType(final Class currentClazz, final Class clazz) {
         if (currentClazz != null && clazz != null) {
-            final List<Class> fullInheritance = new ArrayList<Class>();
+            final List<Class> fullInheritance = ListUtil.toList();
             Class classType = currentClazz;
             while (classType != null) {
                 fullInheritance.add(classType.getClass());
@@ -509,7 +497,7 @@ public final class InvocationUtil {
      */
     @SuppressWarnings("rawtypes")
     private static List<Class> getInterfaceInheritance(final Class clazz) {
-        final List<Class> inheritance = new ArrayList<Class>();
+        final List<Class> inheritance = ListUtil.toList();
         for (final Class clInt : clazz.getInterfaces()) {
             inheritance.add(clInt);
             inheritance.addAll(getInterfaceInheritance(clInt));
