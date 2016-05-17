@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,17 +24,14 @@ package org.jbromo.common.test.cdi;
 import java.io.Serializable;
 
 /**
- * Event fired when application shutdowns. This event is fired just before
- * shutdowning weld.
- *
+ * Event fired when application shutdowns. This event is fired just before shutdowning weld.
  * @author qjafcunuas
- *
  */
 public class CdiShutdownEvent implements Serializable {
 
-	/**
-	 * serial version UID.
-	 */
-	private static final long serialVersionUID = 5984439314553194753L;
+    /**
+     * serial version UID.
+     */
+    private static final long serialVersionUID = 5984439314553194753L;
 
 }

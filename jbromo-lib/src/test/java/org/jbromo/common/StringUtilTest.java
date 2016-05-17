@@ -54,7 +54,7 @@ public class StringUtilTest {
         Assert.assertEquals(StringUtil.PARENTHESIS_CLOSE, ")");
         Assert.assertEquals(StringUtil.PARENTHESIS_OPEN, "(");
         Assert.assertEquals(StringUtil.PERCENT, "%");
-        Assert.assertEquals(StringUtil.POINT, ",");
+        Assert.assertEquals(StringUtil.COMMA, ",");
         Assert.assertEquals(StringUtil.PASSWORD_SIZE, IntegerUtil.INT_40);
         Assert.assertEquals(StringUtil.QUESTION_MARK, "?");
         Assert.assertEquals(StringUtil.SLASH, "/");

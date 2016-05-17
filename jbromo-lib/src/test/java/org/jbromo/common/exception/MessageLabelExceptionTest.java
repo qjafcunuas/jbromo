@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,16 +23,12 @@ package org.jbromo.common.exception;
 
 /**
  * Define JUnit MessageLabelException class.
- *
  * @author qjafcunuas
- *
  */
-public class MessageLabelExceptionTest extends
-        AbstractMessageLabelExceptionTest {
+public class MessageLabelExceptionTest extends AbstractMessageLabelExceptionTest {
 
     /**
      * Return the factory to used.
-     *
      * @return the factory.
      */
     @Override

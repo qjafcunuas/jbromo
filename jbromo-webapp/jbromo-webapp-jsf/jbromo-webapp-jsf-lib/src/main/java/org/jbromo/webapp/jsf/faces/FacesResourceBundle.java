@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,19 +32,17 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.config.IConfigKey;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.i18n.IMessageKey;
 import org.jbromo.common.i18n.IMessageLabel;
 import org.jbromo.webapp.jsf.locale.LocaleContext;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define the faces resource bundle.
- *
  * @author qjafcunuas
- *
  */
 @SessionScoped
 @Slf4j
@@ -84,9 +82,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message according to a key.
-     *
-     * @param key
-     *            the key.
+     * @param key the key.
      * @return the localized message.
      */
     public String getMessage(final IMessageKey key) {
@@ -95,9 +91,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message according to a key.
-     *
-     * @param key
-     *            the key.
+     * @param key the key.
      * @return the localized message.
      */
     public String getMessage(final String key) {
@@ -105,8 +99,7 @@ public class FacesResourceBundle implements Serializable {
             if (getAppMessageBundle().containsKey(key)) {
                 return getAppMessageBundle().getString(key).replace("'", "''");
             } else if (getBromoMessageBundle().containsKey(key)) {
-                return getBromoMessageBundle().getString(key)
-                        .replace("'", "''");
+                return getBromoMessageBundle().getString(key).replace("'", "''");
             } else {
                 return notFound(key);
             }
@@ -120,9 +113,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the config according to a config key.
-     *
-     * @param config
-     *            the config key.
+     * @param config the config key.
      * @return the config.
      */
     public String getConfig(final IConfigKey config) {
@@ -135,9 +126,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the config according to a key.
-     *
-     * @param key
-     *            the key.
+     * @param key the key.
      * @return the config.
      */
     public String getConfig(final String key) {
@@ -157,9 +146,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message of an exception.
-     *
-     * @param exp
-     *            the exception.
+     * @param exp the exception.
      * @return the localized message.
      */
     public String getMessage(final MessageLabelException exp) {
@@ -168,9 +155,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message according to a key.
-     *
-     * @param label
-     *            the label.
+     * @param label the label.
      * @return the localized message.
      */
     public String getMessage(final IMessageLabel label) {
@@ -182,11 +167,8 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message according to a key.
-     *
-     * @param key
-     *            the key.
-     * @param params
-     *            the message parameters.
+     * @param key the key.
+     * @param params the message parameters.
      * @return the localized message.
      */
     private String getMessage(final IMessageKey key, final Object... params) {
@@ -205,9 +187,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return formated parameters.
-     *
-     * @param params
-     *            the parameters to format.
+     * @param params the parameters to format.
      * @return the formated parameters.
      */
     private Object[] formatParams(final Object... params) {
@@ -220,9 +200,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return formated parameter.
-     *
-     * @param param
-     *            the parameter to format.
+     * @param param the parameter to format.
      * @return the formated parameter.
      */
     private Object formatParam(final Object param) {
@@ -231,11 +209,9 @@ public class FacesResourceBundle implements Serializable {
         } else if (param instanceof IMessageLabel) {
             return getMessage((IMessageLabel) param);
         } else if (param instanceof Collection<?>) {
-            StringBuilder builder = null;
+            final StringBuilder builder = new StringBuilder();
             for (final Object one : (Collection<?>) param) {
-                if (builder == null) {
-                    builder = new StringBuilder();
-                } else {
+                if (builder.length() > 0) {
                     builder.append(", ");
                 }
                 builder.append(formatParam(one));
@@ -251,23 +227,17 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return the localized message according to a key.
-     *
-     * @param key
-     *            the key.
-     * @param params
-     *            the message parameters.
+     * @param key the key.
+     * @param params the message parameters.
      * @return the localized message.
      */
-    private String getMessage(final IMessageKey key,
-            final Collection<Object> params) {
+    private String getMessage(final IMessageKey key, final Collection<Object> params) {
         return getMessage(key, params.toArray());
     }
 
     /**
      * Return a not found key value.
-     *
-     * @param key
-     *            the key.
+     * @param key the key.
      * @return the message.
      */
     private String notFound(final IMessageKey key) {
@@ -276,9 +246,7 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Return a not found key value.
-     *
-     * @param key
-     *            the key.
+     * @param key the key.
      * @return the message.
      */
     private String notFound(final String key) {
@@ -290,33 +258,28 @@ public class FacesResourceBundle implements Serializable {
 
     /**
      * Get the application message resource Bundle.
-     *
      * @return the application message resource bundle.
      */
     private ResourceBundle getAppMessageBundle() {
         if (this.appMessageBundle == null) {
-            this.appMessageBundle = this.facesContext.getApplication()
-                    .getResourceBundle(this.facesContext, "message");
+            this.appMessageBundle = this.facesContext.getApplication().getResourceBundle(this.facesContext, "message");
         }
         return this.appMessageBundle;
     }
 
     /**
      * Get the bromo message resource Bundle.
-     *
      * @return the message resource bundle.
      */
     private ResourceBundle getBromoMessageBundle() {
         if (this.bromoMessageBundle == null) {
-            this.bromoMessageBundle = ResourceBundle.getBundle("bromomessages",
-                    this.localeContext.getLocale());
+            this.bromoMessageBundle = ResourceBundle.getBundle("bromomessages", this.localeContext.getLocale());
         }
         return this.bromoMessageBundle;
     }
 
     /**
      * Get the bromo config resource Bundle.
-     *
      * @return the config resource bundle.
      */
     private ResourceBundle getBromoConfigBundle() {

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,9 +29,7 @@ import org.junit.Assert;
 
 /**
  * Constructor util class.
- *
  * @author qjafcunuas
- *
  */
 public final class ConstructorUtil {
 
@@ -44,22 +42,17 @@ public final class ConstructorUtil {
 
     /**
      * Execute a private constructor.
-     *
-     * @param <O>
-     *            the object type.
-     * @param objectClass
-     *            the object class.
+     * @param <O> the object type.
+     * @param objectClass the object class.
      */
     public static <O> void executePrivate(final Class<O> objectClass) {
         try {
-            final Constructor<O> constructor = InvocationUtil
-                    .getConstructor(objectClass);
+            final Constructor<O> constructor = InvocationUtil.getConstructor(objectClass);
             if (Modifier.isPrivate(constructor.getModifiers())) {
                 constructor.setAccessible(true);
                 constructor.newInstance();
             } else {
-                Assert.fail("Constructor is not private for class "
-                        + objectClass);
+                Assert.fail("Constructor is not private for class " + objectClass);
             }
         } catch (final Exception e) {
             Assert.fail(e.getMessage());

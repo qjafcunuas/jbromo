@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,9 +26,7 @@ import org.junit.Test;
 
 /**
  * Define JUnit MessageLabelExceptionFactoryFactory class.
- *
  * @author qjafcunuas
- *
  */
 public class MessageLabelExceptionFactoryFactoryTest {
 
@@ -38,8 +36,7 @@ public class MessageLabelExceptionFactoryFactoryTest {
     @Test
     public void getInstance() {
         Assert.assertNotNull(MessageLabelExceptionFactoryFactory.getInstance());
-        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance(),
-                MessageLabelExceptionFactoryFactory.getInstance());
+        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance(), MessageLabelExceptionFactoryFactory.getInstance());
     }
 
     /**
@@ -53,17 +50,12 @@ public class MessageLabelExceptionFactoryFactoryTest {
 
     /**
      * Running test for a factory class.
-     *
-     * @param factoryClass
-     *            the factory class.
+     * @param factoryClass the factory class.
      */
-    private void getInstances(
-            final Class<? extends IMessageLabelExceptionFactory<?>> factoryClass) {
-        Assert.assertNotNull(MessageLabelExceptionFactoryFactory.getInstance()
-                .getInstance(factoryClass));
-        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance()
-                .getInstance(factoryClass), MessageLabelExceptionFactoryFactory
-                .getInstance().getInstance(factoryClass));
+    private void getInstances(final Class<? extends IMessageLabelExceptionFactory<?>> factoryClass) {
+        Assert.assertNotNull(MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass));
+        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass),
+                            MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass));
     }
 
 }

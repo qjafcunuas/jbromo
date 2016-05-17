@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,18 +33,17 @@ import org.jbromo.common.exception.IMessageLabelExceptionFactory;
 
 /**
  * Used for Transactionnal.
- *
  * @author qjafcunuas
- *
  */
 @InterceptorBinding
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CatchException {
     /**
      * The exception type to throw.
+     * @return the type.
      */
     @SuppressWarnings("rawtypes")
     @Nonbinding
-    Class<? extends IMessageLabelExceptionFactory> value();
+    Class<? extends IMessageLabelExceptionFactory>value();
 }

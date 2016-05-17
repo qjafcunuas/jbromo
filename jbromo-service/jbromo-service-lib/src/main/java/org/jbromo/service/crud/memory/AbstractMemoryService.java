@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,9 +36,6 @@ import java.util.Map.Entry;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.dto.IOrderBy;
@@ -49,16 +46,15 @@ import org.jbromo.service.crud.AbstractCrudService;
 import org.jbromo.service.exception.ServiceException;
 import org.jbromo.service.exception.ServiceExceptionFactory;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
- * The class for implementation of Memory CRUD services. EJB must be declared
- * with Singleton annotation.
- *
+ * The class for implementation of Memory CRUD services. EJB must be declared with Singleton annotation.
  * @author qjafcunuas
- * @param <M>
- *            the model type giving by Service layer
+ * @param <M> the model type giving by Service layer
  */
-public abstract class AbstractMemoryService<M extends Serializable> extends
-        AbstractCrudService<M, Integer> implements IMemoryService<M> {
+public abstract class AbstractMemoryService<M extends Serializable> extends AbstractCrudService<M, Integer>implements IMemoryService<M> {
 
     /**
      * Serial version UID for class.
@@ -131,8 +127,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
                 try {
                     value = InvocationUtil.getValue(criteria, field);
                 } catch (final InvocationException e) {
-                    throw ServiceExceptionFactory.getInstance().newInstance(
-                            MessageKey.DEFAULT_MESSAGE, e);
+                    throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
                 }
                 if (value != null) {
                     filters.put(field.getName(), value);
@@ -149,8 +144,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
                 try {
                     value = InvocationUtil.getValue(one, entry.getKey());
                 } catch (final InvocationException e) {
-                    throw ServiceExceptionFactory.getInstance().newInstance(
-                            MessageKey.DEFAULT_MESSAGE, e);
+                    throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
                 }
                 if (value == null) {
                     correct = null;
@@ -172,8 +166,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
     }
 
     @Override
-    public List<M> findAll(final M criteria, final M eagerLoading,
-            final List<IOrderBy<M>> orderBy) throws ServiceException {
+    public List<M> findAll(final M criteria, final M eagerLoading, final List<IOrderBy> orderBy) throws ServiceException {
         final List<M> list = findAll(criteria);
         final Comparator<M> comparator = new Comparator<M>() {
             @Override
@@ -181,7 +174,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
                 int val;
                 Object value1;
                 Object value2;
-                for (final IOrderBy<M> order : orderBy) {
+                for (final IOrderBy order : orderBy) {
                     try {
                         value1 = InvocationUtil.getValue(o1, order.getOrder());
                         value2 = InvocationUtil.getValue(o2, order.getOrder());
@@ -191,10 +184,10 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
                     val = ObjectUtil.compare(value1, value2);
                     if (val != 0) {
                         switch (order.getSort()) {
-                        case DESCENDING:
-                            return -val;
-                        default:
-                            return val;
+                            case DESCENDING:
+                                return -val;
+                            default:
+                                return val;
                         }
                     }
                 }
@@ -215,50 +208,43 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
     }
 
     @Override
-    public <C extends Collection<M>> C create(final C transientInstance)
-            throws ServiceException {
+    public <C extends Collection<M>> C create(final C transientInstance) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <C extends Collection<M>> C update(final C detachedInstance)
-            throws ServiceException {
+    public <C extends Collection<M>> C update(final C detachedInstance) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void delete(final Collection<M> detachedInstance)
-            throws ServiceException {
+    public void delete(final Collection<M> detachedInstance) throws ServiceException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public <C extends Collection<M>> C save(final C detachedInstance)
-            throws ServiceException {
+    public <C extends Collection<M>> C save(final C detachedInstance) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys)
-            throws ServiceException {
+    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public M findByPk(final Integer primaryKey, final M eagerLoading)
-            throws ServiceException {
+    public M findByPk(final Integer primaryKey, final M eagerLoading) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys,
-            final M eagerLoading) throws ServiceException {
+    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys, final M eagerLoading) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -270,8 +256,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends
     }
 
     @Override
-    public <C extends Collection<M>> C read(final C detachedInstance)
-            throws ServiceException {
+    public <C extends Collection<M>> C read(final C detachedInstance) throws ServiceException {
         // TODO Auto-generated method stub
         return null;
     }

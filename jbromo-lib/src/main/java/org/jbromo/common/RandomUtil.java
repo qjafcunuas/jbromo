@@ -431,7 +431,6 @@ public final class RandomUtil {
 
     /**
      * Returns next bigDecimal random value.
-     * @param nullable if true, returned value can be null; else it cannot be null.
      * @param integer integer of bigDecimal
      * @param fraction fraction of bigDecimal
      * @param min min value of bigDecimal

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,15 +21,14 @@
  */
 package org.jbromo.common.exception;
 
-import lombok.Getter;
-
 import org.jbromo.common.i18n.IMessageKey;
 import org.jbromo.common.i18n.IMessageLabel;
 import org.jbromo.common.i18n.MessageLabel;
 
+import lombok.Getter;
+
 /**
  * Exception with message label.
- *
  * @author qjafcunuas
  */
 public class MessageLabelException extends Exception {
@@ -46,9 +45,7 @@ public class MessageLabelException extends Exception {
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
+     * @param key the message key.
      */
     protected MessageLabelException(final IMessageKey key) {
         this(new MessageLabel(key), (Throwable) null);
@@ -56,9 +53,7 @@ public class MessageLabelException extends Exception {
 
     /**
      * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
+     * @param label the message label.
      */
     protected MessageLabelException(final IMessageLabel label) {
         this(label, (Throwable) null);
@@ -66,11 +61,8 @@ public class MessageLabelException extends Exception {
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
-     * @param cause
-     *            the exception
+     * @param key the message key.
+     * @param cause the exception
      */
     protected MessageLabelException(final IMessageKey key, final Throwable cause) {
         this(new MessageLabel(key), cause);
@@ -78,14 +70,10 @@ public class MessageLabelException extends Exception {
 
     /**
      * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     * @param cause
-     *            the cause.
+     * @param label the message label.
+     * @param cause the cause.
      */
-    protected MessageLabelException(final IMessageLabel label,
-            final Throwable cause) {
+    protected MessageLabelException(final IMessageLabel label, final Throwable cause) {
         super(cause);
         this.label = label;
         if (cause != null && !this.label.getParameters().contains(cause)) {

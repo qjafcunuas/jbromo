@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,31 +26,26 @@ import java.util.List;
 
 /**
  * Define an i18n label interface.
- *
  * @author qjafcunuas
- *
  */
 public interface IMessageLabel extends Serializable {
 
     /**
      * The i18n key.
-     *
      * @return i18n key.
      */
     IMessageKey getKey();
 
     /**
      * The i18n severity.
-     *
      * @return i18n severity.
      */
     MessageSeverity getSeverity();
 
     /**
      * The i18n parameters.
-     *
      * @return i18n parameters.
      */
-    List<Object> getParameters();
+    List<Serializable> getParameters();
 
 }

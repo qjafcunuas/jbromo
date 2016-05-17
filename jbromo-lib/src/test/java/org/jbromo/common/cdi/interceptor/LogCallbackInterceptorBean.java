@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,9 +25,7 @@ import org.jbromo.common.cdi.annotation.LogCallback;
 
 /**
  * Define a class that used LogCallback interceptor.
- *
  * @author qjafcunuas
- *
  */
 @LogCallback
 public class LogCallbackInterceptorBean {

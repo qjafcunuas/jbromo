@@ -311,7 +311,7 @@ public class CollectionUtilTest {
     public void toStringCollection() {
         final List<Integer> list = ListUtil.toList(1, 2);
         Assert.assertEquals(CollectionUtil.toString(list, StringUtil.SPACE), "1 2");
-        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.POINT), "1,2");
+        Assert.assertEquals(CollectionUtil.toString(list, StringUtil.COMMA), "1,2");
     }
 
     /**

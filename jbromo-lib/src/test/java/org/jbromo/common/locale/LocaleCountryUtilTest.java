@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,9 +31,7 @@ import org.junit.Test;
 
 /**
  * Test for the Locale Language Util class.
- *
  * @author qjafcunuas
- *
  */
 public class LocaleCountryUtilTest {
 
@@ -67,8 +65,7 @@ public class LocaleCountryUtilTest {
         Assert.assertFalse(LocaleCountryUtil.same(Locale.FRANCE, null));
         Assert.assertFalse(LocaleCountryUtil.same(null, Locale.FRANCE));
         // Values
-        Assert.assertTrue(LocaleCountryUtil.same(Locale.CANADA,
-                Locale.CANADA_FRENCH));
+        Assert.assertTrue(LocaleCountryUtil.same(Locale.CANADA, Locale.CANADA_FRENCH));
         // FRANCE=fr_FR, FRENCH=fr => false
         Assert.assertFalse(LocaleCountryUtil.same(Locale.FRANCE, Locale.FRENCH));
         Assert.assertFalse(LocaleCountryUtil.same(Locale.FRANCE, Locale.CANADA));
@@ -84,20 +81,13 @@ public class LocaleCountryUtilTest {
         Assert.assertNull(LocaleCountryUtil.translate(null, Locale.FRANCE));
         Assert.assertNull(LocaleCountryUtil.translate(Locale.FRANCE, null));
         // Values
-        Assert.assertEquals(
-                LocaleCountryUtil.translate(Locale.FRANCE, Locale.FRENCH),
-                "France");
-        Assert.assertEquals(
-                LocaleCountryUtil.translate(Locale.CANADA, Locale.FRENCH),
-                "Canada");
-        Assert.assertEquals(
-                LocaleCountryUtil.translate(Locale.ITALY, Locale.ENGLISH),
-                "Italy");
+        Assert.assertEquals(LocaleCountryUtil.translate(Locale.FRANCE, Locale.FRENCH), "France");
+        Assert.assertEquals(LocaleCountryUtil.translate(Locale.CANADA, Locale.FRENCH), "Canada");
+        Assert.assertEquals(LocaleCountryUtil.translate(Locale.ITALY, Locale.ENGLISH), "Italy");
     }
 
     /**
      * Return a locale list.
-     *
      * @return the list.
      */
     private List<Locale> getLocales() {
@@ -133,12 +123,9 @@ public class LocaleCountryUtilTest {
      */
     @Test
     public void toLocale() {
-        Assert.assertTrue(LocaleCountryUtil.same(
-                LocaleCountryUtil.toLocale("FR"), Locale.FRANCE));
-        Assert.assertTrue(LocaleCountryUtil.same(
-                LocaleCountryUtil.toLocale("FR"), Locale.FRANCE));
-        Assert.assertTrue(LocaleCountryUtil.same(
-                LocaleCountryUtil.toLocale("CA"), Locale.CANADA));
+        Assert.assertTrue(LocaleCountryUtil.same(LocaleCountryUtil.toLocale("FR"), Locale.FRANCE));
+        Assert.assertTrue(LocaleCountryUtil.same(LocaleCountryUtil.toLocale("FR"), Locale.FRANCE));
+        Assert.assertTrue(LocaleCountryUtil.same(LocaleCountryUtil.toLocale("CA"), Locale.CANADA));
         Assert.assertNull(LocaleCountryUtil.toLocale(null));
         Assert.assertNull(LocaleCountryUtil.toLocale(""));
         // twice for testing hashtable field

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +25,6 @@ import lombok.Getter;
 
 /**
  * Define message key.
- *
  * @author qjafcunuas.
  */
 public enum MessageKey implements IMessageKey {
@@ -93,54 +92,42 @@ public enum MessageKey implements IMessageKey {
     /**
      * Unauthorized access.
      */
-    UNAUTHORIZED_ACCESS("error.access.unauthorized"),
-    /**
-     * Default message.
-     */
-    DEFAULT_MESSAGE("error.default.message"),
-    /**
-     * True message.
-     */
-    TRUE("default.label.true"),
-    /**
-     * False message.
-     */
-    FALSE("default.label.false"),
-    /**
-     * Yes message.
-     */
-    YES("default.label.yes"),
-    /**
-     * No message.
-     */
-    NO("default.label.no"),
-    /**
-     * arrow.down.
-     */
-    ARROW_DOWN("arrow.down"),
-    /**
-     * arrow.up.
-     */
-    ARROW_UP("arrow.up"),
-    /**
-     * arrow.upanddown.
-     */
-    ARROW_UP_AND_DOWN("arrow.upanddown"),
-    /**
-     * arrow.left.
-     */
-    ARROW_LEFT("arrow.left"),
-    /**
-     * arrow.leftandright.
-     */
-    ARROW_LEFT_AND_RIGHT("arrow.leftandright"),
-    /**
-     * arrow.right.
-     */
-    ARROW_RIGHT("arrow.right"),
-    /**
-     * error.download.file.
-     */
+    UNAUTHORIZED_ACCESS("error.access.unauthorized"), /**
+                                                       * Default message.
+                                                       */
+    DEFAULT_MESSAGE("error.default.message"), /**
+                                               * True message.
+                                               */
+    TRUE("default.label.true"), /**
+                                 * False message.
+                                 */
+    FALSE("default.label.false"), /**
+                                   * Yes message.
+                                   */
+    YES("default.label.yes"), /**
+                               * No message.
+                               */
+    NO("default.label.no"), /**
+                             * arrow.down.
+                             */
+    ARROW_DOWN("arrow.down"), /**
+                               * arrow.up.
+                               */
+    ARROW_UP("arrow.up"), /**
+                           * arrow.upanddown.
+                           */
+    ARROW_UP_AND_DOWN("arrow.upanddown"), /**
+                                           * arrow.left.
+                                           */
+    ARROW_LEFT("arrow.left"), /**
+                               * arrow.leftandright.
+                               */
+    ARROW_LEFT_AND_RIGHT("arrow.leftandright"), /**
+                                                 * arrow.right.
+                                                 */
+    ARROW_RIGHT("arrow.right"), /**
+                                 * error.download.file.
+                                 */
     ERROR_DOWNLOAD_FILE("error.download.file");
 
     /**
@@ -151,9 +138,7 @@ public enum MessageKey implements IMessageKey {
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            message key
+     * @param key message key
      */
     private MessageKey(final String key) {
         this.key = key;

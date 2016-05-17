@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,29 +31,27 @@ import javax.interceptor.InterceptorBinding;
 
 /**
  * Used for Transactional call.
- *
  * @author qjafcunuas
- *
  */
 @InterceptorBinding
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Transactional {
     /**
      * Transaction value.
+     * @return the transaction value.
      */
     @Nonbinding
     TxType value() default TxType.REQUIRED;
 
     /**
      * Transaction values.
-     *
      * @author qjafcunuas
-     *
      */
     public enum TxType {
         /** Required. */
         REQUIRED,
+
         /** Supports. */
         SUPPORTS
     }

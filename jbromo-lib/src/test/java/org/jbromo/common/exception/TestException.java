@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,7 +26,6 @@ import org.jbromo.common.i18n.IMessageLabel;
 
 /**
  * Exception for Test.
- *
  * @author qjafcunuas
  */
 public class TestException extends MessageLabelException {
@@ -37,9 +36,7 @@ public class TestException extends MessageLabelException {
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
+     * @param key the message key.
      */
     TestException(final IMessageKey key) {
         super(key);
@@ -47,9 +44,7 @@ public class TestException extends MessageLabelException {
 
     /**
      * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
+     * @param label the message label.
      */
     TestException(final IMessageLabel label) {
         super(label);
@@ -57,11 +52,8 @@ public class TestException extends MessageLabelException {
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
-     * @param cause
-     *            the exception
+     * @param key the message key.
+     * @param cause the exception
      */
     TestException(final IMessageKey key, final Throwable cause) {
         super(key, cause);
@@ -69,11 +61,8 @@ public class TestException extends MessageLabelException {
 
     /**
      * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     * @param cause
-     *            the cause.
+     * @param label the message label.
+     * @param cause the cause.
      */
     TestException(final IMessageLabel label, final Throwable cause) {
         super(label, cause);

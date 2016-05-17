@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,6 +21,7 @@
  */
 package org.jbromo.dao.common.exception;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.jbromo.common.i18n.MessageKey;
@@ -28,7 +29,6 @@ import org.jbromo.common.i18n.MessageLabel;
 
 /**
  * Exception for DAO actions.
- *
  * @author qjafcunuas
  */
 public class DaoValidationException extends DaoException {
@@ -47,9 +47,7 @@ public class DaoValidationException extends DaoException {
 
     /**
      * Constructor with message field.
-     *
-     * @param cause
-     *            the exception
+     * @param cause the exception
      */
     DaoValidationException(final Throwable cause) {
         super(MessageKey.ENTITY_VALIDATION_ERROR, cause);
@@ -57,26 +55,19 @@ public class DaoValidationException extends DaoException {
 
     /**
      * Constructor with message field.
-     *
-     * @param parameters
-     *            the message parameters
+     * @param parameters the message parameters
      */
-    DaoValidationException(final List<Object> parameters) {
+    DaoValidationException(final List<Serializable> parameters) {
         super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, parameters));
     }
 
     /**
      * Constructor using fields.
-     *
-     * @param parameters
-     *            the message parameters
-     * @param cause
-     *            the exception
+     * @param parameters the message parameters
+     * @param cause the exception
      */
-    DaoValidationException(final List<Object> parameters,
-            final Throwable cause) {
-        super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, parameters),
-                cause);
+    DaoValidationException(final List<Serializable> parameters, final Throwable cause) {
+        super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, parameters), cause);
     }
 
 }

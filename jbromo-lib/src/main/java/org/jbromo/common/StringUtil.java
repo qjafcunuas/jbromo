@@ -95,34 +95,34 @@ public final class StringUtil {
     public static final String PARENTHESIS_CLOSE = ")";
 
     /**
-     * =.
+     * Equals.
      */
     public static final String EQUALS = "=";
 
     /**
-     * >.
+     * Superior.
      */
     public static final String SUPERIOR = ">";
 
     /**
-     * >=.
+     * Superior or equals.
      */
     public static final String SUPERIOR_OR_EQUALS = ">=";
 
     /**
-     * <.
+     * Inferior.
      */
     public static final String INFERIOR = "<";
 
     /**
-     * <=.
+     * Inferior or equals.
      */
     public static final String INFERIOR_OR_EQUALS = "<=";
 
     /**
-     * ,.
+     * Comma.
      */
-    public static final String POINT = ",";
+    public static final String COMMA = ",";
 
     /**
      * Define the max size for persisted crypted password.

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,9 +32,7 @@ import org.junit.Test;
 
 /**
  * Test for the Locale Language Util class.
- *
  * @author qjafcunuas
- *
  */
 public class LocaleLanguageUtilTest {
 
@@ -55,8 +53,7 @@ public class LocaleLanguageUtilTest {
         Assert.assertNull(LocaleLanguageUtil.getIsoCode(null));
         Assert.assertNull(LocaleLanguageUtil.getIsoCode(new Locale("")));
         // Values
-        Assert.assertEquals(
-                LocaleLanguageUtil.getIsoCode(Locale.CANADA_FRENCH), "fr");
+        Assert.assertEquals(LocaleLanguageUtil.getIsoCode(Locale.CANADA_FRENCH), "fr");
         Assert.assertEquals(LocaleLanguageUtil.getIsoCode(Locale.FRENCH), "fr");
     }
 
@@ -69,8 +66,7 @@ public class LocaleLanguageUtilTest {
         Assert.assertNull(LocaleLanguageUtil.getFullCode(null));
         Assert.assertNull(LocaleLanguageUtil.getFullCode(new Locale("")));
         // Values
-        Assert.assertEquals(
-                LocaleLanguageUtil.getFullCode(Locale.CANADA_FRENCH), "fr_CA");
+        Assert.assertEquals(LocaleLanguageUtil.getFullCode(Locale.CANADA_FRENCH), "fr_CA");
         Assert.assertEquals(LocaleLanguageUtil.getFullCode(Locale.FRENCH), "fr");
     }
 
@@ -82,24 +78,17 @@ public class LocaleLanguageUtilTest {
         // Null
         Assert.assertNull(LocaleLanguageUtil.translate(null, null, false));
         Assert.assertNull(LocaleLanguageUtil.translate(null, null, true));
-        Assert.assertNull(LocaleLanguageUtil.translate(null, Locale.FRENCH,
-                false));
-        Assert.assertNull(LocaleLanguageUtil.translate(null, Locale.FRENCH,
-                true));
-        Assert.assertNull(LocaleLanguageUtil.translate(Locale.FRENCH, null,
-                false));
-        Assert.assertNull(LocaleLanguageUtil.translate(Locale.FRENCH, null,
-                true));
+        Assert.assertNull(LocaleLanguageUtil.translate(null, Locale.FRENCH, false));
+        Assert.assertNull(LocaleLanguageUtil.translate(null, Locale.FRENCH, true));
+        Assert.assertNull(LocaleLanguageUtil.translate(Locale.FRENCH, null, false));
+        Assert.assertNull(LocaleLanguageUtil.translate(Locale.FRENCH, null, true));
         // Values
-        Assert.assertEquals(LocaleLanguageUtil.translate(Locale.CANADA_FRENCH,
-                Locale.FRENCH, false), "français");
-        Assert.assertEquals(LocaleLanguageUtil.translate(Locale.CANADA_FRENCH,
-                Locale.FRENCH, true), "français (Canada)");
+        Assert.assertEquals(LocaleLanguageUtil.translate(Locale.CANADA_FRENCH, Locale.FRENCH, false), "français");
+        Assert.assertEquals(LocaleLanguageUtil.translate(Locale.CANADA_FRENCH, Locale.FRENCH, true), "français (Canada)");
     }
 
     /**
      * Return a locale list.
-     *
      * @return the list.
      */
     private List<Locale> getLocales() {
@@ -144,10 +133,8 @@ public class LocaleLanguageUtilTest {
         locales = getLocales();
         LocaleLanguageUtil.sort(locales, Locale.ENGLISH, false);
         Assert.assertTrue(locales.indexOf(Locale.GERMAN) == IntegerUtil.INT_3);
-        Assert.assertTrue(locales.indexOf(Locale.FRENCH) == IntegerUtil.INT_1
-                || locales.indexOf(Locale.FRENCH) == IntegerUtil.INT_2);
-        Assert.assertTrue(locales.indexOf(Locale.CANADA_FRENCH) == IntegerUtil.INT_1
-                || locales.indexOf(Locale.CANADA_FRENCH) == IntegerUtil.INT_2);
+        Assert.assertTrue(locales.indexOf(Locale.FRENCH) == IntegerUtil.INT_1 || locales.indexOf(Locale.FRENCH) == IntegerUtil.INT_2);
+        Assert.assertTrue(locales.indexOf(Locale.CANADA_FRENCH) == IntegerUtil.INT_1 || locales.indexOf(Locale.CANADA_FRENCH) == IntegerUtil.INT_2);
         Assert.assertTrue(locales.indexOf(Locale.ENGLISH) == IntegerUtil.INT_0);
 
     }
@@ -164,8 +151,7 @@ public class LocaleLanguageUtilTest {
 
         // Not empty code.
         Assert.assertEquals(LocaleLanguageUtil.toLocale("fr"), Locale.FRENCH);
-        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr_CA"),
-                Locale.CANADA_FRENCH);
+        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr_CA"), Locale.CANADA_FRENCH);
     }
 
     /**
@@ -182,15 +168,12 @@ public class LocaleLanguageUtilTest {
         Assert.assertNull(LocaleLanguageUtil.toLocale(null, "FR"));
         Assert.assertNull(LocaleLanguageUtil.toLocale("", "FR"));
         // not empty, null/empty
-        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", null),
-                new Locale("fr"));
-        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", ""), new Locale(
-                "fr"));
+        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", null), new Locale("fr"));
+        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", ""), new Locale("fr"));
 
         // Not empty code.
         Assert.assertEquals(LocaleLanguageUtil.toLocale("fr"), Locale.FRENCH);
-        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", "CA"),
-                Locale.CANADA_FRENCH);
+        Assert.assertEquals(LocaleLanguageUtil.toLocale("fr", "CA"), Locale.CANADA_FRENCH);
     }
 
 }

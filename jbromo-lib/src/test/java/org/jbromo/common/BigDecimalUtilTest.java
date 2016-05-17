@@ -24,6 +24,7 @@ package org.jbromo.common;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.jbromo.common.test.common.ConstructorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,6 +33,24 @@ import org.junit.Test;
  * @author qjafcunuas
  */
 public class BigDecimalUtilTest {
+
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void constructor() {
+        ConstructorUtil.executePrivate(BigDecimalUtil.class);
+    }
+
+    /**
+     * Test add(Number) method.
+     */
+    @Test
+    public void add() {
+        final short a = 1;
+        Assert.assertEquals(new BigDecimal("7.0"), BigDecimalUtil.add(a, 1, 1L, 1.0f, 1.0d, BigInteger.ONE, BigDecimal.ONE));
+        Assert.assertNull(BigDecimalUtil.add(a, 1, null, 1L, 1.0f, 1.0d, BigInteger.ONE, BigDecimal.ONE));
+    }
 
     /**
      * Test add(BigDecimal,Short) method.

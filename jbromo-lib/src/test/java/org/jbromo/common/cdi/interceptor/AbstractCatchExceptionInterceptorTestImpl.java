@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,9 +32,7 @@ import org.junit.Test;
 
 /**
  * Define JUnit CatchExceptionInterceptor Test.
- *
  * @author qjafcunuas
- *
  */
 public abstract class AbstractCatchExceptionInterceptorTestImpl {
 
@@ -69,12 +67,9 @@ public abstract class AbstractCatchExceptionInterceptorTestImpl {
             this.messageLabelBean.throwException();
             Assert.fail("Method should thrown an exception!");
         } catch (final Exception e) {
-            Assert.assertTrue(ClassUtil.isInstance(e,
-                    MessageLabelException.class));
+            Assert.assertTrue(ClassUtil.isInstance(e, MessageLabelException.class));
             Assert.assertNotNull(e.getCause());
-            Assert.assertEquals(
-                    e.getCause(),
-                    CatchExceptionInterceptorMessageLabelExceptionBean.EXCEPTION);
+            Assert.assertEquals(e.getCause(), CatchExceptionInterceptorMessageLabelExceptionBean.EXCEPTION);
         }
         // TestException Bean
         try {
@@ -83,8 +78,7 @@ public abstract class AbstractCatchExceptionInterceptorTestImpl {
         } catch (final Exception e) {
             Assert.assertTrue(ClassUtil.isInstance(e, TestException.class));
             Assert.assertNotNull(e.getCause());
-            Assert.assertEquals(e.getCause(),
-                    CatchExceptionInterceptorTestExceptionBean.EXCEPTION);
+            Assert.assertEquals(e.getCause(), CatchExceptionInterceptorTestExceptionBean.EXCEPTION);
         }
     }
 
@@ -98,11 +92,8 @@ public abstract class AbstractCatchExceptionInterceptorTestImpl {
             this.messageLabelBean.throwMessageLabelException();
             Assert.fail("Method should thrown an exception!");
         } catch (final Exception e) {
-            Assert.assertTrue(ClassUtil.isInstance(e,
-                    MessageLabelException.class));
-            Assert.assertEquals(
-                    e,
-                    CatchExceptionInterceptorMessageLabelExceptionBean.MESSAGE_LABEL_EXCEPTION);
+            Assert.assertTrue(ClassUtil.isInstance(e, MessageLabelException.class));
+            Assert.assertEquals(e, CatchExceptionInterceptorMessageLabelExceptionBean.MESSAGE_LABEL_EXCEPTION);
         }
 
         // TestException Bean
@@ -112,9 +103,7 @@ public abstract class AbstractCatchExceptionInterceptorTestImpl {
         } catch (final Exception e) {
             Assert.assertTrue(ClassUtil.isInstance(e, TestException.class));
             Assert.assertNotNull(e.getCause());
-            Assert.assertEquals(
-                    e.getCause(),
-                    CatchExceptionInterceptorTestExceptionBean.MESSAGE_LABEL_EXCEPTION);
+            Assert.assertEquals(e.getCause(), CatchExceptionInterceptorTestExceptionBean.MESSAGE_LABEL_EXCEPTION);
         }
     }
 
@@ -129,8 +118,7 @@ public abstract class AbstractCatchExceptionInterceptorTestImpl {
             Assert.fail("Method should thrown an exception!");
         } catch (final Exception e) {
             Assert.assertTrue(ClassUtil.isInstance(e, TestException.class));
-            Assert.assertEquals(e,
-                    CatchExceptionInterceptorTestExceptionBean.TEST_EXCEPTION);
+            Assert.assertEquals(e, CatchExceptionInterceptorTestExceptionBean.TEST_EXCEPTION);
         }
     }
 

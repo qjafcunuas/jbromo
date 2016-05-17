@@ -1,21 +1,15 @@
-/*
- * Copyright (C) 2013-2014 The JBromo Authoimport java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.HttpServletResponse;
-
-import lombok.extern.slf4j.Slf4j;
-
-import org.jbromo.common.IntegerUtil;
-import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.exception.MessageLabelExceptionFactory;
-import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.webapp.jsf.cdi.CDIFacesUtil;
-import org.jbromo.webapp.jsf.faces.FacesContextUtil;
-substantial portions of the Software.
+/*-
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -35,8 +29,6 @@ import java.io.IOException;
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.exception.MessageLabelExceptionFactory;
@@ -44,11 +36,11 @@ import org.jbromo.common.i18n.MessageKey;
 import org.jbromo.webapp.jsf.cdi.CDIFacesUtil;
 import org.jbromo.webapp.jsf.faces.FacesContextUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Utility class for downloading a file into a browser.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public final class DownloadUtil {
@@ -62,24 +54,18 @@ public final class DownloadUtil {
 
     /**
      * Download the file.
-     *
-     * @param file
-     *            the file to download.
-     * @throws MessageLabelException
-     *             exception.
+     * @param file the file to download.
+     * @throws MessageLabelException exception.
      */
     public static void download(final File file) throws MessageLabelException {
-        BufferedInputStream bis = null;
-        try {
+        final HttpServletResponse response = CDIFacesUtil.getResponse();
 
-            final HttpServletResponse response = CDIFacesUtil.getResponse();
+        response.setHeader("Content-disposition", "attachment; filename= " + file.getName());
+        response.setHeader("Content-Length", Long.toString(file.length()));
+        response.setContentType(getContentType(file));
 
-            response.setHeader("Content-disposition", "attachment; filename= "
-                    + file.getName());
-            response.setHeader("Content-Length", "" + file.length());
-            response.setContentType(getContentType(file));
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
 
-            bis = new BufferedInputStream(new FileInputStream(file));
             final byte[] buffer = new byte[IntegerUtil.INT_1024];
             int bytesRead = bis.read(buffer);
 
@@ -92,25 +78,13 @@ public final class DownloadUtil {
             FacesContextUtil.getFacesContext().responseComplete();
         } catch (final IOException e) {
             log.error("Error on downloaded file", e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(
-                    MessageKey.ERROR_DOWNLOAD_FILE);
-        } finally {
-            // Close the BufferedInputStream
-            try {
-                if (bis != null) {
-                    bis.close();
-                }
-            } catch (final IOException ex) {
-                log.error("Error on closing input stream file ...", ex);
-            }
+            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.ERROR_DOWNLOAD_FILE);
         }
     }
 
     /**
      * Return the content-type of a file, according to it extension.
-     *
-     * @param file
-     *            the file.
+     * @param file the file.
      * @return the content-type.
      */
     private static String getContentType(final File file) {

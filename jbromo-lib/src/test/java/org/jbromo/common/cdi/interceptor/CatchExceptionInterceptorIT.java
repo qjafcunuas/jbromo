@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,27 +31,21 @@ import org.junit.runner.RunWith;
 
 /**
  * Define JUnit CatchExceptionInterceptor Integration Test.
- *
  * @author qjafcunuas
- *
  */
 @RunWith(Arquillian.class)
-public class CatchExceptionInterceptorIT extends
-        AbstractCatchExceptionInterceptorTestImpl {
+public class CatchExceptionInterceptorIT extends AbstractCatchExceptionInterceptorTestImpl {
 
     /**
      * Built an archive to deploy.
-     *
      * @return the archive to deploy.
      */
     @Deployment
     public static JavaArchive createTestArchive() {
-        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class)
-                .createInterceptors()
-                .clazz(CatchExceptionInterceptor.class.getName()).up();
+        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(CatchExceptionInterceptor.class.getName())
+                .up();
 
-        final JavaArchive arch = CommonArquillianUtil.createTestArchive(
-                CatchExceptionInterceptorIT.class, beans);
+        final JavaArchive arch = CommonArquillianUtil.createTestArchive(CatchExceptionInterceptorIT.class, beans);
 
         return arch;
     }

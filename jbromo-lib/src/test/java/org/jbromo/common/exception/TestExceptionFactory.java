@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,9 @@ import org.jbromo.common.i18n.IMessageLabel;
 
 /**
  * Define the TestException Factory implementation.
- *
  * @author qjafcunuas
- *
  */
-public final class TestExceptionFactory implements
-        IMessageLabelExceptionFactory<TestException> {
+public final class TestExceptionFactory implements IMessageLabelExceptionFactory<TestException> {
 
     /**
      * The singleton.
@@ -54,7 +51,6 @@ public final class TestExceptionFactory implements
 
     /**
      * Return the singleton instance.
-     *
      * @return the instance.
      */
     public static TestExceptionFactory getInstance() {
@@ -67,8 +63,7 @@ public final class TestExceptionFactory implements
     }
 
     @Override
-    public TestException newInstance(final IMessageKey key,
-            final Throwable cause) {
+    public TestException newInstance(final IMessageKey key, final Throwable cause) {
         return new TestException(key, cause);
     }
 
@@ -78,8 +73,7 @@ public final class TestExceptionFactory implements
     }
 
     @Override
-    public TestException newInstance(final IMessageLabel label,
-            final Throwable cause) {
+    public TestException newInstance(final IMessageLabel label, final Throwable cause) {
         return new TestException(label, cause);
     }
 

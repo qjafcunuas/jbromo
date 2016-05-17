@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,14 +23,12 @@ package org.jbromo.common.config;
 
 /**
  * Define message key interface.
- *
  * @author qjafcunuas.
  */
 public interface IConfigKey {
 
     /**
      * Return the message key.
-     *
      * @return the key
      */
     String getKey();

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,6 +21,7 @@
  */
 package org.jbromo.common.i18n;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,9 +33,7 @@ import lombok.Setter;
 
 /**
  * Define an i18n label.
- *
  * @author qjafcunuas
- *
  */
 @Getter
 @NoArgsConstructor
@@ -61,13 +60,11 @@ public class MessageLabel implements IMessageLabel {
     /**
      * The parameters.
      */
-    private final List<Object> parameters = new ArrayList<Object>();
+    private final List<Serializable> parameters = new ArrayList<>();
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            the key to set.
+     * @param key the key to set.
      */
     public MessageLabel(final IMessageKey key) {
         super();
@@ -76,63 +73,46 @@ public class MessageLabel implements IMessageLabel {
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            the key to set.
-     * @param parameters
-     *            the array parameters.
+     * @param key the key to set.
+     * @param parameters the array parameters.
      */
-    public MessageLabel(final IMessageKey key, final Object... parameters) {
+    public MessageLabel(final IMessageKey key, final Serializable... parameters) {
         this(key);
-        for (final Object parameter : parameters) {
+        for (final Serializable parameter : parameters) {
             getParameters().add(parameter);
         }
     }
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            the key to set.
-     * @param parameters
-     *            the collection parameters.
+     * @param key the key to set.
+     * @param parameters the collection parameters.
      */
-    public MessageLabel(final IMessageKey key,
-            final Collection<Object> parameters) {
+    public MessageLabel(final IMessageKey key, final Collection<Serializable> parameters) {
         this(key);
         getParameters().addAll(parameters);
     }
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            the key to set.
-     * @param severity
-     *            the severity.
-     * @param parameters
-     *            the parameters.
+     * @param key the key to set.
+     * @param severity the severity.
+     * @param parameters the parameters.
      */
-    public MessageLabel(final IMessageKey key, final MessageSeverity severity,
-            final Object... parameters) {
+    public MessageLabel(final IMessageKey key, final MessageSeverity severity, final Serializable... parameters) {
         this(key, severity);
-        for (final Object parameter : parameters) {
+        for (final Serializable parameter : parameters) {
             getParameters().add(parameter);
         }
     }
 
     /**
      * Default constructor.
-     *
-     * @param key
-     *            the key to set.
-     * @param severity
-     *            the severity.
-     * @param parameters
-     *            the parameters.
+     * @param key the key to set.
+     * @param severity the severity.
+     * @param parameters the parameters.
      */
-    public MessageLabel(final IMessageKey key, final MessageSeverity severity,
-            final Collection<Object> parameters) {
+    public MessageLabel(final IMessageKey key, final MessageSeverity severity, final Collection<Serializable> parameters) {
         this(key, severity);
         getParameters().addAll(parameters);
     }

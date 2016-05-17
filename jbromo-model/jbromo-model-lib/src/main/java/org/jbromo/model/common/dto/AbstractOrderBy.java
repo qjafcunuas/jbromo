@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,24 +23,20 @@ package org.jbromo.model.common.dto;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.dto.IOrderBy;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default order by implementation.
- *
  * @author qjafcunuas
- *
- * @param <M>
  */
 @Slf4j
-public abstract class AbstractOrderBy<M extends Serializable> implements
-        IOrderBy<M> {
+public abstract class AbstractOrderBy<M extends Serializable> implements IOrderBy {
 
     /**
      * serial version UID.
@@ -60,27 +56,21 @@ public abstract class AbstractOrderBy<M extends Serializable> implements
 
     /**
      * Default constructor.
-     *
-     * @param order
-     *            the order clause.
-     * @throws InvocationException
-     *             exception.
+     * @param order the order clause.
+     * @throws InvocationException exception.
      */
     public AbstractOrderBy(final String order) throws InvocationException {
         super();
         this.order = order;
         this.modelClass = ParameterizedTypeUtil.getClass(this, 0);
         if (InvocationUtil.getField(getModelClass(), order) == null) {
-            log.error("Field name {} doesn't exit into model {}", order,
-                    getModelClass());
-            throw new InvocationException("Field name " + order
-                    + " doesn't exit into model " + getModelClass());
+            log.error("Field name {} doesn't exit into model {}", order, getModelClass());
+            throw new InvocationException("Field name " + order + " doesn't exit into model " + getModelClass());
         }
     }
 
     /**
      * Return the model class.
-     *
      * @return the model class.
      */
     protected final Class<M> getModelClass() {

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,20 +26,18 @@ import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import lombok.AccessLevel;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
 import org.jbromo.dao.common.IDao;
 
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Defines the abstract DAO for entity.
- *
  * @author qjafcunuas
- * @param <M>
- *            the model type
+ * @param <M> the model type
  */
 @Slf4j
 public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
@@ -62,16 +60,13 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
 
     /**
      * Entity manager getter.
-     *
      * @return the EntityManager
      */
     protected abstract EntityManager getEntityManager();
 
     /**
      * Execute query for a single result. If no query result, return null.
-     *
-     * @param query
-     *            the query to execute.
+     * @param query the query to execute.
      * @return the model.
      */
     @SuppressWarnings("unchecked")
@@ -86,9 +81,7 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
 
     /**
      * Create an instance of Query for executing a JPQL query language.
-     *
-     * @param query
-     *            the JPQL query.
+     * @param query the JPQL query.
      * @return the new query instance.
      */
     protected Query createQuery(final String query) {
@@ -96,11 +89,8 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
     }
 
     /**
-     * Create an instance of Query for executing a named query (in the Java
-     * Persistence query language or in native SQL).
-     *
-     * @param name
-     *            the name of a query defined in metadata.
+     * Create an instance of Query for executing a named query (in the Java Persistence query language or in native SQL).
+     * @param name the name of a query defined in metadata.
      * @return the new query instance.
      */
     protected Query createNamedQuery(final String name) {
@@ -115,8 +105,7 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
     }
 
     /**
-     * Deletes the persistence context.<br/>
-     * All unsaved modifications will be lost !
+     * Deletes the persistence context. All unsaved modifications will be lost !
      */
     protected void clear() {
         getEntityManager().clear();
@@ -124,7 +113,6 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
 
     /**
      * Return the model class.
-     *
      * @return the model class.
      */
     protected Class<M> getModelClass() {
@@ -137,7 +125,6 @@ public abstract class AbstractJpaDao<M extends Serializable> implements IDao {
 
     /**
      * Load the model class from generic value.
-     *
      * @return the model class.
      */
     protected Class<M> loadModelClass() {

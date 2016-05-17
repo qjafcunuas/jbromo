@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,33 +30,27 @@ import org.junit.Test;
 
 /**
  * Define JUnit CountryLanguages class.
- *
  * @author qjafcunuas
- *
  */
 public class CountryLanguagesTest {
 
     /**
      * Return a new instance for Canada.
-     *
      * @return the new instance.
      */
     private CountryLanguages newCanada() {
         // Chinese must be removed be constructor.
-        final List<Locale> languages = ListUtil.toList(
-                Locale.CANADA_FRENCH, Locale.CANADA, Locale.CHINESE);
+        final List<Locale> languages = ListUtil.toList(Locale.CANADA_FRENCH, Locale.CANADA, Locale.CHINESE);
         return new CountryLanguages(Locale.CANADA, languages);
     }
 
     /**
      * Return a new instance for France.
-     *
      * @return the new instance.
      */
     private CountryLanguages newFrance() {
         // Chinese must be removed be constructor.
-        final List<Locale> languages = ListUtil.toList(Locale.FRENCH,
-                Locale.CHINESE);
+        final List<Locale> languages = ListUtil.toList(Locale.FRENCH, Locale.CHINESE);
         return new CountryLanguages(Locale.FRANCE, languages);
     }
 
@@ -96,12 +90,10 @@ public class CountryLanguagesTest {
     @Test
     public void equalsMethod() {
         // null
-        Assert.assertTrue(new CountryLanguages(null, null)
-                .equals(new CountryLanguages(null, null)));
+        Assert.assertTrue(new CountryLanguages(null, null).equals(new CountryLanguages(null, null)));
 
         final CountryLanguages canada1 = newCanada();
-        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA,
-                null);
+        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA, null);
         final CountryLanguages france = newFrance();
         Assert.assertEquals(canada1, canada2);
         Assert.assertFalse(canada1.equals(france));
@@ -114,12 +106,10 @@ public class CountryLanguagesTest {
     @Test
     public void hashCodeMethod() {
         // null
-        Assert.assertTrue(new CountryLanguages(null, null).hashCode() == new CountryLanguages(
-                null, null).hashCode());
+        Assert.assertTrue(new CountryLanguages(null, null).hashCode() == new CountryLanguages(null, null).hashCode());
 
         final CountryLanguages canada1 = newCanada();
-        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA,
-                null);
+        final CountryLanguages canada2 = new CountryLanguages(Locale.CANADA, null);
         final CountryLanguages france = newFrance();
         Assert.assertEquals(canada1.hashCode(), canada2.hashCode());
         Assert.assertFalse(canada1.hashCode() == france.hashCode());

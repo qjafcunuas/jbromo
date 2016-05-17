@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,17 +28,13 @@ import org.junit.Test;
 
 /**
  * Define JUnit MessageLabelExceptionFactory class.
- *
- * @param <E>
- *            the exception type.
+ * @param <E> the exception type.
  * @author qjafcunuas
- *
  */
 public abstract class AbstractMessageLabelExceptionFactoryTest<E extends MessageLabelException> {
 
     /**
      * Return the factory instance to test.
-     *
      * @return the factory instance to test.
      */
     protected abstract IMessageLabelExceptionFactory<E> getFactoryInstance();
@@ -46,8 +42,7 @@ public abstract class AbstractMessageLabelExceptionFactoryTest<E extends Message
     /**
      * The element class.
      */
-    private final Class<E> elementClass = ParameterizedTypeUtil.getClass(this,
-            0);
+    private final Class<E> elementClass = ParameterizedTypeUtil.getClass(this, 0);
 
     /**
      * Test getInstance method.
@@ -63,50 +58,33 @@ public abstract class AbstractMessageLabelExceptionFactoryTest<E extends Message
      */
     @Test
     public void newInstance() {
-        newInstance(AbstractMessageLabelExceptionTest.MESSAGE_KEY,
-                this.elementClass);
+        newInstance(AbstractMessageLabelExceptionTest.MESSAGE_KEY, this.elementClass);
     }
 
     /**
      * Test newInstance method.
-     *
-     * @param key
-     *            the key to used.
-     * @param exceptionClass
-     *            the exception class type.
+     * @param key the key to used.
+     * @param exceptionClass the exception class type.
      */
-    public void newInstance(final IMessageKey key,
-            final Class<? extends E> exceptionClass) {
+    public void newInstance(final IMessageKey key, final Class<? extends E> exceptionClass) {
         // One constructor.
         Assert.assertNotNull(getFactoryInstance().newInstance(key));
-        Assert.assertEquals(getFactoryInstance().newInstance(key).getClass(),
-                exceptionClass);
+        Assert.assertEquals(getFactoryInstance().newInstance(key).getClass(), exceptionClass);
 
         // One constructor.
-        Assert.assertNotNull(getFactoryInstance().newInstance(key,
-                AbstractMessageLabelExceptionTest.EXCEPTION));
-        Assert.assertEquals(
-                getFactoryInstance().newInstance(key,
-                        AbstractMessageLabelExceptionTest.EXCEPTION).getClass(),
-                exceptionClass);
+        Assert.assertNotNull(getFactoryInstance().newInstance(key, AbstractMessageLabelExceptionTest.EXCEPTION));
+        Assert.assertEquals(getFactoryInstance().newInstance(key, AbstractMessageLabelExceptionTest.EXCEPTION).getClass(), exceptionClass);
 
         // One constructor.
-        Assert.assertNotNull(getFactoryInstance().newInstance(
-                AbstractMessageLabelExceptionTest.getMessageLabel(key)));
-        Assert.assertEquals(
-                getFactoryInstance().newInstance(
-                        AbstractMessageLabelExceptionTest.getMessageLabel(key))
-                        .getClass(), exceptionClass);
+        Assert.assertNotNull(getFactoryInstance().newInstance(AbstractMessageLabelExceptionTest.getMessageLabel(key)));
+        Assert.assertEquals(getFactoryInstance().newInstance(AbstractMessageLabelExceptionTest.getMessageLabel(key)).getClass(), exceptionClass);
 
         // One constructor.
-        Assert.assertNotNull(getFactoryInstance().newInstance(
-                AbstractMessageLabelExceptionTest.getMessageLabel(key),
-                AbstractMessageLabelExceptionTest.EXCEPTION));
-        Assert.assertEquals(
-                getFactoryInstance().newInstance(
-                        AbstractMessageLabelExceptionTest.getMessageLabel(key),
-                        AbstractMessageLabelExceptionTest.EXCEPTION).getClass(),
-                exceptionClass);
+        Assert.assertNotNull(getFactoryInstance().newInstance(AbstractMessageLabelExceptionTest.getMessageLabel(key),
+                                                              AbstractMessageLabelExceptionTest.EXCEPTION));
+        Assert.assertEquals(getFactoryInstance()
+                .newInstance(AbstractMessageLabelExceptionTest.getMessageLabel(key), AbstractMessageLabelExceptionTest.EXCEPTION).getClass(),
+                            exceptionClass);
     }
 
     /**
@@ -115,8 +93,7 @@ public abstract class AbstractMessageLabelExceptionFactoryTest<E extends Message
     @Test
     public void getExceptionClass() {
         Assert.assertNotNull(getFactoryInstance().getExceptionClass());
-        Assert.assertEquals(getFactoryInstance().getExceptionClass(),
-                this.elementClass);
+        Assert.assertEquals(getFactoryInstance().getExceptionClass(), this.elementClass);
     }
 
 }

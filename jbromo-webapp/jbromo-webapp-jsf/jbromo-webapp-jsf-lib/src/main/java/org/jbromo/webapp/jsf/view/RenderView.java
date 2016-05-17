@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,19 +32,17 @@ import org.jbromo.webapp.jsf.mvc.view.AbstractViewController;
 
 /**
  * Define annotation event for rendering a view.
- *
  * @author qjafcunuas
- *
  */
 @Qualifier
-@Target({ ElementType.PARAMETER, ElementType.FIELD })
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RenderView {
 
     /**
      * The view id to render.
-     *
+     * @return the class.
      */
-    Class<? extends AbstractViewController<?>> controller();
+    Class<? extends AbstractViewController<?>>controller();
 
 }

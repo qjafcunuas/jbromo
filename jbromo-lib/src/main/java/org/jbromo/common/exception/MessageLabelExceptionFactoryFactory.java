@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,16 +21,15 @@
  */
 package org.jbromo.common.exception;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import org.jbromo.common.MapUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define the MessageLabelException Factory implementation.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public final class MessageLabelExceptionFactoryFactory {
@@ -38,7 +37,8 @@ public final class MessageLabelExceptionFactoryFactory {
     /**
      * The singleton instances.
      */
-    private static final Map<Class<IMessageLabelExceptionFactory<MessageLabelException>>, IMessageLabelExceptionFactory<MessageLabelException>> INSTANCES = new HashMap<Class<IMessageLabelExceptionFactory<MessageLabelException>>, IMessageLabelExceptionFactory<MessageLabelException>>();
+    private static final Map<Class<IMessageLabelExceptionFactory<MessageLabelException>>, IMessageLabelExceptionFactory<MessageLabelException>> INSTANCES = MapUtil
+            .toMap();
 
     /**
      * The singleton instance.
@@ -54,7 +54,6 @@ public final class MessageLabelExceptionFactoryFactory {
 
     /**
      * Return the singleton instance.
-     *
      * @return the instance.
      */
     public static MessageLabelExceptionFactoryFactory getInstance() {
@@ -63,15 +62,11 @@ public final class MessageLabelExceptionFactoryFactory {
 
     /**
      * Return the singleton instance.
-     *
-     * @param classFactory
-     *            the class to get the factory.
+     * @param classFactory the class to get the factory.
      * @return the instance.
      */
-    public IMessageLabelExceptionFactory<MessageLabelException> getInstance(
-            final Class<? extends IMessageLabelExceptionFactory<?>> classFactory) {
-        IMessageLabelExceptionFactory<MessageLabelException> factory = INSTANCES
-                .get(classFactory);
+    public IMessageLabelExceptionFactory<MessageLabelException> getInstance(final Class<? extends IMessageLabelExceptionFactory<?>> classFactory) {
+        IMessageLabelExceptionFactory<MessageLabelException> factory = INSTANCES.get(classFactory);
         if (factory == null) {
             try {
                 // Force class loading.
@@ -86,16 +81,11 @@ public final class MessageLabelExceptionFactoryFactory {
 
     /**
      * Add a factory.
-     *
-     * @param factory
-     *            the factory to add.
+     * @param factory the factory to add.
      */
     @SuppressWarnings("unchecked")
-    public void addFactory(
-            final IMessageLabelExceptionFactory<? extends MessageLabelException> factory) {
-        INSTANCES
-                .put((Class<IMessageLabelExceptionFactory<MessageLabelException>>) factory
-                        .getClass(),
-                        (IMessageLabelExceptionFactory<MessageLabelException>) factory);
+    public void addFactory(final IMessageLabelExceptionFactory<? extends MessageLabelException> factory) {
+        INSTANCES.put((Class<IMessageLabelExceptionFactory<MessageLabelException>>) factory.getClass(),
+                      (IMessageLabelExceptionFactory<MessageLabelException>) factory);
     }
 }

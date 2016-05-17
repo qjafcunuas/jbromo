@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,27 +31,21 @@ import org.junit.runner.RunWith;
 
 /**
  * Define JUnit LogCallbackInterceptor Integration Test.
- *
  * @author qjafcunuas
- *
  */
 @RunWith(Arquillian.class)
-public class LogCallbackInterceptorIT extends
-        AbstractLogCallbackInterceptorTestImpl {
+public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTestImpl {
 
     /**
      * Built an archive to deploy.
-     *
      * @return the archive to deploy.
      */
     @Deployment
     public static JavaArchive createTestArchive() {
-        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class)
-                .createInterceptors()
-                .clazz(LogCallbackInterceptor.class.getName()).up();
+        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(LogCallbackInterceptor.class.getName())
+                .up();
 
-        final JavaArchive arch = CommonArquillianUtil.createTestArchive(
-                LogCallbackInterceptorIT.class, beans);
+        final JavaArchive arch = CommonArquillianUtil.createTestArchive(LogCallbackInterceptorIT.class, beans);
 
         return arch;
     }

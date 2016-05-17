@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,17 +24,14 @@ package org.jbromo.common.test.cdi;
 import java.io.Serializable;
 
 /**
- * Event fired when application is started. This event is fired just after weld
- * is started.
- *
+ * Event fired when application is started. This event is fired just after weld is started.
  * @author qjafcunuas
- *
  */
 public class CdiStartedEvent implements Serializable {
 
-	/**
-	 * serial version UID.
-	 */
-	private static final long serialVersionUID = -4804782082666708794L;
+    /**
+     * serial version UID.
+     */
+    private static final long serialVersionUID = -4804782082666708794L;
 
 }

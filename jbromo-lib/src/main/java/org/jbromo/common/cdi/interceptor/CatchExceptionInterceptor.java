@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,8 +25,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.ClassUtil;
 import org.jbromo.common.cdi.annotation.CatchException;
 import org.jbromo.common.exception.IMessageLabelExceptionFactory;
@@ -35,11 +33,11 @@ import org.jbromo.common.exception.MessageLabelExceptionFactoryFactory;
 import org.jbromo.common.i18n.MessageKey;
 import org.jbromo.common.invocation.AnnotationUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define CatchException interceptor implementation.
- *
  * @author qjafcunuas
- *
  */
 @CatchException(value = IMessageLabelExceptionFactory.class)
 @Interceptor
@@ -48,16 +46,12 @@ public class CatchExceptionInterceptor {
 
     /**
      * Intercept all method called for logging.
-     *
-     * @param ctx
-     *            the context.
+     * @param ctx the context.
      * @return the return object.
-     * @throws MessageLabelException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
     @AroundInvoke
-    public Object intercept(final InvocationContext ctx)
-            throws MessageLabelException {
+    public Object intercept(final InvocationContext ctx) throws MessageLabelException {
         try {
             return ctx.proceed();
         } catch (final MessageLabelException e) {
@@ -72,38 +66,29 @@ public class CatchExceptionInterceptor {
 
     /**
      * Return the exception class to throw.
-     *
-     * @param ctx
-     *            the invocation context.
+     * @param ctx the invocation context.
      * @return the exception class to throw.
      */
     @SuppressWarnings("unchecked")
-    private Class<IMessageLabelExceptionFactory<MessageLabelException>> getExceptionClass(
-            final InvocationContext ctx) {
-        final CatchException annotation = AnnotationUtil.getAnnotation(ctx,
-                CatchException.class);
+    private Class<IMessageLabelExceptionFactory<MessageLabelException>> getExceptionClass(final InvocationContext ctx) {
+        final CatchException annotation = AnnotationUtil.getAnnotation(ctx, CatchException.class);
         if (annotation == null) {
             log.warn("Cannot find CatchException annotation");
             return null;
         }
-        return (Class<IMessageLabelExceptionFactory<MessageLabelException>>) annotation
-                .value();
+        return (Class<IMessageLabelExceptionFactory<MessageLabelException>>) annotation.value();
     }
 
     /**
      * Throw a new exception.
-     *
-     * @param factoryClass
-     *            the factory exception class.
-     * @param exp
-     *            the current exception.
+     * @param factoryClass the factory exception class.
+     * @param exp the current exception.
      * @return the new EJB exception.
      */
-    private MessageLabelException getException(
-            final Class<IMessageLabelExceptionFactory<MessageLabelException>> factoryClass,
+    private MessageLabelException getException(final Class<IMessageLabelExceptionFactory<MessageLabelException>> factoryClass,
             final MessageLabelException exp) {
-        final IMessageLabelExceptionFactory<MessageLabelException> factory = MessageLabelExceptionFactoryFactory
-                .getInstance().getInstance(factoryClass);
+        final IMessageLabelExceptionFactory<MessageLabelException> factory = MessageLabelExceptionFactoryFactory.getInstance()
+                .getInstance(factoryClass);
         if (ClassUtil.isInstance(exp, factory.getExceptionClass())) {
             return exp;
         } else {
@@ -113,18 +98,13 @@ public class CatchExceptionInterceptor {
 
     /**
      * Throw a new exception.
-     *
-     * @param factoryClass
-     *            the factory exception class.
-     * @param exp
-     *            the current exception.
+     * @param factoryClass the factory exception class.
+     * @param exp the current exception.
      * @return the new EJB exception.
      */
-    private MessageLabelException getException(
-            final Class<IMessageLabelExceptionFactory<MessageLabelException>> factoryClass,
-            final Exception exp) {
-        final IMessageLabelExceptionFactory<MessageLabelException> factory = MessageLabelExceptionFactoryFactory
-                .getInstance().getInstance(factoryClass);
+    private MessageLabelException getException(final Class<IMessageLabelExceptionFactory<MessageLabelException>> factoryClass, final Exception exp) {
+        final IMessageLabelExceptionFactory<MessageLabelException> factory = MessageLabelExceptionFactoryFactory.getInstance()
+                .getInstance(factoryClass);
         return factory.newInstance(MessageKey.DEFAULT_MESSAGE, exp);
     }
 

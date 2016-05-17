@@ -148,8 +148,12 @@ public final class CalendarUtil {
      */
     public enum FORMAT {
         /** Ex: 20130701. */
-        YYYYMMDD("yyyyMMdd"), /** Ex: 120500. */
-        HHMMSS("hhmmss"), /** Ex: 20130701120000. */
+        YYYYMMDD("yyyyMMdd"),
+
+        /** Ex: 120500. */
+        HHMMSS("hhmmss"),
+
+        /** Ex: 20130701120000. */
         YYYYMMDDHHMMSS("yyyyMMddhhmmss");
 
         /**

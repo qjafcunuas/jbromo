@@ -26,10 +26,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
 
@@ -51,7 +51,9 @@ public final class InvocationUtil {
      */
     public enum AccessType {
         /** Define access by field value. */
-        FIELD, /** Define access by getter method. */
+        FIELD,
+
+        /** Define access by getter method. */
         GETTER
     }
 
@@ -157,7 +159,7 @@ public final class InvocationUtil {
         try {
             return objectClass.getDeclaredConstructor(parameterTypes);
         } catch (final Exception e) {
-            if (parameterTypes != null && parameterTypes.length > 0) {
+            if (!ArrayUtil.isEmpty(parameterTypes)) {
                 for (int index = 0; index < parameterTypes.length; index++) {
                     Class<?> superclass = parameterTypes[index].getSuperclass();
                     final Class<?> indexClass = parameterTypes[index];
@@ -188,10 +190,7 @@ public final class InvocationUtil {
             try {
                 modelClass.getMethod(methodName, parameterTypes);
                 return true;
-            } catch (final SecurityException e) {
-                log.trace(e.getMessage(), e);
-                return false;
-            } catch (final NoSuchMethodException e) {
+            } catch (final SecurityException | NoSuchMethodException e) {
                 log.trace(e.getMessage(), e);
                 return false;
             }
@@ -420,7 +419,7 @@ public final class InvocationUtil {
      */
     public static List<Field> getFields(final Class<?> objectClass) {
         if (objectClass == null) {
-            return new ArrayList<>();
+            return ListUtil.toList();
         }
         final List<Field> fields = ListUtil.toList(objectClass.getDeclaredFields());
         Class<?> superclass = objectClass.getSuperclass();
@@ -469,7 +468,7 @@ public final class InvocationUtil {
     @SuppressWarnings("rawtypes")
     public static boolean isFromInterfaceType(final Field field, final Class clazz) {
         if (field != null && clazz != null) {
-            final List<Class> fullInheritance = new ArrayList<Class>();
+            final List<Class> fullInheritance = ListUtil.toList();
             Class classType = field.getType();
             while (classType != null) {
                 fullInheritance.add(classType.getClass());
@@ -490,7 +489,7 @@ public final class InvocationUtil {
     @SuppressWarnings("rawtypes")
     public static boolean isFromInterfaceType(final Class currentClazz, final Class clazz) {
         if (currentClazz != null && clazz != null) {
-            final List<Class> fullInheritance = new ArrayList<Class>();
+            final List<Class> fullInheritance = ListUtil.toList();
             Class classType = currentClazz;
             while (classType != null) {
                 fullInheritance.add(classType.getClass());
@@ -509,7 +508,7 @@ public final class InvocationUtil {
      */
     @SuppressWarnings("rawtypes")
     private static List<Class> getInterfaceInheritance(final Class clazz) {
-        final List<Class> inheritance = new ArrayList<Class>();
+        final List<Class> inheritance = ListUtil.toList();
         for (final Class clInt : clazz.getInterfaces()) {
             inheritance.add(clInt);
             inheritance.addAll(getInterfaceInheritance(clInt));

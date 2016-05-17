@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,9 +30,7 @@ import org.jbromo.common.i18n.MessageKey;
 
 /**
  * Define a class that used CatchException interceptor.
- *
  * @author qjafcunuas
- *
  */
 @CatchException(TestExceptionFactory.class)
 public class CatchExceptionInterceptorTestExceptionBean {
@@ -40,14 +38,13 @@ public class CatchExceptionInterceptorTestExceptionBean {
     /**
      * A MessageLabelException to throw.
      */
-    public static final TestException TEST_EXCEPTION = TestExceptionFactory
-            .getInstance().newInstance(MessageKey.DEFAULT_MESSAGE);
+    public static final TestException TEST_EXCEPTION = TestExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE);
 
     /**
      * A MessageLabelException to throw.
      */
-    public static final MessageLabelException MESSAGE_LABEL_EXCEPTION = MessageLabelExceptionFactory
-            .getInstance().newInstance(MessageKey.DEFAULT_MESSAGE);
+    public static final MessageLabelException MESSAGE_LABEL_EXCEPTION = MessageLabelExceptionFactory.getInstance()
+            .newInstance(MessageKey.DEFAULT_MESSAGE);
 
     /**
      * An Exception to throw.
@@ -56,9 +53,7 @@ public class CatchExceptionInterceptorTestExceptionBean {
 
     /**
      * Throw an exception.
-     *
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     public void throwException() throws Exception {
         throw EXCEPTION;
@@ -66,9 +61,7 @@ public class CatchExceptionInterceptorTestExceptionBean {
 
     /**
      * Throw a MessageLabelException.
-     *
-     * @throws MessageLabelException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
     public void throwMessageLabelException() throws MessageLabelException {
         throw MESSAGE_LABEL_EXCEPTION;
@@ -76,9 +69,7 @@ public class CatchExceptionInterceptorTestExceptionBean {
 
     /**
      * Throw a TestException.
-     *
-     * @throws TestException
-     *             exception.
+     * @throws TestException exception.
      */
     public void throwTestException() throws TestException {
         throw TEST_EXCEPTION;
