@@ -27,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jbromo.common.ArrayUtil;
@@ -154,27 +155,25 @@ public final class InvocationUtil {
      * @throws InvocationException exception.
      */
     public static Method getMethod(final Class<?> modelClass, final String methodName, final Class<?>... parameterTypes) throws InvocationException {
-        if (modelClass != null && StringUtil.isNotEmpty(methodName)) {
-            Class<?> superClass = modelClass;
-            while (superClass != null) {
-                for (final Method method : superClass.getDeclaredMethods()) {
-                    if (method.getName().equals(methodName) && Arrays.equals(parameterTypes, method.getParameterTypes())) {
-                        return method;
-                    }
-                }
-                superClass = superClass.getSuperclass();
-            }
-
-            final StringBuilder description = new StringBuilder();
-            description.append("methodName named ");
-            description.append(methodName);
-            description.append(" for class ");
-            description.append(modelClass.getName());
-            description.append(" does not exist!");
-            log.error(description.toString());
-            throw new InvocationException(description.toString());
+        if (modelClass == null || StringUtil.isEmpty(methodName)) {
+            return null;
         }
-        return null;
+        Class<?> superClass = modelClass;
+        while (superClass != null) {
+            for (final Method method : superClass.getDeclaredMethods()) {
+                if (method.getName().equals(methodName) && Arrays.equals(parameterTypes, method.getParameterTypes())) {
+                    return method;
+                }
+            }
+            superClass = superClass.getSuperclass();
+        }
+
+        final StringBuilder description = new StringBuilder();
+        description.append("methodName named ").append(methodName);
+        description.append(" for class ").append(modelClass.getName());
+        description.append(" does not exist!");
+        log.error(description.toString());
+        throw new InvocationException(description.toString());
     }
 
     /**
@@ -416,13 +415,10 @@ public final class InvocationUtil {
             superclass = superclass.getSuperclass();
         }
         Field field;
-        for (int index = 0; index < fields.size(); index++) {
-            field = fields.get(index);
-            if (field.getName().contains("this$0")
-            // || Modifier.isStatic(field.getModifiers())
-            ) {
-                fields.remove(index);
-                index--;
+        for (final Iterator<Field> iter = fields.iterator(); iter.hasNext();) {
+            field = iter.next();
+            if (field.getName().contains("this$0")) {
+                iter.remove();
             }
         }
         return fields;

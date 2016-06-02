@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,8 +24,6 @@ package org.jbromo.model.jpa.util;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,12 +43,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.MapUtil;
 import org.jbromo.common.ObjectUtil;
+import org.jbromo.common.SetUtil;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.InvocationUtil.AccessType;
@@ -58,11 +55,11 @@ import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.compositepk.ICompositePk;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Utility class for entities.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public final class EntityUtil {
@@ -70,24 +67,20 @@ public final class EntityUtil {
     /**
      * Define persisted fields by entity class.
      */
-    private static final Map<Class<?>, List<Field>> PERSISTED_FIELDS = MapUtil
-            .toSynchronizedMap();
+    private static final Map<Class<?>, List<Field>> PERSISTED_FIELDS = MapUtil.toSynchronizedMap();
 
     /**
      * Define primary key field by entity class.
      */
-    private static final Map<Class<?>, Field> PRIMARY_KEY_FIELDS = MapUtil
-            .toSynchronizedMap();
+    private static final Map<Class<?>, Field> PRIMARY_KEY_FIELDS = MapUtil.toSynchronizedMap();
 
     /**
      * Define maps id fields by entity class.
      */
-    private static final Map<Class<?>, List<Field>> MAPS_ID_FIELDS = MapUtil
-            .toSynchronizedMap();
+    private static final Map<Class<?>, List<Field>> MAPS_ID_FIELDS = MapUtil.toSynchronizedMap();
 
     /**
-     * This instance is only here for compilation error if method getPrimaryKey
-     * is changed, because this method is used for reflexion in this class.
+     * This instance is only here for compilation error if method getPrimaryKey is changed, because this method is used for reflexion in this class.
      */
     @SuppressWarnings("unused")
     private static final IEntity<Integer> RUBBISH = new IEntity<Integer>() {
@@ -110,23 +103,19 @@ public final class EntityUtil {
 
     /**
      * Return primary keys of entities.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     *
-     * @param entities
-     *            the entities to get primary Keys.
+     * @param entities the entities to get primary Keys.
      * @return the primary keys.
      */
     @SuppressWarnings("unchecked")
-    public static <E extends IEntity<P>, P extends Serializable> Collection<P> getPrimaryKeys(
-            final Collection<E> entities) {
+    public static <E extends IEntity<P>, P extends Serializable> Collection<P> getPrimaryKeys(final Collection<E> entities) {
         if (entities == null) {
             return null;
         }
-        final Set<P> primaryKeys = new HashSet<P>();
+        final Set<P> primaryKeys = SetUtil.toSet();
         for (final E entity : entities) {
             primaryKeys.add(entity.getPrimaryKey());
         }
@@ -135,23 +124,18 @@ public final class EntityUtil {
 
     /**
      * Map entities by primary key.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     *
-     * @param entities
-     *            the entities to map.
-     *
+     * @param entities the entities to map.
      * @return the mapped entities.
      */
-    public static <E extends IEntity<P>, P extends Serializable> Map<P, E> mapByPk(
-            final Collection<E> entities) {
+    public static <E extends IEntity<P>, P extends Serializable> Map<P, E> mapByPk(final Collection<E> entities) {
         if (entities == null) {
             return null;
         }
-        final Map<P, E> map = new HashMap<P, E>();
+        final Map<P, E> map = MapUtil.toMap();
         for (final E entity : entities) {
             map.put(entity.getPrimaryKey(), entity);
         }
@@ -160,9 +144,7 @@ public final class EntityUtil {
 
     /**
      * Return true if object is an entity.
-     *
-     * @param obj
-     *            the object.
+     * @param obj the object.
      * @return true/false.
      */
     public static boolean isEntity(final Object obj) {
@@ -171,15 +153,11 @@ public final class EntityUtil {
 
     /**
      * Find if a class extends IEntity.
-     *
-     * @param clazz
-     *            the class
+     * @param clazz the class
      * @return true if implements IEntity, false otherwise
      */
     public static boolean isEntity(final Class<?> clazz) {
-        if (clazz.getInterfaces().length > 0
-                && ListUtil.toList(clazz.getInterfaces()).contains(
-                        IEntity.class)) {
+        if (clazz.getInterfaces().length > 0 && ListUtil.toList(clazz.getInterfaces()).contains(IEntity.class)) {
             return true;
         }
         if (clazz.getSuperclass() != null) {
@@ -189,25 +167,20 @@ public final class EntityUtil {
     }
 
     /**
-     * This method return the entity primary key, even if the entity is on lazy
-     * loading.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * This method return the entity primary key, even if the entity is on lazy loading.
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param entity
-     *            the entity to get primary key.
+     * @param entity the entity to get primary key.
      * @return the entity primary key.
      */
-    public static <E extends IEntity<P>, P extends Serializable> P getPrimaryKey(
-            final E entity) {
+    public static <E extends IEntity<P>, P extends Serializable> P getPrimaryKey(final E entity) {
         if (entity == null) {
             return null;
         }
         try {
-            final Field fieldPk = EntityUtil.getPrimaryKeyField(entity
-                    .getClass());
+            final Field fieldPk = EntityUtil.getPrimaryKeyField(entity.getClass());
             return InvocationUtil.getValue(entity, fieldPk);
         } catch (final Exception e) {
             log.error("Cannot read primary key", e);
@@ -216,32 +189,25 @@ public final class EntityUtil {
     }
 
     /**
-     * This method return the entity primary key, even if the entity is on lazy
-     * loading. According to the JPA provider, the return value is read with the
-     * getter method or directly from the field.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * This method return the entity primary key, even if the entity is on lazy loading. According to the JPA provider, the return value is read with
+     * the getter method or directly from the field.
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param entity
-     *            the entity to get primary key.
+     * @param entity the entity to get primary key.
      * @return the entity primary key.
      */
-    public static <E extends IEntity<P>, P extends Serializable> P readPrimaryKey(
-            final E entity) {
+    public static <E extends IEntity<P>, P extends Serializable> P readPrimaryKey(final E entity) {
         if (JpaProviderFactory.getInstance().getImplementation() == null
-                || JpaProviderFactory.getInstance().getImplementation()
-                        .isCompositePrimaryKeyUpdatedDuringPersist()) {
+            || JpaProviderFactory.getInstance().getImplementation().isCompositePrimaryKeyUpdatedDuringPersist()) {
             return getPrimaryKey(entity);
         } else {
             try {
-                return InvocationUtil.getValue(entity, EntityUtil
-                        .getPrimaryKeyField(getPersistentClass(entity)),
-                        AccessType.FIELD, false);
+                return InvocationUtil.getValue(entity, EntityUtil.getPrimaryKeyField(getPersistentClass(entity)), AccessType.FIELD, false);
             } catch (final InvocationException e) {
                 // Should not happened.
-                log.error("Cannot read pk for class {}", entity.getClass());
+                log.error("Cannot read pk for class {}", entity.getClass(), e);
                 return null;
             }
         }
@@ -249,11 +215,8 @@ public final class EntityUtil {
 
     /**
      * Return true if entity is a lazy loading entity, else return false.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entity
-     *            the entity to test.
+     * @param <E> the entity type.
+     * @param entity the entity to test.
      * @return true/false.
      */
     public static <E extends IEntity<?>> boolean isLazy(final E entity) {
@@ -262,11 +225,8 @@ public final class EntityUtil {
 
     /**
      * Return true if entity is a eager loading entity, else return false.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entity
-     *            the entity to test.
+     * @param <E> the entity type.
+     * @param entity the entity to test.
      * @return true/false.
      */
     public static <E extends IEntity<?>> boolean isEager(final E entity) {
@@ -275,11 +235,8 @@ public final class EntityUtil {
 
     /**
      * Return the class of an entity.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entity
-     *            the entity to get class.
+     * @param <E> the entity type.
+     * @param entity the entity to get class.
      * @return the entity class.
      */
     @SuppressWarnings("unchecked")
@@ -292,16 +249,12 @@ public final class EntityUtil {
 
     /**
      * Return the class of an entity.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param entityClass
-     *            the entity class to get class.
+     * @param <E> the entity type.
+     * @param entityClass the entity class to get class.
      * @return the entity class.
      */
     @SuppressWarnings("unchecked")
-    public static <E extends IEntity<?>> Class<E> getClass(
-            final Class<E> entityClass) {
+    public static <E extends IEntity<?>> Class<E> getClass(final Class<E> entityClass) {
         if (entityClass == null) {
             return null;
         }
@@ -322,17 +275,14 @@ public final class EntityUtil {
 
     /**
      * Return true if entity or entity's primary key is null.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param entity
-     *            the entity.
+     * @param entity the entity.
      * @return true/false.
      */
-    public static <E extends IEntity<P>, P extends Serializable> boolean isNullPk(
-            final E entity) {
+    public static <E extends IEntity<P>, P extends Serializable> boolean isNullPk(final E entity) {
         if (entity == null) {
             return true;
         }
@@ -370,40 +320,33 @@ public final class EntityUtil {
 
     /**
      * Return true if entity and it's primary key are not null.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param entity
-     *            the entity.
+     * @param entity the entity.
      * @return true/false.
      */
-    public static <E extends IEntity<P>, P extends Serializable> boolean isNotNullPk(
-            final E entity) {
+    public static <E extends IEntity<P>, P extends Serializable> boolean isNotNullPk(final E entity) {
         return !isNullPk(entity);
     }
 
     /**
      * Cast a class to an entity class.
-     *
-     * @param <P>
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param objectClass
-     *            the object class to cast.
+     * @param objectClass the object class to cast.
      * @return the entity class.
      */
     @SuppressWarnings("unchecked")
-    public static <P extends Serializable> Class<IEntity<P>> cast(
-            final Class<?> objectClass) {
+    public static <P extends Serializable> Class<IEntity<P>> cast(final Class<?> objectClass) {
         return (Class<IEntity<P>>) objectClass;
     }
 
     /**
      * Get all the persisted fields.
-     *
-     * @param objectClass
-     *            the object class.
+     * @param objectClass the object class.
      * @return the field list.
      */
     public static List<Field> getPersistedFields(final Class<?> objectClass) {
@@ -427,9 +370,7 @@ public final class EntityUtil {
 
     /**
      * Get all the persisted fields.
-     *
-     * @param object
-     *            the object.
+     * @param object the object.
      * @return the field list.
      */
     public static List<Field> getPersistedFields(final Object object) {
@@ -437,11 +378,8 @@ public final class EntityUtil {
     }
 
     /**
-     * Return the persisted clas of an object. For hibernate proxy, return the
-     * entity class, not the proxy class.
-     *
-     * @param object
-     *            the object.
+     * Return the persisted clas of an object. For hibernate proxy, return the entity class, not the proxy class.
+     * @param object the object.
      * @return the persisted class.
      */
     public static Class<?> getPersistentClass(final Object object) {
@@ -450,16 +388,13 @@ public final class EntityUtil {
         } else if (JpaProviderFactory.getInstance().getImplementation() == null) {
             return object.getClass();
         } else {
-            return JpaProviderFactory.getInstance().getImplementation()
-                    .getPersistentClass(object);
+            return JpaProviderFactory.getInstance().getImplementation().getPersistentClass(object);
         }
     }
 
     /**
      * Get all the maps id fields.
-     *
-     * @param objectClass
-     *            the object class.
+     * @param objectClass the object class.
      * @return the field list.
      */
     public static List<Field> getMapsIdFields(final Class<?> objectClass) {
@@ -483,9 +418,7 @@ public final class EntityUtil {
 
     /**
      * Return the primary key field of the entity.
-     *
-     * @param objectClass
-     *            the entity class.
+     * @param objectClass the entity class.
      * @return the primary key field.
      */
     public static Field getPrimaryKeyField(final Class<?> objectClass) {
@@ -505,9 +438,7 @@ public final class EntityUtil {
 
     /**
      * Get all the persisted fields.
-     *
-     * @param field
-     *            the parent field.
+     * @param field the parent field.
      * @return the field list.
      */
     public static List<Field> getPersistedFields(final Field field) {
@@ -516,9 +447,7 @@ public final class EntityUtil {
 
     /**
      * Find if a field is persisted (private and not static, final, transient).
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true if this is a persisted field.
      */
     public static boolean isPersisted(final Field field) {
@@ -536,9 +465,7 @@ public final class EntityUtil {
 
     /**
      * Return true if Embedded annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isEmbedded(final Field field) {
@@ -547,9 +474,7 @@ public final class EntityUtil {
 
     /**
      * Return true if Transient annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isTransient(final Field field) {
@@ -558,9 +483,7 @@ public final class EntityUtil {
 
     /**
      * Return true if Id annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isId(final Field field) {
@@ -569,9 +492,7 @@ public final class EntityUtil {
 
     /**
      * Return true if MapsId annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isMapsId(final Field field) {
@@ -580,18 +501,14 @@ public final class EntityUtil {
 
     /**
      * Return mapsId field values.
-     *
-     * @param entity
-     *            the entity to get field values.
+     * @param entity the entity to get field values.
      * @return the map with mapsId value as key, and composite entity as value.
      */
-    public static Map<String, IEntity<? extends ICompositePk>> getMapsId(
-            final IEntity<? extends Serializable> entity) {
+    public static Map<String, IEntity<? extends ICompositePk>> getMapsId(final IEntity<? extends Serializable> entity) {
         if (entity == null) {
             return null;
         }
-        final Map<String, IEntity<? extends ICompositePk>> map = MapUtil
-                .toMap();
+        final Map<String, IEntity<? extends ICompositePk>> map = MapUtil.toMap();
         String name;
         IEntity<? extends ICompositePk> composite;
         for (final Field field : getMapsIdFields(entity.getClass())) {
@@ -600,7 +517,7 @@ public final class EntityUtil {
                 composite = InvocationUtil.getValue(entity, field);
                 map.put(name, composite);
             } catch (final InvocationException e) {
-                log.error("Cannot get value");
+                log.error("Cannot get value", e);
                 return null;
             }
         }
@@ -609,9 +526,7 @@ public final class EntityUtil {
 
     /**
      * Get field name from MapsId annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the field name.
      */
     public static String getMapsIdValue(final Field field) {
@@ -620,21 +535,16 @@ public final class EntityUtil {
     }
 
     /**
-     * Get field value from an object according to the value of the MapsId
-     * annotation.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param <P>
+     * Get field value from an object according to the value of the MapsId annotation.
+     * @param <E> the entity type.
+     * @param
+     *            <P>
      *            the primary key type.
-     * @param entity
-     *            the entity to get mapsId field.
-     * @param value
-     *            the mapsId value to get field.
+     * @param entity the entity to get mapsId field.
+     * @param value the mapsId value to get field.
      * @return the field value.
      */
-    public static <E extends IEntity<P>, P extends ICompositePk> Object getMapsIdFieldValue(
-            final E entity, final String value) {
+    public static <E extends IEntity<P>, P extends ICompositePk> Object getMapsIdFieldValue(final E entity, final String value) {
         if (entity == null || value == null) {
             return null;
         }
@@ -645,7 +555,7 @@ public final class EntityUtil {
                 try {
                     return InvocationUtil.getValue(entity, field);
                 } catch (final InvocationException e) {
-                    log.error("Cannot get value");
+                    log.error("Cannot get value", e);
                     return null;
                 }
             }
@@ -655,9 +565,7 @@ public final class EntityUtil {
 
     /**
      * Return true if EmbeddedId annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isEmbeddedId(final Field field) {
@@ -666,9 +574,7 @@ public final class EntityUtil {
 
     /**
      * Return true if field has a primary key annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isPrimaryKey(final Field field) {
@@ -677,9 +583,7 @@ public final class EntityUtil {
 
     /**
      * Return true if GeneratedValue annotation is define on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isGeneratedValue(final Field field) {
@@ -687,12 +591,9 @@ public final class EntityUtil {
     }
 
     /**
-     * Return true if field is nullable, else false. A field is not nullable if
-     * there is a Column or JoinColumn annotation with nullable set to false, or
-     * ManyToOne annotation with optional set to false.
-     *
-     * @param field
-     *            the field.
+     * Return true if field is nullable, else false. A field is not nullable if there is a Column or JoinColumn annotation with nullable set to false,
+     * or ManyToOne annotation with optional set to false.
+     * @param field the field.
      * @return true/false.
      */
     public static boolean isNullable(final Field field) {
@@ -713,9 +614,7 @@ public final class EntityUtil {
 
     /**
      * Get unique value in Column or JoinColumn annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true if unique, false if not Column annotation or not unique.
      */
     public static boolean isUnique(final Field field) {
@@ -731,37 +630,30 @@ public final class EntityUtil {
     }
 
     /**
-     * Find if a OneToOne or OneToMany annotation exits and if it's the case,
-     * verify if the fetch is LAZY.
-     *
-     * @param field
-     *            the field
+     * Find if a OneToOne or OneToMany annotation exits and if it's the case, verify if the fetch is LAZY.
+     * @param field the field
      * @return true if eager, false otherwise
      */
     public static boolean isLazy(final Field field) {
         final OneToOne oneOne = field.getAnnotation(OneToOne.class);
         if (oneOne != null) {
             // By Default Eager
-            return oneOne.fetch() == null ? false : oneOne.fetch().equals(
-                    FetchType.LAZY);
+            return oneOne.fetch() == null ? false : oneOne.fetch().equals(FetchType.LAZY);
         }
         final ManyToOne manyOne = field.getAnnotation(ManyToOne.class);
         if (manyOne != null) {
             // By Default Eager
-            return manyOne.fetch() == null ? false : manyOne.fetch().equals(
-                    FetchType.LAZY);
+            return manyOne.fetch() == null ? false : manyOne.fetch().equals(FetchType.LAZY);
         }
         final OneToMany oneMany = field.getAnnotation(OneToMany.class);
         if (oneMany != null) {
             // By Default Lazy
-            return oneMany.fetch() == null ? true : oneMany.fetch().equals(
-                    FetchType.LAZY);
+            return oneMany.fetch() == null ? true : oneMany.fetch().equals(FetchType.LAZY);
         }
         final ManyToMany manyMany = field.getAnnotation(ManyToMany.class);
         if (manyMany != null) {
             // By Default Lazy
-            return manyMany.fetch() == null ? true : manyMany.fetch().equals(
-                    FetchType.LAZY);
+            return manyMany.fetch() == null ? true : manyMany.fetch().equals(FetchType.LAZY);
         }
         // Other case, no problem
         return true;
@@ -769,9 +661,7 @@ public final class EntityUtil {
 
     /**
      * Return the length from @Column.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return null if no column annotation, the length otherwise
      */
     public static Integer getColumnLength(final Field field) {
@@ -781,9 +671,7 @@ public final class EntityUtil {
 
     /**
      * Return the scale from @Column.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return null if no column annotation, the scale otherwise
      */
     public static Integer getColumnScale(final Field field) {
@@ -793,9 +681,7 @@ public final class EntityUtil {
 
     /**
      * Return the precision from @Column.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return null if no column annotation, the precision otherwise
      */
     public static Integer getColumnPrecision(final Field field) {
@@ -805,9 +691,7 @@ public final class EntityUtil {
 
     /**
      * Return true if class is annotated as Embeddable.
-     *
-     * @param objectClass
-     *            the object class.
+     * @param objectClass the object class.
      * @return true/false.
      */
     public static boolean isEmbeddable(final Class<?> objectClass) {
@@ -816,9 +700,7 @@ public final class EntityUtil {
 
     /**
      * Return true if ManyToMany annotation is defined on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isManyToMany(final Field field) {
@@ -827,9 +709,7 @@ public final class EntityUtil {
 
     /**
      * Return true if OneToOne annotation is defined on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isOneToOne(final Field field) {
@@ -838,9 +718,7 @@ public final class EntityUtil {
 
     /**
      * Return true if OneToMany annotation is defined on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isOneToMany(final Field field) {
@@ -849,9 +727,7 @@ public final class EntityUtil {
 
     /**
      * Return the mappedBy attribute of the OneToMany annotation.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the attribute.
      */
     public static String getOneToManyMappedBy(final Field field) {
@@ -861,9 +737,7 @@ public final class EntityUtil {
 
     /**
      * Return true if ManyToOne annotation is defined on a field.
-     *
-     * @param field
-     *            the field
+     * @param field the field
      * @return true/false.
      */
     public static boolean isManyToOne(final Field field) {
