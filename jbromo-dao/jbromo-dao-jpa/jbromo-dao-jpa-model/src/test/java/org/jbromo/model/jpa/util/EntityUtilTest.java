@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -45,11 +45,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.ObjectUtil;
@@ -69,11 +64,14 @@ import org.jbromo.sample.server.model.test.EntityBuilderFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Test for the object util class.
- *
  * @author qjafcunuas
- *
  */
 public class EntityUtilTest {
 
@@ -145,13 +143,11 @@ public class EntityUtilTest {
     @Test
     public void rubbish() {
         try {
-            final Field field = InvocationUtil.getField(EntityUtil.class,
-                    "RUBBISH");
+            final Field field = InvocationUtil.getField(EntityUtil.class, "RUBBISH");
             if (Modifier.isPrivate(field.getModifiers())) {
                 field.setAccessible(true);
                 Assert.assertNotNull(field.get(null));
-                final IEntity<?> rubbish = ObjectUtil.cast(field.get(null),
-                        IEntity.class);
+                final IEntity<?> rubbish = ObjectUtil.cast(field.get(null), IEntity.class);
                 Assert.assertNull(rubbish.getPrimaryKey());
             } else {
                 Assert.fail("Object RUBBISH should be private!");
@@ -207,10 +203,8 @@ public class EntityUtilTest {
         }
 
         final Map<Integer, IntegerEntity> map = EntityUtil.mapByPk(entities);
-        Assert.assertTrue(CollectionUtil.containsAll(primaryKeys, map.keySet(),
-                false));
-        Assert.assertTrue(CollectionUtil.containsAll(entities, map.values(),
-                false));
+        Assert.assertTrue(CollectionUtil.containsAll(primaryKeys, map.keySet(), false));
+        Assert.assertTrue(CollectionUtil.containsAll(entities, map.values(), false));
     }
 
     /**
@@ -242,8 +236,7 @@ public class EntityUtilTest {
     public void getPrimaryKeyEntity() {
         final IntegerEntity entity = new IntegerEntity(IntegerUtil.INT_1);
         Assert.assertTrue(IntegerUtil.INT_1 == EntityUtil.getPrimaryKey(entity));
-        Assert.assertFalse(IntegerUtil.INT_10 == EntityUtil
-                .getPrimaryKey(entity));
+        Assert.assertFalse(IntegerUtil.INT_10 == EntityUtil.getPrimaryKey(entity));
     }
 
     /**
@@ -296,15 +289,10 @@ public class EntityUtilTest {
         Assert.assertNull(EntityUtil.getClass((IEntity<?>) null));
         Assert.assertNull(EntityUtil.getClass((Class<IEntity<?>>) null));
 
-        Assert.assertTrue(EntityUtil.getClass(new StringEntity()).equals(
-                StringEntity.class));
-        Assert.assertFalse(EntityUtil.getClass(new StringEntity()).equals(
-                IntegerEntity.class));
-        Assert.assertFalse(EntityUtil
-                .getClass(new IntegerEntity_$$_javassist()).equals(
-                        StringEntity.class));
-        Assert.assertTrue(EntityUtil.getClass(new IntegerEntity_$$_javassist())
-                .equals(IntegerEntity.class));
+        Assert.assertTrue(EntityUtil.getClass(new StringEntity()).equals(StringEntity.class));
+        Assert.assertFalse(EntityUtil.getClass(new StringEntity()).equals(IntegerEntity.class));
+        Assert.assertFalse(EntityUtil.getClass(new IntegerEntity_$$_javassist()).equals(StringEntity.class));
+        Assert.assertTrue(EntityUtil.getClass(new IntegerEntity_$$_javassist()).equals(IntegerEntity.class));
     }
 
     /**
@@ -314,22 +302,16 @@ public class EntityUtilTest {
     public void isNullPk() {
         Assert.assertTrue(EntityUtil.isNullPk((IEntity<?>) null));
         Assert.assertTrue(EntityUtil.isNullPk(new StringEntity()));
-        Assert.assertFalse(EntityUtil.isNullPk(new StringEntity(
-                StringUtil.SLASH)));
+        Assert.assertFalse(EntityUtil.isNullPk(new StringEntity(StringUtil.SLASH)));
 
         Assert.assertTrue(EntityUtil.isNullPk(new UserSurname()));
-        Assert.assertTrue(EntityUtil.isNullPk(new UserSurname(new User(),
-                new City())));
+        Assert.assertTrue(EntityUtil.isNullPk(new UserSurname(new User(), new City())));
         final User user = new User();
-        EntityBuilderFactory.getInstance().getBuilder(User.class)
-                .injectPrimaryKey(user);
+        EntityBuilderFactory.getInstance().getBuilder(User.class).injectPrimaryKey(user);
         final City city = new City();
-        EntityBuilderFactory.getInstance().getBuilder(City.class)
-                .injectPrimaryKey(city);
-        Assert.assertFalse(EntityUtil
-                .isNullPk(new UserSurname(user, new City())));
-        Assert.assertFalse(EntityUtil
-                .isNullPk(new UserSurname(new User(), city)));
+        EntityBuilderFactory.getInstance().getBuilder(City.class).injectPrimaryKey(city);
+        Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(user, new City())));
+        Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(new User(), city)));
         Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(user, city)));
     }
 
@@ -340,22 +322,16 @@ public class EntityUtilTest {
     public void isNotNullPk() {
         Assert.assertFalse(EntityUtil.isNotNullPk((IEntity<?>) null));
         Assert.assertFalse(EntityUtil.isNotNullPk(new StringEntity()));
-        Assert.assertTrue(EntityUtil.isNotNullPk(new StringEntity(
-                StringUtil.SLASH)));
+        Assert.assertTrue(EntityUtil.isNotNullPk(new StringEntity(StringUtil.SLASH)));
 
         Assert.assertFalse(EntityUtil.isNotNullPk(new UserSurname()));
-        Assert.assertFalse(EntityUtil.isNotNullPk(new UserSurname(new User(),
-                new City())));
+        Assert.assertFalse(EntityUtil.isNotNullPk(new UserSurname(new User(), new City())));
         final User user = new User();
-        EntityBuilderFactory.getInstance().getBuilder(User.class)
-                .injectPrimaryKey(user);
+        EntityBuilderFactory.getInstance().getBuilder(User.class).injectPrimaryKey(user);
         final City city = new City();
-        EntityBuilderFactory.getInstance().getBuilder(City.class)
-                .injectPrimaryKey(city);
-        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(user,
-                new City())));
-        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(new User(),
-                city)));
+        EntityBuilderFactory.getInstance().getBuilder(City.class).injectPrimaryKey(city);
+        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(user, new City())));
+        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(new User(), city)));
         Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(user, city)));
     }
 
@@ -365,15 +341,12 @@ public class EntityUtilTest {
     @Test
     public void cast() {
         final Class<?> objectClass = IntegerEntity.class;
-        Assert.assertTrue(EntityUtil.cast(objectClass).equals(
-                IntegerEntity.class));
+        Assert.assertTrue(EntityUtil.cast(objectClass).equals(IntegerEntity.class));
     }
 
     /**
      * Define an object for testing persisted fields.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
@@ -383,14 +356,17 @@ public class EntityUtilTest {
          * serial version uid.
          */
         private static final long serialVersionUID = -6748447188366659854L;
+
         /**
          * A static object.
          */
         private static Object theStatic;
+
         /**
          * A static final object.
          */
         private static final Object THE_STATIC_FINAL = new Object();
+
         /**
          * A persisted object.
          */
@@ -398,20 +374,24 @@ public class EntityUtilTest {
         @GeneratedValue
         @Getter
         private ICompositePk primaryKey;
+
         /**
          * A transient object.
          */
         private transient Object theTransient;
+
         /**
          * A transient annotated object.
          */
         @Transient
         private Object theTransientAnno;
+
         /**
          * An embedded object.
          */
         @Embedded
         private final Object theEmbeddedAnno = new Object();
+
         /**
          * An embeddedId object.
          */
@@ -427,46 +407,38 @@ public class EntityUtilTest {
         /**
          * The Embedded annotated field.
          */
-        static final Field FIELD_EMBEDDED_ANNO = InvocationUtil.getField(
-                MyObject.class, "theEmbeddedAnno");
+        static final Field FIELD_EMBEDDED_ANNO = InvocationUtil.getField(MyObject.class, "theEmbeddedAnno");
 
         /**
          * The EmbeddedId annotated field.
          */
-        static final Field FIELD_EMBEDDED_ID_ANNO = InvocationUtil.getField(
-                MyObject.class, "theEmbeddedIdAnno");
+        static final Field FIELD_EMBEDDED_ID_ANNO = InvocationUtil.getField(MyObject.class, "theEmbeddedIdAnno");
 
         /**
          * The Id annotated field.
          */
-        static final Field FIELD_ID_ANNO = InvocationUtil.getField(
-                MyObject.class, "primaryKey");
+        static final Field FIELD_ID_ANNO = InvocationUtil.getField(MyObject.class, "primaryKey");
 
         /**
          * The Transient annotated field.
          */
-        static final Field FIELD_TRANSIENT_ANNO = InvocationUtil.getField(
-                MyObject.class, "theTransientAnno");
+        static final Field FIELD_TRANSIENT_ANNO = InvocationUtil.getField(MyObject.class, "theTransientAnno");
 
         /**
          * The transient field.
          */
-        static final Field FIELD_TRANSIENT = InvocationUtil.getField(
-                MyObject.class, "theTransient");
+        static final Field FIELD_TRANSIENT = InvocationUtil.getField(MyObject.class, "theTransient");
 
         /**
          * The MapsId field.
          */
-        static final Field FIELD_MAPS_ID_ANNO = InvocationUtil.getField(
-                MyObject.class, "theMapsId");
+        static final Field FIELD_MAPS_ID_ANNO = InvocationUtil.getField(MyObject.class, "theMapsId");
 
     }
 
     /**
      * Define an object for testing persisted fields.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
@@ -476,31 +448,37 @@ public class EntityUtilTest {
          * An object without annotation.
          */
         private Object nothing;
+
         /**
          * A Column object.
          */
         @Column
         private Object theColumn;
+
         /**
          * A Column(unique=true) object.
          */
         @Column(unique = true)
         private Object theColumnUnique;
+
         /**
          * A Column(unique=false) object.
          */
         @Column(unique = false)
         private Object theColumnNotUnique;
+
         /**
          * A JoinColumn object.
          */
         @JoinColumn
         private Object theJoinColumn;
+
         /**
          * A JoinColumn(unique=true) object.
          */
         @JoinColumn(unique = true)
         private Object theJoinColumnUnique;
+
         /**
          * A JoinColumn(unique=false) object.
          */
@@ -510,57 +488,47 @@ public class EntityUtilTest {
         /**
          * The Column annotated field.
          */
-        static final Field FIELD_COLUMN_ANNO = InvocationUtil.getField(
-                MyUniqueObject.class, "theColumn");
+        static final Field FIELD_COLUMN_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theColumn");
 
         /**
          * The Column(unique=true) annotated field.
          */
-        static final Field FIELD_COLUMN_UNIQUE_ANNO = InvocationUtil.getField(
-                MyUniqueObject.class, "theColumnUnique");
+        static final Field FIELD_COLUMN_UNIQUE_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theColumnUnique");
 
         /**
          * The Column(unique=false) annotated field.
          */
-        static final Field FIELD_COLUMN_NOT_UNIQUE_ANNO = InvocationUtil
-                .getField(MyUniqueObject.class, "theColumnNotUnique");
+        static final Field FIELD_COLUMN_NOT_UNIQUE_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theColumnNotUnique");
 
         /**
          * The JoinColumn annotated field.
          */
-        static final Field FIELD_JOIN_COLUMN_ANNO = InvocationUtil.getField(
-                MyUniqueObject.class, "theJoinColumn");
+        static final Field FIELD_JOIN_COLUMN_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theJoinColumn");
 
         /**
          * The JoinColumn(unique=true) annotated field.
          */
-        static final Field FIELD_JOIN_COLUMN_UNIQUE_ANNO = InvocationUtil
-                .getField(MyUniqueObject.class, "theJoinColumnUnique");
+        static final Field FIELD_JOIN_COLUMN_UNIQUE_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theJoinColumnUnique");
 
         /**
          * The JoinColumn(unique=false) annotated field.
          */
-        static final Field FIELD_JOIN_COLUMN_NOT_UNIQUE_ANNO = InvocationUtil
-                .getField(MyUniqueObject.class, "theJoinColumnNotUnique");
+        static final Field FIELD_JOIN_COLUMN_NOT_UNIQUE_ANNO = InvocationUtil.getField(MyUniqueObject.class, "theJoinColumnNotUnique");
 
         /**
          * The transient field.
          */
-        static final Field FIELD_TRANSIENT = InvocationUtil.getField(
-                MyUniqueObject.class, "theTransient");
+        static final Field FIELD_TRANSIENT = InvocationUtil.getField(MyUniqueObject.class, "theTransient");
 
         /**
          * The field without annotation.
          */
-        static final Field FIELD_NOTHING = InvocationUtil.getField(
-                MyUniqueObject.class, "nothing");
+        static final Field FIELD_NOTHING = InvocationUtil.getField(MyUniqueObject.class, "nothing");
     }
 
     /**
      * Define an object for testing nullable persisted fields.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
@@ -575,26 +543,31 @@ public class EntityUtilTest {
          */
         @Column(nullable = true)
         private Object theColumnNullable;
+
         /**
          * A Column(nullable=false) object.
          */
         @Column(nullable = false)
         private Object theColumnNotNullable;
+
         /**
          * A JoinColumn(nullable=true) object.
          */
         @JoinColumn(nullable = true)
         private Object theJoinColumnNullable;
+
         /**
          * A JoinColumn(nullable=false) object.
          */
         @JoinColumn(nullable = false)
         private Object theJoinColumnNotNullable;
+
         /**
          * A ManyToOne(optional = true) object.
          */
         @ManyToOne(optional = true)
         private Object theManyToOneOptional;
+
         /**
          * A ManyToOne(optional = false) object.
          */
@@ -604,52 +577,43 @@ public class EntityUtilTest {
         /**
          * The field without annotation.
          */
-        static final Field FIELD_NOTHING = InvocationUtil.getField(
-                MyNullableObject.class, "nothing");
+        static final Field FIELD_NOTHING = InvocationUtil.getField(MyNullableObject.class, "nothing");
 
         /**
          * The Column(nullable=true) annotated field.
          */
-        static final Field FIELD_COLUMN_NULLABLE_ANNO = InvocationUtil
-                .getField(MyNullableObject.class, "theColumnNullable");
+        static final Field FIELD_COLUMN_NULLABLE_ANNO = InvocationUtil.getField(MyNullableObject.class, "theColumnNullable");
 
         /**
          * The Column(nullable=false) annotated field.
          */
-        static final Field FIELD_COLUMN_NOT_NULLABLE_ANNO = InvocationUtil
-                .getField(MyNullableObject.class, "theColumnNotNullable");
+        static final Field FIELD_COLUMN_NOT_NULLABLE_ANNO = InvocationUtil.getField(MyNullableObject.class, "theColumnNotNullable");
 
         /**
          * The JoinColumn(nullable=true) annotated field.
          */
-        static final Field FIELD_JOIN_COLUMN_NULLABLE_ANNO = InvocationUtil
-                .getField(MyNullableObject.class, "theJoinColumnNullable");
+        static final Field FIELD_JOIN_COLUMN_NULLABLE_ANNO = InvocationUtil.getField(MyNullableObject.class, "theJoinColumnNullable");
 
         /**
          * The JoinColumn(nullable=false) annotated field.
          */
-        static final Field FIELD_JOIN_COLUMN_NOT_NULLABLE_ANNO = InvocationUtil
-                .getField(MyNullableObject.class, "theJoinColumnNotNullable");
+        static final Field FIELD_JOIN_COLUMN_NOT_NULLABLE_ANNO = InvocationUtil.getField(MyNullableObject.class, "theJoinColumnNotNullable");
 
         /**
          * The ManyToOne(optional = true) annotated field.
          */
-        static final Field FIELD_MANY_TO_ONE_OPTIONAL = InvocationUtil
-                .getField(MyNullableObject.class, "theManyToOneOptional");
+        static final Field FIELD_MANY_TO_ONE_OPTIONAL = InvocationUtil.getField(MyNullableObject.class, "theManyToOneOptional");
 
         /**
          * The ManyToOne(optional = false) annotated field.
          */
-        static final Field FIELD_MANY_TO_ONE_NOT_OPTIONAL = InvocationUtil
-                .getField(MyNullableObject.class, "theManyToOneNotOptional");
+        static final Field FIELD_MANY_TO_ONE_NOT_OPTIONAL = InvocationUtil.getField(MyNullableObject.class, "theManyToOneNotOptional");
 
     }
 
     /**
      * Define an object for testing nullable persisted fields.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
@@ -664,36 +628,33 @@ public class EntityUtilTest {
          */
         @Column
         private Object theColumn;
+
         /**
          * A Column with value object.
          */
         @Column(length = IntegerUtil.INT_10, scale = IntegerUtil.INT_20, precision = IntegerUtil.INT_30)
         private Object theColumnValue;
+
         /**
          * The field without annotation.
          */
-        static final Field FIELD_NOTHING = InvocationUtil.getField(
-                MyColumnObject.class, "nothing");
+        static final Field FIELD_NOTHING = InvocationUtil.getField(MyColumnObject.class, "nothing");
 
         /**
          * The Column annotated field.
          */
-        static final Field FIELD_COLUMN = InvocationUtil.getField(
-                MyColumnObject.class, "theColumn");
+        static final Field FIELD_COLUMN = InvocationUtil.getField(MyColumnObject.class, "theColumn");
 
         /**
          * The Column(xxx=yyy) annotated field.
          */
-        static final Field FIELD_COLUMN_VALUE = InvocationUtil.getField(
-                MyColumnObject.class, "theColumnValue");
+        static final Field FIELD_COLUMN_VALUE = InvocationUtil.getField(MyColumnObject.class, "theColumnValue");
 
     }
 
     /**
      * Define an object for testing lazy persisted fields.
-     *
      * @author qjafcunuas
-     *
      */
     @Getter
     @Setter
@@ -709,11 +670,13 @@ public class EntityUtilTest {
          */
         @ManyToOne
         private Object manyToOne;
+
         /**
          * A ManyToOne(fetch=FetchType.EAGER) object.
          */
         @ManyToOne(fetch = FetchType.EAGER)
         private Object manyToOneEager;
+
         /**
          * A ManyToOne(fetch=FetchType.LAZY) object.
          */
@@ -725,11 +688,13 @@ public class EntityUtilTest {
          */
         @OneToOne
         private Object oneToOne;
+
         /**
          * A OneToOne(fetch=FetchType.EAGER) object.
          */
         @OneToOne(fetch = FetchType.EAGER)
         private Object oneToOneEager;
+
         /**
          * A OneToOne(fetch=FetchType.LAZY) object.
          */
@@ -741,11 +706,13 @@ public class EntityUtilTest {
          */
         @OneToMany(mappedBy = "theMappedBy")
         private Object oneToMany;
+
         /**
          * A OneToMany(fetch=FetchType.EAGER) object.
          */
         @OneToMany(fetch = FetchType.EAGER)
         private Object oneToManyEager;
+
         /**
          * A OneToMany(fetch=FetchType.LAZY) object.
          */
@@ -757,11 +724,13 @@ public class EntityUtilTest {
          */
         @ManyToMany
         private Object manyToMany;
+
         /**
          * A ManyToMany(fetch=FetchType.EAGER) object.
          */
         @ManyToMany(fetch = FetchType.EAGER)
         private Object manyToManyEager;
+
         /**
          * A ManyToMany(fetch=FetchType.LAZY) object.
          */
@@ -771,72 +740,67 @@ public class EntityUtilTest {
         /**
          * The field without annotation.
          */
-        static final Field FIELD_NOTHING = InvocationUtil.getField(
-                MyLazyObject.class, "nothing");
+        static final Field FIELD_NOTHING = InvocationUtil.getField(MyLazyObject.class, "nothing");
 
         /**
          * The ManyToOne field.
          */
-        static final Field FIELD_MANY_TO_ONE = InvocationUtil.getField(
-                MyLazyObject.class, "manyToOne");
+        static final Field FIELD_MANY_TO_ONE = InvocationUtil.getField(MyLazyObject.class, "manyToOne");
+
         /**
          * The ManyToOne(fetch = FetchType.EAGER) field.
          */
-        static final Field FIELD_MANY_TO_ONE_EAGER = InvocationUtil.getField(
-                MyLazyObject.class, "manyToOneEager");
+        static final Field FIELD_MANY_TO_ONE_EAGER = InvocationUtil.getField(MyLazyObject.class, "manyToOneEager");
+
         /**
          * The ManyToOne(fetch = FetchType.LAZY) field.
          */
-        static final Field FIELD_MANY_TO_ONE_LAZY = InvocationUtil.getField(
-                MyLazyObject.class, "manyToOneLazy");
+        static final Field FIELD_MANY_TO_ONE_LAZY = InvocationUtil.getField(MyLazyObject.class, "manyToOneLazy");
 
         /**
          * The OneToOne field.
          */
-        static final Field FIELD_ONE_TO_ONE = InvocationUtil.getField(
-                MyLazyObject.class, "oneToOne");
+        static final Field FIELD_ONE_TO_ONE = InvocationUtil.getField(MyLazyObject.class, "oneToOne");
+
         /**
          * The OneToOne(fetch = FetchType.EAGER) field.
          */
-        static final Field FIELD_ONE_TO_ONE_EAGER = InvocationUtil.getField(
-                MyLazyObject.class, "oneToOneEager");
+        static final Field FIELD_ONE_TO_ONE_EAGER = InvocationUtil.getField(MyLazyObject.class, "oneToOneEager");
+
         /**
          * The OneToOne(fetch = FetchType.LAZY) field.
          */
-        static final Field FIELD_ONE_TO_ONE_LAZY = InvocationUtil.getField(
-                MyLazyObject.class, "oneToOneLazy");
+        static final Field FIELD_ONE_TO_ONE_LAZY = InvocationUtil.getField(MyLazyObject.class, "oneToOneLazy");
 
         /**
          * The OneToMany field.
          */
-        static final Field FIELD_ONE_TO_MANY = InvocationUtil.getField(
-                MyLazyObject.class, "oneToMany");
+        static final Field FIELD_ONE_TO_MANY = InvocationUtil.getField(MyLazyObject.class, "oneToMany");
+
         /**
          * The OneToMany(fetch = FetchType.EAGER) field.
          */
-        static final Field FIELD_ONE_TO_MANY_EAGER = InvocationUtil.getField(
-                MyLazyObject.class, "oneToManyEager");
+        static final Field FIELD_ONE_TO_MANY_EAGER = InvocationUtil.getField(MyLazyObject.class, "oneToManyEager");
+
         /**
          * The OneToMany(fetch = FetchType.LAZY) field.
          */
-        static final Field FIELD_ONE_TO_MANY_LAZY = InvocationUtil.getField(
-                MyLazyObject.class, "oneToManyLazy");
+        static final Field FIELD_ONE_TO_MANY_LAZY = InvocationUtil.getField(MyLazyObject.class, "oneToManyLazy");
 
         /**
          * The ManyToMany field.
          */
-        static final Field FIELD_MANY_TO_MANY = InvocationUtil.getField(
-                MyLazyObject.class, "manyToMany");
+        static final Field FIELD_MANY_TO_MANY = InvocationUtil.getField(MyLazyObject.class, "manyToMany");
+
         /**
          * The ManyToMany(fetch = FetchType.EAGER) field.
          */
-        static final Field FIELD_MANY_TO_MANY_EAGER = InvocationUtil.getField(
-                MyLazyObject.class, "manyToManyEager");
+        static final Field FIELD_MANY_TO_MANY_EAGER = InvocationUtil.getField(MyLazyObject.class, "manyToManyEager");
+
         /**
          * The ManyToMany(fetch = FetchType.LAZY) field.
          */
-        static final Field FIELD_MANY_TO_MANY_LAZY = InvocationUtil.getField(
-                MyLazyObject.class, "manyToManyLazy");
+        static final Field FIELD_MANY_TO_MANY_LAZY = InvocationUtil.getField(MyLazyObject.class, "manyToManyLazy");
     }
 
     /**
@@ -844,14 +808,11 @@ public class EntityUtilTest {
      */
     @Test
     public void isPersisted() {
-        Assert.assertFalse(EntityUtil.isPersisted(InvocationUtil.getField(
-                MyObject.class, "theStatic")));
-        Assert.assertFalse(EntityUtil.isPersisted(InvocationUtil.getField(
-                MyObject.class, "THE_STATIC_FINAL")));
+        Assert.assertFalse(EntityUtil.isPersisted(InvocationUtil.getField(MyObject.class, "theStatic")));
+        Assert.assertFalse(EntityUtil.isPersisted(InvocationUtil.getField(MyObject.class, "THE_STATIC_FINAL")));
         Assert.assertTrue(EntityUtil.isPersisted(MyObject.FIELD_ID_ANNO));
         Assert.assertFalse(EntityUtil.isPersisted(MyObject.FIELD_TRANSIENT));
-        Assert.assertFalse(EntityUtil
-                .isPersisted(MyObject.FIELD_TRANSIENT_ANNO));
+        Assert.assertFalse(EntityUtil.isPersisted(MyObject.FIELD_TRANSIENT_ANNO));
         Assert.assertTrue(EntityUtil.isPersisted(MyObject.FIELD_EMBEDDED_ANNO));
     }
 
@@ -860,8 +821,7 @@ public class EntityUtilTest {
      */
     @Test
     public void getPersistedFields() {
-        final List<Field> fields = EntityUtil
-                .getPersistedFields(MyObject.class);
+        final List<Field> fields = EntityUtil.getPersistedFields(MyObject.class);
         Assert.assertTrue(fields.size() == IntegerUtil.INT_4);
         Assert.assertFalse(fields.contains(MyObject.FIELD_TRANSIENT));
         Assert.assertTrue(fields.contains(MyObject.FIELD_ID_ANNO));
@@ -870,8 +830,7 @@ public class EntityUtilTest {
         Assert.assertTrue(fields.contains(MyObject.FIELD_MAPS_ID_ANNO));
 
         // Same object because it is cached.
-        Assert.assertEquals(fields,
-                EntityUtil.getPersistedFields(MyObject.class));
+        Assert.assertEquals(fields, EntityUtil.getPersistedFields(MyObject.class));
     }
 
     /**
@@ -884,8 +843,7 @@ public class EntityUtilTest {
         Assert.assertTrue(EntityUtil.isId(field));
 
         // Same object because it is cached.
-        Assert.assertEquals(field,
-                EntityUtil.getPrimaryKeyField(MyObject.class));
+        Assert.assertEquals(field, EntityUtil.getPrimaryKeyField(MyObject.class));
 
         // No pk
         field = EntityUtil.getPrimaryKeyField(Object.class);
@@ -926,12 +884,9 @@ public class EntityUtilTest {
      */
     @Test
     public void isEmbeddedId() {
-        Assert.assertFalse(EntityUtil
-                .isEmbeddedId(MyObject.FIELD_TRANSIENT_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isEmbeddedId(MyObject.FIELD_EMBEDDED_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isEmbeddedId(MyObject.FIELD_EMBEDDED_ID_ANNO));
+        Assert.assertFalse(EntityUtil.isEmbeddedId(MyObject.FIELD_TRANSIENT_ANNO));
+        Assert.assertFalse(EntityUtil.isEmbeddedId(MyObject.FIELD_EMBEDDED_ANNO));
+        Assert.assertTrue(EntityUtil.isEmbeddedId(MyObject.FIELD_EMBEDDED_ID_ANNO));
     }
 
     /**
@@ -966,12 +921,9 @@ public class EntityUtilTest {
      */
     @Test
     public void getMapsIdValue() {
-        Assert.assertNull(EntityUtil
-                .getMapsIdValue(MyObject.FIELD_TRANSIENT_ANNO));
-        Assert.assertNull(EntityUtil
-                .getMapsIdValue(MyObject.FIELD_EMBEDDED_ANNO));
-        Assert.assertNotNull(EntityUtil
-                .getMapsIdValue(MyObject.FIELD_MAPS_ID_ANNO));
+        Assert.assertNull(EntityUtil.getMapsIdValue(MyObject.FIELD_TRANSIENT_ANNO));
+        Assert.assertNull(EntityUtil.getMapsIdValue(MyObject.FIELD_EMBEDDED_ANNO));
+        Assert.assertNotNull(EntityUtil.getMapsIdValue(MyObject.FIELD_MAPS_ID_ANNO));
     }
 
     /**
@@ -984,8 +936,7 @@ public class EntityUtilTest {
 
         Assert.assertNull(EntityUtil.getMapsIdFieldValue(object, "tototo"));
         Assert.assertNotNull(EntityUtil.getMapsIdFieldValue(object, "theId"));
-        Assert.assertEquals(object.theMapsId,
-                EntityUtil.getMapsIdFieldValue(object, "theId"));
+        Assert.assertEquals(object.theMapsId, EntityUtil.getMapsIdFieldValue(object, "theId"));
     }
 
     /**
@@ -1000,8 +951,7 @@ public class EntityUtilTest {
         Assert.assertFalse(EntityUtil.getMapsId(object).isEmpty());
         Assert.assertTrue(EntityUtil.getMapsId(object).containsKey("theId"));
         Assert.assertNotNull(EntityUtil.getMapsId(object).get("theId"));
-        Assert.assertEquals(object.theMapsId,
-                EntityUtil.getMapsId(object).get("theId"));
+        Assert.assertEquals(object.theMapsId, EntityUtil.getMapsId(object).get("theId"));
     }
 
     /**
@@ -1009,12 +959,9 @@ public class EntityUtilTest {
      */
     @Test
     public void isPrimaryKey() {
-        Assert.assertFalse(EntityUtil
-                .isPrimaryKey(MyObject.FIELD_TRANSIENT_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isPrimaryKey(MyObject.FIELD_EMBEDDED_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isPrimaryKey(MyObject.FIELD_EMBEDDED_ID_ANNO));
+        Assert.assertFalse(EntityUtil.isPrimaryKey(MyObject.FIELD_TRANSIENT_ANNO));
+        Assert.assertFalse(EntityUtil.isPrimaryKey(MyObject.FIELD_EMBEDDED_ANNO));
+        Assert.assertTrue(EntityUtil.isPrimaryKey(MyObject.FIELD_EMBEDDED_ID_ANNO));
         Assert.assertTrue(EntityUtil.isPrimaryKey(MyObject.FIELD_ID_ANNO));
     }
 
@@ -1023,12 +970,9 @@ public class EntityUtilTest {
      */
     @Test
     public void isGeneratedValue() {
-        Assert.assertFalse(EntityUtil
-                .isGeneratedValue(MyObject.FIELD_TRANSIENT_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isGeneratedValue(MyObject.FIELD_EMBEDDED_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isGeneratedValue(MyObject.FIELD_EMBEDDED_ID_ANNO));
+        Assert.assertFalse(EntityUtil.isGeneratedValue(MyObject.FIELD_TRANSIENT_ANNO));
+        Assert.assertFalse(EntityUtil.isGeneratedValue(MyObject.FIELD_EMBEDDED_ANNO));
+        Assert.assertFalse(EntityUtil.isGeneratedValue(MyObject.FIELD_EMBEDDED_ID_ANNO));
         Assert.assertTrue(EntityUtil.isGeneratedValue(MyObject.FIELD_ID_ANNO));
     }
 
@@ -1038,18 +982,12 @@ public class EntityUtilTest {
     @Test
     public void isNullable() {
         Assert.assertTrue(EntityUtil.isNullable(MyNullableObject.FIELD_NOTHING));
-        Assert.assertFalse(EntityUtil
-                .isNullable(MyNullableObject.FIELD_COLUMN_NOT_NULLABLE_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isNullable(MyNullableObject.FIELD_COLUMN_NULLABLE_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isNullable(MyNullableObject.FIELD_JOIN_COLUMN_NOT_NULLABLE_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isNullable(MyNullableObject.FIELD_JOIN_COLUMN_NULLABLE_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isNullable(MyNullableObject.FIELD_MANY_TO_ONE_NOT_OPTIONAL));
-        Assert.assertTrue(EntityUtil
-                .isNullable(MyNullableObject.FIELD_MANY_TO_ONE_OPTIONAL));
+        Assert.assertFalse(EntityUtil.isNullable(MyNullableObject.FIELD_COLUMN_NOT_NULLABLE_ANNO));
+        Assert.assertTrue(EntityUtil.isNullable(MyNullableObject.FIELD_COLUMN_NULLABLE_ANNO));
+        Assert.assertFalse(EntityUtil.isNullable(MyNullableObject.FIELD_JOIN_COLUMN_NOT_NULLABLE_ANNO));
+        Assert.assertTrue(EntityUtil.isNullable(MyNullableObject.FIELD_JOIN_COLUMN_NULLABLE_ANNO));
+        Assert.assertFalse(EntityUtil.isNullable(MyNullableObject.FIELD_MANY_TO_ONE_NOT_OPTIONAL));
+        Assert.assertTrue(EntityUtil.isNullable(MyNullableObject.FIELD_MANY_TO_ONE_OPTIONAL));
     }
 
     /**
@@ -1060,18 +998,12 @@ public class EntityUtilTest {
         Assert.assertFalse(EntityUtil.isUnique(MyObject.FIELD_TRANSIENT_ANNO));
         Assert.assertFalse(EntityUtil.isUnique(MyObject.FIELD_EMBEDDED_ANNO));
         Assert.assertFalse(EntityUtil.isUnique(MyObject.FIELD_EMBEDDED_ID_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_COLUMN_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_COLUMN_NOT_UNIQUE_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_COLUMN_UNIQUE_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_ANNO));
-        Assert.assertFalse(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_NOT_UNIQUE_ANNO));
-        Assert.assertTrue(EntityUtil
-                .isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_UNIQUE_ANNO));
+        Assert.assertFalse(EntityUtil.isUnique(MyUniqueObject.FIELD_COLUMN_ANNO));
+        Assert.assertFalse(EntityUtil.isUnique(MyUniqueObject.FIELD_COLUMN_NOT_UNIQUE_ANNO));
+        Assert.assertTrue(EntityUtil.isUnique(MyUniqueObject.FIELD_COLUMN_UNIQUE_ANNO));
+        Assert.assertFalse(EntityUtil.isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_ANNO));
+        Assert.assertFalse(EntityUtil.isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_NOT_UNIQUE_ANNO));
+        Assert.assertTrue(EntityUtil.isUnique(MyUniqueObject.FIELD_JOIN_COLUMN_UNIQUE_ANNO));
         Assert.assertFalse(EntityUtil.isUnique(MyUniqueObject.FIELD_NOTHING));
     }
 
@@ -1084,26 +1016,19 @@ public class EntityUtilTest {
         Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_NOTHING));
         // ManyToMany
         Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isLazy(MyLazyObject.FIELD_MANY_TO_MANY_EAGER));
-        Assert.assertTrue(EntityUtil
-                .isLazy(MyLazyObject.FIELD_MANY_TO_MANY_LAZY));
+        Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_MANY_EAGER));
+        Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_MANY_LAZY));
         // ManyToOne
         Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_ONE));
-        Assert.assertFalse(EntityUtil
-                .isLazy(MyLazyObject.FIELD_MANY_TO_ONE_EAGER));
-        Assert.assertTrue(EntityUtil
-                .isLazy(MyLazyObject.FIELD_MANY_TO_ONE_LAZY));
+        Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_ONE_EAGER));
+        Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_MANY_TO_ONE_LAZY));
         // OneToMany
         Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isLazy(MyLazyObject.FIELD_ONE_TO_MANY_EAGER));
-        Assert.assertTrue(EntityUtil
-                .isLazy(MyLazyObject.FIELD_ONE_TO_MANY_LAZY));
+        Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_MANY_EAGER));
+        Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_MANY_LAZY));
         // OneToOne
         Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertFalse(EntityUtil
-                .isLazy(MyLazyObject.FIELD_ONE_TO_ONE_EAGER));
+        Assert.assertFalse(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_ONE_EAGER));
         Assert.assertTrue(EntityUtil.isLazy(MyLazyObject.FIELD_ONE_TO_ONE_LAZY));
     }
 
@@ -1113,16 +1038,11 @@ public class EntityUtilTest {
     @Test
     public void getColumnLength() {
         // Nothing
-        Assert.assertNull(EntityUtil
-                .getColumnLength(MyColumnObject.FIELD_NOTHING));
+        Assert.assertNull(EntityUtil.getColumnLength(MyColumnObject.FIELD_NOTHING));
         // Column
-        Assert.assertEquals(
-                EntityUtil.getColumnLength(MyColumnObject.FIELD_COLUMN),
-                Integer.valueOf(IntegerUtil.INT_255));
+        Assert.assertEquals(EntityUtil.getColumnLength(MyColumnObject.FIELD_COLUMN), Integer.valueOf(IntegerUtil.INT_255));
         // Column with attribute
-        Assert.assertEquals(
-                EntityUtil.getColumnLength(MyColumnObject.FIELD_COLUMN_VALUE),
-                Integer.valueOf(IntegerUtil.INT_10));
+        Assert.assertEquals(EntityUtil.getColumnLength(MyColumnObject.FIELD_COLUMN_VALUE), Integer.valueOf(IntegerUtil.INT_10));
     }
 
     /**
@@ -1131,16 +1051,11 @@ public class EntityUtilTest {
     @Test
     public void getColumnScale() {
         // Nothing
-        Assert.assertNull(EntityUtil
-                .getColumnScale(MyColumnObject.FIELD_NOTHING));
+        Assert.assertNull(EntityUtil.getColumnScale(MyColumnObject.FIELD_NOTHING));
         // Column
-        Assert.assertEquals(
-                EntityUtil.getColumnScale(MyColumnObject.FIELD_COLUMN),
-                Integer.valueOf(IntegerUtil.INT_0));
+        Assert.assertEquals(EntityUtil.getColumnScale(MyColumnObject.FIELD_COLUMN), Integer.valueOf(IntegerUtil.INT_0));
         // Column with attribute
-        Assert.assertEquals(
-                EntityUtil.getColumnScale(MyColumnObject.FIELD_COLUMN_VALUE),
-                Integer.valueOf(IntegerUtil.INT_20));
+        Assert.assertEquals(EntityUtil.getColumnScale(MyColumnObject.FIELD_COLUMN_VALUE), Integer.valueOf(IntegerUtil.INT_20));
     }
 
     /**
@@ -1149,16 +1064,11 @@ public class EntityUtilTest {
     @Test
     public void getColumnPrecision() {
         // Nothing
-        Assert.assertNull(EntityUtil
-                .getColumnPrecision(MyColumnObject.FIELD_NOTHING));
+        Assert.assertNull(EntityUtil.getColumnPrecision(MyColumnObject.FIELD_NOTHING));
         // Column
-        Assert.assertEquals(
-                EntityUtil.getColumnPrecision(MyColumnObject.FIELD_COLUMN),
-                Integer.valueOf(IntegerUtil.INT_0));
+        Assert.assertEquals(EntityUtil.getColumnPrecision(MyColumnObject.FIELD_COLUMN), Integer.valueOf(IntegerUtil.INT_0));
         // Column with attribute
-        Assert.assertEquals(EntityUtil
-                .getColumnPrecision(MyColumnObject.FIELD_COLUMN_VALUE), Integer
-                .valueOf(IntegerUtil.INT_30));
+        Assert.assertEquals(EntityUtil.getColumnPrecision(MyColumnObject.FIELD_COLUMN_VALUE), Integer.valueOf(IntegerUtil.INT_30));
     }
 
     /**
@@ -1175,14 +1085,10 @@ public class EntityUtilTest {
      */
     @Test
     public void isManyToMany() {
-        Assert.assertFalse(EntityUtil
-                .isManyToMany(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertFalse(EntityUtil
-                .isManyToMany(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertTrue(EntityUtil
-                .isManyToMany(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isManyToMany(MyLazyObject.FIELD_MANY_TO_ONE));
+        Assert.assertFalse(EntityUtil.isManyToMany(MyLazyObject.FIELD_ONE_TO_ONE));
+        Assert.assertFalse(EntityUtil.isManyToMany(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertTrue(EntityUtil.isManyToMany(MyLazyObject.FIELD_MANY_TO_MANY));
+        Assert.assertFalse(EntityUtil.isManyToMany(MyLazyObject.FIELD_MANY_TO_ONE));
     }
 
     /**
@@ -1190,14 +1096,10 @@ public class EntityUtilTest {
      */
     @Test
     public void isOneToMany() {
-        Assert.assertFalse(EntityUtil
-                .isOneToMany(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertTrue(EntityUtil
-                .isOneToMany(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isOneToMany(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isOneToMany(MyLazyObject.FIELD_MANY_TO_ONE));
+        Assert.assertFalse(EntityUtil.isOneToMany(MyLazyObject.FIELD_ONE_TO_ONE));
+        Assert.assertTrue(EntityUtil.isOneToMany(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertFalse(EntityUtil.isOneToMany(MyLazyObject.FIELD_MANY_TO_MANY));
+        Assert.assertFalse(EntityUtil.isOneToMany(MyLazyObject.FIELD_MANY_TO_ONE));
     }
 
     /**
@@ -1205,16 +1107,11 @@ public class EntityUtilTest {
      */
     @Test
     public void getOneToManyMappedBy() {
-        Assert.assertNull(EntityUtil
-                .getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertNotNull(EntityUtil
-                .getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertEquals("theMappedBy",
-                EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertNull(EntityUtil
-                .getOneToManyMappedBy(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertNull(EntityUtil
-                .getOneToManyMappedBy(MyLazyObject.FIELD_MANY_TO_ONE));
+        Assert.assertNull(EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_ONE));
+        Assert.assertNotNull(EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertEquals("theMappedBy", EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertNull(EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_MANY_TO_MANY));
+        Assert.assertNull(EntityUtil.getOneToManyMappedBy(MyLazyObject.FIELD_MANY_TO_ONE));
     }
 
     /**
@@ -1223,12 +1120,9 @@ public class EntityUtilTest {
     @Test
     public void isOneToOne() {
         Assert.assertTrue(EntityUtil.isOneToOne(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertFalse(EntityUtil
-                .isOneToOne(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isOneToOne(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isOneToOne(MyLazyObject.FIELD_MANY_TO_ONE));
+        Assert.assertFalse(EntityUtil.isOneToOne(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertFalse(EntityUtil.isOneToOne(MyLazyObject.FIELD_MANY_TO_MANY));
+        Assert.assertFalse(EntityUtil.isOneToOne(MyLazyObject.FIELD_MANY_TO_ONE));
     }
 
     /**
@@ -1236,14 +1130,10 @@ public class EntityUtilTest {
      */
     @Test
     public void isManyToOne() {
-        Assert.assertFalse(EntityUtil
-                .isManyToOne(MyLazyObject.FIELD_ONE_TO_ONE));
-        Assert.assertFalse(EntityUtil
-                .isManyToOne(MyLazyObject.FIELD_ONE_TO_MANY));
-        Assert.assertFalse(EntityUtil
-                .isManyToOne(MyLazyObject.FIELD_MANY_TO_MANY));
-        Assert.assertTrue(EntityUtil
-                .isManyToOne(MyLazyObject.FIELD_MANY_TO_ONE));
+        Assert.assertFalse(EntityUtil.isManyToOne(MyLazyObject.FIELD_ONE_TO_ONE));
+        Assert.assertFalse(EntityUtil.isManyToOne(MyLazyObject.FIELD_ONE_TO_MANY));
+        Assert.assertFalse(EntityUtil.isManyToOne(MyLazyObject.FIELD_MANY_TO_MANY));
+        Assert.assertTrue(EntityUtil.isManyToOne(MyLazyObject.FIELD_MANY_TO_ONE));
     }
 
 }
