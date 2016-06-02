@@ -90,6 +90,8 @@ public class CountryLanguagesTest {
      */
     @Test
     public void equalsMethod() {
+        // null
+        Assert.assertTrue(new CountryLanguages(null, null).equals(new CountryLanguages(null, null)));
         final CountryLanguages canada1 = newCanada();
         // null
         Assert.assertTrue(new CountryLanguages(null, null).equals(new CountryLanguages(null, null)));

@@ -29,7 +29,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+<<<<<<< HEAD
  * Define JUnit MessageKey test.
+=======
+ * Define JUnit IOrderBy test.
+>>>>>>> branch 'master' of https://github.com/qjafcunuas/jbromo.git
  * @author qjafcunuas
  */
 public class MessageKeyTest {

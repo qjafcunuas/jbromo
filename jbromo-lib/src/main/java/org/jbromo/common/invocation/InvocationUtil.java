@@ -108,7 +108,6 @@ public final class InvocationUtil {
          * @throws InvocationException invocation exception when invoke method problem
          */
         abstract <V> V getValue(final Object object, final Field field, final boolean accessible) throws InvocationException;
-
     }
 
     /**

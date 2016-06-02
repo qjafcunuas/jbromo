@@ -754,13 +754,6 @@ public class InvocationUtilTest {
         } catch (final InvocationException e) {
             Assert.assertTrue(true);
         }
-        try {
-            // Unexisted constructor without parameters.
-            Assert.assertNull(InvocationUtil.getConstructor(ConstructorObjectWithoutNoArgsConstructor.class));
-        } catch (final InvocationException e) {
-            Assert.assertTrue(true);
-        }
-
     }
 
 }
