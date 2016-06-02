@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,25 +28,20 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.dao.common.Dao;
 import org.jbromo.dao.jpa.AbstractEntityDao;
 import org.jbromo.sample.server.model.src.User;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
  * The user DAO implementation.
- *
  * @author qjafcunuas
- *
  */
 @Dao
 @Stateless
-@Slf4j
-public class UserDao extends AbstractEntityDao<User, Long> implements
-        IUserDao {
+public class UserDao extends AbstractEntityDao<User, Long>implements IUserDao {
 
     /**
      * serial version UID.

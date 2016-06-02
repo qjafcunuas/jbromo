@@ -450,7 +450,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
                 }
             }
         } catch (final InvocationException e) {
-            log.warn(e.getMessage());
+            log.warn(e.getMessage(), e);
         }
     }
 
@@ -531,7 +531,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
             }
         } catch (final InvocationException e) {
             // Should not happended.
-            log.warn(e.getMessage());
+            log.warn(e.getMessage(), e);
         }
         getEntityManager().flush();
     }
@@ -558,7 +558,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
             }
         } catch (final InvocationException e) {
             // Should not happended.
-            log.warn(e.getMessage());
+            log.warn(e.getMessage(), e);
         }
         return map;
     }
@@ -688,12 +688,12 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     /**
      * Return true if field on entity is loaded.
-     * @param <EE> the entity type.
+     * @param <E1> the entity type.
      * @param entity the entity.
      * @param eagerLoading field to verify into entity that are loading or not.
      * @return true/false.
      */
-    protected <EE extends IEntity<?>> boolean isLoaded(final EE entity, final EE eagerLoading) {
+    protected <E1 extends IEntity<?>> boolean isLoaded(final E1 entity, final E1 eagerLoading) {
         return false;
         // TODO
         // final String fieldname = EagerLoadingUtil.getName(field);
@@ -704,11 +704,11 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     /**
      * Return true if an entity is loaded.
-     * @param <EE> the entity type.
+     * @param <E1> the entity type.
      * @param entity the entity.
      * @return true/false.
      */
-    protected <EE extends IEntity<?>> boolean isLoaded(final EE entity) {
+    protected <E1 extends IEntity<?>> boolean isLoaded(final E1 entity) {
         return getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(entity);
     }
 

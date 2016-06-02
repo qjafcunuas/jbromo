@@ -23,6 +23,7 @@ package org.jbromo.common;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -129,11 +130,10 @@ public final class SetUtil {
      */
     public static <O> void reSet(final Set<O> objects) {
         if (isNotEmpty(objects)) {
-            @SuppressWarnings("unchecked")
-            final Set<O> set = ObjectUtil.newInstance(objects.getClass());
-            set.addAll(objects);
+            final List<O> cpy = ListUtil.toList(objects);
+            cpy.addAll(objects);
             objects.clear();
-            objects.addAll(set);
+            objects.addAll(cpy);
         }
     }
 
