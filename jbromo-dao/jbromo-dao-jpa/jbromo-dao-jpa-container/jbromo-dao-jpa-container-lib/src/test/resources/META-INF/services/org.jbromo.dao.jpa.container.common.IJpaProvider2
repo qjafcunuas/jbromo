@@ -1,0 +1,2 @@
+org.jbromo.dao.jpa.container.common.JpaFirstProvider
+org.jbromo.dao.jpa.container.common.JpaSecondProvider

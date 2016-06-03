@@ -21,17 +21,30 @@
  */
 package org.jbromo.dao.jpa.container.common;
 
-import javax.transaction.UserTransaction;
-
 /**
- * Define User transaction producer interface.
+ * Define specific utility for JPA provider.
  * @author qjafcunuas
  */
-public interface ICdiUserTransactionProducer {
-    /**
-     * Produces the user transaction.
-     * @return the user transaction.
-     */
-    UserTransaction getUserTransaction();
+public class JpaFirstProvider implements IJpaProvider {
+
+    @Override
+    public Class<?> getPersistentClass(final Object object) {
+        return null;
+    }
+
+    @Override
+    public boolean isCompositePrimaryKeyUpdatedDuringPersist() {
+        return true;
+    }
+
+    @Override
+    public boolean isFetchAliasable() {
+        return true;
+    }
+
+    @Override
+    public boolean isOneToManyAutoMerge() {
+        return true;
+    }
 
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,9 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define the JpaProvider Factory.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public final class JpaProviderFactory {
@@ -48,8 +46,15 @@ public final class JpaProviderFactory {
     private IJpaProvider implementation;
 
     /**
+     * Default constructor.
+     */
+    private JpaProviderFactory() {
+        super();
+        reload();
+    }
+
+    /**
      * Return the singleton instance.
-     *
      * @return the instance.
      */
     public static JpaProviderFactory getInstance() {
@@ -57,25 +62,21 @@ public final class JpaProviderFactory {
     }
 
     /**
-     * Default constructor.
+     * Reload implementation.
      */
-    private JpaProviderFactory() {
-        super();
+    public final void reload() {
         log.info("Start loading implementation");
-        final Iterator<IJpaProvider> iter = ServiceLoader.load(
-                IJpaProvider.class).iterator();
+        this.implementation = null;
+        final Iterator<IJpaProvider> iter = ServiceLoader.load(IJpaProvider.class).iterator();
         if (iter.hasNext()) {
             this.implementation = iter.next();
             log.info("Use {} implementation", this.implementation.getClass());
         } else {
-            log.error("Cannot find implementation of interface {}",
-                    IJpaProvider.class);
+            log.error("Cannot find implementation of interface {}", IJpaProvider.class);
         }
         while (iter.hasNext()) {
-            log.warn("Found more than one implementation of {} interface: {}",
-                    IJpaProvider.class, iter.next().getClass());
+            log.warn("Found more than one implementation of {} interface: {}", IJpaProvider.class, iter.next().getClass());
         }
-
     }
 
 }
