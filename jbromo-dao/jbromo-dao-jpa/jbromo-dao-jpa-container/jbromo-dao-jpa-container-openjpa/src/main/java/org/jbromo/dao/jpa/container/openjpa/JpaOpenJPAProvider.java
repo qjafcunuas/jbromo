@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,9 +25,7 @@ import org.jbromo.dao.jpa.container.common.IJpaProvider;
 
 /**
  * Define specific utility for OpenJPA JPA provider.
- *
  * @author qjafcunuas
- *
  */
 public class JpaOpenJPAProvider implements IJpaProvider {
 

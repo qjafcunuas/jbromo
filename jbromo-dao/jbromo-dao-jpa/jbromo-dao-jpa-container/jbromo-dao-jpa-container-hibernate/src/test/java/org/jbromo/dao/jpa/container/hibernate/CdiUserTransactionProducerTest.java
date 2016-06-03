@@ -19,19 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.dao.jpa.container.common;
+package org.jbromo.dao.jpa.container.hibernate;
 
-import javax.transaction.UserTransaction;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Define User transaction producer interface.
+ * Define JUnit CdiUserTransactionProducer test.
  * @author qjafcunuas
  */
-public interface ICdiUserTransactionProducer {
+public class CdiUserTransactionProducerTest {
+
     /**
-     * Produces the user transaction.
-     * @return the user transaction.
+     * Test getUserTransaction method.
      */
-    UserTransaction getUserTransaction();
+    @Test
+    public void getUserTransaction() {
+        Assert.assertNotNull(new CdiUserTransactionProducer().getUserTransaction());
+    }
 
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,39 +23,31 @@ package org.jbromo.dao.jpa.container.common;
 
 /**
  * Define specific utility for JPA provider.
- *
  * @author qjafcunuas
- *
  */
 public interface IJpaProvider {
 
     /**
      * Return the persisted class of an object (not the proxy class).
-     *
-     * @param object
-     *            the object.
+     * @param object the object.
      * @return the persisted class.
      */
     Class<?> getPersistentClass(final Object object);
 
     /**
-     * Return true if the provider set the parent's primary key into the
-     * composite primary key when persisting parent entity.
-     *
+     * Return true if the provider set the parent's primary key into the composite primary key when persisting parent entity.
      * @return true/false.
      */
     boolean isCompositePrimaryKeyUpdatedDuringPersist();
 
     /**
      * Return true if the provider authorize to set an alias on a fetch join.
-     *
      * @return true/false.
      */
     boolean isFetchAliasable();
 
     /**
      * Return true if the provider merges automatically oneToMany relationship.
-     *
      * @return true/false.
      */
     boolean isOneToManyAutoMerge();

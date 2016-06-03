@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,16 +26,14 @@ import javax.enterprise.inject.Produces;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.dao.jpa.container.common.ICdiUserTransactionProducer;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The user transaction producer.
- *
  * @author qjafcunuas
- *
  */
 @ApplicationScoped
 @Slf4j
@@ -44,8 +42,7 @@ public class CdiUserTransactionProducer implements ICdiUserTransactionProducer {
     @Override
     @Produces
     public UserTransaction getUserTransaction() {
-        final UserTransaction ut = new JtaHibernatePlatform()
-                .locateUserTransaction();
+        final UserTransaction ut = new JtaHibernatePlatform().locateUserTransaction();
         try {
             ut.setTransactionTimeout(IntegerUtil.INT_60);
         } catch (final SystemException e) {

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,18 +26,18 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 
-import lombok.Getter;
-
 import org.apache.openjpa.ee.ManagedRuntime;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define the atomikos managed runtime for OpenJPA provider.
- *
  * @author qjafcunuas
- *
  */
+@Slf4j
 public class AtomikosManagedRuntime implements ManagedRuntime {
 
     /**
@@ -61,8 +61,7 @@ public class AtomikosManagedRuntime implements ManagedRuntime {
     }
 
     @Override
-    public void doNonTransactionalWork(final Runnable runnable)
-            throws NotSupportedException {
+    public void doNonTransactionalWork(final Runnable runnable) throws NotSupportedException {
         try {
             final Transaction transaction = getTransactionManager().suspend();
             try {
@@ -70,12 +69,9 @@ public class AtomikosManagedRuntime implements ManagedRuntime {
             } finally {
                 getTransactionManager().resume(transaction);
             }
-        } catch (final InvalidTransactionException e) {
-            throw new RuntimeException(e);
-        } catch (final SystemException e) {
-            throw new RuntimeException(e);
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
+        } catch (final InvalidTransactionException | SystemException e) {
+            log.error("Cannot suspend transaction", e);
+            throw new NotSupportedException(e.getMessage());
         }
 
     }
@@ -86,8 +82,7 @@ public class AtomikosManagedRuntime implements ManagedRuntime {
     }
 
     @Override
-    public synchronized void setRollbackOnly(final Throwable cause)
-            throws Exception {
+    public synchronized void setRollbackOnly(final Throwable cause) throws Exception {
         getTransactionManager().setRollbackOnly();
         this.rollbackCause = cause;
     }

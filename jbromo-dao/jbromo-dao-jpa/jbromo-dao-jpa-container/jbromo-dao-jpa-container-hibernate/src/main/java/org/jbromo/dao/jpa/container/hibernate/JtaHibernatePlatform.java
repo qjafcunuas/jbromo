@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,9 +30,7 @@ import com.atomikos.icatch.jta.UserTransactionManager;
 
 /**
  * Define Atomikos JTA platform to used in persistence.xml.
- *
  * @author qjafcunuas
- *
  */
 public class JtaHibernatePlatform extends AbstractJtaPlatform {
 

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,19 +23,17 @@ package org.jbromo.dao.jpa.container.hibernate;
 
 import java.lang.reflect.Field;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.InvocationUtil.AccessType;
 import org.jbromo.dao.jpa.container.common.IJpaProvider;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define specific utility for Hibernate JPA provider.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class JpaHibernateProvider implements IJpaProvider {
@@ -46,12 +44,10 @@ public class JpaHibernateProvider implements IJpaProvider {
             return null;
         }
         try {
-            final Field field = InvocationUtil.getField(object.getClass(),
-                    "handler");
+            final Field field = InvocationUtil.getField(object.getClass(), "handler");
             if (field != null) {
                 JavassistLazyInitializer handler = null;
-                handler = InvocationUtil.getValue(object, field,
-                        AccessType.FIELD, false);
+                handler = InvocationUtil.getValue(object, field, AccessType.FIELD, false);
                 return handler.getPersistentClass();
             }
         } catch (final InvocationException e1) {

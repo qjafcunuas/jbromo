@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,18 +26,16 @@ import javax.enterprise.inject.Produces;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.dao.jpa.container.common.ICdiUserTransactionProducer;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The user transaction producer.
- *
  * @author qjafcunuas
- *
  */
 @ApplicationScoped
 @Slf4j
