@@ -21,7 +21,7 @@
 	<artifactId>jbromo</artifactId>
 	<version>0.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>JBromo Parent</name>
+	<name>JBromo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,7 +33,7 @@
 		<deltaspike.version>1.0.0</deltaspike.version>
 		<openjpa.version>2.3.0</openjpa.version>
 		<owb.version>1.2.8</owb.version>
-		<jacoco.version>0.7.6.201602180812</jacoco.version>
+		<jacoco.version>0.7.7.201606060606</jacoco.version>
 		<jboss.managed.version>7.2.0.Final</jboss.managed.version>
 		<jboss.managed.home>C:\Users\qjafcunuas\Projets\autre\server\jboss-as-7.2.0.Final.junit</jboss.managed.home>
 		<jboss.remote.version>7.2.0.Final</jboss.remote.version>
@@ -298,13 +298,13 @@
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-api-mockito</artifactId>
 				<version>${powermock.version}</version>
-                <scope>test</scope>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-module-junit4</artifactId>
 				<version>${powermock.version}</version>
-                <scope>test</scope>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.deltaspike.core</groupId>
@@ -618,6 +618,28 @@
 	</profiles>
 	<build>
 		<plugins>
+		<plugin>
+    <groupId>org.codehaus.gmavenplus</groupId>
+    <artifactId>gmavenplus-plugin</artifactId>
+    <executions>
+      <execution>
+        <id>add-dynamic-properties</id>
+        <phase>initialize</phase>
+        <goals>
+          <goal>execute</goal>
+        </goals>
+        <configuration>
+          <scripts>
+            <script>
+<![CDATA[
+project.properties.setProperty('skipJacocoAll', String.valueOf(project.packaging=='pom'))
+]]>
+            </script>
+          </scripts>
+        </configuration>
+      </execution>
+    </executions>
+  </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -646,35 +668,18 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>default-merge-ut</id>
-						<phase>verify</phase>
+						<id>default-merge-all</id>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>merge</goal>
 						</goals>
 						<configuration>
-							<destFile>${session.topLevelProject.build.directory}/jacoco.exec</destFile>
+							<destFile>${project.build.directory}/jacoco-all.exec</destFile>
 							<fileSets>
 								<fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
 									<directory>${project.build.directory}</directory>
 									<includes>
 										<include>jacoco.exec</include>
-									</includes>
-								</fileSet>
-							</fileSets>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-merge-it</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>merge</goal>
-						</goals>
-						<configuration>
-							<destFile>${session.topLevelProject.build.directory}/jacoco-it.exec</destFile>
-							<fileSets>
-								<fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
-									<directory>${project.build.directory}</directory>
-									<includes>
 										<include>jacoco-it.exec</include>
 									</includes>
 								</fileSet>
@@ -682,13 +687,64 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>default-merge-all-parent</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${session.topLevelProject.build.directory}/jacoco-all.exec</destFile>
+							<fileSets>
+								<fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>jacoco-all.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
 						<id>default-report</id>
-						<phase>verify</phase>
+						<phase>site</phase>
 						<goals>
 							<goal>report</goal>
-							<goal>report-integration</goal>
-							<!-- from 0.7.7 goal>report-aggregate</goal -->
 						</goals>
+						<configuration>
+							<title>${project.name} UT coverage</title>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-report-it</id>
+						<phase>site</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+						<configuration>
+							<title>${project.name} IT coverage</title>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-report-aggregate</id>
+						<phase>site</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+						<configuration>
+							<title>${project.name} modules aggregation</title>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-all</id>
+						<phase>site</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<title>${project.name} UT + IT coverage</title>
+							<dataFile>${project.build.directory}/jacoco-all.exec</dataFile>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-all</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -727,6 +783,25 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.codehaus.gmavenplus</groupId>
+					<artifactId>gmavenplus-plugin</artifactId>
+					<version>1.5</version>
+					<dependencies>
+      <dependency>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-all</artifactId>
+        <version>2.4.4</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.0.13</version>
+        <scope>runtime</scope>
+      </dependency>
+    </dependencies>
+				</plugin>
+				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.version}</version>
@@ -749,7 +824,6 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>3.0.0</version>
@@ -768,7 +842,6 @@
 						</archive>
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<artifactId>maven-ejb-plugin</artifactId>
 					<version>2.5.1</version>
@@ -793,6 +866,14 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.5.1</version>
+					<configuration>
+						<siteDirectory>${session.executionRootDirectory}/src/site</siteDirectory>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
