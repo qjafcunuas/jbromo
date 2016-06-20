@@ -19,31 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.cdi.annotation;
+package org.jbromo.dao.common;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import javax.enterprise.util.Nonbinding;
-import javax.interceptor.InterceptorBinding;
-
-import org.jbromo.common.exception.IMessageLabelExceptionFactory;
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.dao.common.exception.NullPrimaryKeyException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Used for Transactionnal.
+ * Define JUnit NullPrimaryKeyException class.
  * @author qjafcunuas
  */
-@InterceptorBinding
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface CatchException {
+public class NullPrimaryKeyExceptionTest {
+
     /**
-     * The exception type to throw.
-     * @return the type.
+     * Test constructor() method.
      */
-    @SuppressWarnings("rawtypes")
-    @Nonbinding
-    Class<? extends IMessageLabelExceptionFactory>value();
+    @Test
+    public void constructorString() {
+        final NullPrimaryKeyException exp = new NullPrimaryKeyException();
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_0, exp.getLabel().getParameters().size());
+    }
+
 }

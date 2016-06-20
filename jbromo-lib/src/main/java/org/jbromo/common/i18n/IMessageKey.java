@@ -30,7 +30,7 @@ import java.io.Serializable;
 public interface IMessageKey extends Serializable {
 
     /**
-     * Return the config key.
+     * Return the key.
      * @return the key
      */
     String getKey();

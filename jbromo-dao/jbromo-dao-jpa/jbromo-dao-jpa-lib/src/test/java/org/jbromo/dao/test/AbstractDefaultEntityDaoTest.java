@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
-import org.jbromo.dao.common.exception.DaoException;
-import org.jbromo.dao.common.exception.DaoValidationException;
+import org.jbromo.dao.common.exception.ValidationException;
 import org.jbromo.dao.jpa.IEntityDao;
 import org.jbromo.dao.test.common.UserTransactionFacade;
 import org.jbromo.model.jpa.IEntity;
@@ -41,21 +37,20 @@ import org.jbromo.model.jpa.test.crud.AbstractDefaultCRUDExtendedTest;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Abstract JPA DAO JUnit.
- *
- * @param <E>
- *            the entity type.
- * @param <PK>
- *            the primary key type.
- * @param <DAO>
- *            the DAO type.
+ * @param <E> the entity type.
+ * @param <PK> the primary key type.
+ * @param <DAO> the DAO type.
  * @author qjafcunuas
- *
  */
 @Slf4j
 public abstract class AbstractDefaultEntityDaoTest<E extends IEntity<PK>, PK extends Serializable, DAO extends IEntityDao<E, PK>>
-        extends AbstractDefaultCRUDExtendedTest<E, PK, DAO> {
+    extends AbstractDefaultCRUDExtendedTest<E, PK, DAO> {
 
     /**
      * The user transaction facade.
@@ -64,17 +59,13 @@ public abstract class AbstractDefaultEntityDaoTest<E extends IEntity<PK>, PK ext
     @Inject
     private UserTransactionFacade transaction;
 
-
     /**
      * Try to save entities with bad value on persisted fields.
-     *
-     * @throws InvocationException
-     *             exception.
+     * @throws InvocationException exception.
      */
     @Test
     public void badEntityValues() throws InvocationException {
-        final List<ValidationValue<E>> entities = getEntityBuilder()
-                .getValidationErrorValues();
+        final List<ValidationValue<E>> entities = getEntityBuilder().getValidationErrorValues();
         E created = null;
         for (final ValidationValue<E> entity : entities) {
             try {
@@ -82,16 +73,13 @@ public abstract class AbstractDefaultEntityDaoTest<E extends IEntity<PK>, PK ext
                 created = getCrud().create(entity.getValue());
                 if (created != null) {
                     getCrud().delete(created);
-                    Assert.fail("Entity with bad values has been persisted! "
-                            + entity.getLabel() + " on field "
-                            + entity.getField());
+                    Assert.fail("Entity with bad values has been persisted! " + entity.getLabel() + " on field " + entity.getField());
                 }
-            } catch (final DaoValidationException e) {
+            } catch (final ValidationException e) {
                 log.debug("Bad value on entity field has been normally rejected for persistence");
-            } catch (final DaoException e) {
+            } catch (final MessageLabelException e) {
                 log.error("Error when persisted bad entity", e);
-                Assert.fail("Error when persisted bad entity "
-                        + getEntityClass().getName());
+                Assert.fail("Error when persisted bad entity " + getEntityClass().getName());
             }
         }
     }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,21 +25,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.condition.ICondition;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
  * Define a predicate (AND, OR, NOT).
- *
  * @author qjafcunuas
- *
  */
 public abstract class AbstractMultiPredicate extends AbstractPredicate {
 
@@ -51,9 +49,7 @@ public abstract class AbstractMultiPredicate extends AbstractPredicate {
 
     /**
      * Default constructor.
-     *
-     * @param where
-     *            the where builder.
+     * @param where the where builder.
      */
     public AbstractMultiPredicate(final JpqlWhereBuilder where) {
         super(where);
@@ -63,7 +59,7 @@ public abstract class AbstractMultiPredicate extends AbstractPredicate {
     protected abstract String getOperator();
 
     @Override
-    void add(final ICondition child) throws DaoException {
+    void add(final ICondition child) throws MessageLabelException {
         if (child != null) {
             getChildren().add(child);
         }

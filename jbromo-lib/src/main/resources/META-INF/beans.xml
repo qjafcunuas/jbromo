@@ -16,6 +16,5 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 	<interceptors>
 		<class>org.jbromo.common.cdi.interceptor.LogCallbackInterceptor</class>
-		<class>org.jbromo.common.cdi.interceptor.CatchExceptionInterceptor</class>
 	</interceptors>
 </beans>

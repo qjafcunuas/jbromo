@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,23 +30,17 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 import javax.interceptor.InterceptorBinding;
 
-import org.jbromo.common.cdi.annotation.CatchException;
 import org.jbromo.common.cdi.annotation.LogCallback;
-import org.jbromo.service.exception.ServiceExceptionFactory;
 
 /**
  * Define annotation for injected Service.
- *
  * @author qjafcunuas
- *
  */
 @Inherited
 @InterceptorBinding
 @LogCallback
-@CatchException(ServiceExceptionFactory.class)
 @Qualifier
-@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD,
-        ElementType.PARAMETER })
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Service {
 

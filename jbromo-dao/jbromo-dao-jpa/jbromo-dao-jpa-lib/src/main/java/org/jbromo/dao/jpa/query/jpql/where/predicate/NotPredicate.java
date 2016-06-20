@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,17 +25,13 @@ import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
 
 /**
  * Define and predicate.
- *
  * @author qjafcunuas
- *
  */
 public class NotPredicate extends AbstractUniquePredicate {
 
     /**
      * Default constructor.
-     *
-     * @param where
-     *            the where builder.
+     * @param where the where builder.
      */
     public NotPredicate(final JpqlWhereBuilder where) {
         super(where);

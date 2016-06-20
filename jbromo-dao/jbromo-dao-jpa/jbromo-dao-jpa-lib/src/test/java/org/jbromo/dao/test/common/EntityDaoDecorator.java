@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,28 +31,22 @@ import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import org.jbromo.common.ObjectUtil;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
-import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.IEntityDao;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.test.cache.EntityCache;
 import org.jbromo.model.jpa.util.EntityUtil;
 
 /**
- * Decorate DAO for getting create/update/delete entities, so that those
- * entities can be deleted at the end of the test.
- *
- * @param <E>
- *            the entity type.
- * @param <PK>
- *            then entity primary key type.
+ * Decorate DAO for getting create/update/delete entities, so that those entities can be deleted at the end of the test.
+ * @param <E> the entity type.
+ * @param <PK> then entity primary key type.
  * @author qjafcunuas
- *
  */
 @Decorator
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Serializable>
-        implements IEntityDao<E, PK> {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Serializable> implements IEntityDao<E, PK> {
 
     /**
      * serial version UID.
@@ -61,7 +55,6 @@ public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Seria
 
     /**
      * Return the entity cache.
-     *
      * @return the entity cache.
      */
     EntityCache getEntityCache() {
@@ -78,7 +71,6 @@ public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Seria
 
     /**
      * Return the entity dao to used.
-     *
      * @return the dao.
      */
     private IEntityDao<E, PK> getEntityDao() {
@@ -86,52 +78,49 @@ public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Seria
     }
 
     @Override
-    public E create(final E transientInstance) throws DaoException {
+    public E create(final E transientInstance) throws MessageLabelException {
         final E entity = getEntityDao().create(transientInstance);
         getEntityCache().add(entity);
         return entity;
     }
 
     @Override
-    public <C extends Collection<E>> C create(final C transientInstance)
-            throws DaoException {
+    public <C extends Collection<E>> C create(final C transientInstance) throws MessageLabelException {
         final C col = getEntityDao().create(transientInstance);
         getEntityCache().add(col);
         return col;
     }
 
     @Override
-    public E update(final E detachedInstance) throws DaoException {
+    public E update(final E detachedInstance) throws MessageLabelException {
         final E entity = getEntityDao().update(detachedInstance);
         getEntityCache().update(entity);
         return entity;
     }
 
     @Override
-    public <C extends Collection<E>> C update(final C detachedInstance)
-            throws DaoException {
+    public <C extends Collection<E>> C update(final C detachedInstance) throws MessageLabelException {
         final C col = getEntityDao().update(detachedInstance);
         getEntityCache().update(col);
         return col;
     }
 
     @Override
-    public boolean delete(final E detachedInstance) throws DaoException {
+    public boolean delete(final E detachedInstance) throws MessageLabelException {
         final boolean value = getEntityDao().delete(detachedInstance);
-        final IEntity<Serializable> entity = ObjectUtil.cast(detachedInstance,
-                IEntity.class);
+        final IEntity<Serializable> entity = ObjectUtil.cast(detachedInstance, IEntity.class);
         getEntityCache().remove(entity);
         return value;
     }
 
     @Override
-    public void delete(final Collection detachedInstance) throws DaoException {
+    public void delete(final Collection detachedInstance) throws MessageLabelException {
         getEntityDao().delete(detachedInstance);
         getEntityCache().remove(detachedInstance);
     }
 
     @Override
-    public E save(final E detachedInstance) throws DaoException {
+    public E save(final E detachedInstance) throws MessageLabelException {
         E entity = detachedInstance;
         final boolean nullPk = EntityUtil.isNullPk(entity);
         entity = getEntityDao().save(detachedInstance);
@@ -144,13 +133,10 @@ public abstract class EntityDaoDecorator<E extends IEntity<PK>, PK extends Seria
     }
 
     @Override
-    public <C extends Collection<E>> C save(final C detachedInstance)
-            throws DaoException {
+    public <C extends Collection<E>> C save(final C detachedInstance) throws MessageLabelException {
         final C saved = getEntityDao().create(detachedInstance);
-        final Class<IEntity<Serializable>> entityClass = ParameterizedTypeUtil
-                .getClass(getEntityDao(), 0);
-        final List<IEntity<Serializable>> collected = getEntityCache()
-                .getEntities(entityClass);
+        final Class<IEntity<Serializable>> entityClass = ParameterizedTypeUtil.getClass(getEntityDao(), 0);
+        final List<IEntity<Serializable>> collected = getEntityCache().getEntities(entityClass);
         for (final E entity : saved) {
             if (!collected.contains(entity)) {
                 getEntityCache().add(entity);

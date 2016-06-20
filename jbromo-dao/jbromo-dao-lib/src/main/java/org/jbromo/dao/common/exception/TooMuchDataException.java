@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,23 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.dao.common;
+package org.jbromo.dao.common.exception;
 
-import org.jbromo.common.exception.AbstractMessageLabelExceptionTest;
-import org.jbromo.common.exception.IMessageLabelExceptionFactory;
-import org.jbromo.dao.common.exception.DaoExceptionFactory;
+import org.jbromo.common.exception.MessageLabelException;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.common.i18n.MessageLabel;
 
 /**
- * Define JUnit DaoException class.
- *
+ * Exception for DAO actions.
  * @author qjafcunuas
- *
  */
-public class DaoExceptionTest extends AbstractMessageLabelExceptionTest {
+public class TooMuchDataException extends MessageLabelException {
 
-    @Override
-    protected IMessageLabelExceptionFactory<?> getFactory() {
-        return DaoExceptionFactory.getInstance();
+    /**
+     * serial version UID.
+     */
+    private static final long serialVersionUID = 1223992049903172753L;
+
+    /**
+     * Default constructor.
+     * @param max the max element process car return.
+     */
+    public TooMuchDataException(final Integer max) {
+        super(new MessageLabel(MessageKey.TOO_MUCH_RESULT_MESSAGE, max));
     }
-
 }

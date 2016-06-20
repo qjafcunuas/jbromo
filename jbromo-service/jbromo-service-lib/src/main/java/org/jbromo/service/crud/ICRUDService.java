@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,18 +24,16 @@ package org.jbromo.service.crud;
 import java.io.Serializable;
 
 import org.jbromo.common.crud.ICRUD;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.service.IService;
-import org.jbromo.service.exception.ServiceException;
 
 /**
  * Define a CRUD Service interface.
- * 
  * @author qjafcunuas
- * @param <E>
- *            the serializable type.
- * @param <P>
+ * @param <E> the serializable type.
+ * @param
+ *            <P>
  *            the primary key type.
  */
-public interface ICRUDService<E extends Serializable, P extends Serializable>
-        extends ICRUD<E, P, ServiceException>, IService {
+public interface ICRUDService<E extends Serializable, P extends Serializable> extends ICRUD<E, P, MessageLabelException>, IService {
 }

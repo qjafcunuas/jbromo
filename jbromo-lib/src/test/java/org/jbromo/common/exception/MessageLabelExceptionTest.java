@@ -21,19 +21,81 @@
  */
 package org.jbromo.common.exception;
 
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.common.i18n.MessageLabel;
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * Define JUnit MessageLabelException class.
  * @author qjafcunuas
  */
-public class MessageLabelExceptionTest extends AbstractMessageLabelExceptionTest {
+public class MessageLabelExceptionTest {
 
     /**
-     * Return the factory to used.
-     * @return the factory.
+     * Test constructor(key).
      */
-    @Override
-    protected IMessageLabelExceptionFactory<?> getFactory() {
-        return MessageLabelExceptionFactory.getInstance();
+    @Test
+    public void construtorKey() {
+        final TestException exp = new TestException(MessageKey.DEFAULT_MESSAGE);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+    }
+
+    /**
+     * Test constructor(label).
+     */
+    @Test
+    public void construtorLabel() {
+        final MessageLabel label = new MessageLabel(MessageKey.DEFAULT_MESSAGE);
+        final TestException exp = new TestException(label);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(label, exp.getLabel());
+    }
+
+    /**
+     * Test constructor(key, throwable).
+     */
+    @Test
+    public void construtorKeyThrowable() {
+        final Throwable t = new Throwable("my message");
+        final TestException exp = new TestException(MessageKey.DEFAULT_MESSAGE, t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(t, exp.getCause());
+    }
+
+    /**
+     * Test constructor(label, throwable).
+     */
+    @Test
+    public void construtorLabelThrowable() {
+        MessageLabel label = new MessageLabel(MessageKey.DEFAULT_MESSAGE);
+
+        // Null throwable
+        TestException exp = new TestException(label, (Throwable) null);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(label, exp.getLabel());
+        Assert.assertTrue(exp.getLabel().getParameters().isEmpty());
+        Assert.assertNull(exp.getCause());
+
+        // No throwable parameter in label.
+        final Throwable t = new Throwable("The message");
+        exp = new TestException(label, t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(label, exp.getLabel());
+        Assert.assertEquals(1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(0));
+        Assert.assertEquals(t, exp.getCause());
+
+        // Throwable parameter in label.
+        label = new MessageLabel(MessageKey.DEFAULT_MESSAGE, t);
+        exp = new TestException(label, t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(label, exp.getLabel());
+        Assert.assertEquals(1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(0));
+        Assert.assertEquals(t, exp.getCause());
     }
 
 }

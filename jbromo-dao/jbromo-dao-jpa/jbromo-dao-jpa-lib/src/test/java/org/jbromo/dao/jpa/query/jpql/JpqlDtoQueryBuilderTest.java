@@ -22,17 +22,12 @@
 package org.jbromo.dao.jpa.query.jpql;
 
 import org.jbromo.common.dto.IDto;
-import org.jbromo.dao.common.exception.DaoException;
-import org.junit.Assert;
 import org.junit.Test;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JUnit JpqlDtoQueryBuilder class.
  * @author qjafcunuas
  */
-@Slf4j
 public class JpqlDtoQueryBuilderTest {
 
     /**
@@ -40,11 +35,6 @@ public class JpqlDtoQueryBuilderTest {
      */
     @Test
     public void constructor() {
-        try {
-            new JpqlDtoQueryBuilder<IDto>(null, IDto.class);
-        } catch (final DaoException e) {
-            log.error("Cannot instanciate class", e);
-            Assert.fail(e.getMessage());
-        }
+        new JpqlDtoQueryBuilder<IDto>(null, IDto.class);
     }
 }

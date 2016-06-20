@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,22 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.exception;
+package org.jbromo.dao.common;
 
-import org.jbromo.common.exception.AbstractMessageLabelExceptionTest;
-import org.jbromo.common.exception.IMessageLabelExceptionFactory;
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.dao.common.exception.NullDataException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Define JUnit ServiceException class.
- *
+ * Define JUnit NullDataException class.
  * @author qjafcunuas
- *
  */
-public class ServiceExceptionTest extends AbstractMessageLabelExceptionTest {
+public class NullDataExceptionTest {
 
-    @Override
-    protected IMessageLabelExceptionFactory<?> getFactory() {
-        return ServiceExceptionFactory.getInstance();
+    /**
+     * Test constructor() method.
+     */
+    @Test
+    public void constructorString() {
+        final NullDataException exp = new NullDataException();
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.ENTITY_MUST_BE_NOT_NULL, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_0, exp.getLabel().getParameters().size());
     }
 
 }

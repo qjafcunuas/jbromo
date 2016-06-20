@@ -1,3 +1,24 @@
+/*-
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitatiish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ *on the rights
+ * to use, copy, modify, merge, publ The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package org.jbromo.webapp.jsf.sample.component.menu;
 
 import javax.enterprise.context.RequestScoped;
@@ -16,9 +37,7 @@ import org.jbromo.webapp.jsf.sample.view.View;
 
 /**
  * Define the menu controller.
- * 
  * @author qjafcunuas
- * 
  */
 @Named
 @RequestScoped
@@ -45,7 +64,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select countries menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onCountries() {
@@ -54,7 +72,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select countries menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onIndex() {
@@ -63,7 +80,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select languages menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onLanguages() {
@@ -72,7 +88,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select messages menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onMessageLabels() {
@@ -81,7 +96,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select selectOneMenu menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onSelectOneMenu() {
@@ -90,7 +104,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select selectYesNoMenu menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onSelectBooleanMenu() {
@@ -99,7 +112,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select selectYesNoMenu menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onSelectManyCheckbox() {
@@ -108,7 +120,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select popupWait menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onPopupWait() {
@@ -117,7 +128,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select popupMessage menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onPopupMessage() {
@@ -126,7 +136,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select inputText menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onInputText() {
@@ -135,7 +144,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select fieldSet menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onFieldSet() {
@@ -144,7 +152,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select datatable menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onColumnHeaderDataTable() {
@@ -153,7 +160,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select datatable menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onCrudDataTable() {
@@ -162,7 +168,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select datatable menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onRowClickDataTable() {
@@ -171,7 +176,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select datatable menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onSelectAllDataTable() {
@@ -180,7 +184,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select datatable menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onDataScroller() {
@@ -189,7 +192,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select inputTextarea menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onInputTextarea() {
@@ -198,7 +200,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select dynamicTabPanel menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onDynamicTabPanel() {
@@ -207,7 +208,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select togglePanel menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onTogglePanel() {
@@ -216,7 +216,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select wizard menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onWizard() {
@@ -225,7 +224,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select commandButton menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onCommandButton() {
@@ -234,7 +232,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select login menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onLogin() {
@@ -243,21 +240,17 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select logout menu.
-     * 
      * @return the corresponding view's id.
-     * @throws ServletException
-     *             exception.
+     * @throws ServletException exception.
      */
     public String onLogout() throws ServletException {
-        final HttpServletRequest request = (HttpServletRequest) getFacesContext()
-                .getExternalContext().getRequest();
+        final HttpServletRequest request = (HttpServletRequest) getFacesContext().getExternalContext().getRequest();
         request.logout();
         return fireEventRenderView(View.LOGIN).getId();
     }
 
     /**
      * Called when user select admin access menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onAdminAccess() {
@@ -266,7 +259,6 @@ public class MenuController extends AbstractMenuController<AbstractMenuModel> {
 
     /**
      * Called when user select guess access menu.
-     * 
      * @return the corresponding view's id.
      */
     public String onGuestAccess() {

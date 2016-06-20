@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,22 +21,18 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
 
 /**
  * Define and predicate.
- *
  * @author qjafcunuas
- *
  */
 public class AndPredicate extends AbstractMultiPredicate {
 
     /**
      * Default constructor.
-     *
-     * @param where
-     *            the where builder.
+     * @param where the where builder.
      */
     public AndPredicate(final JpqlWhereBuilder where) {
         super(where);
@@ -53,7 +49,7 @@ public class AndPredicate extends AbstractMultiPredicate {
     }
 
     @Override
-    public AndPredicate and() throws DaoException {
+    public AndPredicate and() throws MessageLabelException {
         return this;
     }
 }

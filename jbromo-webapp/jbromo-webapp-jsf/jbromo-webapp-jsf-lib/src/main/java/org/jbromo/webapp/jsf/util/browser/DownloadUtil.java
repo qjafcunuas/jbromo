@@ -31,9 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.exception.MessageLabelExceptionFactory;
-import org.jbromo.common.i18n.MessageKey;
 import org.jbromo.webapp.jsf.cdi.CDIFacesUtil;
+import org.jbromo.webapp.jsf.exception.UploadException;
 import org.jbromo.webapp.jsf.faces.FacesContextUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +77,7 @@ public final class DownloadUtil {
             FacesContextUtil.getFacesContext().responseComplete();
         } catch (final IOException e) {
             log.error("Error on downloaded file", e);
-            throw MessageLabelExceptionFactory.getInstance().newInstance(MessageKey.ERROR_DOWNLOAD_FILE);
+            throw new UploadException();
         }
     }
 

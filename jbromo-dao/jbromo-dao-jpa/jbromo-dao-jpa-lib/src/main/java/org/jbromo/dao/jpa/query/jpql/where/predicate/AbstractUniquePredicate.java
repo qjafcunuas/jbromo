@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,23 +23,18 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.jbromo.common.StringUtil;
-import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.common.i18n.MessageLabel;
-import org.jbromo.dao.common.exception.DaoException;
-import org.jbromo.dao.common.exception.DaoExceptionFactory;
+import org.jbromo.common.exception.MessageLabelException;
+import org.jbromo.dao.common.exception.DataFindException;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.condition.ICondition;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
- * Define unique predicate. A unique predicate has only one child (for example
- * the not operator).
- *
+ * Define unique predicate. A unique predicate has only one child (for example the not operator).
  * @author qjafcunuas
- *
  */
 public abstract class AbstractUniquePredicate extends AbstractPredicate {
 
@@ -51,9 +46,7 @@ public abstract class AbstractUniquePredicate extends AbstractPredicate {
 
     /**
      * Default constructor.
-     *
-     * @param where
-     *            the where builder.
+     * @param where the where builder.
      */
     public AbstractUniquePredicate(final JpqlWhereBuilder where) {
         super(where);
@@ -63,14 +56,9 @@ public abstract class AbstractUniquePredicate extends AbstractPredicate {
     protected abstract String getOperator();
 
     @Override
-    void add(final ICondition condition) throws DaoException {
+    void add(final ICondition condition) throws MessageLabelException {
         if (this.child != null) {
-            throw DaoExceptionFactory
-                    .getInstance()
-                    .newInstance(
-                            new MessageLabel(MessageKey.DEFAULT_MESSAGE,
-                                    "Cannot add more than one element on a UniquePredicate"));
-
+            throw new DataFindException("Cannot add more than one element on a UniquePredicate");
         }
         this.child = condition;
     }

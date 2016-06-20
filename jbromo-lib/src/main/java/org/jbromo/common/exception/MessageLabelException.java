@@ -23,6 +23,7 @@ package org.jbromo.common.exception;
 
 import org.jbromo.common.i18n.IMessageKey;
 import org.jbromo.common.i18n.IMessageLabel;
+import org.jbromo.common.i18n.MessageKey;
 import org.jbromo.common.i18n.MessageLabel;
 
 import lombok.Getter;
@@ -42,6 +43,22 @@ public class MessageLabelException extends Exception {
      */
     @Getter
     private final IMessageLabel label;
+
+    /**
+     * Constructor with message field.
+     * @param cause the exception
+     */
+    protected MessageLabelException(final Throwable cause) {
+        this(MessageKey.DEFAULT_MESSAGE, cause);
+    }
+
+    /**
+     * Constructor with message field.
+     * @param message the message.
+     */
+    protected MessageLabelException(final String message) {
+        this(new MessageLabel(MessageKey.DEFAULT_MESSAGE, message));
+    }
 
     /**
      * Constructor with message field.

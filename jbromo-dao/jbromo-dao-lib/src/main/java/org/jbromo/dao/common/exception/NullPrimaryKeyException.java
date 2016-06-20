@@ -19,53 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.cdi.interceptor;
+package org.jbromo.dao.common.exception;
 
-import org.jbromo.common.cdi.annotation.CatchException;
 import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.exception.MessageLabelExceptionFactory;
 import org.jbromo.common.i18n.MessageKey;
 
 /**
- * Define a class that used CatchException interceptor.
+ * Exception for DAO actions.
  * @author qjafcunuas
  */
-@CatchException(MessageLabelExceptionFactory.class)
-public class CatchExceptionInterceptorMessageLabelExceptionBean {
+public class NullPrimaryKeyException extends MessageLabelException {
 
     /**
-     * A MessageLabelException to throw.
+     * serial version UID.
      */
-    public static final MessageLabelException MESSAGE_LABEL_EXCEPTION = MessageLabelExceptionFactory.getInstance()
-            .newInstance(MessageKey.DEFAULT_MESSAGE);
+    private static final long serialVersionUID = 1223992049903172753L;
 
     /**
-     * An Exception to throw.
+     * Default constructor.
      */
-    public static final Exception EXCEPTION = new Exception("Default exception");
-
-    /**
-     * Throw an exception.
-     * @throws Exception exception.
-     */
-    public void throwException() throws Exception {
-        throw EXCEPTION;
+    public NullPrimaryKeyException() {
+        super(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
     }
-
-    /**
-     * Throw a MessageLabelException.
-     * @throws MessageLabelException exception.
-     */
-    public void throwMessageLabelException() throws MessageLabelException {
-        throw MESSAGE_LABEL_EXCEPTION;
-    }
-
-    /**
-     * Don't throw exception.
-     * @throws MessageLabelException exception.
-     */
-    public void noException() throws MessageLabelException {
-        // nothing to do.
-    }
-
 }

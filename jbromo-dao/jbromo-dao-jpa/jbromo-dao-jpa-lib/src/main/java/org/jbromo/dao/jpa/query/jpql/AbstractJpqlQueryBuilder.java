@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,10 +30,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.ListUtil;
 import org.jbromo.dao.jpa.query.AbstractQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.from.JpqlFromBuilder;
@@ -41,17 +37,17 @@ import org.jbromo.dao.jpa.query.jpql.orderby.JpqlOrderByBuilder;
 import org.jbromo.dao.jpa.query.jpql.select.JpqlSelectBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JPQL Query builder.
- *
  * @author qjafcunuas
- *
- * @param <M>
- *            the model type.
+ * @param <M> the model type.
  */
 @Slf4j
-public class AbstractJpqlQueryBuilder<M extends Serializable> extends
-        AbstractQueryBuilder<M> {
+public class AbstractJpqlQueryBuilder<M extends Serializable> extends AbstractQueryBuilder<M> {
 
     /**
      * The From JPQL query.
@@ -79,14 +75,10 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends
 
     /**
      * Default constructor.
-     *
-     * @param entityManager
-     *            the entityManager to used.
-     * @param modelClass
-     *            the modelClass to used.
+     * @param entityManager the entityManager to used.
+     * @param modelClass the modelClass to used.
      */
-    public AbstractJpqlQueryBuilder(final EntityManager entityManager,
-            final Class<M> modelClass) {
+    public AbstractJpqlQueryBuilder(final EntityManager entityManager, final Class<M> modelClass) {
         super(entityManager, modelClass);
         this.from = new JpqlFromBuilder(getModelClass());
         this.select = new JpqlSelectBuilder(this.from.getRootAlias(), true);
@@ -106,7 +98,6 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends
 
     /**
      * Return query result list.
-     *
      * @return the result list.
      */
     public List<M> getResultList() {
@@ -116,7 +107,6 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends
 
     /**
      * Return the JPQL query.
-     *
      * @return the query.
      */
     private TypedQuery<M> getQuery() {
@@ -129,15 +119,13 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends
         getOrderBy().build(builder);
 
         // / Build JPA query.
-        final TypedQuery<M> query = getEntityManager().createQuery(
-                builder.toString(), getModelClass());
+        final TypedQuery<M> query = getEntityManager().createQuery(builder.toString(), getModelClass());
         bindParameters(query, parameters);
         return query;
     }
 
     /**
      * Execute query for a single result. If no query result, return null.
-     *
      * @return the single result.
      */
     public M getSingleResult() {
@@ -152,11 +140,8 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends
 
     /**
      * Binds parameters to query.
-     *
-     * @param query
-     *            the query string.
-     * @param parameters
-     *            parameters
+     * @param query the query string.
+     * @param parameters parameters
      */
     private void bindParameters(final Query query, final List<Object> parameters) {
         for (int index = 0; index < parameters.size(); index++) {

@@ -19,21 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.exception;
+package org.jbromo.dao.common;
+
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.dao.common.exception.ValidationException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Define JUnit MessageLabelExceptionFactory class.
+ * Define JUnit ValidationException class.
  * @author qjafcunuas
  */
-public class MessageLabelExceptionFactoryTest extends AbstractMessageLabelExceptionFactoryTest<MessageLabelException> {
+public class ValidationExceptionTest {
 
     /**
-     * Return the factory instance to test.
-     * @return the factory instance to test.
+     * Test constructor(string) method.
      */
-    @Override
-    protected MessageLabelExceptionFactory getFactoryInstance() {
-        return MessageLabelExceptionFactory.getInstance();
+    @Test
+    public void constructorString() {
+        final String msg = "my msg";
+        final ValidationException exp = new ValidationException(msg);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.ENTITY_VALIDATION_ERROR, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(msg, exp.getLabel().getParameters().get(0));
     }
 
 }

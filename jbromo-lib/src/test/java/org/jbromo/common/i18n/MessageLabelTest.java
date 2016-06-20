@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
-import org.jbromo.common.exception.AbstractMessageLabelExceptionTest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,7 +73,7 @@ public class MessageLabelTest {
 
         @Override
         public IMessageKey getKey() {
-            return AbstractMessageLabelExceptionTest.MESSAGE_KEY;
+            return MessageKey.DEFAULT_MESSAGE;
         }
 
         @Override

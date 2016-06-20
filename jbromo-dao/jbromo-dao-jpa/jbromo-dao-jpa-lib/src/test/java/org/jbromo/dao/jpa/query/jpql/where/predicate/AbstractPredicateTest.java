@@ -32,7 +32,6 @@ import org.jbromo.common.RandomUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
-import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.query.jpql.AbstractJpqlQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.JpqlEntityQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
@@ -89,12 +88,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
      * @return the new instance.
      */
     protected P newEntityInstance() {
-        try {
-            return ObjectUtil.newInstance(getPredicateClass(), new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class)));
-        } catch (final MessageLabelException e) {
-            Assert.fail(e.getMessage());
-            return null;
-        }
+        return ObjectUtil.newInstance(getPredicateClass(), new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class)));
     }
 
     /**
@@ -151,7 +145,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.equals(FIELD_NAME, parameter);
             validate(predicate, "name = ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -169,7 +163,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.notEquals(FIELD_NAME, parameter);
             validate(predicate, "name != ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -186,7 +180,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.in(FIELD_NAME, null);
             validate(predicate, "");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -196,7 +190,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.in(FIELD_NAME, parameters);
             validate(predicate, "name = ?1 ", parameters.get(0));
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -206,7 +200,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.in(FIELD_NAME, parameters);
             validate(predicate, "name in (?1 ) ", parameters);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -223,7 +217,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.notIn(FIELD_NAME, null);
             validate(predicate, "");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -233,7 +227,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.notIn(FIELD_NAME, parameters);
             validate(predicate, "name != ?1 ", parameters.get(0));
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -243,7 +237,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.notIn(FIELD_NAME, parameters);
             validate(predicate, "name not in (?1 ) ", parameters);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -261,7 +255,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.like(FIELD_NAME, StringUtil.STAR + parameter + StringUtil.STAR);
             validate(predicate, "name like ?1 ", StringUtil.PERCENT + parameter + StringUtil.PERCENT);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -276,7 +270,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
         try {
             predicate.isNull(FIELD_NAME);
             validate(predicate, "name is null ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -294,7 +288,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.greaterThan(FIELD_NAME, parameter);
             validate(predicate, "name > ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -312,7 +306,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.greaterOrEquals(FIELD_NAME, parameter);
             validate(predicate, "name >= ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -330,7 +324,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.lessThan(FIELD_NAME, parameter);
             validate(predicate, "name < ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -348,7 +342,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
             validate(predicate, "");
             predicate.lessOrEquals(FIELD_NAME, parameter);
             validate(predicate, "name <= ?1 ", parameter);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -416,7 +410,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -443,7 +437,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getManyToOneGroup().getName());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -486,7 +480,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      parameters);
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.manyToManyGroups o1 ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -514,7 +508,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getOneToOneGroup().getName());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -616,7 +610,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      parameters);
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.surnames o1 ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -665,7 +659,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -692,7 +686,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getManyToOneGroup().getName());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -735,7 +729,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      parameters);
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.manyToManyGroups o1 ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -763,7 +757,7 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      user.getCalendar().getCreationDate(), user.getCalendar().getUpdateDate(), user.getOneToOneGroup().getName());
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -826,11 +820,10 @@ public abstract class AbstractPredicateTest<P extends AbstractPredicate> {
                      parameters);
             Assert.assertEquals(predicate.getFrom().toString(), "from " + User.class.getName() + " o inner join o.surnames o1 ");
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
-
     }
 
     /**

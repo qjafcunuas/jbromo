@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,31 +24,20 @@ package org.jbromo.dao.jpa.query.jpql;
 import javax.persistence.EntityManager;
 
 import org.jbromo.common.dto.IDto;
-import org.jbromo.dao.common.exception.DaoException;
 
 /**
  * JPQL Query builder.
- *
  * @author qjafcunuas
- *
- * @param <D>
- *            the DTO type.
+ * @param <D> the DTO type.
  */
-public class JpqlDtoQueryBuilder<D extends IDto> extends
-        AbstractJpqlQueryBuilder<D> {
+public class JpqlDtoQueryBuilder<D extends IDto> extends AbstractJpqlQueryBuilder<D> {
 
     /**
      * Default constructor.
-     *
-     * @param entityManager
-     *            the entityManager to used.
-     * @param dtoClass
-     *            the dtoClass to used.
-     * @throws DaoException
-     *             exception.
+     * @param entityManager the entityManager to used.
+     * @param dtoClass the dtoClass to used.
      */
-    public JpqlDtoQueryBuilder(final EntityManager entityManager,
-            final Class<D> dtoClass) throws DaoException {
+    public JpqlDtoQueryBuilder(final EntityManager entityManager, final Class<D> dtoClass) {
         super(entityManager, dtoClass);
     }
 

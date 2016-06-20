@@ -24,8 +24,8 @@ package org.jbromo.dao.jpa;
 import java.util.List;
 
 import org.jbromo.common.dto.IDto;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.common.IDao;
-import org.jbromo.dao.common.exception.DaoException;
 
 /**
  * Define a Entity DAO interface.
@@ -39,8 +39,8 @@ public interface IDtoDao<D extends IDto> extends IDao {
      * @param <C> the criteria type.
      * @param criteria the criteria.
      * @return dto.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    <C> List<D> findAll(final C criteria) throws DaoException;
+    <C> List<D> findAll(final C criteria) throws MessageLabelException;
 
 }

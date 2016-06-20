@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,17 +24,15 @@ package org.jbromo.dao.common;
 import java.io.Serializable;
 
 import org.jbromo.common.crud.ICRUD;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 
 /**
  * Define a CRUD DAO interface.
- *
  * @author qjafcunuas
- * @param <E>
- *            the serializable type.
- * @param <P>
+ * @param <E> the serializable type.
+ * @param
+ *            <P>
  *            the primary key type.
  */
-public interface ICRUDDao<E extends Serializable, P extends Serializable>
-        extends ICRUD<E, P, DaoException>, IDao {
+public interface ICRUDDao<E extends Serializable, P extends Serializable> extends ICRUD<E, P, MessageLabelException>, IDao {
 }

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,15 +29,12 @@ import org.junit.runner.RunWith;
 
 /**
  * Define the Arquillian service test.
- *
  * @author qjafcunuas
- *
  */
 @RunWith(Arquillian.class)
 public class CityServiceIT extends AbstractCityServiceTestImpl {
     /**
      * Deploy archive.
-     *
      * @return the archive to deploy.
      */
     @Deployment

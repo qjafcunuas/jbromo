@@ -22,7 +22,7 @@
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 import org.jbromo.common.RandomUtil;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,14 +65,14 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
         final int[] parameters = new int[] {RandomUtil.nextInt(), RandomUtil.nextInt()};
         try {
             predicate.lessOrEquals(FIELD_NAME, parameters[0]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
         try {
             predicate.greaterThan(FIELD_NAME, parameters[1]);
             Assert.fail("Cannot set multi-criteria on unique predicate.");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             Assert.assertTrue(true);
         }
 
@@ -93,7 +93,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
             and.equals(FIELD_NAME + "2", parameters[1]);
             validate(predicate, "name1 <= ?1 and name2 = ?2 ", parameters[0], parameters[1]);
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -113,7 +113,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
             // Add one element to or predicate.
             or.equals(FIELD_NAME + "2", parameters[1]);
             validate(predicate, "(name1 <= ?1 or name2 = ?2 ) ", parameters[0], parameters[1]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -130,7 +130,7 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
             not.lessOrEquals(FIELD_NAME + "1", parameters[0]);
             validate(predicate, "not (name1 <= ?1 ) ", parameters[0]);
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -148,11 +148,10 @@ public abstract class AbstractUniquePredicateTest<P extends AbstractUniquePredic
             Assert.assertTrue(predicate.isEmpty());
             and.isNull("field");
             Assert.assertFalse(predicate.isEmpty());
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
-
     }
 
 }

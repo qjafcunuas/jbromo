@@ -57,16 +57,12 @@ public class MessageKeyTest {
                 case ARROW_UP:
                 case ARROW_UP_AND_DOWN:
                 case DEFAULT_MESSAGE:
+                case ENTITY_TO_CREATE_ALREADY_EXIST:
                 case ENTITY_MUST_BE_NOT_NULL:
                 case ENTITY_PK_MUST_BE_NOT_NULL:
-                case ENTITY_TO_CREATE_ALREADY_EXITS:
-                case ENTITY_TO_CREATE_IS_NULL:
-                case ENTITY_TO_DELETE_IS_NULL:
                 case ENTITY_TO_DELETE_IS_USED:
                 case ENTITY_TO_DELETE_NOT_FOUND:
-                case ENTITY_TO_UPDATE_IS_NULL:
                 case ENTITY_TO_UPDATE_NOT_FOUND:
-                case ENTITY_TOO_MUCH_RESULT:
                 case ENTITY_VALIDATION_ERROR:
                 case ERROR_DOWNLOAD_FILE:
                 case FALSE:

@@ -19,35 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.cdi.interceptor;
+package org.jbromo.dao.common.exception;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.descriptor.api.Descriptors;
-import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
-import org.jbromo.common.CommonArquillianUtil;
-import org.junit.runner.RunWith;
+import org.jbromo.common.exception.MessageLabelException;
+import org.jbromo.common.i18n.MessageKey;
 
 /**
- * Define JUnit CatchExceptionInterceptor Integration Test.
+ * Exception for DAO actions.
  * @author qjafcunuas
  */
-@RunWith(Arquillian.class)
-public class CatchExceptionInterceptorIT extends AbstractCatchExceptionInterceptorTestImpl {
+public class NullDataException extends MessageLabelException {
 
     /**
-     * Built an archive to deploy.
-     * @return the archive to deploy.
+     * serial version UID.
      */
-    @Deployment
-    public static JavaArchive createTestArchive() {
-        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(CatchExceptionInterceptor.class.getName())
-                .up();
+    private static final long serialVersionUID = 1223992049903172753L;
 
-        final JavaArchive arch = CommonArquillianUtil.createTestArchive(CatchExceptionInterceptorIT.class, beans);
-
-        return arch;
+    /**
+     * Default constructor.
+     */
+    public NullDataException() {
+        super(MessageKey.ENTITY_MUST_BE_NOT_NULL);
     }
-
 }

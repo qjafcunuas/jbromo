@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,21 +24,17 @@ package org.jbromo.dao.test.cdi;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.test.cdi.CdiContainerLoader;
 import org.jbromo.common.test.common.IContainer;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.junit.Assert;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Define the delta spike external container for JPA. This class must be
- * referenced in
- * META-INF\services\org.apache.deltaspike.testcontrol.spi.ExternalContainer
- * file.
- *
+ * Define the delta spike external container for JPA. This class must be referenced in
+ * META-INF\services\org.apache.deltaspike.testcontrol.spi.ExternalContainer file.
  * @author qjafcunuas
- *
  */
 @Slf4j
 public class JpaContainer implements IContainer {
@@ -62,12 +58,10 @@ public class JpaContainer implements IContainer {
 
     @Override
     public void postStart() {
-        Assert.assertNotNull(JpaProviderFactory.getInstance()
-                .getImplementation());
+        Assert.assertNotNull(JpaProviderFactory.getInstance().getImplementation());
         // Force CDI to load entity terminator so that at the end of the test,
         // it will be applied for deleting all entities (PreDestroy).
-        CdiContainerLoader.getInstance().getCdiContainer()
-                .select(CdiEntityTerminator.class).toString();
+        CdiContainerLoader.getInstance().getCdiContainer().select(CdiEntityTerminator.class).toString();
     }
 
     @Override

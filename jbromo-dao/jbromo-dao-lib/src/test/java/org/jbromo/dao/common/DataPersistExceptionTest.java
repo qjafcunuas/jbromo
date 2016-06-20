@@ -19,55 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.dao.common.exception;
+package org.jbromo.dao.common;
 
-import java.io.Serializable;
-import java.util.List;
-
+import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.common.i18n.MessageLabel;
+import org.jbromo.dao.common.exception.DataPersistException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Exception for DAO actions.
+ * Define JUnit DataPersistException class.
  * @author qjafcunuas
  */
-public class DaoValidationException extends DaoException {
+public class DataPersistExceptionTest {
 
     /**
-     * serial version UID.
+     * Test constructor(strings) method.
      */
-    private static final long serialVersionUID = 1223992049903172753L;
-
-    /**
-     * Default constructor.
-     */
-    DaoValidationException() {
-        super(MessageKey.ENTITY_VALIDATION_ERROR);
+    @Test
+    public void constructorString() {
+        final String msg = "my msg";
+        final DataPersistException exp = new DataPersistException(msg);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(msg, exp.getLabel().getParameters().get(0));
     }
 
     /**
-     * Constructor with message field.
-     * @param cause the exception
+     * Test constructor(throwable) method.
      */
-    DaoValidationException(final Throwable cause) {
-        super(MessageKey.ENTITY_VALIDATION_ERROR, cause);
-    }
-
-    /**
-     * Constructor with message field.
-     * @param parameters the message parameters
-     */
-    DaoValidationException(final List<Serializable> parameters) {
-        super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, parameters));
-    }
-
-    /**
-     * Constructor using fields.
-     * @param parameters the message parameters
-     * @param cause the exception
-     */
-    DaoValidationException(final List<Serializable> parameters, final Throwable cause) {
-        super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, parameters), cause);
+    @Test
+    public void constructorThrowable() {
+        final Throwable t = new Exception("error");
+        final DataPersistException exp = new DataPersistException(t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(0));
     }
 
 }

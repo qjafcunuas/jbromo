@@ -29,7 +29,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jbromo.service.exception.ServiceException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.webapp.jsf.sample.view.layer.service.DataRow;
 import org.jbromo.webapp.jsf.sample.view.layer.table.util.AbstractInitDataTableController;
 import org.jbromo.webapp.jsf.view.RenderView;
@@ -64,7 +64,7 @@ public class BromoHeaderDataTableController extends AbstractInitDataTableControl
     protected List<DataRow> findAll() {
         try {
             return getService().findAll(getModel().getCriteria(), null, getModel().getOrderBy());
-        } catch (final ServiceException e) {
+        } catch (final MessageLabelException e) {
             log.trace(e.getMessage(), e);
             getFacesMessages().message(e);
             return new ArrayList<DataRow>();

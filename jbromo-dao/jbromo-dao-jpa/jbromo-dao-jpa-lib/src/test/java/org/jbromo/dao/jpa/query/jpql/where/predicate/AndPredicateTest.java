@@ -23,7 +23,7 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.RandomUtil;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,7 +60,7 @@ public class AndPredicateTest extends AbstractMultiPredicateTest<AndPredicate> {
             // Add another element to and predicate.
             and.greaterThan(FIELD_NAME + "3", parameters[2]);
             validate(predicate, "name1 <= ?1 and name2 = ?2 and name3 > ?3 ", parameters[0], parameters[1], parameters[2]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -95,11 +95,10 @@ public class AndPredicateTest extends AbstractMultiPredicateTest<AndPredicate> {
             validate(predicate, "(name1 <= ?1 or name2 = ?2 ) and name3 != ?3 and name4 > ?4 ", parameters[0], parameters[1], parameters[2],
                      parameters[IntegerUtil.INT_3]);
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
-
     }
 
 }

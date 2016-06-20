@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,15 +30,13 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.ClassUtil;
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.StringUtil;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
-import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.query.jpql.JpqlEntityQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.from.JpqlFromBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.JpqlWhereBuilder;
@@ -57,11 +55,11 @@ import org.jbromo.model.common.util.INullObject;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.util.EntityUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define a predicate (AND, OR, NOT).
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public abstract class AbstractPredicate implements IPredicate {
@@ -73,9 +71,7 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Default constructor.
-     *
-     * @param where
-     *            the where clause.
+     * @param where the where clause.
      */
     protected AbstractPredicate(final JpqlWhereBuilder where) {
         super();
@@ -88,7 +84,6 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Return the from builder.
-     *
      * @return the builder.
      */
     protected JpqlFromBuilder getFrom() {
@@ -97,7 +92,6 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Return the entity manager.
-     *
      * @return the entity manager.
      */
     protected EntityManager getEntityManager() {
@@ -106,19 +100,15 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Return the query builder.
-     *
      * @return the query builder.
      */
     @SuppressWarnings("unchecked")
     private JpqlEntityQueryBuilder<IEntity<?>> getQueryBuilder() {
-        return (JpqlEntityQueryBuilder<IEntity<?>>) this.where
-                .getQueryBuilder();
+        return (JpqlEntityQueryBuilder<IEntity<?>>) this.where.getQueryBuilder();
     }
 
     /**
-     * Return true if predicate needs to be build with parenthesis. (ex:
-     * operator not(...) ).
-     *
+     * Return true if predicate needs to be build with parenthesis. (ex: operator not(...) ).
      * @return true/false.
      */
     public boolean isNeedParenthesis() {
@@ -127,40 +117,33 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Return the predicate's operator.
-     *
      * @return the operator.
      */
     protected abstract String getOperator();
 
     /**
      * Add a condition or a predicate to the current predicate.
-     *
-     * @param child
-     *            the child to add.
-     * @throws DaoException
-     *             exception.
+     * @param child the child to add.
+     * @throws MessageLabelException exception.
      */
-    abstract void add(final ICondition child) throws DaoException;
+    abstract void add(final ICondition child) throws MessageLabelException;
 
     @Override
-    public void equals(final String field, final Object value)
-            throws DaoException {
+    public void equals(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new EqualsCondition(field, value));
         }
     }
 
     @Override
-    public void notEquals(final String field, final Object value)
-            throws DaoException {
+    public void notEquals(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new NotEqualsCondition(field, value));
         }
     }
 
     @Override
-    public <T> void in(final String field, final Collection<T> values)
-            throws DaoException {
+    public <T> void in(final String field, final Collection<T> values) throws MessageLabelException {
         if (CollectionUtil.isEmpty(values)) {
             return;
         } else if (values.size() == 1) {
@@ -171,8 +154,7 @@ public abstract class AbstractPredicate implements IPredicate {
     }
 
     @Override
-    public <T> void notIn(final String field, final Collection<T> values)
-            throws DaoException {
+    public <T> void notIn(final String field, final Collection<T> values) throws MessageLabelException {
         if (CollectionUtil.isEmpty(values)) {
             return;
         } else if (values.size() == 1) {
@@ -183,38 +165,35 @@ public abstract class AbstractPredicate implements IPredicate {
     }
 
     @Override
-    public void like(final String field, final String value)
-            throws DaoException {
+    public void like(final String field, final String value) throws MessageLabelException {
         if (value != null) {
             add(new LikeCondition(field, value));
         }
     }
 
     @Override
-    public AndPredicate and() throws DaoException {
+    public AndPredicate and() throws MessageLabelException {
         final AndPredicate and = new AndPredicate(this.where);
         add(and);
         return and;
     }
 
     @Override
-    public OrPredicate or() throws DaoException {
+    public OrPredicate or() throws MessageLabelException {
         final OrPredicate or = new OrPredicate(this.where);
         add(or);
         return or;
     }
 
     @Override
-    public <E extends IEntity<?>> AndPredicate and(final E entity)
-            throws DaoException {
+    public <E extends IEntity<?>> AndPredicate and(final E entity) throws MessageLabelException {
         final AndPredicate and = and();
         and.entity(entity);
         return and;
     }
 
     @Override
-    public <E extends IEntity<?>> OrPredicate or(final E entity)
-            throws DaoException {
+    public <E extends IEntity<?>> OrPredicate or(final E entity) throws MessageLabelException {
         final OrPredicate or = or();
         or.entity(entity);
         return or;
@@ -222,47 +201,32 @@ public abstract class AbstractPredicate implements IPredicate {
 
     /**
      * Build query with an entity as criteria.
-     *
-     * @param <E>
-     *            the entity type.
-     * @param criteria
-     *            the entity criteria.
-     * @throws DaoException
-     *             exception.
+     * @param <E> the entity type.
+     * @param criteria the entity criteria.
+     * @throws MessageLabelException exception.
      */
-    protected <E extends IEntity<?>> void entity(final E criteria)
-            throws DaoException {
+    protected <E extends IEntity<?>> void entity(final E criteria) throws MessageLabelException {
         if (criteria == null) {
             return;
         }
-        final List<Field> fields = EntityUtil.getPersistedFields(criteria
-                .getClass());
+        final List<Field> fields = EntityUtil.getPersistedFields(criteria.getClass());
         final Set<Object> lockRecursive = new HashSet<Object>();
         for (final Field field : fields) {
-            entity(this, criteria, field, getFrom().getRootAlias(),
-                    lockRecursive);
+            entity(this, criteria, field, getFrom().getRootAlias(), lockRecursive);
         }
     }
 
     /**
      * Join element foe a specific criteria's field.
-     *
-     * @param predicate
-     *            the predicate.
-     * @param criteria
-     *            the criteria.
-     * @param field
-     *            the criteria's field.
-     * @param parentAlias
-     *            the parent field' alias.
-     * @param lockRecursive
-     *            prevent recursive call.
-     * @throws DaoException
-     *             exception.
+     * @param predicate the predicate.
+     * @param criteria the criteria.
+     * @param field the criteria's field.
+     * @param parentAlias the parent field' alias.
+     * @param lockRecursive prevent recursive call.
+     * @throws MessageLabelException exception.
      */
-    private void entity(final IPredicate predicate, final Object criteria,
-            final Field field, final String parentAlias,
-            final Set<Object> lockRecursive) throws DaoException {
+    private void entity(final IPredicate predicate, final Object criteria, final Field field, final String parentAlias,
+            final Set<Object> lockRecursive) throws MessageLabelException {
         try {
             if (lockRecursive.contains(criteria)) {
                 return;
@@ -273,13 +237,10 @@ public abstract class AbstractPredicate implements IPredicate {
             }
             lockRecursive.add(criteria);
             if (EntityUtil.isEmbedded(field) || EntityUtil.isEmbeddedId(field)) {
-                for (final Field embeddedField : EntityUtil
-                        .getPersistedFields(value.getClass())) {
-                    entity(predicate, value, embeddedField, parentAlias
-                            + StringUtil.DOT + field.getName(), lockRecursive);
+                for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
+                    entity(predicate, value, embeddedField, parentAlias + StringUtil.DOT + field.getName(), lockRecursive);
                 }
-            } else if (EntityUtil.isManyToOne(field)
-                    || EntityUtil.isOneToOne(field)) {
+            } else if (EntityUtil.isManyToOne(field) || EntityUtil.isOneToOne(field)) {
                 // Parent eager loading.
                 Object eagerLoading = getQueryBuilder().getEager(parentAlias);
                 if (eagerLoading != null) {
@@ -292,26 +253,20 @@ public abstract class AbstractPredicate implements IPredicate {
                 } else {
                     alias = parentAlias + StringUtil.DOT + field.getName();
                 }
-                for (final Field embeddedField : EntityUtil
-                        .getPersistedFields(value.getClass())) {
-                    entity(predicate, value, embeddedField, alias,
-                            lockRecursive);
+                for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
+                    entity(predicate, value, embeddedField, alias, lockRecursive);
                 }
 
-            } else if (value instanceof String
-                    && ((String) value).contains(StringUtil.STAR)) {
-                predicate.like(parentAlias + StringUtil.DOT + field.getName(),
-                        (String) value);
+            } else if (value instanceof String && ((String) value).contains(StringUtil.STAR)) {
+                predicate.like(parentAlias + StringUtil.DOT + field.getName(), (String) value);
             } else if (CollectionUtil.isCollection(field.getType())) {
                 final Collection<?> collection = (Collection<?>) value;
                 if (!CollectionUtil.isEmpty(collection)) {
                     String collectionAlias;
                     if (CollectionUtil.contains(collection, INullObject.class)) {
-                        collectionAlias = getFrom().leftJoin(parentAlias,
-                                field.getName(), true);
+                        collectionAlias = getFrom().leftJoin(parentAlias, field.getName(), true);
                     } else {
-                        collectionAlias = getFrom().join(parentAlias,
-                                field.getName(), true);
+                        collectionAlias = getFrom().join(parentAlias, field.getName(), true);
                     }
                     // build something like: (collection.entity1.field1 = ?
                     // and/or collection.entity1.field2 = ?) or
@@ -320,29 +275,23 @@ public abstract class AbstractPredicate implements IPredicate {
                     final IPredicate or = predicate.or();
                     for (final Object o : collection) {
                         if (INullObject.class.isInstance(o)) {
-                            final Field pkField = EntityUtil
-                                    .getPrimaryKeyField(o.getClass());
-                            or.isNull(collectionAlias + StringUtil.DOT
-                                    + pkField.getName());
+                            final Field pkField = EntityUtil.getPrimaryKeyField(o.getClass());
+                            or.isNull(collectionAlias + StringUtil.DOT + pkField.getName());
                         } else {
                             IPredicate next;
-                            if (ClassUtil.isInstance(predicate,
-                                    OrPredicate.class)) {
+                            if (ClassUtil.isInstance(predicate, OrPredicate.class)) {
                                 next = or;
                             } else {
                                 next = or.and();
                             }
-                            for (final Field collectionField : EntityUtil
-                                    .getPersistedFields(o.getClass())) {
-                                entity(next, o, collectionField,
-                                        collectionAlias, lockRecursive);
+                            for (final Field collectionField : EntityUtil.getPersistedFields(o.getClass())) {
+                                entity(next, o, collectionField, collectionAlias, lockRecursive);
                             }
                         }
                     }
                 }
             } else {
-                predicate.equals(
-                        parentAlias + StringUtil.DOT + field.getName(), value);
+                predicate.equals(parentAlias + StringUtil.DOT + field.getName(), value);
             }
             lockRecursive.remove(criteria);
 
@@ -352,44 +301,40 @@ public abstract class AbstractPredicate implements IPredicate {
     }
 
     @Override
-    public NotPredicate not() throws DaoException {
+    public NotPredicate not() throws MessageLabelException {
         final NotPredicate not = new NotPredicate(this.where);
         add(not);
         return not;
     }
 
     @Override
-    public void isNull(final String field) throws DaoException {
+    public void isNull(final String field) throws MessageLabelException {
         add(new IsNullCondition(field));
     }
 
     @Override
-    public void greaterThan(final String field, final Object value)
-            throws DaoException {
+    public void greaterThan(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new GreaterThanCondition(field, value));
         }
     }
 
     @Override
-    public void greaterOrEquals(final String field, final Object value)
-            throws DaoException {
+    public void greaterOrEquals(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new GreaterOrEqualsCondition(field, value));
         }
     }
 
     @Override
-    public void lessThan(final String field, final Object value)
-            throws DaoException {
+    public void lessThan(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new LessThanCondition(field, value));
         }
     }
 
     @Override
-    public void lessOrEquals(final String field, final Object value)
-            throws DaoException {
+    public void lessOrEquals(final String field, final Object value) throws MessageLabelException {
         if (value != null) {
             add(new LessOrEqualsCondition(field, value));
         }

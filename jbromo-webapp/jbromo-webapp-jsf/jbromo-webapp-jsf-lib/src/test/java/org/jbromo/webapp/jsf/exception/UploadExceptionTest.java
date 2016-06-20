@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,46 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.dao.common;
+package org.jbromo.webapp.jsf.exception;
 
-import org.jbromo.common.exception.AbstractMessageLabelExceptionFactoryTest;
+import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.dao.common.exception.DaoException;
-import org.jbromo.dao.common.exception.DaoExceptionFactory;
-import org.jbromo.dao.common.exception.DaoValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Define JUnit DaoExceptionFactory class.
- *
+ * Define JUnit UploadException class.
  * @author qjafcunuas
- *
  */
-public class DaoExceptionFactoryTest extends
-        AbstractMessageLabelExceptionFactoryTest<DaoException> {
-
-    @Override
-    protected DaoExceptionFactory getFactoryInstance() {
-        return DaoExceptionFactory.getInstance();
-    }
+public class UploadExceptionTest {
 
     /**
-     * Test newInstance method.
+     * Test constructor() method.
      */
     @Test
-    public void newInstanceValidation() {
-        super.newInstance(MessageKey.ENTITY_VALIDATION_ERROR,
-                DaoValidationException.class);
-
-        try {
-            throw getFactoryInstance().newInstance(
-                    MessageKey.ENTITY_VALIDATION_ERROR);
-        } catch (final DaoValidationException e) {
-            Assert.assertTrue(true);
-        } catch (final DaoException e) {
-            Assert.fail("newInstance should return a DaoValidationException class");
-        }
-
+    public void constructorString() {
+        final UploadException exp = new UploadException();
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.ERROR_DOWNLOAD_FILE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_0, exp.getLabel().getParameters().size());
     }
+
 }

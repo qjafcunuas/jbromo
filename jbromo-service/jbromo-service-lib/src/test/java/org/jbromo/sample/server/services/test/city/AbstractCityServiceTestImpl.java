@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,22 +23,19 @@ package org.jbromo.sample.server.services.test.city;
 
 import javax.inject.Inject;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.jbromo.sample.server.model.src.City;
 import org.jbromo.sample.server.services.src.city.ICityService;
 import org.jbromo.sample.server.services.test.AbstractEntityServiceTest;
 import org.jbromo.service.Service;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
  * Define the JUnit service test.
- *
  * @author qjafcunuas
- *
  */
-public abstract class AbstractCityServiceTestImpl extends
-        AbstractEntityServiceTest<City, Long> {
+public abstract class AbstractCityServiceTestImpl extends AbstractEntityServiceTest<City, Long> {
 
     /**
      * The service to test.

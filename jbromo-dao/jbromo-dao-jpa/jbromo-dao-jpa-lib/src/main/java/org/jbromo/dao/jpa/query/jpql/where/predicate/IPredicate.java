@@ -23,7 +23,7 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 import java.util.Collection;
 
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.query.jpql.where.condition.ICondition;
 import org.jbromo.model.jpa.IEntity;
 
@@ -36,120 +36,120 @@ public interface IPredicate extends ICondition {
      * Add Equals condition (JPQL "=").
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void equals(final String field, final Object value) throws DaoException;
+    void equals(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Add Equals condition (JPQL "!=").
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void notEquals(final String field, final Object value) throws DaoException;
+    void notEquals(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Add Equals condition (JPQL "in").
      * @param <T> the values type.
      * @param field the field.
      * @param values the condition's values.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    <T> void in(final String field, final Collection<T> values) throws DaoException;
+    <T> void in(final String field, final Collection<T> values) throws MessageLabelException;
 
     /**
      * Add Equals condition (JPQL "not in").
      * @param <T> the values type.
      * @param field the field.
      * @param values the condition's values.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    <T> void notIn(final String field, final Collection<T> values) throws DaoException;
+    <T> void notIn(final String field, final Collection<T> values) throws MessageLabelException;
 
     /**
      * Add Like condition (JPQL "is like").
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void like(final String field, final String value) throws DaoException;
+    void like(final String field, final String value) throws MessageLabelException;
 
     /**
      * Add is null condition (JPQL "is null").
      * @param field the field.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void isNull(final String field) throws DaoException;
+    void isNull(final String field) throws MessageLabelException;
 
     /**
      * Add greater than condition (JPQL greater).
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void greaterThan(final String field, final Object value) throws DaoException;
+    void greaterThan(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Add greater or equals condition (JPQL greater or equals).
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void greaterOrEquals(final String field, final Object value) throws DaoException;
+    void greaterOrEquals(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Add less than condition (JPQL inferior).
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void lessThan(final String field, final Object value) throws DaoException;
+    void lessThan(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Add less or equals then condition (JPQL inferior or equals).
      * @param field the field.
      * @param value the condition's value.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    void lessOrEquals(final String field, final Object value) throws DaoException;
+    void lessOrEquals(final String field, final Object value) throws MessageLabelException;
 
     /**
      * Return a new AND predicate.
      * @return the predicate.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    IPredicate and() throws DaoException;
+    IPredicate and() throws MessageLabelException;
 
     /**
      * Return a new OR predicate.
      * @return the predicate.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    IPredicate or() throws DaoException;
+    IPredicate or() throws MessageLabelException;
 
     /**
      * Return a new and entity predicate.
      * @param <E> entity type.
      * @param entity the entity to add.
      * @return the predicate.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    <E extends IEntity<?>> IPredicate and(final E entity) throws DaoException;
+    <E extends IEntity<?>> IPredicate and(final E entity) throws MessageLabelException;
 
     /**
      * Return a new or entity predicate.
      * @param <E> entity type.
      * @param entity the entity to add.
      * @return the predicate.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    <E extends IEntity<?>> IPredicate or(final E entity) throws DaoException;
+    <E extends IEntity<?>> IPredicate or(final E entity) throws MessageLabelException;
 
     /**
      * Return a new NOT predicate.
      * @return the predicate.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    IPredicate not() throws DaoException;
+    IPredicate not() throws MessageLabelException;
 
 }

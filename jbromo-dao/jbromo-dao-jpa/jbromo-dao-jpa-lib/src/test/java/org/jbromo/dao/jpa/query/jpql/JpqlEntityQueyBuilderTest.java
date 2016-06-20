@@ -21,7 +21,7 @@
  */
 package org.jbromo.dao.jpa.query.jpql;
 
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.dao.jpa.query.jpql.where.predicate.AndPredicate;
 import org.jbromo.model.jpa.IEntity;
@@ -50,12 +50,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
      * @return the builder.
      */
     private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(final Class<E> entityClass) {
-        try {
-            return new JpqlEntityQueryBuilder<E>(null, entityClass);
-        } catch (final DaoException e) {
-            Assert.fail("Cannot instantiate builder for class " + entityClass);
-            return null;
-        }
+        return new JpqlEntityQueryBuilder<E>(null, entityClass);
     }
 
     /**
@@ -68,7 +63,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
     private <E extends IEntity<?>> JpqlEntityQueryBuilder<E> newInstance(final Class<E> entityClass, final E eagerLoading) {
         try {
             return new JpqlEntityQueryBuilder<E>(null, entityClass, eagerLoading);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             Assert.fail("Cannot instantiate builder for class " + entityClass);
             return null;
         }
@@ -98,7 +93,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             queryBuilder.getWhere().equals("name", "toto");
             queryBuilder.getOrderBy().asc("name");
             validate(queryBuilder, "select distinct o from " + UserGroup.class.getName() + " o where name = ?1 order by name ASC ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -119,7 +114,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             and.notEquals("name", "tutu");
             validate(queryBuilder, "select distinct o from " + User.class.getName() + " o " + "inner join o.manyToOneGroup "
                                    + "where firstname = ?1 and name != ?2 order by firstname ASC,lastname ASC ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -143,7 +138,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
         try {
             new JpqlEntityQueryBuilder<User>(null, User.class, null);
             Assert.fail("Should throw an exception because null eager loading is not authorized.");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             Assert.assertTrue(true);
         }
 
@@ -167,7 +162,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o where o.login = ?1 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -210,7 +205,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.toString(),
                                 "select distinct o from " + User.class.getName() + " o where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -234,7 +229,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertEquals(queryBuilder.getEager("o.manyToOneGroup"), group);
             Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
                                                          + " o left join fetch o.manyToOneGroup where o.login = ?1 and o.manyToOneGroup.name = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -277,7 +272,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNull(queryBuilder.getEager("o.group"));
             Assert.assertEquals(queryBuilder.toString(),
                                 "select distinct o from " + User.class.getName() + " o where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -301,7 +296,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertEquals(queryBuilder.getEager("o.oneToOneGroup"), group);
             Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
                                                          + " o left join fetch o.oneToOneGroup where o.login = ?1 and o.oneToOneGroup.name = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -350,7 +345,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
                                                          + " o inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -380,7 +375,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
                         .toString(), "select distinct o from " + User.class.getName()
                                      + " o left join fetch o.manyToManyGroups inner join o.manyToManyGroups o1 where o.login = ?1 and o1.name = ?2 ");
             }
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -438,7 +433,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertEquals(queryBuilder
                     .toString(), "select distinct o from " + User.class.getName()
                                  + " o inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -473,7 +468,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
                 Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class
                         .getName() + " o left join fetch o.addresses inner join o.addresses o1 where o.login = ?1 and o1.street = ?2 and o1.city.name = ?3 ");
             }
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -518,7 +513,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNull(queryBuilder.getEager("o1"));
             Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
                                                          + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }
@@ -548,7 +543,7 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
                         .toString(), "select distinct o from " + User.class.getName()
                                      + " o left join fetch o.surnames inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
             }
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
         }

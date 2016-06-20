@@ -19,43 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.exception;
+package org.jbromo.dao.common;
 
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.dao.common.exception.TooMuchDataException;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Define JUnit MessageLabelExceptionFactoryFactory class.
+ * Define JUnit TooMuchDataException class.
  * @author qjafcunuas
  */
-public class MessageLabelExceptionFactoryFactoryTest {
+public class TooMuchDataExceptionTest {
 
     /**
-     * Test getInstance method.
+     * Test constructor(int) method.
      */
     @Test
-    public void getInstance() {
-        Assert.assertNotNull(MessageLabelExceptionFactoryFactory.getInstance());
-        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance(), MessageLabelExceptionFactoryFactory.getInstance());
-    }
-
-    /**
-     * Test getInstance(factory) method.
-     */
-    @Test
-    public void getInstanceFactory() {
-        getInstances(MessageLabelExceptionFactory.class);
-        getInstances(TestExceptionFactory.class);
-    }
-
-    /**
-     * Running test for a factory class.
-     * @param factoryClass the factory class.
-     */
-    private void getInstances(final Class<? extends IMessageLabelExceptionFactory<?>> factoryClass) {
-        Assert.assertNotNull(MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass));
-        Assert.assertEquals(MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass),
-                            MessageLabelExceptionFactoryFactory.getInstance().getInstance(factoryClass));
+    public void constructorString() {
+        final int max = IntegerUtil.INT_100;
+        final TooMuchDataException exp = new TooMuchDataException(max);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.TOO_MUCH_RESULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(max, exp.getLabel().getParameters().get(0));
     }
 
 }

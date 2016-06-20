@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,15 +22,12 @@
 package org.jbromo.dao.common.exception;
 
 import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.i18n.IMessageKey;
-import org.jbromo.common.i18n.IMessageLabel;
 
 /**
- * Exception for DAO actions.
- *
+ * Exception for DAO persistent actions.
  * @author qjafcunuas
  */
-public class DaoException extends MessageLabelException {
+public class DataFindException extends MessageLabelException {
     /**
      * serial version UID..
      */
@@ -38,46 +35,18 @@ public class DaoException extends MessageLabelException {
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
+     * @param message the message.
      */
-    DaoException(final IMessageKey key) {
-        super(key);
-    }
-
-    /**
-     * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     */
-    DaoException(final IMessageLabel label) {
-        super(label);
+    public DataFindException(final String message) {
+        super(message);
     }
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
-     * @param cause
-     *            the exception
+     * @param cause the exception
      */
-    DaoException(final IMessageKey key, final Throwable cause) {
-        super(key, cause);
-    }
-
-    /**
-     * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     * @param cause
-     *            the cause.
-     */
-    DaoException(final IMessageLabel label, final Throwable cause) {
-        super(label, cause);
+    public DataFindException(final Throwable cause) {
+        super(cause);
     }
 
 }

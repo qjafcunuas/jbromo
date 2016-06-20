@@ -19,16 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.common.cdi.interceptor;
+package org.jbromo.dao.common.exception;
 
-import org.jbromo.common.test.cdi.CdiRunner;
-import org.junit.runner.RunWith;
+import org.jbromo.common.exception.MessageLabelException;
 
 /**
- * Define JUnit CatchExceptionInterceptor Test.
+ * Exception for DAO persistent actions.
  * @author qjafcunuas
  */
-@RunWith(CdiRunner.class)
-public class CatchExceptionInterceptorTest extends AbstractCatchExceptionInterceptorTestImpl {
+public class DataPersistException extends MessageLabelException {
+    /**
+     * serial version UID..
+     */
+    private static final long serialVersionUID = 1223992049903172753L;
+
+    /**
+     * Constructor with message field.
+     * @param message the message.
+     */
+    public DataPersistException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor with message field.
+     * @param cause the exception
+     */
+    public DataPersistException(final Throwable cause) {
+        super(cause);
+    }
 
 }

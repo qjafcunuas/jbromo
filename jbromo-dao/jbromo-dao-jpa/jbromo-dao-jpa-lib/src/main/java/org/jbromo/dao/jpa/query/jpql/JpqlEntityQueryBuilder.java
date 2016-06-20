@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,33 +28,27 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.StringUtil;
-import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.common.i18n.MessageLabel;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
-import org.jbromo.dao.common.exception.DaoException;
-import org.jbromo.dao.common.exception.DaoExceptionFactory;
+import org.jbromo.dao.common.exception.DataFindException;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.util.EntityUtil;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * JPQL Query builder.
- *
  * @author qjafcunuas
- *
- * @param <E>
- *            the entity type.
+ * @param <E> the entity type.
  */
 @Slf4j
-public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
-        AbstractJpqlQueryBuilder<E> {
+public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends AbstractJpqlQueryBuilder<E> {
 
     /**
      * The eager loading object.
@@ -76,19 +70,12 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
 
     /**
      * Default constructor.
-     *
-     * @param entityManager
-     *            the entityManager to used.
-     * @param entityClass
-     *            the entityClass to used.
-     * @param eagerLoading
-     *            the eager loading object.
-     * @throws DaoException
-     *             exception.
+     * @param entityManager the entityManager to used.
+     * @param entityClass the entityClass to used.
+     * @param eagerLoading the eager loading object.
+     * @throws MessageLabelException exception.
      */
-    public JpqlEntityQueryBuilder(final EntityManager entityManager,
-            final Class<E> entityClass, final E eagerLoading)
-            throws DaoException {
+    public JpqlEntityQueryBuilder(final EntityManager entityManager, final Class<E> entityClass, final E eagerLoading) throws MessageLabelException {
         super(entityManager, entityClass);
         this.eagerLoading = eagerLoading;
         loadEagerLoading();
@@ -96,25 +83,17 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
 
     /**
      * Default constructor.
-     *
-     * @param entityManager
-     *            the entityManager to used.
-     * @param entityClass
-     *            the entityClass to used.
-     * @throws DaoException
-     *             exception.
+     * @param entityManager the entityManager to used.
+     * @param entityClass the entityClass to used.
      */
-    public JpqlEntityQueryBuilder(final EntityManager entityManager,
-            final Class<E> entityClass) throws DaoException {
+    public JpqlEntityQueryBuilder(final EntityManager entityManager, final Class<E> entityClass) {
         super(entityManager, entityClass);
         this.eagerLoading = null;
     }
 
     /**
      * Return an alias associated with an object.
-     *
-     * @param object
-     *            the object.
+     * @param object the object.
      * @return the alias.
      */
     public String getAlias(final Object object) {
@@ -123,9 +102,7 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
 
     /**
      * Return an alias associated with an object.
-     *
-     * @param alias
-     *            the alias.
+     * @param alias the alias.
      * @return the eager loading object.
      */
     public Object getEager(final String alias) {
@@ -134,11 +111,8 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
 
     /**
      * Set an alias for an object.
-     *
-     * @param object
-     *            the object.
-     * @param alias
-     *            the alias to set.
+     * @param object the object.
+     * @param alias the alias to set.
      */
     private void setAlias(final Object object, final String alias) {
         getAliasMapper().put(object, alias);
@@ -147,45 +121,32 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
 
     /**
      * Load the eager loading object.
-     *
-     * @throws DaoException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
-    private void loadEagerLoading() throws DaoException {
+    private void loadEagerLoading() throws MessageLabelException {
         try {
             if (getEagerLoading() == null) {
-                throw DaoExceptionFactory.getInstance().newInstance(
-                        new MessageLabel(MessageKey.DEFAULT_MESSAGE,
-                                "Eager loading object cannot be null"));
+                throw new DataFindException("Eager loading object cannot be null");
             }
             setAlias(getEagerLoading(), getFrom().getRootAlias());
 
-            for (final Field field : EntityUtil
-                    .getPersistedFields(getModelClass())) {
-                loadEagerLoading(getFrom().getRootAlias(), field,
-                        getEagerLoading());
+            for (final Field field : EntityUtil.getPersistedFields(getModelClass())) {
+                loadEagerLoading(getFrom().getRootAlias(), field, getEagerLoading());
             }
         } catch (final Exception e) {
             log.error("Cannot instantiate object " + this.eagerLoading, e);
-            throw DaoExceptionFactory.getInstance().newInstance(
-                    MessageKey.DEFAULT_MESSAGE, e);
+            throw new DataFindException(e);
         }
     }
 
     /**
      * Fetch the eager loading object.
-     *
-     * @param parentAlias
-     *            the alias of the parent.
-     * @param field
-     *            the field of the parent.
-     * @param parent
-     *            the parent value.
-     * @throws InvocationException
-     *             exception.
+     * @param parentAlias the alias of the parent.
+     * @param field the field of the parent.
+     * @param parent the parent value.
+     * @throws InvocationException exception.
      */
-    private void loadEagerLoading(final String parentAlias, final Field field,
-            final Object parent) throws InvocationException {
+    private void loadEagerLoading(final String parentAlias, final Field field, final Object parent) throws InvocationException {
         String alias;
         if (EntityUtil.isEntity(field.getType())) {
             final Object value = InvocationUtil.getValue(parent, field);
@@ -199,27 +160,22 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
                 // Entity a = new Entity()
                 // a.getChildren().add(new ChildEntity(a,new Entity2());
                 // Entity a exist twice, so we don't want recursively call.
-                alias = getFrom().leftJoinFetch(parentAlias, field.getName(),
-                        false);
+                alias = getFrom().leftJoinFetch(parentAlias, field.getName(), false);
                 setAlias(value, alias);
-                for (final Field childfield : EntityUtil
-                        .getPersistedFields(value.getClass())) {
+                for (final Field childfield : EntityUtil.getPersistedFields(value.getClass())) {
                     loadEagerLoading(alias, childfield, value);
                 }
             }
-        } else if (EntityUtil.isEmbedded(field)
-                || EntityUtil.isEmbeddedId(field)) {
+        } else if (EntityUtil.isEmbedded(field) || EntityUtil.isEmbeddedId(field)) {
             final Object value = InvocationUtil.getValue(parent, field);
             if (value == null) {
                 return;
             }
             alias = parentAlias + StringUtil.DOT + field.getName();
-            for (final Field embeddedField : EntityUtil
-                    .getPersistedFields(field)) {
+            for (final Field embeddedField : EntityUtil.getPersistedFields(field)) {
                 loadEagerLoading(alias, embeddedField, value);
             }
-        } else if (EntityUtil.isOneToMany(field)
-                || EntityUtil.isManyToMany(field)) {
+        } else if (EntityUtil.isOneToMany(field) || EntityUtil.isManyToMany(field)) {
             final Object value = InvocationUtil.getValue(parent, field);
             if (value == null) {
                 return;
@@ -227,18 +183,13 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends
             final Collection<?> col = (Collection<?>) value;
             if (!CollectionUtil.isEmpty(col)) {
                 final Object child = col.iterator().next();
-                alias = getFrom().leftJoinFetch(
-                        parentAlias,
-                        field.getName(),
-                        JpaProviderFactory.getInstance().getImplementation()
-                                .isFetchAliasable());
+                alias = getFrom().leftJoinFetch(parentAlias, field.getName(),
+                                                JpaProviderFactory.getInstance().getImplementation().isFetchAliasable());
                 setAlias(child, alias);
                 // Provider authorize alias on fetch query.
                 // So we can eager loading sub entities.
-                if (JpaProviderFactory.getInstance().getImplementation()
-                        .isFetchAliasable()) {
-                    for (final Field childfield : EntityUtil
-                            .getPersistedFields(child.getClass())) {
+                if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
+                    for (final Field childfield : EntityUtil.getPersistedFields(child.getClass())) {
                         loadEagerLoading(alias, childfield, child);
                     }
                 }

@@ -22,9 +22,10 @@
 package org.jbromo.common.i18n;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.jbromo.common.ListUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,7 +61,7 @@ public class MessageLabel implements IMessageLabel {
     /**
      * The parameters.
      */
-    private final List<Serializable> parameters = new ArrayList<>();
+    private final List<Serializable> parameters = ListUtil.toList();
 
     /**
      * Default constructor.

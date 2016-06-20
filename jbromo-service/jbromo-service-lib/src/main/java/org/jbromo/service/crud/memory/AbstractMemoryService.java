@@ -39,12 +39,11 @@ import javax.ejb.TransactionAttributeType;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.dto.IOrderBy;
-import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
+import org.jbromo.dao.common.exception.DataFindException;
 import org.jbromo.service.crud.AbstractCrudService;
-import org.jbromo.service.exception.ServiceException;
-import org.jbromo.service.exception.ServiceExceptionFactory;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -69,7 +68,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public M save(final M model) throws ServiceException {
+    public M save(final M model) throws MessageLabelException {
         if (!getMap().containsValue(model)) {
             return create(model);
         } else {
@@ -79,26 +78,26 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public M create(final M model) throws ServiceException {
+    public M create(final M model) throws MessageLabelException {
         getMap().put(model.hashCode(), model);
         return model;
     }
 
     @Override
-    public M read(final M model) throws ServiceException {
+    public M read(final M model) throws MessageLabelException {
         return getMap().get(model.hashCode());
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public M update(final M model) throws ServiceException {
+    public M update(final M model) throws MessageLabelException {
         getMap().put(model.hashCode(), model);
         return model;
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public boolean delete(final M model) throws ServiceException {
+    public boolean delete(final M model) throws MessageLabelException {
         if (getMap().containsKey(model.hashCode())) {
             getMap().remove(model.hashCode());
             return true;
@@ -108,12 +107,12 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
     }
 
     @Override
-    public List<M> findAll() throws ServiceException {
+    public List<M> findAll() throws MessageLabelException {
         return ListUtil.toList(getMap().values());
     }
 
     @Override
-    public List<M> findAll(final M criteria) throws ServiceException {
+    public List<M> findAll(final M criteria) throws MessageLabelException {
         if (criteria == null) {
             return findAll();
         }
@@ -127,7 +126,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
                 try {
                     value = InvocationUtil.getValue(criteria, field);
                 } catch (final InvocationException e) {
-                    throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
+                    throw new DataFindException(e);
                 }
                 if (value != null) {
                     filters.put(field.getName(), value);
@@ -144,7 +143,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
                 try {
                     value = InvocationUtil.getValue(one, entry.getKey());
                 } catch (final InvocationException e) {
-                    throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
+                    throw new DataFindException(e);
                 }
                 if (value == null) {
                     correct = null;
@@ -166,7 +165,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
     }
 
     @Override
-    public List<M> findAll(final M criteria, final M eagerLoading, final List<IOrderBy> orderBy) throws ServiceException {
+    public List<M> findAll(final M criteria, final M eagerLoading, final List<IOrderBy> orderBy) throws MessageLabelException {
         final List<M> list = findAll(criteria);
         final Comparator<M> comparator = new Comparator<M>() {
             @Override
@@ -199,7 +198,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
     }
 
     @Override
-    public M findByPk(final Integer primaryKey) throws ServiceException {
+    public M findByPk(final Integer primaryKey) throws MessageLabelException {
         if (getMap().containsKey(primaryKey)) {
             return getMap().get(primaryKey);
         } else {
@@ -208,55 +207,55 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
     }
 
     @Override
-    public <C extends Collection<M>> C create(final C transientInstance) throws ServiceException {
+    public <C extends Collection<M>> C create(final C transientInstance) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <C extends Collection<M>> C update(final C detachedInstance) throws ServiceException {
+    public <C extends Collection<M>> C update(final C detachedInstance) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void delete(final Collection<M> detachedInstance) throws ServiceException {
+    public void delete(final Collection<M> detachedInstance) throws MessageLabelException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public <C extends Collection<M>> C save(final C detachedInstance) throws ServiceException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys) throws ServiceException {
+    public <C extends Collection<M>> C save(final C detachedInstance) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public M findByPk(final Integer primaryKey, final M eagerLoading) throws ServiceException {
+    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys, final M eagerLoading) throws ServiceException {
+    public M findByPk(final Integer primaryKey, final M eagerLoading) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Long count() throws ServiceException {
+    public Collection<M> findAllByPk(final Collection<Integer> primaryKeys, final M eagerLoading) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <C extends Collection<M>> C read(final C detachedInstance) throws ServiceException {
+    public Long count() throws MessageLabelException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <C extends Collection<M>> C read(final C detachedInstance) throws MessageLabelException {
         // TODO Auto-generated method stub
         return null;
     }

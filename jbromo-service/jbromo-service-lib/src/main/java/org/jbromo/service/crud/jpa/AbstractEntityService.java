@@ -31,13 +31,10 @@ import javax.ejb.TransactionAttributeType;
 import org.jbromo.common.cdi.annotation.Transactional;
 import org.jbromo.common.cdi.annotation.Transactional.TxType;
 import org.jbromo.common.dto.IOrderBy;
-import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.IEntityDao;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.service.crud.AbstractCrudService;
-import org.jbromo.service.exception.ServiceException;
-import org.jbromo.service.exception.ServiceExceptionFactory;
 
 /**
  * The class for implementation of CRUD services.
@@ -49,7 +46,6 @@ import org.jbromo.service.exception.ServiceExceptionFactory;
  */
 public abstract class AbstractEntityService<E extends IEntity<P>, P extends Serializable> extends AbstractCrudService<E, P>
     implements IEntityService<E, P> {
-
     /**
      * Serial version UID for class.
      */
@@ -64,7 +60,7 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E save(final E entity) throws ServiceException {
+    public E save(final E entity) throws MessageLabelException {
         if (entity.getPrimaryKey() == null) {
             return create(entity);
         } else {
@@ -75,186 +71,104 @@ public abstract class AbstractEntityService<E extends IEntity<P>, P extends Seri
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E create(final E entity) throws ServiceException {
-        if (entity == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_CREATE_IS_NULL);
-        }
-
-        try {
-            return getEntityDao().create(entity);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public E create(final E entity) throws MessageLabelException {
+        return getEntityDao().create(entity);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E read(final E entity) throws ServiceException {
-        if (entity == null || entity.getPrimaryKey() == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
-        }
-        try {
-            return getEntityDao().findByPk(entity.getPrimaryKey());
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public E read(final E entity) throws MessageLabelException {
+        return getEntityDao().findByPk(entity.getPrimaryKey());
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public <C extends Collection<E>> C read(final C transientInstance) throws ServiceException {
-        try {
-            return getEntityDao().read(transientInstance);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public <C extends Collection<E>> C read(final C transientInstance) throws MessageLabelException {
+        return getEntityDao().read(transientInstance);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E update(final E entity) throws ServiceException {
-        if (entity == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_UPDATE_IS_NULL);
-        }
-
-        try {
-            return getEntityDao().update(entity);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public E update(final E entity) throws MessageLabelException {
+        return getEntityDao().update(entity);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public boolean delete(final E entity) throws ServiceException {
-        if (entity == null || entity.getPrimaryKey() == null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
-        }
-        try {
-            return getEntityDao().delete(entity);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public boolean delete(final E entity) throws MessageLabelException {
+        return getEntityDao().delete(entity);
     }
 
     @Override
-    public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws ServiceException {
-        try {
-            return getEntityDao().findAll(criteria, eagerLoading, orderBy);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws MessageLabelException {
+        return getEntityDao().findAll(criteria, eagerLoading, orderBy);
     }
 
     @Override
-    public List<E> findAll(final E criteria) throws ServiceException {
-        try {
-            return getEntityDao().findAll(criteria);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public List<E> findAll(final E criteria) throws MessageLabelException {
+        return getEntityDao().findAll(criteria);
     }
 
     @Override
-    public List<E> findAll() throws ServiceException {
-        try {
-            return getEntityDao().findAll();
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public List<E> findAll() throws MessageLabelException {
+        return getEntityDao().findAll();
     }
 
     @Override
-    public E findByPk(final P primaryKey) throws ServiceException {
-        try {
-            return getEntityDao().findByPk(primaryKey);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public E findByPk(final P primaryKey) throws MessageLabelException {
+        return getEntityDao().findByPk(primaryKey);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C create(final C transientInstance) throws ServiceException {
-        try {
-            return getEntityDao().create(transientInstance);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public <C extends Collection<E>> C create(final C transientInstance) throws MessageLabelException {
+        return getEntityDao().create(transientInstance);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C update(final C detachedInstance) throws ServiceException {
-        try {
-            return getEntityDao().update(detachedInstance);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public <C extends Collection<E>> C update(final C detachedInstance) throws MessageLabelException {
+        return getEntityDao().update(detachedInstance);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public void delete(final Collection<E> detachedInstance) throws ServiceException {
-        try {
-            getEntityDao().delete(detachedInstance);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public void delete(final Collection<E> detachedInstance) throws MessageLabelException {
+        getEntityDao().delete(detachedInstance);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C save(final C detachedInstance) throws ServiceException {
-        try {
-            return getEntityDao().save(detachedInstance);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public <C extends Collection<E>> C save(final C detachedInstance) throws MessageLabelException {
+        return getEntityDao().save(detachedInstance);
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws ServiceException {
-        try {
-            return getEntityDao().findAllByPk(primaryKeys);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws MessageLabelException {
+        return getEntityDao().findAllByPk(primaryKeys);
     }
 
     @Override
-    public E findByPk(final P primaryKey, final E eagerLoading) throws ServiceException {
-        try {
-            return getEntityDao().findByPk(primaryKey, eagerLoading);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public E findByPk(final P primaryKey, final E eagerLoading) throws MessageLabelException {
+        return getEntityDao().findByPk(primaryKey, eagerLoading);
     }
 
     @Override
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws ServiceException {
-        try {
-            return getEntityDao().findAllByPk(primaryKeys, eagerLoading);
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws MessageLabelException {
+        return getEntityDao().findAllByPk(primaryKeys, eagerLoading);
     }
 
     @Override
-    public Long count() throws ServiceException {
-        try {
-            return getEntityDao().count();
-        } catch (final DaoException e) {
-            throw ServiceExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
+    public Long count() throws MessageLabelException {
+        return getEntityDao().count();
     }
 
 }

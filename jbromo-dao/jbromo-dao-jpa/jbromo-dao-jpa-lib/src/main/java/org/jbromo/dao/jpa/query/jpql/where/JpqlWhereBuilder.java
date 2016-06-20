@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,24 +24,21 @@ package org.jbromo.dao.jpa.query.jpql.where;
 import java.io.Serializable;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.jbromo.common.StringUtil;
 import org.jbromo.dao.jpa.query.jpql.AbstractJpqlQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.predicate.AbstractUniquePredicate;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
- * Define the JPQL where builder. The builder is based on : predicate, condition
- * and expression.
+ * Define the JPQL where builder. The builder is based on : predicate, condition and expression.
  * <ul>
  * <li>And, Or, Not operators are predicates.</li>
  * <li>"=", "like is" are conditions.</li>
  * <li>"avg(field)", "sum(field)" are expressions.</li>
  * </ul>
- *
  * @author qjafcunuas
- *
  */
 public final class JpqlWhereBuilder extends AbstractUniquePredicate {
     /**
@@ -52,12 +49,9 @@ public final class JpqlWhereBuilder extends AbstractUniquePredicate {
 
     /**
      * Default constructor.
-     *
-     * @param abstractJpqlQueryBuilder
-     *            the query builder.
+     * @param abstractJpqlQueryBuilder the query builder.
      */
-    public JpqlWhereBuilder(
-            final AbstractJpqlQueryBuilder<? extends Serializable> abstractJpqlQueryBuilder) {
+    public JpqlWhereBuilder(final AbstractJpqlQueryBuilder<? extends Serializable> abstractJpqlQueryBuilder) {
         super(null);
         this.queryBuilder = abstractJpqlQueryBuilder;
     }

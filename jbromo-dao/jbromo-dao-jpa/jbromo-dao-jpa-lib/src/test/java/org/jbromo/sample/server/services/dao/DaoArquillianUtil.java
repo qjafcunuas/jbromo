@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,6 @@ package org.jbromo.sample.server.services.dao;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptors;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
-import org.jbromo.common.cdi.interceptor.CatchExceptionInterceptor;
 import org.jbromo.common.cdi.interceptor.LogCallbackInterceptor;
 import org.jbromo.common.test.arquillian.ArquillianUtil;
 import org.jbromo.dao.BromoDaoArquillianRoot;
@@ -33,42 +32,33 @@ import org.jbromo.dao.test.common.EntityDaoDecoratorWeld;
 
 /**
  * Default implementation for bromo-dao arquillian test.
- * 
  * @author qjafcunuas
- * 
  */
 public final class DaoArquillianUtil {
 
-	/**
-	 * Default constructor.
-	 */
-	private DaoArquillianUtil() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    private DaoArquillianUtil() {
+        super();
+    }
 
-	/**
-	 * Build an archive to deploy for arquillian test.
-	 * 
-	 * @param classToTest
-	 *            the class to test.
-	 * @return the archive to deploy.
-	 */
-	public static JavaArchive createTestArchive(final Class<?> classToTest) {
-		final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class)
-				.createInterceptors()
-				.clazz(LogCallbackInterceptor.class.getName())
-				.clazz(CatchExceptionInterceptor.class.getName()).up()
-				.createDecorators().clazz(EntityDaoDecoratorWeld.class.getName())
-				.up();
+    /**
+     * Build an archive to deploy for arquillian test.
+     * @param classToTest the class to test.
+     * @return the archive to deploy.
+     */
+    public static JavaArchive createTestArchive(final Class<?> classToTest) {
+        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(LogCallbackInterceptor.class.getName())
+                .up().createDecorators().clazz(EntityDaoDecoratorWeld.class.getName()).up();
 
-		final JavaArchive arch = ArquillianUtil.createTestDependenciesArchive(
-				classToTest, beans, BromoDaoArquillianRoot.class.getPackage(),
-				DaoArquillianUtil.class.getPackage()).addAsManifestResource(
-				"jboss/test-persistence.xml", "persistence.xml");
+        final JavaArchive arch = ArquillianUtil
+                .createTestDependenciesArchive(classToTest, beans, BromoDaoArquillianRoot.class.getPackage(), DaoArquillianUtil.class.getPackage())
+                .addAsManifestResource("jboss/test-persistence.xml", "persistence.xml");
 
-		arch.deletePackages(true, CdiEntityManagerProducer.class.getPackage());
-		return arch;
+        arch.deletePackages(true, CdiEntityManagerProducer.class.getPackage());
+        return arch;
 
-	}
+    }
 
 }

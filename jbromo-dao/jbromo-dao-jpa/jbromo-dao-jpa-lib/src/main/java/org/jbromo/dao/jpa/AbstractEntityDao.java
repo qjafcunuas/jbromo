@@ -46,12 +46,14 @@ import org.jbromo.common.StringUtil;
 import org.jbromo.common.cdi.annotation.Transactional;
 import org.jbromo.common.cdi.annotation.Transactional.TxType;
 import org.jbromo.common.dto.IOrderBy;
-import org.jbromo.common.i18n.MessageKey;
-import org.jbromo.common.i18n.MessageLabel;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
-import org.jbromo.dao.common.exception.DaoException;
-import org.jbromo.dao.common.exception.DaoExceptionFactory;
+import org.jbromo.dao.common.exception.DataPersistException;
+import org.jbromo.dao.common.exception.NullDataException;
+import org.jbromo.dao.common.exception.NullPrimaryKeyException;
+import org.jbromo.dao.common.exception.TooMuchDataException;
+import org.jbromo.dao.common.exception.ValidationException;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 import org.jbromo.dao.jpa.query.jpql.JpqlEntityQueryBuilder;
 import org.jbromo.model.jpa.IEntity;
@@ -134,9 +136,9 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     /**
      * Validates entities.
      * @param entities entities to validate
-     * @throws DaoException on exception.
+     * @throws MessageLabelException on exception.
      */
-    protected void validateEntities(final Collection<IEntity<Serializable>> entities) throws DaoException {
+    protected void validateEntities(final Collection<IEntity<Serializable>> entities) throws MessageLabelException {
         for (final IEntity<Serializable> entity : entities) {
             validateEntity(entity);
         }
@@ -145,9 +147,9 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     /**
      * Validates entity.
      * @param entity entity to validate
-     * @throws DaoException on exception.
+     * @throws MessageLabelException on exception.
      */
-    protected void validateEntity(final IEntity<Serializable> entity) throws DaoException {
+    protected void validateEntity(final IEntity<Serializable> entity) throws MessageLabelException {
         final Set<ConstraintViolation<IEntity<Serializable>>> constraints = validator.validate(entity);
 
         if (!constraints.isEmpty()) {
@@ -169,8 +171,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
                 message.append(". ");
             }
             log.warn(message.toString());
-            final MessageLabel label = new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, message.toString());
-            throw DaoExceptionFactory.getInstance().newInstance(label);
+            throw new ValidationException(message.toString());
         }
         for (final Field field : EntityUtil.getPersistedFields(entity.getClass())) {
             if (EntityUtil.isOneToMany(field)) {
@@ -178,7 +179,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
                     final Collection<IEntity<Serializable>> entities = InvocationUtil.getValue(entity, field);
                     validateEntities(entities);
                 } catch (final InvocationException e) {
-                    throw DaoExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
+                    throw new DataPersistException(e);
                 }
             }
         }
@@ -187,10 +188,10 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E read(final E transientInstance) throws DaoException {
+    public E read(final E transientInstance) throws MessageLabelException {
         log.trace("Read entity {}", transientInstance);
         if (transientInstance == null || transientInstance.getPrimaryKey() == null) {
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
+            throw new NullPrimaryKeyException();
         }
         return findByPk(transientInstance.getPrimaryKey());
     }
@@ -198,10 +199,10 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E findByPk(final P pk) throws DaoException {
+    public E findByPk(final P pk) throws MessageLabelException {
         log.trace("Get entity {} for pk {}", getModelClass().getName(), pk);
         if (pk == null) {
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
+            throw new NullPrimaryKeyException();
         }
         final E entity = getEntityManager().find(getModelClass(), pk);
         if (entity == null) {
@@ -216,9 +217,9 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
      * Return a query builder.
      * @param eagerLoading the eager loading object.
      * @return the query builder.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    protected JpqlEntityQueryBuilder<E> getQueryBuilder(final E eagerLoading) throws DaoException {
+    protected JpqlEntityQueryBuilder<E> getQueryBuilder(final E eagerLoading) throws MessageLabelException {
         if (eagerLoading == null) {
             return new JpqlEntityQueryBuilder<>(getEntityManager(), getModelClass());
         } else {
@@ -230,12 +231,12 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public E findByPk(final P pk, final E eagerLoading) throws DaoException {
+    public E findByPk(final P pk, final E eagerLoading) throws MessageLabelException {
         if (eagerLoading == null) {
             return findByPk(pk);
         }
         if (pk == null) {
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_PK_MUST_BE_NOT_NULL);
+            throw new NullPrimaryKeyException();
         }
         log.trace("Get entity {} for pk {}", getModelClass().getName(), pk);
         final JpqlEntityQueryBuilder<E> queryBuilder = getQueryBuilder(eagerLoading);
@@ -254,10 +255,10 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws DaoException {
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws MessageLabelException {
         E eager = eagerLoading;
         if (eagerLoading == null) {
-            eager = newInstance(getModelClass());
+            eager = ObjectUtil.newInstance(getModelClass());
         }
         if (primaryKeys == null) {
             return null;
@@ -266,7 +267,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
             return ObjectUtil.newInstance(primaryKeys.getClass());
         }
         if (primaryKeys.size() >= MAX_ELEMENTS) {
-            throw DaoExceptionFactory.getInstance().newInstance(new MessageLabel(MessageKey.ENTITY_TOO_MUCH_RESULT, MAX_ELEMENTS));
+            throw new TooMuchDataException(MAX_ELEMENTS);
         }
 
         log.trace("Get entities {} for {} pk with eager loading ", getModelClass().getName(), primaryKeys.size());
@@ -285,14 +286,14 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws DaoException {
+    public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws MessageLabelException {
         return findAllByPk(primaryKeys, (E) null);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public List<E> findAll() throws DaoException {
+    public List<E> findAll() throws MessageLabelException {
         log.trace("Find all entities {}", getModelClass().getName());
         final JpqlEntityQueryBuilder<E> queryBuilder = getQueryBuilder(null);
         final List<E> entities = queryBuilder.getResultList();
@@ -303,7 +304,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public List<E> findAll(final E criteria) throws DaoException {
+    public List<E> findAll(final E criteria) throws MessageLabelException {
         return findAll(criteria, null, null);
     }
 
@@ -334,11 +335,11 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws DaoException {
+    public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws MessageLabelException {
         log.trace("Find all entities {}", getModelClass().getName());
         E eager = eagerLoading;
         if (eager == null) {
-            eager = newInstance(getModelClass());
+            eager = ObjectUtil.newInstance(getModelClass());
         }
         final JpqlEntityQueryBuilder<E> queryBuilder = getQueryBuilder(eager);
         queryBuilder.getWhere().and(criteria);
@@ -391,11 +392,11 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E create(final E transientInstance) throws DaoException {
+    public E create(final E transientInstance) throws MessageLabelException {
         log.trace("Create a new entity {}", getModelClass().getName());
         if (transientInstance == null) {
             log.warn("Try to create a null object !");
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_CREATE_IS_NULL);
+            throw new NullDataException();
         }
         validateEntity((IEntity<Serializable>) transientInstance);
         mapsId(transientInstance);
@@ -457,9 +458,9 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     /**
      * Reset object fields.
      * @param entity the entity.
-     * @throws DaoException exception.
+     * @throws MessageLabelException exception.
      */
-    private void reSet(final E entity) throws DaoException {
+    private void reSet(final E entity) throws MessageLabelException {
         for (final Field field : EntityUtil.getPersistedFields(entity.getClass())) {
             if (SetUtil.isSet(field.getType())) {
                 try {
@@ -467,7 +468,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
                     set.size();
                     SetUtil.reSet(set);
                 } catch (final InvocationException e) {
-                    throw DaoExceptionFactory.getInstance().newInstance(new MessageLabel(MessageKey.DEFAULT_MESSAGE, "Cannot reSet field " + field));
+                    throw new DataPersistException("Cannot reSet field " + field);
                 }
             }
         }
@@ -477,11 +478,11 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E update(final E detachedInstance) throws DaoException {
+    public E update(final E detachedInstance) throws MessageLabelException {
         log.trace("Update one entity {}", getModelClass().getName());
         if (detachedInstance == null) {
             log.warn("Try to update a null object !");
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_UPDATE_IS_NULL);
+            throw new NullDataException();
         }
         validateEntity((IEntity<Serializable>) detachedInstance);
         mapsId(detachedInstance);
@@ -566,11 +567,11 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public boolean delete(final E detachedInstance) throws DaoException {
+    public boolean delete(final E detachedInstance) throws MessageLabelException {
         log.trace("Delete one entity {}", getModelClass().getName());
         if (detachedInstance == null) {
             log.warn("Try to delete a null object !");
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_DELETE_IS_NULL);
+            throw new NullDataException();
         }
         final E persistedInstance = findByPk(detachedInstance.getPrimaryKey());
         if (persistedInstance == null) {
@@ -585,10 +586,10 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public void delete(final Collection<E> detachedInstance) throws DaoException {
+    public void delete(final Collection<E> detachedInstance) throws MessageLabelException {
         if (CollectionUtil.isEmpty(detachedInstance)) {
             log.warn("Try to delete a null or empty objects !");
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.ENTITY_TO_DELETE_IS_NULL);
+            throw new NullDataException();
         }
         for (final E entity : detachedInstance) {
             delete(entity);
@@ -598,7 +599,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public Long count() throws DaoException {
+    public Long count() throws MessageLabelException {
         log.trace("Count entities {}", getModelClass().getName());
         final Long count = (Long) getEntityManager().createQuery("SELECT COUNT(o) FROM " + getModelClass().getName() + " o").getSingleResult();
         log.trace("Count {} entities {}", count, getModelClass().getName());
@@ -607,36 +608,19 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     /**
      * Create a new instance of an object.
-     * @param <O> the object type.
-     * @param objectClass the object class to get a new instance.
-     * @return the new instance.
-     * @throws DaoException exception.
-     */
-    private <O extends Object> O newInstance(final Class<O> objectClass) throws DaoException {
-        try {
-            return ObjectUtil.newInstance(objectClass);
-        } catch (final Exception e) {
-            log.error("Cannot instanciate class", e);
-            throw DaoExceptionFactory.getInstance().newInstance(MessageKey.DEFAULT_MESSAGE, e);
-        }
-    }
-
-    /**
-     * Create a new instance of an object.
      * @param <C> the collection type.
      * @param transientInstance the object to get a new instance.
      * @return the new instance.
-     * @throws DaoException exception.
      */
     @SuppressWarnings("unchecked")
-    private <C extends Collection<E>> C newInstance(final C transientInstance) throws DaoException {
+    private <C extends Collection<E>> C newInstance(final C transientInstance) {
         return (C) ObjectUtil.newInstance(transientInstance.getClass());
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C create(final C transientInstance) throws DaoException {
+    public <C extends Collection<E>> C create(final C transientInstance) throws MessageLabelException {
         final C created = newInstance(transientInstance);
         for (final E entity : transientInstance) {
             created.add(create(entity));
@@ -648,7 +632,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
-    public <C extends Collection<E>> C read(final C detachedInstance) throws DaoException {
+    public <C extends Collection<E>> C read(final C detachedInstance) throws MessageLabelException {
         final Collection<P> primaryKeys = EntityUtil.getPrimaryKeys(detachedInstance);
         return (C) findAllByPk(primaryKeys);
     }
@@ -656,7 +640,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C update(final C detachedInstance) throws DaoException {
+    public <C extends Collection<E>> C update(final C detachedInstance) throws MessageLabelException {
         final C updated = newInstance(detachedInstance);
         for (final E entity : detachedInstance) {
             updated.add(update(entity));
@@ -667,7 +651,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public E save(final E detachedInstance) throws DaoException {
+    public E save(final E detachedInstance) throws MessageLabelException {
         if (EntityUtil.isNullPk(detachedInstance)) {
             return create(detachedInstance);
         } else {
@@ -678,7 +662,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
-    public <C extends Collection<E>> C save(final C transientInstance) throws DaoException {
+    public <C extends Collection<E>> C save(final C transientInstance) throws MessageLabelException {
         final C saved = newInstance(transientInstance);
         for (final E one : transientInstance) {
             saved.add(save(one));

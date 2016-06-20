@@ -1,3 +1,24 @@
+/*-
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package org.jbromo.webapp.jsf.sample.view.layer.table.rowclick;
 
 import java.util.List;
@@ -7,25 +28,22 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
-import org.jbromo.service.exception.ServiceException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.webapp.jsf.sample.view.layer.service.DataRow;
 import org.jbromo.webapp.jsf.sample.view.layer.table.util.AbstractInitDataTableController;
 import org.jbromo.webapp.jsf.view.RenderView;
 import org.jbromo.webapp.jsf.view.RenderViewEvent;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
  * Define the table controller with Bromo sort/filter.
- *
  * @author qjafcunuas
- *
  */
 @Named
 @RequestScoped
-public class RowClickDataTableController extends
-        AbstractInitDataTableController<DataRow, RowClickDataTableModel> {
+public class RowClickDataTableController extends AbstractInitDataTableController<DataRow, RowClickDataTableModel> {
 
     /**
      * serial version UID.
@@ -40,9 +58,8 @@ public class RowClickDataTableController extends
     private RowClickDataTableModel model;
 
     @Override
-    protected List<DataRow> findAll() throws ServiceException {
-        return getService().findAll(getModel().getCriteria(), null,
-                getModel().getOrderBy());
+    protected List<DataRow> findAll() throws MessageLabelException {
+        return getService().findAll(getModel().getCriteria(), null, getModel().getOrderBy());
     }
 
     @Override
@@ -53,12 +70,9 @@ public class RowClickDataTableController extends
 
     /**
      * Call when view will be rendered.
-     *
-     * @param event
-     *            the event.
+     * @param event the event.
      */
-    public void observeRenderView(
-            @Observes @RenderView(controller = RowClickDataTableController.class) final RenderViewEvent event) {
+    public void observeRenderView(@Observes @RenderView(controller = RowClickDataTableController.class) final RenderViewEvent event) {
         onLoadPage();
     }
 

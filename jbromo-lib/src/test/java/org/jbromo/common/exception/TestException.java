@@ -21,6 +21,7 @@
  */
 package org.jbromo.common.exception;
 
+import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.i18n.IMessageKey;
 import org.jbromo.common.i18n.IMessageLabel;
 

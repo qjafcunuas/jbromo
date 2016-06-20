@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,65 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.exception;
+package org.jbromo.dao.common.exception;
 
 import org.jbromo.common.exception.MessageLabelException;
-import org.jbromo.common.i18n.IMessageKey;
-import org.jbromo.common.i18n.IMessageLabel;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.common.i18n.MessageLabel;
 
 /**
- * Exception for Service actions.
- *
+ * Exception for Validation actions.
  * @author qjafcunuas
  */
-public class ServiceException extends MessageLabelException {
+public class ValidationException extends MessageLabelException {
+
     /**
-     * serial version UID..
+     * serial version UID.
      */
     private static final long serialVersionUID = 1223992049903172753L;
 
     /**
      * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
+     * @param message the message.
      */
-    ServiceException(final IMessageKey key) {
-        super(key);
-    }
-
-    /**
-     * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     */
-    ServiceException(final IMessageLabel label) {
-        super(label);
-    }
-
-    /**
-     * Constructor with message field.
-     *
-     * @param key
-     *            the message key.
-     * @param cause
-     *            the exception
-     */
-    ServiceException(final IMessageKey key, final Throwable cause) {
-        super(key, cause);
-    }
-
-    /**
-     * Constructor with message label.
-     *
-     * @param label
-     *            the message label.
-     * @param cause
-     *            the cause.
-     */
-    ServiceException(final IMessageLabel label, final Throwable cause) {
-        super(label, cause);
+    public ValidationException(final String message) {
+        super(new MessageLabel(MessageKey.ENTITY_VALIDATION_ERROR, message));
     }
 
 }

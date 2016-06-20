@@ -1,25 +1,42 @@
+/*-
+ * Copyright (C) 2013-2014 The JBromo Authors.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package org.jbromo.webapp.jsf.sample.view.layer.service;
 
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.common.exception.MessageLabelException;
+import org.jbromo.dao.common.exception.NullPrimaryKeyException;
 import org.jbromo.service.Service;
 import org.jbromo.service.crud.memory.AbstractMemoryService;
-import org.jbromo.service.exception.ServiceException;
-import org.jbromo.service.exception.ServiceExceptionFactory;
 
 /**
  * Define the DataRow service implementation.
- *
  * @author qjafcunuas
- *
  */
 @Service
 @Singleton
-public class DataRowService extends AbstractMemoryService<DataRow> implements
-        IDataRowService {
+public class DataRowService extends AbstractMemoryService<DataRow>implements IDataRowService {
 
     /**
      * serial version UID.
@@ -28,10 +45,9 @@ public class DataRowService extends AbstractMemoryService<DataRow> implements
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public DataRow create(final DataRow model) throws ServiceException {
+    public DataRow create(final DataRow model) throws MessageLabelException {
         if (model.getPrimaryKey() != null) {
-            throw ServiceExceptionFactory.getInstance().newInstance(
-                    MessageKey.ENTITY_TO_CREATE_IS_NULL);
+            throw new NullPrimaryKeyException();
         }
         final DataRow one = new DataRow();
         int pk = getMap().size() + 1;

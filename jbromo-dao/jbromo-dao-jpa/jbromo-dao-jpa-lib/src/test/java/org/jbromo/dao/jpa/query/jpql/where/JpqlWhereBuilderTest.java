@@ -21,20 +21,14 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where;
 
-import org.jbromo.dao.common.exception.DaoException;
 import org.jbromo.dao.jpa.query.jpql.AbstractJpqlQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.JpqlEntityQueryBuilder;
 import org.jbromo.dao.jpa.query.jpql.where.predicate.AbstractUniquePredicateTest;
 import org.jbromo.sample.server.model.src.User;
-import org.junit.Assert;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
- * JUnit JpqlWhereBuilder class.
- * @author qjafcunuas
+ * JUnit Jpqauthor qjafcunuas
  */
-@Slf4j
 public class JpqlWhereBuilderTest extends AbstractUniquePredicateTest<JpqlWhereBuilder> {
 
     @Override
@@ -44,13 +38,7 @@ public class JpqlWhereBuilderTest extends AbstractUniquePredicateTest<JpqlWhereB
 
     @Override
     protected JpqlWhereBuilder newEntityInstance() {
-        try {
-            return new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class));
-        } catch (final DaoException e) {
-            log.error("Cannot instanciate class", e);
-            Assert.fail(e.getMessage());
-            return null;
-        }
+        return new JpqlWhereBuilder(new JpqlEntityQueryBuilder<User>(null, User.class));
     }
 
     @Override

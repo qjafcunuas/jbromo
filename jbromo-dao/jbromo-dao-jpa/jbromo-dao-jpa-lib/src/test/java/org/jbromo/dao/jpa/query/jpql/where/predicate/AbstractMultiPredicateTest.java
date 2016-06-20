@@ -22,7 +22,7 @@
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
 import org.jbromo.common.RandomUtil;
-import org.jbromo.dao.common.exception.DaoException;
+import org.jbromo.common.exception.MessageLabelException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,7 +49,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
         // Add null condition.
         try {
             predicate.add(null);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail("Cannot add null predicate!");
         }
@@ -58,7 +58,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
         try {
             predicate.and();
             predicate.and();
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail("Cannot add and predicate!");
         }
@@ -76,7 +76,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
             predicate.greaterThan(FIELD_NAME, parameters[2]);
             validateParenthesis(predicate, "name <= ?1 " + getOperator() + " name = ?2 " + getOperator() + " name > ?3 ", parameters[0],
                                 parameters[1], parameters[2]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -101,7 +101,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
             and.greaterThan(FIELD_NAME + "3", parameters[2]);
             validateParenthesis(predicate, "name2 = ?1 and name3 > ?2 " + getOperator() + " name1 <= ?3 ", parameters[1], parameters[2],
                                 parameters[0]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -125,7 +125,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
             // Add another element to or predicate.
             or.greaterThan(FIELD_NAME + "3", parameters[2]);
             validate(predicate, "(name2 = ?1 or name3 > ?2 ) " + getOperator() + " name1 <= ?3 ", parameters[1], parameters[2], parameters[0]);
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -146,7 +146,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
             not.equals(FIELD_NAME + "2", parameters[1]);
             validateParenthesis(predicate, "not (name2 = ?1 ) " + getOperator() + " name1 <= ?2 ", parameters[1], parameters[0]);
 
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
@@ -164,7 +164,7 @@ public abstract class AbstractMultiPredicateTest<P extends AbstractMultiPredicat
             Assert.assertTrue(predicate.isEmpty());
             and.isNull("field");
             Assert.assertFalse(predicate.isEmpty());
-        } catch (final DaoException e) {
+        } catch (final MessageLabelException e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }

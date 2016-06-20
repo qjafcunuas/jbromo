@@ -19,47 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.webapp.jsf.sample.view.select.common;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+package org.jbromo.dao.common;
 
 import org.jbromo.common.IntegerUtil;
-import org.jbromo.common.RandomUtil;
+import org.jbromo.common.i18n.MessageKey;
+import org.jbromo.dao.common.exception.DataFindException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Define SelectMenuOption utility.
+ * Define JUnit DataFindException class.
  * @author qjafcunuas
  */
-public final class SelectMenuOptionUtil {
+public class DataFindExceptionTest {
 
     /**
-     * Default constructor.
+     * Test constructor(strings) method.
      */
-    private SelectMenuOptionUtil() {
-        super();
+    @Test
+    public void constructorString() {
+        final String msg = "my msg";
+        final DataFindException exp = new DataFindException(msg);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(msg, exp.getLabel().getParameters().get(0));
     }
 
     /**
-     * Buil a collection of SelectMenuOption.
-     * @param size the size of the collection to return.
-     * @return the collection.
+     * Test constructor(throwable) method.
      */
-    public static Collection<SelectMenuOption> build(final int size) {
-        final Set<SelectMenuOption> col = new HashSet<SelectMenuOption>();
-        SelectMenuOption option;
-        Integer key;
-        String label;
-        while (col.size() < size) {
-            key = RandomUtil.nextInt(false, IntegerUtil.INT_100 * size);
-            label = "" + key;
-            while (label.length() < IntegerUtil.INT_4) {
-                label = "0" + label;
-            }
-            option = new SelectMenuOption(key, "Label " + label, "Desc " + RandomUtil.nextInt(false, IntegerUtil.INT_100 * size));
-            col.add(option);
-        }
-        return col;
+    @Test
+    public void constructorThrowable() {
+        final Throwable t = new Exception("error");
+        final DataFindException exp = new DataFindException(t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(IntegerUtil.INT_1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(0));
     }
+
 }

@@ -30,16 +30,6 @@ import lombok.Getter;
 public enum MessageKey implements IMessageKey {
 
     /**
-     * Message used to give a creation information.
-     */
-    ENTITY_TO_CREATE_IS_NULL("error.entity.create.null"),
-
-    /**
-     * Message used to give a upgrade information.
-     */
-    ENTITY_TO_UPDATE_IS_NULL("error.entity.update.null"),
-
-    /**
      * Message used to give a upgrade information.
      */
     ENTITY_TO_UPDATE_NOT_FOUND("error.entity.update.notfound"),
@@ -52,7 +42,7 @@ public enum MessageKey implements IMessageKey {
     /**
      * Message used to give a creation information.
      */
-    ENTITY_TO_CREATE_ALREADY_EXITS("error.entity.create.exists"),
+    ENTITY_TO_CREATE_ALREADY_EXIST("error.entity.create.exists"),
 
     /**
      * Message used to give a validation error information.
@@ -63,16 +53,6 @@ public enum MessageKey implements IMessageKey {
      * Message used to give a deletion information.
      */
     ENTITY_TO_DELETE_IS_USED("error.entity.used"),
-
-    /**
-     * Message used to give a deletion information.
-     */
-    ENTITY_TO_DELETE_IS_NULL("error.entity.delete.null"),
-
-    /**
-     * Message used to give a big result information.
-     */
-    ENTITY_TOO_MUCH_RESULT("error.entity.result.tooMuch"),
 
     /**
      * Message used to give a read information.
@@ -92,42 +72,66 @@ public enum MessageKey implements IMessageKey {
     /**
      * Unauthorized access.
      */
-    UNAUTHORIZED_ACCESS("error.access.unauthorized"), /**
-                                                       * Default message.
-                                                       */
-    DEFAULT_MESSAGE("error.default.message"), /**
-                                               * True message.
-                                               */
-    TRUE("default.label.true"), /**
-                                 * False message.
-                                 */
-    FALSE("default.label.false"), /**
-                                   * Yes message.
-                                   */
-    YES("default.label.yes"), /**
-                               * No message.
-                               */
-    NO("default.label.no"), /**
-                             * arrow.down.
-                             */
-    ARROW_DOWN("arrow.down"), /**
-                               * arrow.up.
-                               */
-    ARROW_UP("arrow.up"), /**
-                           * arrow.upanddown.
-                           */
-    ARROW_UP_AND_DOWN("arrow.upanddown"), /**
-                                           * arrow.left.
-                                           */
-    ARROW_LEFT("arrow.left"), /**
-                               * arrow.leftandright.
-                               */
-    ARROW_LEFT_AND_RIGHT("arrow.leftandright"), /**
-                                                 * arrow.right.
-                                                 */
-    ARROW_RIGHT("arrow.right"), /**
-                                 * error.download.file.
-                                 */
+    UNAUTHORIZED_ACCESS("error.access.unauthorized"),
+
+    /**
+     * Default message.
+     */
+    DEFAULT_MESSAGE("error.default.message"),
+
+    /**
+     * True message.
+     */
+    TRUE("default.label.true"),
+
+    /**
+     * False message.
+     */
+    FALSE("default.label.false"),
+
+    /**
+     * Yes message.
+     */
+    YES("default.label.yes"),
+
+    /**
+     * No message.
+     */
+    NO("default.label.no"),
+
+    /**
+     * arrow.down.
+     */
+    ARROW_DOWN("arrow.down"),
+
+    /**
+     * arrow.up.
+     */
+    ARROW_UP("arrow.up"),
+
+    /**
+     * arrow.upanddown.
+     */
+    ARROW_UP_AND_DOWN("arrow.upanddown"),
+
+    /**
+     * arrow.left.
+     */
+    ARROW_LEFT("arrow.left"),
+
+    /**
+     * arrow.leftandright.
+     */
+    ARROW_LEFT_AND_RIGHT("arrow.leftandright"),
+
+    /**
+     * arrow.right.
+     */
+    ARROW_RIGHT("arrow.right"),
+
+    /**
+     * error.download.file.
+     */
     ERROR_DOWNLOAD_FILE("error.download.file");
 
     /**
