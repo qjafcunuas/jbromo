@@ -44,6 +44,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.IntegerUtil;
@@ -57,13 +58,10 @@ import org.jbromo.model.jpa.AbstractEntityId;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.compositepk.AbstractCompositePk;
 import org.jbromo.model.jpa.compositepk.ICompositePk;
-import org.jbromo.sample.server.model.src.City;
-import org.jbromo.sample.server.model.src.User;
-import org.jbromo.sample.server.model.src.UserSurname;
-import org.jbromo.sample.server.model.test.EntityBuilderFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -127,6 +125,99 @@ public class EntityUtilTest {
          */
         private static final long serialVersionUID = -4450907378336449924L;
 
+    };
+
+    /**
+     * Define an entity composite primary key.
+     */
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public class CompositeEntityPk extends AbstractCompositePk {
+
+        /**
+         * serial version UID.
+         */
+        private static final long serialVersionUID = -4450907378336449932L;
+
+        /**
+         * The user.
+         */
+        @Column(name = "USER_ID", nullable = false)
+        private Integer userId;
+
+        /**
+         * The city.
+         */
+        @Column(name = "CITY_ID", nullable = false)
+        private Integer cityId;
+
+        /**
+         * Default constructor.
+         * @param entity the entity of the primary key.
+         */
+        public CompositeEntityPk(final CompositeEntity entity) {
+            super(entity);
+            if (entity != null) {
+                if (entity.getUser() != null) {
+                    this.userId = entity.getUser().getPrimaryKey();
+                }
+                if (entity.getCity() != null) {
+                    this.cityId = entity.getCity().getPrimaryKey();
+                }
+            }
+        }
+    };
+
+    /**
+     * Define an entity composite primary key.
+     */
+    @NoArgsConstructor
+    @Getter
+    public class CompositeEntity extends AbstractEntity<CompositeEntityPk> {
+
+        /**
+         * serial version UID.
+         */
+        private static final long serialVersionUID = -4450907378336449947L;
+
+        /**
+         * The primary key.
+         */
+        @EmbeddedId
+        private CompositeEntityPk primaryKey = new CompositeEntityPk(this);
+
+        /**
+         * The city.
+         */
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
+        @MapsId("userId")
+        @Getter
+        @Setter(AccessLevel.NONE)
+        @NotNull
+        private IntegerEntity user;
+
+        /**
+         * Another pk, not functionnaly sense, only for having composite pk example.
+         */
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
+        @MapsId("cityId")
+        @Getter
+        @Setter(AccessLevel.NONE)
+        @NotNull
+        private IntegerEntity city;
+
+        /**
+         * Default constructor.
+         * @param user the user.
+         * @param city the city.
+         */
+        public CompositeEntity(final IntegerEntity user, final IntegerEntity city) {
+            super();
+            this.city = city;
+            this.user = user;
+            this.primaryKey = new CompositeEntityPk(this);
+        }
     };
 
     /**
@@ -304,15 +395,15 @@ public class EntityUtilTest {
         Assert.assertTrue(EntityUtil.isNullPk(new StringEntity()));
         Assert.assertFalse(EntityUtil.isNullPk(new StringEntity(StringUtil.SLASH)));
 
-        Assert.assertTrue(EntityUtil.isNullPk(new UserSurname()));
-        Assert.assertTrue(EntityUtil.isNullPk(new UserSurname(new User(), new City())));
-        final User user = new User();
-        EntityBuilderFactory.getInstance().getBuilder(User.class).injectPrimaryKey(user);
-        final City city = new City();
-        EntityBuilderFactory.getInstance().getBuilder(City.class).injectPrimaryKey(city);
-        Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(user, new City())));
-        Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(new User(), city)));
-        Assert.assertFalse(EntityUtil.isNullPk(new UserSurname(user, city)));
+        Assert.assertTrue(EntityUtil.isNullPk(new CompositeEntity()));
+        Assert.assertTrue(EntityUtil.isNullPk(new CompositeEntity(new IntegerEntity(), new IntegerEntity())));
+        final IntegerEntity user = new IntegerEntity();
+        user.setPrimaryKey(IntegerUtil.INT_1);
+        final IntegerEntity city = new IntegerEntity();
+        city.setPrimaryKey(IntegerUtil.INT_2);
+        Assert.assertFalse(EntityUtil.isNullPk(new CompositeEntity(user, new IntegerEntity())));
+        Assert.assertFalse(EntityUtil.isNullPk(new CompositeEntity(new IntegerEntity(), city)));
+        Assert.assertFalse(EntityUtil.isNullPk(new CompositeEntity(user, city)));
     }
 
     /**
@@ -324,15 +415,15 @@ public class EntityUtilTest {
         Assert.assertFalse(EntityUtil.isNotNullPk(new StringEntity()));
         Assert.assertTrue(EntityUtil.isNotNullPk(new StringEntity(StringUtil.SLASH)));
 
-        Assert.assertFalse(EntityUtil.isNotNullPk(new UserSurname()));
-        Assert.assertFalse(EntityUtil.isNotNullPk(new UserSurname(new User(), new City())));
-        final User user = new User();
-        EntityBuilderFactory.getInstance().getBuilder(User.class).injectPrimaryKey(user);
-        final City city = new City();
-        EntityBuilderFactory.getInstance().getBuilder(City.class).injectPrimaryKey(city);
-        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(user, new City())));
-        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(new User(), city)));
-        Assert.assertTrue(EntityUtil.isNotNullPk(new UserSurname(user, city)));
+        Assert.assertFalse(EntityUtil.isNotNullPk(new CompositeEntity()));
+        Assert.assertFalse(EntityUtil.isNotNullPk(new CompositeEntity(new IntegerEntity(), new IntegerEntity())));
+        final IntegerEntity user = new IntegerEntity();
+        user.setPrimaryKey(IntegerUtil.INT_1);
+        final IntegerEntity city = new IntegerEntity();
+        city.setPrimaryKey(IntegerUtil.INT_2);
+        Assert.assertTrue(EntityUtil.isNotNullPk(new CompositeEntity(user, new IntegerEntity())));
+        Assert.assertTrue(EntityUtil.isNotNullPk(new CompositeEntity(new IntegerEntity(), city)));
+        Assert.assertTrue(EntityUtil.isNotNullPk(new CompositeEntity(user, city)));
     }
 
     /**
@@ -932,8 +1023,7 @@ public class EntityUtilTest {
     @Test
     public void getMapsIdFieldValue() {
         final MyObject object = new MyObject();
-        object.theMapsId = new UserSurname();
-
+        object.theMapsId = new CompositeEntity();
         Assert.assertNull(EntityUtil.getMapsIdFieldValue(object, "tototo"));
         Assert.assertNotNull(EntityUtil.getMapsIdFieldValue(object, "theId"));
         Assert.assertEquals(object.theMapsId, EntityUtil.getMapsIdFieldValue(object, "theId"));
@@ -945,7 +1035,7 @@ public class EntityUtilTest {
     @Test
     public void getMapsId() {
         final MyObject object = new MyObject();
-        object.theMapsId = new UserSurname();
+        object.theMapsId = new CompositeEntity();
 
         Assert.assertNotNull(EntityUtil.getMapsId(object));
         Assert.assertFalse(EntityUtil.getMapsId(object).isEmpty());
