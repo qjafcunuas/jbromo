@@ -331,18 +331,18 @@ public class InvocationUtilTest {
     }
 
     /**
-     * Test the getField method.
+     * Test the getField(object,name) method.
      */
     @Test
-    public void getField() {
+    public void getFieldObjectString() {
         // null, null
-        Assert.assertNull(InvocationUtil.getField(null, null));
+        Assert.assertNull(InvocationUtil.getField(null, (String) null));
         // null, empty
         Assert.assertNull(InvocationUtil.getField(null, ""));
         // null, not empty
         Assert.assertNull(InvocationUtil.getField(null, "toto"));
         // not null, null
-        Assert.assertNull(InvocationUtil.getField(MyObject.class, null));
+        Assert.assertNull(InvocationUtil.getField(MyObject.class, (String) null));
         // not null, empty
         Assert.assertNull(InvocationUtil.getField(MyObject.class, ""));
 
@@ -355,6 +355,24 @@ public class InvocationUtilTest {
         Assert.assertNotNull(InvocationUtil.getField(MyExtendedObject.class, "object"));
         Assert.assertNotNull(InvocationUtil.getField(MyExtendedObject.class, "extended"));
         Assert.assertNull(InvocationUtil.getField(MyExtendedObject.class, "toto"));
+    }
+
+    /**
+     * Test the getField(object,class) method.
+     */
+    @Test
+    public void getFieldObjectClass() {
+        // null, null
+        Assert.assertNull(InvocationUtil.getField(null, (Class<?>) null));
+        // null, not empty
+        Assert.assertNull(InvocationUtil.getField(null, Integer.class));
+        // not null, null
+        Assert.assertNull(InvocationUtil.getField(MyObject.class, (Class<?>) null));
+
+        // MyObject
+        Assert.assertNotNull(InvocationUtil.getField(MyObject.class, boolean.class));
+        Assert.assertEquals("bool", InvocationUtil.getField(MyObject.class, boolean.class).getName());
+        Assert.assertNull(InvocationUtil.getField(MyObject.class, InvocationUtilTest.class));
     }
 
     /**

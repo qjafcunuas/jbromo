@@ -444,6 +444,25 @@ public final class InvocationUtil {
     }
 
     /**
+     * Retrieves declared field for given class, including inherited ones.
+     * @param objectClass the instance
+     * @param fieldClass the first field class of the field to get.
+     * @return the field.
+     */
+    public static Field getField(final Class<?> objectClass, final Class<?> fieldClass) {
+        if (objectClass == null || fieldClass == null) {
+            return null;
+        }
+        final List<Field> fields = getFields(objectClass);
+        for (final Field field : fields) {
+            if (field.getType().equals(fieldClass)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Checks if current field type implements Collection.
      * @param field current field
      * @param clazz Class to test
