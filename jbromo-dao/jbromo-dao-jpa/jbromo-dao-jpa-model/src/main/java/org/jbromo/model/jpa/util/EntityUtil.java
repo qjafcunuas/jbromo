@@ -638,22 +638,22 @@ public final class EntityUtil {
         final OneToOne oneOne = field.getAnnotation(OneToOne.class);
         if (oneOne != null) {
             // By Default Eager
-            return oneOne.fetch() == null ? false : oneOne.fetch().equals(FetchType.LAZY);
+            return oneOne.fetch().equals(FetchType.LAZY);
         }
         final ManyToOne manyOne = field.getAnnotation(ManyToOne.class);
         if (manyOne != null) {
             // By Default Eager
-            return manyOne.fetch() == null ? false : manyOne.fetch().equals(FetchType.LAZY);
+            return manyOne.fetch().equals(FetchType.LAZY);
         }
         final OneToMany oneMany = field.getAnnotation(OneToMany.class);
         if (oneMany != null) {
             // By Default Lazy
-            return oneMany.fetch() == null ? true : oneMany.fetch().equals(FetchType.LAZY);
+            return oneMany.fetch().equals(FetchType.LAZY);
         }
         final ManyToMany manyMany = field.getAnnotation(ManyToMany.class);
         if (manyMany != null) {
             // By Default Lazy
-            return manyMany.fetch() == null ? true : manyMany.fetch().equals(FetchType.LAZY);
+            return manyMany.fetch().equals(FetchType.LAZY);
         }
         // Other case, no problem
         return true;
