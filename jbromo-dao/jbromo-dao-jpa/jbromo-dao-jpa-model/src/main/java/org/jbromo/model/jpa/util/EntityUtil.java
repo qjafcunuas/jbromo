@@ -157,13 +157,15 @@ public final class EntityUtil {
      * @return true if implements IEntity, false otherwise
      */
     public static boolean isEntity(final Class<?> clazz) {
-        if (clazz.getInterfaces().length > 0 && ListUtil.toList(clazz.getInterfaces()).contains(IEntity.class)) {
-            return true;
+        if (clazz == null) {
+            return false;
         }
-        if (clazz.getSuperclass() != null) {
-            return isEntity(clazz.getSuperclass());
+        for (final Class<?> interf : clazz.getInterfaces()) {
+            if (IEntity.class.equals(interf)) {
+                return true;
+            }
         }
-        return false;
+        return isEntity(clazz.getSuperclass());
     }
 
     /**
@@ -357,7 +359,7 @@ public final class EntityUtil {
             // Filter the list for persisted elements.
             final List<Field> clone = ListUtil.toList(fields);
             for (final Field field : clone) {
-                if (field == null || !isPersisted(field)) {
+                if (!isPersisted(field)) {
                     fields.remove(field);
                 }
             }
@@ -405,7 +407,7 @@ public final class EntityUtil {
             // Filter the list for mapsId elements.
             List<Field> clone = ListUtil.toList(fields);
             for (final Field field : fields) {
-                if (field == null || !isMapsId(field)) {
+                if (!isMapsId(field)) {
                     clone.remove(field);
                 }
             }
@@ -427,7 +429,7 @@ public final class EntityUtil {
         } else {
             final List<Field> fields = InvocationUtil.getFields(objectClass);
             for (final Field field : fields) {
-                if (field != null && isPrimaryKey(field)) {
+                if (isPrimaryKey(field)) {
                     PRIMARY_KEY_FIELDS.put(objectClass, field);
                     return field;
                 }
@@ -638,22 +640,22 @@ public final class EntityUtil {
         final OneToOne oneOne = field.getAnnotation(OneToOne.class);
         if (oneOne != null) {
             // By Default Eager
-            return oneOne.fetch() == null ? false : oneOne.fetch().equals(FetchType.LAZY);
+            return oneOne.fetch().equals(FetchType.LAZY);
         }
         final ManyToOne manyOne = field.getAnnotation(ManyToOne.class);
         if (manyOne != null) {
             // By Default Eager
-            return manyOne.fetch() == null ? false : manyOne.fetch().equals(FetchType.LAZY);
+            return manyOne.fetch().equals(FetchType.LAZY);
         }
         final OneToMany oneMany = field.getAnnotation(OneToMany.class);
         if (oneMany != null) {
             // By Default Lazy
-            return oneMany.fetch() == null ? true : oneMany.fetch().equals(FetchType.LAZY);
+            return oneMany.fetch().equals(FetchType.LAZY);
         }
         final ManyToMany manyMany = field.getAnnotation(ManyToMany.class);
         if (manyMany != null) {
             // By Default Lazy
-            return manyMany.fetch() == null ? true : manyMany.fetch().equals(FetchType.LAZY);
+            return manyMany.fetch().equals(FetchType.LAZY);
         }
         // Other case, no problem
         return true;

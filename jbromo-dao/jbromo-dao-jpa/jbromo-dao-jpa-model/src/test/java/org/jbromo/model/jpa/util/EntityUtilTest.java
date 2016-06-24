@@ -23,6 +23,7 @@ package org.jbromo.model.jpa.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -53,6 +54,7 @@ import org.jbromo.common.SetUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.test.common.ConstructorUtil;
+import org.jbromo.dao.jpa.container.common.MockJpaProviderFactory;
 import org.jbromo.model.jpa.AbstractEntity;
 import org.jbromo.model.jpa.AbstractEntityId;
 import org.jbromo.model.jpa.IEntity;
@@ -128,6 +130,18 @@ public class EntityUtilTest {
     };
 
     /**
+     * Define an Hibernate entity with no existing class IntegerEntity2.
+     */
+    public class IntegerEntity2_$$_javassist extends IntegerEntity {
+
+        /**
+         * serial version UID.
+         */
+        private static final long serialVersionUID = -4450907378336449924L;
+
+    };
+
+    /**
      * Define an entity composite primary key.
      */
     @AllArgsConstructor
@@ -172,9 +186,9 @@ public class EntityUtilTest {
     /**
      * Define an entity composite primary key.
      */
-    @NoArgsConstructor
     @Getter
-    public class CompositeEntity extends AbstractEntity<CompositeEntityPk> {
+    @NoArgsConstructor
+    public static class CompositeEntity extends AbstractEntity<CompositeEntityPk> {
 
         /**
          * serial version UID.
@@ -185,7 +199,7 @@ public class EntityUtilTest {
          * The primary key.
          */
         @EmbeddedId
-        private CompositeEntityPk primaryKey = new CompositeEntityPk(this);
+        private CompositeEntityPk primaryKey = new EntityUtilTest().new CompositeEntityPk(this);
 
         /**
          * The city.
@@ -208,6 +222,21 @@ public class EntityUtilTest {
         private IntegerEntity city;
 
         /**
+         * The primary key field.
+         */
+        static final Field FIELD_PRIMARY_KEY = InvocationUtil.getField(CompositeEntity.class, "primaryKey");
+
+        /**
+         * The user field.
+         */
+        static final Field FIELD_USER = InvocationUtil.getField(CompositeEntity.class, "user");
+
+        /**
+         * The city field.
+         */
+        static final Field FIELD_CITY = InvocationUtil.getField(CompositeEntity.class, "city");
+
+        /**
          * Default constructor.
          * @param user the user.
          * @param city the city.
@@ -216,7 +245,7 @@ public class EntityUtilTest {
             super();
             this.city = city;
             this.user = user;
-            this.primaryKey = new CompositeEntityPk(this);
+            this.primaryKey = new EntityUtilTest().new CompositeEntityPk(this);
         }
     };
 
@@ -318,6 +347,7 @@ public class EntityUtilTest {
         Assert.assertTrue(EntityUtil.isEntity(IntegerEntity.class));
         Assert.assertTrue(EntityUtil.isEntity(IntegerEntity_$$_javassist.class));
         Assert.assertFalse(EntityUtil.isEntity(Object.class));
+        Assert.assertFalse(EntityUtil.isEntity(BigDecimal.class));
     }
 
     /**
@@ -326,8 +356,8 @@ public class EntityUtilTest {
     @Test
     public void getPrimaryKeyEntity() {
         final IntegerEntity entity = new IntegerEntity(IntegerUtil.INT_1);
-        Assert.assertTrue(IntegerUtil.INT_1 == EntityUtil.getPrimaryKey(entity));
-        Assert.assertFalse(IntegerUtil.INT_10 == EntityUtil.getPrimaryKey(entity));
+        Assert.assertNull(EntityUtil.getPrimaryKey(null));
+        Assert.assertEquals(Integer.valueOf(IntegerUtil.INT_1), EntityUtil.getPrimaryKey(entity));
     }
 
     /**
@@ -380,10 +410,11 @@ public class EntityUtilTest {
         Assert.assertNull(EntityUtil.getClass((IEntity<?>) null));
         Assert.assertNull(EntityUtil.getClass((Class<IEntity<?>>) null));
 
-        Assert.assertTrue(EntityUtil.getClass(new StringEntity()).equals(StringEntity.class));
-        Assert.assertFalse(EntityUtil.getClass(new StringEntity()).equals(IntegerEntity.class));
-        Assert.assertFalse(EntityUtil.getClass(new IntegerEntity_$$_javassist()).equals(StringEntity.class));
-        Assert.assertTrue(EntityUtil.getClass(new IntegerEntity_$$_javassist()).equals(IntegerEntity.class));
+        Assert.assertEquals(StringEntity.class, EntityUtil.getClass(new StringEntity()));
+        Assert.assertNotEquals(IntegerEntity.class, EntityUtil.getClass(new StringEntity()));
+        Assert.assertNotEquals(StringEntity.class, EntityUtil.getClass(new IntegerEntity_$$_javassist()));
+        Assert.assertEquals(IntegerEntity.class, EntityUtil.getClass(new IntegerEntity_$$_javassist()));
+        Assert.assertNull(EntityUtil.getClass(new IntegerEntity2_$$_javassist()));
     }
 
     /**
@@ -908,12 +939,12 @@ public class EntityUtilTest {
     }
 
     /**
-     * Test getPersistedFields method.
+     * Test getPersistedFields(Class) method.
      */
     @Test
-    public void getPersistedFields() {
+    public void getPersistedFieldsClass() {
         final List<Field> fields = EntityUtil.getPersistedFields(MyObject.class);
-        Assert.assertTrue(fields.size() == IntegerUtil.INT_4);
+        Assert.assertEquals(IntegerUtil.INT_4, fields.size());
         Assert.assertFalse(fields.contains(MyObject.FIELD_TRANSIENT));
         Assert.assertTrue(fields.contains(MyObject.FIELD_ID_ANNO));
         Assert.assertTrue(fields.contains(MyObject.FIELD_EMBEDDED_ANNO));
@@ -922,6 +953,56 @@ public class EntityUtilTest {
 
         // Same object because it is cached.
         Assert.assertEquals(fields, EntityUtil.getPersistedFields(MyObject.class));
+    }
+
+    /**
+     * Test getPersistedFields(Field) method.
+     */
+    @Test
+    public void getPersistedFieldsField() {
+        final List<Field> fields = EntityUtil.getPersistedFields(CompositeEntity.FIELD_USER);
+        Assert.assertEquals(IntegerUtil.INT_1, fields.size());
+    }
+
+    /**
+     * Test getPersistedFields(Object) method.
+     */
+    @Test
+    public void getPersistedFieldsObject() {
+        final List<Field> fields = EntityUtil.getPersistedFields(new CompositeEntity());
+        Assert.assertEquals(IntegerUtil.INT_3, fields.size());
+        Assert.assertTrue(fields.contains(CompositeEntity.FIELD_PRIMARY_KEY));
+        Assert.assertTrue(fields.contains(CompositeEntity.FIELD_USER));
+        Assert.assertTrue(fields.contains(CompositeEntity.FIELD_CITY));
+        Assert.assertFalse(fields.contains(MyObject.FIELD_MAPS_ID_ANNO));
+    }
+
+    /**
+     * Test getPersistentClass(Object) method.
+     */
+    @Test
+    public void getPersistentClass() {
+        // null object.
+        Class<?> theClass = EntityUtil.getPersistentClass(null);
+        Assert.assertNull(theClass);
+
+        // not null object.
+        final CompositeEntity entity = new CompositeEntity();
+        try {
+            // Not null JpaProvider.
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_FALSE);
+            theClass = EntityUtil.getPersistentClass(entity);
+            Assert.assertNotNull(theClass);
+            Assert.assertEquals(CompositeEntity.class, theClass);
+
+            // Null JpaProvider.
+            MockJpaProviderFactory.mock(null);
+            theClass = EntityUtil.getPersistentClass(entity);
+            Assert.assertNotNull(theClass);
+            Assert.assertEquals(CompositeEntity.class, theClass);
+        } finally {
+            MockJpaProviderFactory.unmock();
+        }
     }
 
     /**
@@ -1024,6 +1105,9 @@ public class EntityUtilTest {
     public void getMapsIdFieldValue() {
         final MyObject object = new MyObject();
         object.theMapsId = new CompositeEntity();
+        Assert.assertNull(EntityUtil.getMapsIdFieldValue(null, null));
+        Assert.assertNull(EntityUtil.getMapsIdFieldValue(null, "tototo"));
+        Assert.assertNull(EntityUtil.getMapsIdFieldValue(object, null));
         Assert.assertNull(EntityUtil.getMapsIdFieldValue(object, "tototo"));
         Assert.assertNotNull(EntityUtil.getMapsIdFieldValue(object, "theId"));
         Assert.assertEquals(object.theMapsId, EntityUtil.getMapsIdFieldValue(object, "theId"));
@@ -1037,6 +1121,7 @@ public class EntityUtilTest {
         final MyObject object = new MyObject();
         object.theMapsId = new CompositeEntity();
 
+        Assert.assertNull(EntityUtil.getMapsId(null));
         Assert.assertNotNull(EntityUtil.getMapsId(object));
         Assert.assertFalse(EntityUtil.getMapsId(object).isEmpty());
         Assert.assertTrue(EntityUtil.getMapsId(object).containsKey("theId"));
@@ -1224,6 +1309,24 @@ public class EntityUtilTest {
         Assert.assertFalse(EntityUtil.isManyToOne(MyLazyObject.FIELD_ONE_TO_MANY));
         Assert.assertFalse(EntityUtil.isManyToOne(MyLazyObject.FIELD_MANY_TO_MANY));
         Assert.assertTrue(EntityUtil.isManyToOne(MyLazyObject.FIELD_MANY_TO_ONE));
+    }
+
+    /**
+     * Test isManyToOne method.
+     */
+    @Test
+    public void readPrimaryKey() {
+        final CompositeEntity entity = new CompositeEntity();
+        try {
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_FALSE);
+            Assert.assertEquals(entity.getPrimaryKey(), EntityUtil.readPrimaryKey(entity));
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_TRUE);
+            Assert.assertEquals(entity.getPrimaryKey(), EntityUtil.readPrimaryKey(entity));
+            MockJpaProviderFactory.mock(null);
+            Assert.assertEquals(entity.getPrimaryKey(), EntityUtil.readPrimaryKey(entity));
+        } finally {
+            MockJpaProviderFactory.unmock();
+        }
     }
 
 }
