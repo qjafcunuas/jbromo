@@ -31,10 +31,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.test.asserts.AbstractEntityAssert;
-import org.jbromo.model.jpa.test.builder.AbstractEntityBuilder;
-import org.jbromo.sample.server.model.test.EntityAssertFactory;
-import org.jbromo.sample.server.model.test.EntityBuilderFactory;
+import org.jbromo.model.jpa.testutil.asserts.AbstractEntityAssert;
+import org.jbromo.model.jpa.testutil.builder.AbstractEntityBuilder;
+import org.jbromo.sample.server.model.test.asserts.EntityAssertFactory;
+import org.jbromo.sample.server.model.test.builder.EntityBuilderFactory;
 import org.jbromo.service.test.AbstractDefaultEntityServiceTest;
 
 /**

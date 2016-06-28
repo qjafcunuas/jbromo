@@ -1,9 +1,9 @@
 package org.jbromo.sample.server.model.test.compositepk;
 
-import org.jbromo.model.jpa.test.AbstractCompositePkTest;
-import org.jbromo.model.jpa.test.builder.AbstractEntityBuilderFactory;
+import org.jbromo.model.jpa.compositepk.AbstractCompositePkTest;
+import org.jbromo.model.jpa.testutil.builder.AbstractEntityBuilderFactory;
 import org.jbromo.sample.server.model.src.compositepk.UserSurnamePk;
-import org.jbromo.sample.server.model.test.EntityBuilderFactory;
+import org.jbromo.sample.server.model.test.builder.EntityBuilderFactory;
 
 /**
  * Define JUnit UserSurnamePk class.

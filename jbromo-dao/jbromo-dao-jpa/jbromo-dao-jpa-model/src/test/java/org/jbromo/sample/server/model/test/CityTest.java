@@ -1,8 +1,9 @@
 package org.jbromo.sample.server.model.test;
 
-import org.jbromo.model.jpa.test.AbstractEntityTest;
-import org.jbromo.model.jpa.test.builder.AbstractEntityBuilderFactory;
+import org.jbromo.model.jpa.AbstractEntityTest;
+import org.jbromo.model.jpa.testutil.builder.AbstractEntityBuilderFactory;
 import org.jbromo.sample.server.model.src.City;
+import org.jbromo.sample.server.model.test.builder.EntityBuilderFactory;
 
 /**
  * JUnit City class.

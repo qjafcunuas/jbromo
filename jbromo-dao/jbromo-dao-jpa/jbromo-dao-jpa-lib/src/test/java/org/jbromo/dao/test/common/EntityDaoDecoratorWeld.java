@@ -34,7 +34,7 @@ import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.ParameterizedTypeUtil;
 import org.jbromo.dao.jpa.IEntityDao;
 import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.test.cache.EntityCache;
+import org.jbromo.model.jpa.testutil.cache.EntityCache;
 import org.jbromo.model.jpa.util.EntityUtil;
 
 /**

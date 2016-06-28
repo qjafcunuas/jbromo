@@ -23,6 +23,7 @@ package org.jbromo.dao.jpa.query.jpql;
 
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
+import org.jbromo.dao.jpa.container.common.MockJpaProviderFactory;
 import org.jbromo.dao.jpa.query.jpql.where.predicate.AndPredicate;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.sample.server.model.src.City;
@@ -484,23 +485,39 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
         // Only eager loading.
         User user = new User();
         UserSurname surname = new UserSurname(user, null);
-        JpqlEntityQueryBuilder<User> queryBuilder = newInstance(User.class, user);
-        Assert.assertNotNull(queryBuilder.getAlias(user));
-        Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
-        Assert.assertNotNull(queryBuilder.getEager("o"));
-        Assert.assertEquals(queryBuilder.getEager("o"), user);
-        Assert.assertNotNull(queryBuilder.getAlias(surname));
-        if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
-            Assert.assertEquals(queryBuilder.getAlias(surname), "o1");
+        JpqlEntityQueryBuilder<User> queryBuilder;
+        try {
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_TRUE);
+            queryBuilder = newInstance(User.class, user);
+            Assert.assertNotNull(queryBuilder.getAlias(user));
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
+            Assert.assertNotNull(queryBuilder.getEager("o"));
+            Assert.assertEquals(queryBuilder.getEager("o"), user);
+            Assert.assertNotNull(queryBuilder.getAlias(surname));
+            Assert.assertEquals("o1", queryBuilder.getAlias(surname));
             Assert.assertNotNull(queryBuilder.getEager("o1"));
-            Assert.assertEquals(queryBuilder.getEager("o1"), surname);
-            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.surnames o1 ");
-        } else {
-            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName() + " o left join fetch o.surnames ");
+            Assert.assertNull(queryBuilder.getEager("o.surnames"));
+            Assert.assertEquals(surname, queryBuilder.getEager("o1"));
+            Assert.assertEquals("select distinct o from " + User.class.getName() + " o left join fetch o.surnames o1 ", queryBuilder.toString());
+
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_FALSE);
+            queryBuilder = newInstance(User.class, user);
+            Assert.assertNotNull(queryBuilder.getAlias(user));
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
+            Assert.assertNotNull(queryBuilder.getEager("o"));
+            Assert.assertEquals(queryBuilder.getEager("o"), user);
+            Assert.assertEquals("o.surnames", queryBuilder.getAlias(surname));
+            Assert.assertNull(queryBuilder.getEager("o1"));
+            Assert.assertNotNull(queryBuilder.getEager("o.surnames"));
+            Assert.assertEquals(surname, queryBuilder.getEager("o.surnames"));
+            Assert.assertEquals("select distinct o from " + User.class.getName() + " o left join fetch o.surnames ", queryBuilder.toString());
+        } finally {
+            MockJpaProviderFactory.unmock();
         }
 
         // Only criteria
         try {
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_TRUE);
             user = new User();
             user.setLogin("qjafcunuas");
             surname = new UserSurname(user, null);
@@ -511,15 +528,28 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNull(queryBuilder.getAlias(surname));
             Assert.assertNull(queryBuilder.getEager("o"));
             Assert.assertNull(queryBuilder.getEager("o1"));
-            Assert.assertEquals(queryBuilder.toString(), "select distinct o from " + User.class.getName()
-                                                         + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
+            Assert.assertEquals("select distinct o from " + User.class.getName()
+                                + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ", queryBuilder.toString());
+
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_FALSE);
+            queryBuilder = newInstance(User.class);
+            queryBuilder.getWhere().and(user);
+            Assert.assertNull(queryBuilder.getAlias(user));
+            Assert.assertNull(queryBuilder.getAlias(surname));
+            Assert.assertNull(queryBuilder.getEager("o"));
+            Assert.assertNull(queryBuilder.getEager("o1"));
+            Assert.assertEquals("select distinct o from " + User.class.getName()
+                                + " o inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ", queryBuilder.toString());
         } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
+        } finally {
+            MockJpaProviderFactory.unmock();
         }
 
         // eager loading + criteria
         try {
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_TRUE);
             user = new User();
             user.setLogin("qjafcunuas");
             surname = new UserSurname(user, null);
@@ -531,21 +561,32 @@ public class JpqlEntityQueyBuilderTest extends AbstractJpqlQueryBuilderTest<IEnt
             Assert.assertNotNull(queryBuilder.getEager("o"));
             Assert.assertEquals(queryBuilder.getEager("o"), user);
             Assert.assertNotNull(queryBuilder.getAlias(surname));
-            if (JpaProviderFactory.getInstance().getImplementation().isFetchAliasable()) {
-                Assert.assertEquals(queryBuilder.getAlias(surname), "o1");
-                Assert.assertNotNull(queryBuilder.getEager("o1"));
-                Assert.assertEquals(queryBuilder.getEager("o1"), surname);
-                Assert.assertEquals(queryBuilder
-                        .toString(), "select distinct o from " + User.class.getName()
-                                     + " o left join fetch o.surnames o1 inner join o.surnames o2 where o.login = ?1 and o2.surname = ?2 ");
-            } else {
-                Assert.assertEquals(queryBuilder
-                        .toString(), "select distinct o from " + User.class.getName()
-                                     + " o left join fetch o.surnames inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ");
-            }
+            Assert.assertEquals(queryBuilder.getAlias(surname), "o1");
+            Assert.assertNotNull(queryBuilder.getEager("o1"));
+            Assert.assertEquals(queryBuilder.getEager("o1"), surname);
+            Assert.assertEquals("select distinct o from " + User.class.getName()
+                                + " o left join fetch o.surnames o1 inner join o.surnames o2 where o.login = ?1 and o2.surname = ?2 ",
+                                queryBuilder.toString());
+
+            MockJpaProviderFactory.mock(MockJpaProviderFactory.PROVIDER_FALSE);
+            queryBuilder = newInstance(User.class, user);
+            queryBuilder.getWhere().and(user);
+            Assert.assertNotNull(queryBuilder.getAlias(user));
+            Assert.assertEquals(queryBuilder.getAlias(user), queryBuilder.getFrom().getRootAlias());
+            Assert.assertNotNull(queryBuilder.getEager("o"));
+            Assert.assertEquals(queryBuilder.getEager("o"), user);
+            Assert.assertNull(queryBuilder.getEager("o1"));
+            Assert.assertNotNull(queryBuilder.getEager("o.surnames"));
+            Assert.assertEquals(surname, queryBuilder.getEager("o.surnames"));
+            Assert.assertNotNull(queryBuilder.getAlias(surname));
+            Assert.assertEquals("select distinct o from " + User.class.getName()
+                                + " o left join fetch o.surnames inner join o.surnames o1 where o.login = ?1 and o1.surname = ?2 ",
+                                queryBuilder.toString());
         } catch (final MessageLabelException e) {
             log.error("Cannot build query", e);
             Assert.fail("Cannot build query");
+        } finally {
+            MockJpaProviderFactory.unmock();
         }
 
     }

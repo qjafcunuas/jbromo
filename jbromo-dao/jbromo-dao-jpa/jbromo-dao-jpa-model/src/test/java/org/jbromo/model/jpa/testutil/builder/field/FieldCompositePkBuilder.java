@@ -19,34 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.test;
+package org.jbromo.model.jpa.testutil.builder.field;
 
-import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
-import javax.inject.Inject;
-
-import org.jbromo.dao.test.common.UserTransactionFacade;
-import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
-import org.jbromo.service.crud.jpa.IEntityService;
-
-import lombok.AccessLevel;
-import lombok.Getter;
+import org.jbromo.common.ListUtil;
+import org.jbromo.common.ObjectUtil;
+import org.jbromo.model.jpa.compositepk.ICompositePk;
 
 /**
- * Define the default service test implementation.
+ * Define a string field builder.
  * @author qjafcunuas
- * @param <E> the entity type.
- * @param <PK> the primary key type.
  */
-public abstract class AbstractDefaultEntityServiceTest<E extends IEntity<PK>, PK extends Serializable>
-    extends AbstractDefaultCRUDExtendedTest<E, PK, IEntityService<E, PK>> {
+public class FieldCompositePkBuilder extends AbstractFieldBuilder<ICompositePk> {
 
     /**
-     * The user transaction facade.
+     * Default constructor.
+     * @param fieldBuilderFactory the field builder factory to used.
      */
-    @Getter(AccessLevel.PROTECTED)
-    @Inject
-    private UserTransactionFacade transaction;
+    FieldCompositePkBuilder(final FieldBuilderFactory fieldBuilderFactory) {
+        super(fieldBuilderFactory);
+    }
 
+    @Override
+    public List<ValidationValue<ICompositePk>> getValidationErrorValues(final Field field) {
+        final List<ValidationValue<ICompositePk>> values = ListUtil.toList();
+        return values;
+    }
+
+    @Override
+    public List<ValidationValue<ICompositePk>> getValidationSuccessValues(final Field field) {
+        final List<ValidationValue<ICompositePk>> values = ListUtil.toList();
+        return values;
+    }
+
+    @Override
+    public ICompositePk nextRandom(final boolean nullable, final Field field) {
+        return (ICompositePk) ObjectUtil.newInstance(field.getType());
+    }
 }

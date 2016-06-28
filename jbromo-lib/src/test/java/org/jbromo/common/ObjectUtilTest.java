@@ -60,7 +60,7 @@ public class ObjectUtilTest {
         private final String name;
 
         /** an object field. */
-        private final Integer age;
+        private final Number age;
     }
 
     /**
@@ -148,6 +148,35 @@ public class ObjectUtilTest {
      */
     @Test
     public void newInstanceClassObjects() {
+        final Number number = new Number() {
+            /**
+             * serial version UID.
+             */
+            private static final long serialVersionUID = -1036564600047519350L;
+
+            @Override
+            public double doubleValue() {
+                return 0;
+            }
+
+            @Override
+            public float floatValue() {
+                return 0;
+            }
+
+            @Override
+            public int intValue() {
+                return 0;
+            }
+
+            @Override
+            public long longValue() {
+                return 0;
+            }
+        };
+        Assert.assertNotNull(ObjectUtil.newInstance(NoEmptyConstructor.class, "name", number));
+        Assert.assertEquals(NoEmptyConstructor.class, ObjectUtil.newInstance(NoEmptyConstructor.class, "name", number).getClass());
+        Assert.assertNotNull(ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2)));
         Assert.assertEquals(NoEmptyConstructor.class,
                             ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2)).getClass());
         Assert.assertNull("Should not create an instance for class with bad parameters constructor.",

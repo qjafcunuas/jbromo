@@ -1,10 +1,11 @@
 package org.jbromo.sample.server.model.test;
 
 import org.jbromo.common.IntegerUtil;
-import org.jbromo.model.jpa.test.AbstractEntityTest;
-import org.jbromo.model.jpa.test.builder.AbstractEntityBuilderFactory;
+import org.jbromo.model.jpa.AbstractEntityTest;
+import org.jbromo.model.jpa.testutil.builder.AbstractEntityBuilderFactory;
 import org.jbromo.sample.server.model.src.User;
 import org.jbromo.sample.server.model.src.UserAddress;
+import org.jbromo.sample.server.model.test.builder.EntityBuilderFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

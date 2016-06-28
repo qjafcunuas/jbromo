@@ -26,11 +26,11 @@ import javax.persistence.EntityManager;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
+import org.jbromo.model.jpa.testutil.crud.ITransaction;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import org.jbromo.model.jpa.test.crud.ITransaction;
 
 /**
  * Define User Transaction facade.

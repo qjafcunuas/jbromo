@@ -21,6 +21,7 @@
  */
 package org.jbromo.common;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -149,7 +150,8 @@ public final class ObjectUtil {
      */
     public static <O> O newInstance(final Class<O> objectClass, final Object... parameters) {
         try {
-            return objectClass.getDeclaredConstructor(ClassUtil.getClass(parameters)).newInstance(parameters);
+            final Constructor<O> constructor = InvocationUtil.getConstructor(objectClass, ClassUtil.getClass(parameters));
+            return constructor.newInstance(parameters);
         } catch (final Exception e) {
             log.error("Cannot instantiate class {} with parameters {}", new Object[] {objectClass, parameters, e});
             return null;

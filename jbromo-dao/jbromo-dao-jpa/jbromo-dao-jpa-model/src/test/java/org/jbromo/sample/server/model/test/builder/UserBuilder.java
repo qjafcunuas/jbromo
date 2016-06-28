@@ -19,34 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.test;
+package org.jbromo.sample.server.model.test.builder;
 
-import java.io.Serializable;
+import org.jbromo.common.StringUtil;
+import org.jbromo.model.jpa.testutil.builder.AbstractEntityBuilder;
+import org.jbromo.sample.server.model.src.User;
 
-import javax.inject.Inject;
-
-import org.jbromo.dao.test.common.UserTransactionFacade;
-import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
-import org.jbromo.service.crud.jpa.IEntityService;
-
-import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
- * Define the default service test implementation.
+ * Define user entity builder.
  * @author qjafcunuas
- * @param <E> the entity type.
- * @param <PK> the primary key type.
  */
-public abstract class AbstractDefaultEntityServiceTest<E extends IEntity<PK>, PK extends Serializable>
-    extends AbstractDefaultCRUDExtendedTest<E, PK, IEntityService<E, PK>> {
+@NoArgsConstructor
+public class UserBuilder extends AbstractEntityBuilder<User> {
 
-    /**
-     * The user transaction facade.
-     */
-    @Getter(AccessLevel.PROTECTED)
-    @Inject
-    private UserTransactionFacade transaction;
+    @Override
+    public void modify(final User user, final boolean acceptNullField) {
+        super.modify(user, acceptNullField);
+        user.setEncryptedPassword(StringUtil.encrypt(user.getEncryptedPassword()));
+    }
 
 }

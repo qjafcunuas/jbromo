@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,9 +26,7 @@ import org.junit.runner.RunWith;
 
 /**
  * City DAO JUnit.
- *
  * @author qjafcunuas
- *
  */
 @RunWith(CdiRunner.class)
 public class CityDaoTest extends AbstractCityDaoTestImpl {

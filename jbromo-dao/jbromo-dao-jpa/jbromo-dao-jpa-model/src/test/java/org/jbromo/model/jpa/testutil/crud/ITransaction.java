@@ -1,4 +1,4 @@
-/*-
+/*
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,34 +19,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.test;
+package org.jbromo.model.jpa.testutil.crud;
 
 import java.io.Serializable;
 
-import javax.inject.Inject;
-
-import org.jbromo.dao.test.common.UserTransactionFacade;
-import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
-import org.jbromo.service.crud.jpa.IEntityService;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
- * Define the default service test implementation.
+ * Define transaction for CRUD test.
+ *
  * @author qjafcunuas
- * @param <E> the entity type.
- * @param <PK> the primary key type.
+ *
  */
-public abstract class AbstractDefaultEntityServiceTest<E extends IEntity<PK>, PK extends Serializable>
-    extends AbstractDefaultCRUDExtendedTest<E, PK, IEntityService<E, PK>> {
+public interface ITransaction extends Serializable {
+    /**
+     * Open a transaction.
+     *
+     * @throws Exception
+     *             exception.
+     */
+    void open() throws Exception;
 
     /**
-     * The user transaction facade.
+     * Close the current transaction.
+     *
+     * @throws Exception
+     *             exception.
      */
-    @Getter(AccessLevel.PROTECTED)
-    @Inject
-    private UserTransactionFacade transaction;
+    void close() throws Exception;
 
+    /**
+     * Return true if transaction is opened.
+     *
+     * @return true/false.
+     * @throws Exception
+     *             exception.
+     */
+    boolean isOpened() throws Exception;
+
+    /**
+     * Return true if transaction is marked as rollabck.
+     *
+     * @return true/false.
+     * @throws Exception
+     *             exception.
+     */
+    boolean isMarkedRollback() throws Exception;
+
+    /**
+     * Join current transaction.
+     *
+     * @throws Exception
+     *             exception.
+     */
+    void join() throws Exception;
+
+    /**
+     * Unjoin current transaction.
+     *
+     * @throws Exception
+     *             exception.
+     */
+    void unjoin() throws Exception;
 }

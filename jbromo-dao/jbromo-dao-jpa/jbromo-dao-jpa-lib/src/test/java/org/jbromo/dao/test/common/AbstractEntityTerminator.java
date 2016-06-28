@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.ThrowableUtil;
 import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.test.cache.EntityCache;
+import org.jbromo.model.jpa.testutil.cache.EntityCache;
 
 /**
  * Define an object that can be used to terminate all created entities during

@@ -1,4 +1,4 @@
-/*-
+/*
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,34 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.test;
+package org.jbromo.model.jpa.testutil.asserts;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.jbromo.dao.test.common.UserTransactionFacade;
 import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
-import org.jbromo.service.crud.jpa.IEntityService;
-
-import lombok.AccessLevel;
-import lombok.Getter;
 
 /**
- * Define the default service test implementation.
+ * Define entity assert factory.
+ *
  * @author qjafcunuas
- * @param <E> the entity type.
- * @param <PK> the primary key type.
+ *
  */
-public abstract class AbstractDefaultEntityServiceTest<E extends IEntity<PK>, PK extends Serializable>
-    extends AbstractDefaultCRUDExtendedTest<E, PK, IEntityService<E, PK>> {
+public abstract class AbstractEntityAssertFactory {
 
     /**
-     * The user transaction facade.
+     * Default constructor.
      */
-    @Getter(AccessLevel.PROTECTED)
-    @Inject
-    private UserTransactionFacade transaction;
+    protected AbstractEntityAssertFactory() {
+        super();
+    }
 
+    /**
+     * Return an entity builder.
+     *
+     * @param <E>
+     *            the entity type.
+     * @param entityClass
+     *            the entityClass.
+     * @return the entity builder.
+     */
+    public <E extends IEntity<?>> AbstractEntityAssert<E> getAssert(
+            final Class<E> entityClass) {
+        return new AbstractEntityAssert<E>() {
+            @Override
+            protected Class<E> getEntityClass() {
+                return entityClass;
+            }
+        };
+    }
 }

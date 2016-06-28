@@ -40,7 +40,7 @@ import org.jbromo.sample.server.model.src.User;
 import org.jbromo.sample.server.model.src.UserAddress;
 import org.jbromo.sample.server.model.src.UserGroup;
 import org.jbromo.sample.server.model.src.UserSurname;
-import org.jbromo.sample.server.model.test.EntityBuilderFactory;
+import org.jbromo.sample.server.model.test.builder.EntityBuilderFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -19,34 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.service.test;
+package org.jbromo.sample.server.model.test.asserts;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.jbromo.dao.test.common.UserTransactionFacade;
-import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
-import org.jbromo.service.crud.jpa.IEntityService;
+import org.jbromo.model.jpa.testutil.asserts.AbstractEntityAssertFactory;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
- * Define the default service test implementation.
+ * Define entity assert factory.
  * @author qjafcunuas
- * @param <E> the entity type.
- * @param <PK> the primary key type.
  */
-public abstract class AbstractDefaultEntityServiceTest<E extends IEntity<PK>, PK extends Serializable>
-    extends AbstractDefaultCRUDExtendedTest<E, PK, IEntityService<E, PK>> {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class EntityAssertFactory extends AbstractEntityAssertFactory {
 
     /**
-     * The user transaction facade.
+     * The singleton instance.
      */
-    @Getter(AccessLevel.PROTECTED)
-    @Inject
-    private UserTransactionFacade transaction;
+    @Getter
+    private static EntityAssertFactory instance = new EntityAssertFactory();
 
 }
