@@ -674,7 +674,7 @@ public abstract class AbstractDefaultCRUDExtendedTest<E extends IEntity<PK>, PK 
 
             // Search another pk that doesn't exit in persistent storage.
             int count = 0;
-            PK anotherPk = RandomUtil.nextAnother(entity.getPrimaryKey());
+            PK anotherPk;
             do {
                 anotherPk = RandomUtil.nextAnother(entity.getPrimaryKey());
             } while (getCrud().findByPk(anotherPk) != null && count++ < IntegerUtil.INT_100);
