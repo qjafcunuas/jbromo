@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.model.jpa.testutil.crud;
+package org.jbromo.dao.test.crud;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

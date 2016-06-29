@@ -26,8 +26,8 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import org.jbromo.dao.test.common.UserTransactionFacade;
+import org.jbromo.dao.test.crud.AbstractDefaultCRUDExtendedTest;
 import org.jbromo.model.jpa.IEntity;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
 import org.jbromo.service.crud.jpa.IEntityService;
 
 import lombok.AccessLevel;

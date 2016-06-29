@@ -31,9 +31,9 @@ import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.dao.common.exception.ValidationException;
 import org.jbromo.dao.jpa.IEntityDao;
 import org.jbromo.dao.test.common.UserTransactionFacade;
+import org.jbromo.dao.test.crud.AbstractDefaultCRUDExtendedTest;
 import org.jbromo.model.jpa.IEntity;
 import org.jbromo.model.jpa.testutil.builder.field.ValidationValue;
-import org.jbromo.model.jpa.testutil.crud.AbstractDefaultCRUDExtendedTest;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,64 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.model.jpa.testutil.crud;
+package org.jbromo.dao.test.crud;
 
 import java.io.Serializable;
 
 /**
  * Define transaction for CRUD test.
- *
  * @author qjafcunuas
- *
  */
 public interface ITransaction extends Serializable {
     /**
      * Open a transaction.
-     *
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     void open() throws Exception;
 
     /**
      * Close the current transaction.
-     *
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     void close() throws Exception;
 
     /**
      * Return true if transaction is opened.
-     *
      * @return true/false.
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     boolean isOpened() throws Exception;
 
     /**
      * Return true if transaction is marked as rollabck.
-     *
      * @return true/false.
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     boolean isMarkedRollback() throws Exception;
 
     /**
      * Join current transaction.
-     *
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     void join() throws Exception;
 
     /**
      * Unjoin current transaction.
-     *
-     * @throws Exception
-     *             exception.
+     * @throws Exception exception.
      */
     void unjoin() throws Exception;
 }

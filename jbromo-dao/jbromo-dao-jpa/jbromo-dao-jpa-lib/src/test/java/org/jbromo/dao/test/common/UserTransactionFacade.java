@@ -26,7 +26,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
-import org.jbromo.model.jpa.testutil.crud.ITransaction;
+import org.jbromo.dao.test.crud.ITransaction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
