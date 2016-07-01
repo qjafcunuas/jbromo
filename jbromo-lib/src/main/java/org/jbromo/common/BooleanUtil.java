@@ -21,6 +21,8 @@
  */
 package org.jbromo.common;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -28,64 +30,75 @@ import lombok.NoArgsConstructor;
 
 /**
  * Define Boolean Utility.
+ * 
  * @author qjafcunuas
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BooleanUtil {
 
-    /**
-     * All possible values list.
-     */
-    public static final List<Boolean> ALL = ListUtil.toUnmodifiableList(Boolean.FALSE, Boolean.TRUE);
+	/**
+	 * All possible values list.
+	 */
+	public static final List<Boolean> ALL = Collections.unmodifiableList(ListUtil.toList(Boolean.FALSE, Boolean.TRUE));
 
-    /**
-     * Empty list.
-     */
-    public static final List<Boolean> EMPTY = ListUtil.toUnmodifiableList();
+	/**
+	 * Empty list.
+	 */
+	public static final List<Boolean> EMPTY = Collections.unmodifiableList(new ArrayList<Boolean>());
 
-    /**
-     * Return true if Boolean is not null and true.
-     * @param value the Boolean value
-     * @return true/false.
-     */
-    public static boolean isTrue(final Boolean value) {
-        return Boolean.TRUE.equals(value);
-    }
+	/**
+	 * Return true if Boolean is not null and true.
+	 * 
+	 * @param value
+	 *            the Boolean value
+	 * @return true/false.
+	 */
+	public static boolean isTrue(final Boolean value) {
+		return Boolean.TRUE.equals(value);
+	}
 
-    /**
-     * Return true if Boolean is not null and false.
-     * @param value the Boolean value
-     * @return true/false.
-     */
-    public static boolean isFalse(final Boolean value) {
-        return Boolean.FALSE.equals(value);
-    }
+	/**
+	 * Return true if Boolean is not null and false.
+	 * 
+	 * @param value
+	 *            the Boolean value
+	 * @return true/false.
+	 */
+	public static boolean isFalse(final Boolean value) {
+		return Boolean.FALSE.equals(value);
+	}
 
-    /**
-     * Return true if Boolean is null.
-     * @param value the Boolean value
-     * @return true/false.
-     */
-    public static boolean isNull(final Boolean value) {
-        return value == null;
-    }
+	/**
+	 * Return true if Boolean is null.
+	 * 
+	 * @param value
+	 *            the Boolean value
+	 * @return true/false.
+	 */
+	public static boolean isNull(final Boolean value) {
+		return value == null;
+	}
 
-    /**
-     * Return true if Boolean is null or true.
-     * @param value the Boolean value
-     * @return true/false.
-     */
-    public static boolean isNullOrTrue(final Boolean value) {
-        return isNull(value) || value.booleanValue();
-    }
+	/**
+	 * Return true if Boolean is null or true.
+	 * 
+	 * @param value
+	 *            the Boolean value
+	 * @return true/false.
+	 */
+	public static boolean isNullOrTrue(final Boolean value) {
+		return isNull(value) || value.booleanValue();
+	}
 
-    /**
-     * Return true if Boolean is null or false.
-     * @param value the Boolean value
-     * @return true/false.
-     */
-    public static boolean isNullOrFalse(final Boolean value) {
-        return isNull(value) || !value.booleanValue();
-    }
+	/**
+	 * Return true if Boolean is null or false.
+	 * 
+	 * @param value
+	 *            the Boolean value
+	 * @return true/false.
+	 */
+	public static boolean isNullOrFalse(final Boolean value) {
+		return isNull(value) || !value.booleanValue();
+	}
 
 }
