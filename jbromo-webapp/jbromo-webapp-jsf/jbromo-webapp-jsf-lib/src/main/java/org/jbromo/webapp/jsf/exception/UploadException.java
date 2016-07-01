@@ -24,6 +24,11 @@ package org.jbromo.webapp.jsf.exception;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.i18n.MessageKey;
 
+/**
+ * Define exception when cannot upload files.
+ * @author qjafcunuas
+ *
+ */
 public class UploadException extends MessageLabelException {
 
     /**
