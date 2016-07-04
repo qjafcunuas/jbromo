@@ -77,7 +77,7 @@ public class AtomikosManagedRuntime implements ManagedRuntime {
     }
 
     @Override
-    public Object getTransactionKey() throws Exception, SystemException {
+    public Object getTransactionKey() throws Exception {
         return getTransactionManager().getTransaction();
     }
 

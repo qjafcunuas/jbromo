@@ -46,12 +46,11 @@ public class JpaHibernateProvider implements IJpaProvider {
         try {
             final Field field = InvocationUtil.getField(object.getClass(), "handler");
             if (field != null) {
-                JavassistLazyInitializer handler = null;
-                handler = InvocationUtil.getValue(object, field, AccessType.FIELD, false);
+                final JavassistLazyInitializer handler = InvocationUtil.getValue(object, field, AccessType.FIELD, false);
                 return handler.getPersistentClass();
             }
-        } catch (final InvocationException e1) {
-            log.warn("Cannot run invocation for {}", object);
+        } catch (final InvocationException e) {
+            log.warn("Cannot run invocation for {}", object, e);
         }
         return object.getClass();
     }

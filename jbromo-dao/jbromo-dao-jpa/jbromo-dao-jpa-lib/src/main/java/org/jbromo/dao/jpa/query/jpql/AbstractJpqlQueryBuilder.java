@@ -112,7 +112,7 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends AbstractQu
     private TypedQuery<M> getQuery() {
         // Build JPQL query.
         final StringBuilder builder = new StringBuilder();
-        final List<Object> parameters = new ArrayList<Object>();
+        final List<Object> parameters = new ArrayList<>();
         getSelect().build(builder);
         getFrom().build(builder);
         getWhere().build(builder, parameters);
@@ -133,7 +133,7 @@ public class AbstractJpqlQueryBuilder<M extends Serializable> extends AbstractQu
             final TypedQuery<M> query = getQuery();
             return query.getSingleResult();
         } catch (final NoResultException e) {
-            log.trace("No single result");
+            log.trace("No single result", e);
             return null;
         }
     }
