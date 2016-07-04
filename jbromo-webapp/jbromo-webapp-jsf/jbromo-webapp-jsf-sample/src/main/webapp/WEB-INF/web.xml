@@ -1,108 +1,108 @@
 <?xml version="1.0"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
-	</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
 
-	<context-param>
-		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
-		<param-value>true</param-value>
-	</context-param>
-	<context-param>
-		<param-name>org.richfaces.skin</param-name>
-		<param-value>blueSky</param-value>
-	</context-param>
-	<context-param>
-		<description>In production : -1, other : 2</description>
-		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
-		<param-value>2</param-value>
-	</context-param>
-	<context-param>
-		<description>Production/Development</description>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
-	</context-param>
-	<context-param>
-		<description>The resource optimization feature provides optimized component dependencies - JavaScript, CSS - which are compressed and aggregated to resource packages. </description>
-		<param-name>org.richfaces.resourceOptimization.enabled</param-name>
-		<param-value>true</param-value>
-	</context-param>
-	<!-- JSF mapping -->
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
-	<!-- Error pages -->
-	<error-page>
-		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
-		<location>/error/error.jsp?page=expired.xhtml</location>
-	</error-page>
-	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
-		<location>/error/error.jsp?page=error.xhtml</location>
-	</error-page>
-	<error-page>
-		<error-code>404</error-code>
-		<location>/error/error.jsp?page=404.xhtml</location>
-	</error-page>
-	<error-page>
-		<error-code>403</error-code>
-		<location>/error/error.jsp?page=403.xhtml</location>
-	</error-page>
-	<!-- Roles -->
-	<security-role>
-		<description>Administrators</description>
-		<role-name>ADMIN</role-name>
-	</security-role>
-	<security-role>
-		<description>Guest</description>
-		<role-name>GUEST</role-name>
-	</security-role>
-	<!-- Resource / Role Mapping -->
-	<security-constraint>
-		<display-name>Admin Area</display-name>
-		<web-resource-collection>
-			<web-resource-name>admin_resources</web-resource-name>
-			<url-pattern>/security/admin.xhtml</url-pattern>
-			<http-method>GET</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<description>For admin role only</description>
-			<role-name>ADMIN</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	<security-constraint>
-		<display-name>Guess Area</display-name>
-		<web-resource-collection>
-			<web-resource-name>guess_resources</web-resource-name>
-			<url-pattern>/security/guest.xhtml</url-pattern>
-			<http-method>GET</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<description>For all roles</description>
-			<role-name>GUEST</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	<!-- Login Prompt -->
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/security/login.xhtml</form-login-page>
-			<form-error-page>/security/login.xhtml</form-error-page>
-		</form-login-config>
-	</login-config>
+    <context-param>
+        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.skin</param-name>
+        <param-value>blueSky</param-value>
+    </context-param>
+    <context-param>
+        <description>In production : -1, other : 2</description>
+        <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+        <param-value>2</param-value>
+    </context-param>
+    <context-param>
+        <description>Production/Development</description>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <description>The resource optimization feature provides optimized component dependencies - JavaScript, CSS - which are compressed and aggregated to resource packages. </description>
+        <param-name>org.richfaces.resourceOptimization.enabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <!-- JSF mapping -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <!-- Error pages -->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/error/error.jsp?page=expired.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error/error.jsp?page=error.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/error.jsp?page=404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error/error.jsp?page=403.xhtml</location>
+    </error-page>
+    <!-- Roles -->
+    <security-role>
+        <description>Administrators</description>
+        <role-name>ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <description>Guest</description>
+        <role-name>GUEST</role-name>
+    </security-role>
+    <!-- Resource / Role Mapping -->
+    <security-constraint>
+        <display-name>Admin Area</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin_resources</web-resource-name>
+            <url-pattern>/security/admin.xhtml</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>For admin role only</description>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Guess Area</display-name>
+        <web-resource-collection>
+            <web-resource-name>guess_resources</web-resource-name>
+            <url-pattern>/security/guest.xhtml</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>For all roles</description>
+            <role-name>GUEST</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <!-- Login Prompt -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/security/login.xhtml</form-login-page>
+            <form-error-page>/security/login.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
 </web-app>

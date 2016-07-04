@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,9 +31,7 @@ import org.jbromo.webapp.jsf.cdi.CDIFacesUtil;
 
 /**
  * EL utility.
- *
  * @author qjafcunuas
- *
  */
 public final class ELUtil {
 
@@ -46,9 +44,7 @@ public final class ELUtil {
 
     /**
      * Return a new value expression.
-     *
-     * @param expression
-     *            the expression to create.
+     * @param expression the expression to create.
      * @return the new value expression.
      */
     public static ValueExpression createValueExpression(final String expression) {
@@ -56,9 +52,7 @@ public final class ELUtil {
         final Application app = facesContext.getApplication();
         final ExpressionFactory elFactory = app.getExpressionFactory();
         final ELContext elContext = facesContext.getELContext();
-        final ValueExpression ve = elFactory.createValueExpression(elContext,
-                expression, Object.class);
-        return ve;
+        return elFactory.createValueExpression(elContext, expression, Object.class);
     }
 
 }

@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,6 +36,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import org.jbromo.common.ListUtil;
+import org.jbromo.common.MapUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.dto.IOrderBy;
 import org.jbromo.common.exception.MessageLabelException;
@@ -47,13 +47,15 @@ import org.jbromo.service.crud.AbstractCrudService;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The class for implementation of Memory CRUD services. EJB must be declared with Singleton annotation.
  * @author qjafcunuas
  * @param <M> the model type giving by Service layer
  */
-public abstract class AbstractMemoryService<M extends Serializable> extends AbstractCrudService<M, Integer>implements IMemoryService<M> {
+@Slf4j
+public abstract class AbstractMemoryService<M extends Serializable> extends AbstractCrudService<M, Integer> implements IMemoryService<M> {
 
     /**
      * Serial version UID for class.
@@ -64,7 +66,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
      * The objects map.
      */
     @Getter(AccessLevel.PROTECTED)
-    private final Map<Integer, M> map = new Hashtable<Integer, M>();
+    private final Map<Integer, M> map = MapUtil.toSynchronizedMap();
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -116,10 +118,10 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
         if (criteria == null) {
             return findAll();
         }
-        final List<M> list = new ArrayList<M>();
+        final List<M> list = new ArrayList<>();
         // Build map from criteria for field with not null value (key = field
         // name, value = field value).
-        final Map<String, Object> filters = new HashMap<String, Object>();
+        final Map<String, Object> filters = new HashMap<>();
         Object value;
         for (final Field field : InvocationUtil.getFields(criteria.getClass())) {
             if (InvocationUtil.isPersistable(field)) {
@@ -178,6 +180,7 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
                         value1 = InvocationUtil.getValue(o1, order.getOrder());
                         value2 = InvocationUtil.getValue(o2, order.getOrder());
                     } catch (final InvocationException e) {
+                        log.warn("Cannot invoke getter", e);
                         return 0;
                     }
                     val = ObjectUtil.compare(value1, value2);
@@ -208,55 +211,45 @@ public abstract class AbstractMemoryService<M extends Serializable> extends Abst
 
     @Override
     public <C extends Collection<M>> C create(final C transientInstance) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public <C extends Collection<M>> C update(final C detachedInstance) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void delete(final Collection<M> detachedInstance) throws MessageLabelException {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public <C extends Collection<M>> C save(final C detachedInstance) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Collection<M> findAllByPk(final Collection<Integer> primaryKeys) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public M findByPk(final Integer primaryKey, final M eagerLoading) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Collection<M> findAllByPk(final Collection<Integer> primaryKeys, final M eagerLoading) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Long count() throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public <C extends Collection<M>> C read(final C detachedInstance) throws MessageLabelException {
-        // TODO Auto-generated method stub
         return null;
     }
 
