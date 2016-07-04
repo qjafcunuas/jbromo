@@ -4,6 +4,6 @@
     "http://www.jboss.org/j2ee/dtd/jboss-web_3_2.dtd">
 
 <jboss-web>
-   <security-domain>java:/jaas/ldapDbRealm</security-domain>
-   <context-root>/jbromo/jsf</context-root>
+  <security-domain>java:/jaas/ldapDbRealm</security-domain>
+  <context-root>/jbromo/jsf</context-root>
 </jboss-web>
