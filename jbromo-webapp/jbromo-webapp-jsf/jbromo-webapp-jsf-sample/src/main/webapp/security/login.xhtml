@@ -250,15 +250,15 @@ bi<?xml version="1.0" encoding="UTF-8"?>
 			<br />
 
 			<rich:panel style="width:30%;margin-left:auto;margin-right:auto;">
-				<f:facet name="header">#{message['view.login.title']}</f:facet>
+				<f:facet name="header">#{message['view.authenticate.title']}</f:facet>
 				<rich:messages globalOnly='true' />
 				<h:panelGrid columns="2">
-					<h:outputLabel value="#{message['view.login.username']}" />
+					<h:outputLabel value="#{message['view.authenticate.username']}" />
 					<jb:inputText required="true" value="#{loginModel.username}" />
-					<h:outputLabel value="#{message['view.login.password']}" />
+					<h:outputLabel value="#{message['view.authenticate.password']}" />
 					<jb:inputSecret required="true" value="#{loginModel.password}" />
 					<f:facet name="footer">
-						<jb:commandButton value="#{message['default.action.login']}"
+						<jb:commandButton value="#{message['default.action.authenticate']}"
 							styleClass="right" imageClass="next right"
 							action="#{loginController.onLogin()}">
 						</jb:commandButton>
