@@ -20,283 +20,278 @@
  * THE SOFTWARE.
  */
 table.nospacing {
-	border-spacing: 0px;
-	border-collapse: collapse;
+    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 td.nopadding {
-	padding: 0px;
+    padding: 0;
 }
 
 td.padding1p {
-	padding: 1px;
+    padding: 1px;
 }
 
 td.left {
-	text-align: left;
-	float: inherit;
+    text-align: left;
+    float: inherit;
 }
 
 td.right {
-	text-align: right;
-	float: inherit;
+    text-align: right;
+    float: inherit;
 }
 
 td.center {
-	text-align: center;
-	float: inherit;
+    text-align: center;
+    float: inherit;
 }
 
 tr.deleted {
-	opacity: 0.2;
-	filter: alpha(opacity =                   20);
-	background-color: silver !important;
+    opacity: 0.2;
+    filter: alpha(opacity =                   20);
+    background-color: silver !important;
 }
 
 fieldset legend a.left {
-	padding-right: 2px;
+    padding-right: 2px;
 }
 
 .left {
-	float: left;
+    float: left;
 }
 
 .right {
-	float: right;
+    float: right;
 }
 
 .clearBoth {
-	clear: both;
+    clear: both;
 }
 
 .width100p {
-	width: 100%;
+    width: 100%;
 }
 
 .hide {
-	display: none;
+    display: none;
 }
 
 .hidden {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .bgRed {
-	background-color: red !important;
+    background-color: red !important;
 }
 
 .bgOrange {
-	background-color: orange !important;
+    background-color: orange !important;
 }
 
 .bgGreen {
-	background-color: green !important;
+    background-color: green !important;
 }
 
 .pointer {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 a.nodeco {
-	text-decoration: none;
-	color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 div.buttonBar {
-	white-space: nowrap;
-	padding-left: 2px;
-	padding-right: 2px;
+    white-space: nowrap;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 div.buttonBar input {
-	margin-left: 2px;
-	margin-right: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 /* outputCountry */
 div.jb-oc {
-	margin: 2px 0px;
-	white-space: nowrap;
+    margin: 2px 0;
+    white-space: nowrap;
 }
 
 div.jb-oc img {
-	padding-right: 2px;
+    padding-right: 2px;
 }
 
-textarea.invalid,input.invalid {
-	border-color: #D91C0D !important;
+textarea.invalid, input.invalid {
+    border-color: #D91C0D !important;
 }
 
 /* commandButton */
 button div.img.new {
-	background: url("#{resource['org.jbromo.img:buttonNew.png']}")
-		no-repeat;
+    background: url("#{resource['org.jbromo.img:buttonNew.png']}") no-repeat;
 }
 
 button div.img.save {
-	background: url("#{resource['org.jbromo.img:buttonSave.png']}")
-		no-repeat;
+    background: url("#{resource['org.jbromo.img:buttonSave.png']}")
+        no-repeat;
 }
 
 button div.img.edit {
-	background: url("#{resource['org.jbromo.img:buttonEdit.png']}")
-		no-repeat;
+    background: url("#{resource['org.jbromo.img:buttonEdit.png']}")
+        no-repeat;
 }
 
 button div.img.cancel {
-	background: url("#{resource['org.jbromo.img:buttonCancel.png']}")
-		no-repeat;
+    background: url("#{resource['org.jbromo.img:buttonCancel.png']}")
+        no-repeat;
 }
 
 button div.img.delete {
-	background: url("#{resource['org.jbromo.img:buttonDelete.png']}")
-		no-repeat;
+    background: url("#{resource['org.jbromo.img:buttonDelete.png']}")
+        no-repeat;
 }
 
 .jb-cb button div.img {
-	height: 12px;
-	width: 12px;
-	position: relative;
-	top: 1px;
-	background-size: 12px 12px;
+    height: 12px;
+    width: 12px;
+    position: relative;
+    top: 1px;
+    background-size: 12px 12px;
 }
 
 .jb-cb button div.img.left {
-	right: 2px;
-	margin-right: 4px;
+    right: 2px;
+    margin-right: 4px;
 }
 
 .jb-cb button div.img.right {
-	left: 2px;
-	margin-left: 4px;
+    left: 2px;
+    margin-left: 4px;
 }
 
 .jb-cb button[disabled] div.img {
-	opacity: 0.3;
-	filter: alpha(opacity =                     30);
+    opacity: 0.3;
+    filter: alpha(opacity =                     30);
 }
 
 .jb-cb-img {
-	display: inline;
+    display: inline;
 }
 
 .ff .jb-cb-img {
-	margin-right: -3px;
+    margin-right: -3px;
 }
 
 .jb-cb-img button {
-	background-color: inherit;
-	background-image: none;
-	border: none;
-	cursor: pointer;
+    background-color: inherit;
+    background-image: none;
+    border: none;
+    cursor: pointer;
 }
 
 .jb-cb-img button {
-	padding: 0px;
+    padding: 0;
 }
 
 .jb-cb-img button div.img {
-	width: 16px;
-	height: 16px;
-	border: none;
-	margin: 0px;
+    width: 16px;
+    height: 16px;
+    border: none;
+    margin: 0;
 }
 
 /* dataScroller */
 .jb-ds .rp {
-	color: #000000;
+    color: #000000;
 }
 
 /* dataTable */
 .jb-dt table {
-	width: 100%
+    width: 100%;
 }
 
 .jb-dt .odd-row {
-	background-color: #ECF3FE;
+    background-color: #ECF3FE;
 }
 
 .jb-dt .even-row {
-	background-color: #FCFFFE;
+    background-color: #FCFFFE;
 }
 
-.jb-dt .over-row,.jb-dt .active-row {
-	background-color: #FFEBDA;
-	color: black;
+.jb-dt .over-row, .jb-dt .active-row {
+    background-color: #FFEBDA;
+    color: black;
 }
 
 .jb-dt .buttonBar {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .ie .jb-dt .odd-row .buttonBar button div.img {
-	background-color: #ecf3fe;
+    background-color: #ecf3fe;
 }
 
 .ie .jb-dt .even-row .buttonBar button div.img {
-	background-color: #fcfffe;
+    background-color: #fcfffe;
 }
 
-.ie .jb-dt .active-row .buttonBar button div.img,.ie .jb-dt .over-row .buttonBar button div.img
-	{
-	background-color: #FFEBDA;
+.ie .jb-dt .active-row .buttonBar button div.img, .ie .jb-dt .over-row .buttonBar button div.img
+    {
+    background-color: #FFEBDA;
 }
 
 /* popupMessage */
 .jb-pmsg div.buttonBar {
-	float: right;
+    float: right;
 }
 
 .jb-pmsg div.buttonBar input.ok {
-	float: left;
+    float: left;
 }
 
 .jb-pmsg div.buttonBar input.cancel {
-	float: right;
+    float: right;
 }
 
 .jb-pmsg div.content {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .jb-pmsg div.msg {
-	max-width: 400px;
-	display: table-cell;
-	vertical-align: middle;
-	padding-left: 5px;
+    max-width: 400px;
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 5px;
 }
 
 .jb-pmsg div.icon {
-	display: table-cell;
-	vertical-align: middle;
-	width: 32px;
-	height: 32px;
-	background-repeat: no-repeat;
-	background-position: left center;
+    display: table-cell;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: left center;
 }
 
 .jb-pmsg.info div.icon {
-	background-image:
-		url("#{resource['org.jbromo.img:popupInfo.png']}");
+    background-image: url("#{resource['org.jbromo.img:popupInfo.png']}");
 }
 
 .jb-pmsg.warn div.icon {
-	background-image:
-		url("#{resource['org.jbromo.img:popupWarning.png']}");
+    background-image: url("#{resource['org.jbromo.img:popupWarning.png']}");
 }
 
 .jb-pmsg.wait div.icon {
-	background-image: url("#{resource['org.jbromo.img:loading.gif']}");
+    background-image: url("#{resource['org.jbromo.img:loading.gif']}");
 }
 
 .jb-pmsg.confirm div.icon {
-	background-image:
-		url("#{resource['org.jbromo.img:popupConfirm.png']}");
+    background-image: url("#{resource['org.jbromo.img:popupConfirm.png']}");
 }
 
 .jb-pmsg.delete div.icon {
-	background-image:
-		url("#{resource['org.jbromo.img:popupDelete.png']}");
+    background-image: url("#{resource['org.jbromo.img:popupDelete.png']}");
 }
