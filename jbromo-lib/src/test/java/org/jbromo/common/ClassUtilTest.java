@@ -52,8 +52,8 @@ public class ClassUtilTest {
     @Test
     public void getClassTest() {
         Assert.assertNull(ClassUtil.getClass((Object) null));
-        Assert.assertEquals(ClassUtil.getClass(new ArrayList<Object>()), ArrayList.class);
-        Assert.assertEquals(ClassUtil.getClass(new HashMap<Object, Object>()), HashMap.class);
+        Assert.assertEquals(ClassUtil.getClass(new ArrayList<>()), ArrayList.class);
+        Assert.assertEquals(ClassUtil.getClass(new HashMap<>()), HashMap.class);
         Assert.assertEquals(ClassUtil.getClass(new Object()), Object.class);
         Assert.assertFalse(ClassUtil.getClass(Integer.SIZE).equals(Object.class));
     }
@@ -63,7 +63,8 @@ public class ClassUtilTest {
      */
     @Test
     public void getClassesTest() {
-        Assert.assertNull(ClassUtil.getClass((Object[]) null));
+        Assert.assertNotNull(ClassUtil.getClass((Object[]) null));
+        Assert.assertEquals(0, ClassUtil.getClass((Object[]) null).length);
         final Object[] objects = new Object[] {ListUtil.toList(), BigDecimal.ZERO};
         Assert.assertTrue(ClassUtil.getClass(objects).length == 2);
         Assert.assertEquals(ClassUtil.getClass(objects)[0], ArrayList.class);
@@ -79,12 +80,12 @@ public class ClassUtilTest {
         Assert.assertFalse(ClassUtil.isInstance(new Object(), null));
         Assert.assertFalse(ClassUtil.isInstance(null, Object.class));
 
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), Object.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), ArrayList.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), List.class));
-        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<Object>(), Iterable.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<>(), Object.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<>(), ArrayList.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<>(), List.class));
+        Assert.assertTrue(ClassUtil.isInstance(new ArrayList<>(), Iterable.class));
 
-        Assert.assertFalse(ClassUtil.isInstance(new ArrayList<Object>(), HashMap.class));
+        Assert.assertFalse(ClassUtil.isInstance(new ArrayList<>(), HashMap.class));
     }
 
     /**

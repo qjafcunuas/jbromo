@@ -58,7 +58,7 @@ public final class ClassUtil {
      */
     public static Class<?>[] getClass(final Object... objects) {
         if (objects == null) {
-            return null;
+            return new Class<?>[0];
         }
         final Class<?>[] classes = new Class<?>[objects.length];
         for (int i = 0; i < objects.length; i++) {

@@ -37,7 +37,8 @@ public class EnumUtilTest {
      */
     private enum MyEnum {
         /** One value. */
-        ONE, /** Another value. */
+        ONE,
+        /** Another value. */
         TWO
     }
 
