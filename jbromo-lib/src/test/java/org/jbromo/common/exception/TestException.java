@@ -37,6 +37,31 @@ public class TestException extends MessageLabelException {
 
     /**
      * Constructor with message field.
+     * @param cause the exception
+     */
+    TestException(final Throwable cause) {
+    	super(cause);
+    }
+
+    /**
+     * Constructor with message field.
+     * @param message the message.
+     */
+    TestException(final String message) {
+    	super( message);
+    }
+
+    /**
+     * Constructor with message field.
+     * @param message the message.
+     * @param cause the exception
+     */
+    TestException(final String message, final Throwable cause) {
+    	super(message, cause);
+    }
+
+    /**
+     * Constructor with message field.
      * @param key the message key.
      */
     TestException(final IMessageKey key) {

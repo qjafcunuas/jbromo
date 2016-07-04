@@ -62,6 +62,15 @@ public class MessageLabelException extends Exception {
 
     /**
      * Constructor with message field.
+     * @param message the message.
+     * @param cause the exception
+     */
+    protected MessageLabelException(final String message, final Throwable cause) {
+    	this(new MessageLabel(MessageKey.DEFAULT_MESSAGE, message), cause);
+    }
+
+    /**
+     * Constructor with message field.
      * @param key the message key.
      */
     protected MessageLabelException(final IMessageKey key) {

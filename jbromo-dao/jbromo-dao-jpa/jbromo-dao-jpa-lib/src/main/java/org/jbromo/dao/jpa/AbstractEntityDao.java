@@ -65,12 +65,10 @@ import lombok.extern.slf4j.Slf4j;
  * Defines the abstract DAO for entity. TODO JEE7 : remove TransactionAttribute (replace by javax.transaction.Transaction)
  * @author qjafcunuas
  * @param <E> the entity type
- * @param
- *            <P>
- *            the primary key type.
+ * @param <P> the primary key type.
  */
 @Slf4j
-public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializable> extends AbstractJpaDao<E>implements IEntityDao<E, P> {
+public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializable> extends AbstractJpaDao<E> implements IEntityDao<E, P> {
 
     /**
      * Serial version number.
@@ -120,8 +118,13 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
      * @param query the JPQL query.
      * @return the new query instance.
      */
-    protected TypedQuery<E> createTypedQuery(final String query) {
-        return getEntityManager().createQuery(query, getModelClass());
+    protected TypedQuery<E> createTypedQuery(final String query, final Object... parameters) {
+        final TypedQuery<E> tquery = getEntityManager().createQuery(query, getModelClass());
+        int i = 1;
+        for (final Object param : parameters) {
+            tquery.setParameter(i++, param);
+        }
+        return tquery;
     }
 
     /**
@@ -468,7 +471,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
                     set.size();
                     SetUtil.reSet(set);
                 } catch (final InvocationException e) {
-                    throw new DataPersistException("Cannot reSet field " + field);
+                    throw new DataPersistException("Cannot reSet field " + field, e);
                 }
             }
         }

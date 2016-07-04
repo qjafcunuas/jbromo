@@ -49,4 +49,13 @@ public class DataPersistException extends MessageLabelException {
         super(cause);
     }
 
+    /**
+     * Constructor with message field.
+     * @param message the message.
+     * @param cause the exception
+     */
+    public DataPersistException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
 }

@@ -57,8 +57,7 @@ public class UserDao extends AbstractEntityDao<User, Long>implements IUserDao {
 
     @Override
     public User findTypedQuery(final Long pk) {
-        final TypedQuery<User> query = createTypedQuery("select o from User o where o.primaryKey = ?1");
-        query.setParameter(1, pk);
+        final TypedQuery<User> query = createTypedQuery("select o from User o where o.primaryKey = ?1", pk);
         return getSingleResult(query);
     }
 

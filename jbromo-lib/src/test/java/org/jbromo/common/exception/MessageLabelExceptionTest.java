@@ -33,6 +33,47 @@ import org.junit.Test;
 public class MessageLabelExceptionTest {
 
     /**
+     * Test constructor(String).
+     */
+    @Test
+    public void construtorString() {
+    	final String message = "My message";
+        final TestException exp = new TestException(message);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(message, exp.getLabel().getParameters().get(0));
+    }
+
+    /**
+     * Test constructor(Throwable).
+     */
+    @Test
+    public void construtorThrowable() {
+        final Throwable t = new Throwable("my exception.");
+        final TestException exp = new TestException(t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(1, exp.getLabel().getParameters().size());
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(0));
+    }
+
+    /**
+     * Test constructor(String,Throwable).
+     */
+    @Test
+    public void construtorStringThrowable() {
+    	final String message = "My message";
+        final Throwable t = new Throwable("my exception.");
+        final TestException exp = new TestException(message, t);
+        Assert.assertNotNull(exp.getLabel());
+        Assert.assertEquals(MessageKey.DEFAULT_MESSAGE, exp.getLabel().getKey());
+        Assert.assertEquals(2, exp.getLabel().getParameters().size());
+        Assert.assertEquals(message, exp.getLabel().getParameters().get(0));
+        Assert.assertEquals(t, exp.getLabel().getParameters().get(1));
+    }
+
+    /**
      * Test constructor(key).
      */
     @Test
