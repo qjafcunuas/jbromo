@@ -104,9 +104,7 @@ public final class EntityUtil {
     /**
      * Return primary keys of entities.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entities the entities to get primary Keys.
      * @return the primary keys.
      */
@@ -125,9 +123,7 @@ public final class EntityUtil {
     /**
      * Map entities by primary key.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entities the entities to map.
      * @return the mapped entities.
      */
@@ -171,9 +167,7 @@ public final class EntityUtil {
     /**
      * This method return the entity primary key, even if the entity is on lazy loading.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entity the entity to get primary key.
      * @return the entity primary key.
      */
@@ -194,9 +188,7 @@ public final class EntityUtil {
      * This method return the entity primary key, even if the entity is on lazy loading. According to the JPA provider, the return value is read with
      * the getter method or directly from the field.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entity the entity to get primary key.
      * @return the entity primary key.
      */
@@ -278,9 +270,7 @@ public final class EntityUtil {
     /**
      * Return true if entity or entity's primary key is null.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entity the entity.
      * @return true/false.
      */
@@ -323,9 +313,7 @@ public final class EntityUtil {
     /**
      * Return true if entity and it's primary key are not null.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entity the entity.
      * @return true/false.
      */
@@ -335,9 +323,7 @@ public final class EntityUtil {
 
     /**
      * Cast a class to an entity class.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param objectClass the object class to cast.
      * @return the entity class.
      */
@@ -539,9 +525,7 @@ public final class EntityUtil {
     /**
      * Get field value from an object according to the value of the MapsId annotation.
      * @param <E> the entity type.
-     * @param
-     *            <P>
-     *            the primary key type.
+     * @param <P> the primary key type.
      * @param entity the entity to get mapsId field.
      * @param value the mapsId value to get field.
      * @return the field value.

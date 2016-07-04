@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,9 +34,7 @@ import org.jbromo.webapp.jsf.faces.BromoConfigKey;
 
 /**
  * Define resource handler for adding framework version on resource link.
- *
  * @author qjafcunuas
- *
  */
 public class BromoResourceHandler extends ResourceHandlerWrapper {
 
@@ -57,9 +55,7 @@ public class BromoResourceHandler extends ResourceHandlerWrapper {
 
     /**
      * Default constructor.
-     *
-     * @param wrapped
-     *            the wrapped resource.
+     * @param wrapped the wrapped resource.
      */
     public BromoResourceHandler(final ResourceHandler wrapped) {
         this.wrapped = wrapped;
@@ -67,20 +63,14 @@ public class BromoResourceHandler extends ResourceHandlerWrapper {
 
     /**
      * Return the framework version.
-     *
      * @return the version.
      */
     private String getVersion() {
         if (BromoResourceHandler.version == null) {
-            String value = CDIFacesUtil.getFacesResourceBundle().getConfig(
-                    BromoConfigKey.BROMO_VERSION);
+            String value = CDIFacesUtil.getFacesResourceBundle().getConfig(BromoConfigKey.BROMO_VERSION);
             final int pos = value.indexOf("-SNAPSHOT");
             if (pos > 0) {
-                value = "&v="
-                        + value
-                        + "-"
-                        + CalendarUtil.toString(Calendar.getInstance(),
-                                CalendarUtil.FORMAT.YYYYMMDDHHMMSS);
+                value = "&v=" + value + "-" + CalendarUtil.toString(Calendar.getInstance(), CalendarUtil.FORMAT.YYYYMMDDHHMMSS);
             }
             version = value;
         }
@@ -89,14 +79,11 @@ public class BromoResourceHandler extends ResourceHandlerWrapper {
 
     /**
      * Return the framework version.
-     *
      * @return the version.
      */
     private String getLibrary() {
         if (BromoResourceHandler.library == null) {
-            final String value = "?ln="
-                    + CDIFacesUtil.getFacesResourceBundle().getConfig(
-                            BromoConfigKey.BROMO_LIBRARY);
+            final String value = "?ln=" + CDIFacesUtil.getFacesResourceBundle().getConfig(BromoConfigKey.BROMO_LIBRARY);
             library = value;
         }
         return library;
@@ -108,16 +95,13 @@ public class BromoResourceHandler extends ResourceHandlerWrapper {
     }
 
     @Override
-    public Resource createResource(final String resourceName,
-            final String libraryName) {
+    public Resource createResource(final String resourceName, final String libraryName) {
         return createResource(resourceName, libraryName, null);
     }
 
     @Override
-    public Resource createResource(final String resourceName,
-            final String libraryName, final String contentType) {
-        final Resource resource = super.createResource(resourceName,
-                libraryName, contentType);
+    public Resource createResource(final String resourceName, final String libraryName, final String contentType) {
+        final Resource resource = super.createResource(resourceName, libraryName, contentType);
 
         if (resource == null) {
             return null;
@@ -128,7 +112,7 @@ public class BromoResourceHandler extends ResourceHandlerWrapper {
             @Override
             public String getRequestPath() {
                 final String path = super.getRequestPath();
-                if (path.indexOf(getLibrary()) > 0) {
+                if (path.indexOf(getLibrary()) >= 0) {
                     return path + getVersion();
                 } else {
                     return path;

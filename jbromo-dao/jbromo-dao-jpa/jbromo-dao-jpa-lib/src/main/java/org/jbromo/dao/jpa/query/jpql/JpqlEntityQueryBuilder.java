@@ -23,12 +23,12 @@ package org.jbromo.dao.jpa.query.jpql;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 
 import org.jbromo.common.CollectionUtil;
+import org.jbromo.common.MapUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
@@ -60,13 +60,13 @@ public class JpqlEntityQueryBuilder<E extends IEntity<?>> extends AbstractJpqlQu
      * Map alias with object.
      */
     @Getter(AccessLevel.PRIVATE)
-    private final Map<Object, String> aliasMapper = new HashMap<Object, String>();
+    private final Map<Object, String> aliasMapper = MapUtil.toMap();
 
     /**
      * Map object with alias.
      */
     @Getter(AccessLevel.PRIVATE)
-    private final Map<String, Object> eagerMapper = new HashMap<String, Object>();
+    private final Map<String, Object> eagerMapper = MapUtil.toMap();
 
     /**
      * Default constructor.

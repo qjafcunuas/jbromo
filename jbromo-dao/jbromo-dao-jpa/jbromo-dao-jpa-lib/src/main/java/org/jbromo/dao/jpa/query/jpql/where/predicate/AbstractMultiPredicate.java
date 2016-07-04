@@ -21,7 +21,6 @@
  */
 package org.jbromo.dao.jpa.query.jpql.where.predicate;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public abstract class AbstractMultiPredicate extends AbstractPredicate {
      * The children predicates and conditions.
      */
     @Getter(AccessLevel.PROTECTED)
-    private final List<ICondition> children = new ArrayList<ICondition>();
+    private final List<ICondition> children = ListUtil.toList();
 
     /**
      * Default constructor.

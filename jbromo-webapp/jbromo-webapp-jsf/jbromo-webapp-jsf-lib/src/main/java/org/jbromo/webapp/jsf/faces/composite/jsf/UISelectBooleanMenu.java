@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,9 +37,7 @@ import org.jbromo.webapp.jsf.faces.composite.util.AbstractUIOutputSelectOne;
 
 /**
  * Define UISelectYesNoMenu composite.
- *
  * @author qjafcunuas
- *
  */
 @FacesComponent(value = "org.jbromo.webapp.jsf.faces.composite.jsf.UISelectBooleanMenu")
 public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
@@ -50,8 +48,7 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
     }
 
     @Override
-    protected void encodeOutputText(final FacesContext context)
-            throws IOException {
+    protected void encodeOutputText(final FacesContext context) throws IOException {
         if (isReadonly()) {
             final Boolean value = (Boolean) getValue();
             if (value == null) {
@@ -64,7 +61,6 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
 
     /**
      * Return the typeLabel attributes.
-     *
      * @return the value.
      */
     protected String getTypeLabel() {
@@ -73,7 +69,6 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
 
     /**
      * Return the trueLabel attributes.
-     *
      * @return the value.
      */
     protected String getTrueLabel() {
@@ -82,7 +77,6 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
 
     /**
      * Return the falseLabel attributes.
-     *
      * @return the value.
      */
     protected String getFalseLabel() {
@@ -91,9 +85,7 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
 
     /**
      * Return the i18n message according to the value.
-     *
-     * @param value
-     *            the value.
+     * @param value the value.
      * @return the i18n message.
      */
     public String getLabel(final Boolean value) {
@@ -117,29 +109,22 @@ public class UISelectBooleanMenu extends AbstractUIOutputSelectOne {
 
     /**
      * Return the label value according to the type.
-     *
-     * @param value
-     *            the value.
-     * @param typeLabel
-     *            the type label.
+     * @param value the value.
+     * @param typeLabel the type label.
      * @return the label.
      */
     private String getLabel(final Boolean value, final String typeLabel) {
         if (value == null) {
             return null;
         }
-        final FacesResourceBundle bundle = CDIFacesUtil
-                .getFacesResourceBundle();
+        final FacesResourceBundle bundle = CDIFacesUtil.getFacesResourceBundle();
         IMessageKey key = null;
-        if (typeLabel == null) {
-            // Yes/No by default.
-            key = value ? MessageKey.YES : MessageKey.NO;
-        } else if ("yesno".equals(typeLabel)) {
+        if (typeLabel == null || "yesno".equals(typeLabel)) {
             key = value ? MessageKey.YES : MessageKey.NO;
         } else if ("truefalse".equals(typeLabel)) {
             key = value ? MessageKey.TRUE : MessageKey.FALSE;
         }
-        return bundle.getMessage(key);
+        return key == null ? null : bundle.getMessage(key);
     }
 
 }
