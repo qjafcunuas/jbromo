@@ -116,6 +116,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     /**
      * Create an instance of Query for executing a JPQL query language.
      * @param query the JPQL query.
+     * @param parameters the query parameters.
      * @return the new query instance.
      */
     protected TypedQuery<E> createTypedQuery(final String query, final Object... parameters) {
