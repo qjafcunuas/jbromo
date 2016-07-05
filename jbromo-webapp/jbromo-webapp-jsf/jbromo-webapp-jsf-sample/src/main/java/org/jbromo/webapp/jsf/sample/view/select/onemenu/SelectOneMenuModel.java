@@ -21,7 +21,6 @@
  */
 package org.jbromo.webapp.jsf.sample.view.select.onemenu;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +28,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
+import org.jbromo.common.ListUtil;
 import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
 import org.jbromo.webapp.jsf.sample.view.select.common.SelectMenuOption;
 
@@ -52,7 +52,7 @@ public class SelectOneMenuModel extends AbstractViewModel {
      * Define options list.
      */
     @Getter
-    private final List<SelectMenuOption> options = new ArrayList<SelectMenuOption>();
+    private final List<SelectMenuOption> options = ListUtil.toList();
 
     /**
      * The selected option.
@@ -128,5 +128,5 @@ public class SelectOneMenuModel extends AbstractViewModel {
      * The rows datatable.
      */
     @Getter
-    private final List<SelectOneMenuRow> rows = new ArrayList<SelectOneMenuRow>();
+    private final List<SelectOneMenuRow> rows = ListUtil.toList();
 }

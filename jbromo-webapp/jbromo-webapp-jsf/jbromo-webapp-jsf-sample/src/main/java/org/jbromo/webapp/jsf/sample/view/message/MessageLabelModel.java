@@ -21,12 +21,12 @@
  */
 package org.jbromo.webapp.jsf.sample.view.message;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
+import org.jbromo.common.ListUtil;
 import org.jbromo.common.i18n.IMessageLabel;
 import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
 
@@ -92,6 +92,6 @@ public class MessageLabelModel extends AbstractViewModel {
      * Define messages.
      */
     @Getter
-    private final List<IMessageLabel> messages = new ArrayList<IMessageLabel>();
+    private final List<IMessageLabel> messages = ListUtil.toList();
 
 }

@@ -23,6 +23,7 @@ package org.jbromo.common;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import lombok.AccessLevel;
@@ -131,6 +132,16 @@ public final class MapUtil {
      */
     public static <K, V> Map<K, V> toMap() {
         return new HashMap<>();
+    }
+
+    /**
+     * Build a new ordered map.
+     * @param <K> the key map type.
+     * @param <V> the value map type.
+     * @return map.
+     */
+    public static <K, V> Map<K, V> toOrderedMap() {
+        return new LinkedHashMap<>();
     }
 
     /**

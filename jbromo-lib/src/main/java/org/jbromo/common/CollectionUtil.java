@@ -46,6 +46,7 @@ public final class CollectionUtil {
      * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
+    @SuppressWarnings("unchecked")
     public static <M> boolean containsAll(final Collection<M> one, final Collection<M> two, final boolean sameSize) {
         if (one == null || two == null) {
             return false;
@@ -53,19 +54,29 @@ public final class CollectionUtil {
         if (ObjectUtil.same(one, two)) {
             return true;
         }
+        if (SetUtil.isSet(one) && SetUtil.isSet(two)) {
+            return containsAll(Set.class.cast(one), Set.class.cast(two));
+        }
         if (sameSize) {
-            if (one.size() != two.size()) {
-                return false;
-            }
-            return one.containsAll(two) && two.containsAll(one);
+            return one.size() == two.size() && one.containsAll(two) && two.containsAll(one);
         } else {
-            if (SetUtil.isSet(one) && SetUtil.isSet(two)) {
-                return one.size() == two.size() && one.containsAll(two);
-            }
             final Set<M> setOne = SetUtil.toSet(one);
             final Set<M> setTwo = SetUtil.toSet(two);
-            return setOne.size() == setTwo.size() && setOne.containsAll(setTwo);
+            return containsAll(setOne, setTwo);
         }
+    }
+
+    /**
+     * Return true if collections contains same elements, even if one collection contains more than one a same elements and the other collection
+     * contains only once it.
+     * @param <M> the model element type of the collection.
+     * @param one the first collection.
+     * @param two the second collection.
+     * @param sameSize if true, collections must have same size; else collections can not have the same size.
+     * @return true/false.
+     */
+    private static <M> boolean containsAll(final Set<M> one, final Set<M> two) {
+        return one.size() == two.size() && one.containsAll(two);
     }
 
     /**
@@ -80,7 +91,7 @@ public final class CollectionUtil {
         if (one == null || two == null) {
             return false;
         }
-        final Collection<M> col = SetUtil.toSet(two);
+        final Collection<M> col = ListUtil.toList(two);
         return containsAll(one, col, sameSize);
     }
 

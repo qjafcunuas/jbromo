@@ -65,15 +65,15 @@ public class CollectionUtilTest {
         Assert.assertTrue(CollectionUtil.containsAll(ListUtil.toList(), ListUtil.toList(), false));
 
         // Not null.
-        final List<Integer> integers = new ArrayList<Integer>();
-        final List<String> strings = new ArrayList<String>();
+        final List<Integer> integers = new ArrayList<>();
+        final List<String> strings = new ArrayList<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             integers.add(i);
             strings.add("string " + i);
         }
-        final Set<Integer> set = new HashSet<Integer>();
+        final Set<Integer> set = new HashSet<>();
         set.addAll(integers);
-        final Set<Integer> anotherset = new HashSet<Integer>();
+        final Set<Integer> anotherset = new HashSet<>();
         anotherset.addAll(integers);
 
         Assert.assertTrue(CollectionUtil.containsAll(strings, strings, false));
@@ -128,15 +128,15 @@ public class CollectionUtilTest {
         // Build list integer 0 to 99.
         // Build list string 'string0' to 'string99'.
         // Build 2 set integer 0 to 99.
-        final List<Integer> integers = new ArrayList<Integer>();
-        final List<String> strings = new ArrayList<String>();
+        final List<Integer> integers = new ArrayList<>();
+        final List<String> strings = new ArrayList<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             integers.add(i);
             strings.add("string " + i);
         }
-        final Set<Integer> set = new HashSet<Integer>();
+        final Set<Integer> set = new HashSet<>();
         set.addAll(integers);
-        final Set<Integer> anotherset = new HashSet<Integer>();
+        final Set<Integer> anotherset = new HashSet<>();
         anotherset.addAll(integers);
 
         // Compare set : same size, same elements.
@@ -159,7 +159,7 @@ public class CollectionUtilTest {
         Assert.assertTrue(CollectionUtil.containsAll(set, integers, true));
 
         // List contains 0 twice.
-        final List<Integer> anotherIntegers = new ArrayList<Integer>(integers);
+        final List<Integer> anotherIntegers = new ArrayList<>(integers);
         // Not same size.
         anotherIntegers.add(IntegerUtil.INT_0);
         Assert.assertFalse(CollectionUtil.containsAll(integers, anotherIntegers, true));
@@ -191,6 +191,15 @@ public class CollectionUtilTest {
         // null, not null, true
         array = new Boolean[] {Boolean.TRUE};
         Assert.assertFalse(CollectionUtil.containsAll((Collection<Boolean>) null, array, true));
+        // not null, not null, true
+        array = new Boolean[] {Boolean.TRUE};
+        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, array, true));
+        array = new Boolean[] {Boolean.TRUE, Boolean.FALSE};
+        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL, array, false));
+        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL, array, true));
+        array = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE};
+        Assert.assertTrue(CollectionUtil.containsAll(BooleanUtil.ALL, array, false));
+        Assert.assertFalse(CollectionUtil.containsAll(BooleanUtil.ALL, array, true));
     }
 
     /**
@@ -199,9 +208,9 @@ public class CollectionUtilTest {
     @Test
     public void isCollectionObject() {
         Assert.assertFalse(CollectionUtil.isCollection((Object) null));
-        Assert.assertTrue(CollectionUtil.isCollection(new ArrayList<Object>()));
-        Assert.assertTrue(CollectionUtil.isCollection(new HashSet<Object>()));
-        Assert.assertFalse(CollectionUtil.isCollection(new HashMap<Object, Object>()));
+        Assert.assertTrue(CollectionUtil.isCollection(new ArrayList<>()));
+        Assert.assertTrue(CollectionUtil.isCollection(new HashSet<>()));
+        Assert.assertFalse(CollectionUtil.isCollection(new HashMap<>()));
     }
 
     /**
@@ -222,7 +231,7 @@ public class CollectionUtilTest {
     public void isEmpty() {
         List<Integer> list = null;
         Assert.assertTrue(CollectionUtil.isEmpty(list));
-        list = new ArrayList<Integer>();
+        list = new ArrayList<>();
         Assert.assertTrue(CollectionUtil.isEmpty(list));
         list.add(IntegerUtil.INT_0);
         Assert.assertFalse(CollectionUtil.isEmpty(list));
@@ -235,7 +244,7 @@ public class CollectionUtilTest {
     public void isNotEmpty() {
         List<Integer> list = null;
         Assert.assertFalse(CollectionUtil.isNotEmpty(list));
-        list = new ArrayList<Integer>();
+        list = new ArrayList<>();
         Assert.assertFalse(CollectionUtil.isNotEmpty(list));
         list.add(IntegerUtil.INT_0);
         Assert.assertTrue(CollectionUtil.isNotEmpty(list));
@@ -247,7 +256,7 @@ public class CollectionUtilTest {
     @Test
     @SuppressWarnings("unchecked")
     public void toCollection() {
-        final List<Integer> list = new ArrayList<Integer>();
+        final List<Integer> list = new ArrayList<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             list.add(i);
         }
@@ -267,7 +276,7 @@ public class CollectionUtilTest {
     @Test
     public void addAll() {
         CollectionUtil.addAll(null, IntegerUtil.INT_0, IntegerUtil.INT_1);
-        final List<Integer> list = new ArrayList<Integer>();
+        final List<Integer> list = new ArrayList<>();
         CollectionUtil.addAll(list, IntegerUtil.INT_0, IntegerUtil.INT_1);
         Assert.assertTrue(list.contains(IntegerUtil.INT_0));
         Assert.assertTrue(list.contains(IntegerUtil.INT_1));
@@ -278,7 +287,7 @@ public class CollectionUtilTest {
      */
     @Test
     public void indexOf() {
-        final List<Integer> list = new ArrayList<Integer>();
+        final List<Integer> list = new ArrayList<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             list.add(i);
         }
@@ -293,7 +302,7 @@ public class CollectionUtilTest {
      */
     @Test
     public void contains() {
-        final List<Object> list = new ArrayList<Object>();
+        final List<Object> list = new ArrayList<>();
         Assert.assertFalse(CollectionUtil.contains(null, null));
         Assert.assertFalse(CollectionUtil.contains(null, Integer.class));
         Assert.assertFalse(CollectionUtil.contains(list, null));

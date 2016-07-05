@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,24 +25,19 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.webapp.jsf.mvc.view.AbstractViewController;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Define a dataTable model for a bromo datatable.
- * 
  * @author qjafcunuas
- * 
- * @param <R>
- *            the row element type.
- * @param <M>
- *            the view model type.
+ * @param <R> the row element type.
+ * @param <M> the view model type.
  */
 @Slf4j
-public abstract class AbstractDataTableController<R extends Serializable, M extends AbstractDataTableModel<R>>
-        extends AbstractViewController<M> {
+public abstract class AbstractDataTableController<R extends Serializable, M extends AbstractDataTableModel<R>> extends AbstractViewController<M> {
 
     /**
      * serial version UID.
@@ -51,19 +46,14 @@ public abstract class AbstractDataTableController<R extends Serializable, M exte
 
     /**
      * Find all elements from the service.
-     *
      * @return elements.
-     * @throws MessageLabelException
-     *             exception.
+     * @throws MessageLabelException exception.
      */
     protected abstract List<R> findAll() throws MessageLabelException;
 
     /**
-     * Load elements into the model. The model's rows is cleared before added
-     * elements.
-     *
-     * @throws MessageLabelException
-     *             exception.
+     * Load elements into the model. The model's rows is cleared before added elements.
+     * @throws MessageLabelException exception.
      */
     public void loadElements() throws MessageLabelException {
         getModel().getRows().clear();
@@ -97,17 +87,13 @@ public abstract class AbstractDataTableController<R extends Serializable, M exte
 
     /**
      * Call when user clicks on a row.
-     *
      * @return the next view id.
      */
     public abstract String onRowClick();
 
     /**
-     * Load elements into the model. The model's rows is not cleared before
-     * added elements.
-     *
-     * @param elements
-     *            the elements to add.
+     * Load elements into the model. The model's rows is not cleared before added elements.
+     * @param elements the elements to add.
      */
     protected void loadElements(final Collection<R> elements) {
         DataTableRow<R> row;
@@ -119,9 +105,7 @@ public abstract class AbstractDataTableController<R extends Serializable, M exte
 
     /**
      * Remove a row.
-     *
-     * @param row
-     *            the row to remove.
+     * @param row the row to remove.
      */
     protected void removeRow(final DataTableRow<R> row) {
         getModel().getRows().remove(row);
@@ -129,9 +113,7 @@ public abstract class AbstractDataTableController<R extends Serializable, M exte
 
     /**
      * Remove an element.
-     *
-     * @param element
-     *            the element to remove.
+     * @param element the element to remove.
      */
     protected void removeElement(final R element) {
         DataTableRow<R> toRemove = null;

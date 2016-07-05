@@ -21,7 +21,6 @@
  */
 package org.jbromo.webapp.jsf.sample.view.layer.table.columnheader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -29,6 +28,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jbromo.common.ListUtil;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.webapp.jsf.sample.view.layer.service.DataRow;
 import org.jbromo.webapp.jsf.sample.view.layer.table.util.AbstractInitDataTableController;
@@ -67,7 +67,7 @@ public class BromoHeaderDataTableController extends AbstractInitDataTableControl
         } catch (final MessageLabelException e) {
             log.trace(e.getMessage(), e);
             getFacesMessages().message(e);
-            return new ArrayList<DataRow>();
+            return ListUtil.toList();
         }
     }
 

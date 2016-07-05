@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,17 +23,15 @@ package org.jbromo.webapp.jsf.component.datatable;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.jbromo.common.MapUtil;
 import org.jbromo.common.dto.IOrderBy.SORT;
 import org.richfaces.model.SortMode;
 
 /**
  * Define multiple list order.
- *
  * @author qjafcunuas
- *
  */
 public class DataTableSortMultiColumn extends AbstractDataTableSortColumn {
 
@@ -45,7 +43,7 @@ public class DataTableSortMultiColumn extends AbstractDataTableSortColumn {
     /**
      * The current sorted column ids.
      */
-    private final Map<String, SORT> columnIds = new LinkedHashMap<String, SORT>();
+    private final Map<String, SORT> columnIds = MapUtil.toOrderedMap();
 
     @Override
     public void setOrderBy(final String columnId) {
@@ -63,9 +61,7 @@ public class DataTableSortMultiColumn extends AbstractDataTableSortColumn {
 
     /**
      * Return true if the column id is at the end of the map.
-     *
-     * @param columnId
-     *            the column id.
+     * @param columnId the column id.
      * @return true/false.
      */
     private boolean isLast(final String columnId) {

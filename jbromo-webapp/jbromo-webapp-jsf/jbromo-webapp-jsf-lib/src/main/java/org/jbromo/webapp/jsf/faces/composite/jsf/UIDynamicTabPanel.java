@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,19 +33,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.jbromo.webapp.jsf.faces.composite.util.UINamingContainerApp;
 import org.richfaces.component.AbstractTogglePanelItemInterface;
 import org.richfaces.component.SwitchType;
 import org.richfaces.component.UITabPanel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Define UIDynamicTabPanel composite.
- *
  * @author qjafcunuas
- *
  */
 @FacesComponent(value = "org.jbromo.webapp.jsf.faces.composite.jsf.UIDynamicTabPanel")
 public class UIDynamicTabPanel extends UINamingContainerApp {
@@ -82,7 +80,6 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return the tabWidth attribute.
-     *
      * @return the value.
      */
     protected Integer getTabWidth() {
@@ -91,12 +88,10 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return all tab panel elements, even they are not rendered.
-     *
      * @return all tab elements.
      */
     private List<AbstractTogglePanelItemInterface> getItems() {
-        final List<AbstractTogglePanelItemInterface> res = new ArrayList<AbstractTogglePanelItemInterface>(
-                getTabPanel().getChildCount());
+        final List<AbstractTogglePanelItemInterface> res = new ArrayList<>(getTabPanel().getChildCount());
         for (final UIComponent child : getTabPanel().getChildren()) {
             if (child instanceof AbstractTogglePanelItemInterface) {
                 res.add((AbstractTogglePanelItemInterface) child);
@@ -107,9 +102,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return a tab as item.
-     *
-     * @param index
-     *            the tab index.
+     * @param index the tab index.
      * @return the panel.
      */
     private AbstractTogglePanelItemInterface getItem(final int index) {
@@ -118,9 +111,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return the index of the tab name.
-     *
-     * @param name
-     *            the tab name.
+     * @param name the tab name.
      * @return the index.
      */
     private int getIndex(final String name) {
@@ -135,7 +126,6 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return the active item index.
-     *
      * @return the active index.
      */
     private int getActiveIndex() {
@@ -144,9 +134,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Set the active item index.
-     *
-     * @param index
-     *            the active index to set.
+     * @param index the active index to set.
      */
     private void setActiveIndex(final int index) {
         getTabPanel().setActiveItem(getItem(index).getName());
@@ -154,12 +142,10 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Render tabs.
-     *
      */
     private void renderItems() {
         initRendered();
-        final SwitchType type = SwitchType.valueOf(getAttribute("switchType")
-                .toString());
+        final SwitchType type = SwitchType.valueOf(getAttribute("switchType").toString());
         if (SwitchType.client.equals(type)) {
             return;
         }
@@ -170,16 +156,14 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
     }
 
     /**
-     * Initialize rendered attribute on tabs, according to expression language
-     * from jsf page.
-     *
+     * Initialize rendered attribute on tabs, according to expression language from jsf page.
      * @return the first rendered panel index.
      */
     private int initRendered() {
         final ELContext elContext = getFacesContext().getELContext();
         ValueExpression ve;
         int firstRendered = 0;
-        UIComponent component = null;
+        UIComponent component;
         final List<UIComponent> items = getTabPanel().getChildren();
         for (int i = 0; i < items.size(); i++) {
             component = items.get(i);
@@ -198,9 +182,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return the first index of the tabs to be rendered.
-     *
-     * @param index
-     *            the index of the displayed tab.
+     * @param index the index of the displayed tab.
      * @return the first index of the tabs.
      */
     private int getItemFirstIndex(final int index) {
@@ -242,9 +224,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return the last index of the tabs to be rendered.
-     *
-     * @param index
-     *            the index of the displayed tab.
+     * @param index the index of the displayed tab.
      * @return the last index of the tabs.
      */
     private int getItemLastIndex(final int index) {
@@ -267,13 +247,9 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
     }
 
     /**
-     * Items from first index to last index will be rendered, and render next
-     * and previous tab if necessary.
-     *
-     * @param first
-     *            the first index.
-     * @param last
-     *            the last index.
+     * Items from first index to last index will be rendered, and render next and previous tab if necessary.
+     * @param first the first index.
+     * @param last the last index.
      */
     private void renderItems(final int first, final int last) {
         // Tab list.
@@ -307,7 +283,6 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Call when user clicks on first item.
-     *
      */
     public void firstItemListener() {
         initRendered();
@@ -323,7 +298,6 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Call when user clicks on last item.
-     *
      */
     public void lastItemListener() {
         initRendered();
@@ -339,9 +313,7 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Return a tab as a component.
-     *
-     * @param index
-     *            the tab index.
+     * @param index the tab index.
      * @return the panel.
      */
     private UIComponent getItemComponent(final int index) {
@@ -350,32 +322,24 @@ public class UIDynamicTabPanel extends UINamingContainerApp {
 
     /**
      * Call when user clicks on last item.
-     *
      */
     public void itemChangeListener() {
         int active = getIndex(getNextTabId());
-        if (active == 0) {
-            actionListener(active);
-        } else if (active == getItems().size() - 1) {
-            actionListener(active);
-        } else {
+        if (active != 0 && active != getItems().size() - 1) {
             setActiveIndex(active);
             // run action on active item.
             active = getActiveIndex();
-            actionListener(active);
         }
+        actionListener(active);
     }
 
     /**
      * Execute action listeners on a tab.
-     *
-     * @param index
-     *            the index of the tab to execute action listeners.
+     * @param index the index of the tab to execute action listeners.
      */
     private void actionListener(final int index) {
         final UIComponent component = getItemComponent(index);
-        final ActionListener[] actions = (ActionListener[]) component
-                .getAttributes().get("actionListeners");
+        final ActionListener[] actions = (ActionListener[]) component.getAttributes().get("actionListeners");
         if (actions != null && actions.length > 0) {
             final ActionEvent event = new ActionEvent(component);
             for (final ActionListener action : actions) {

@@ -21,12 +21,12 @@
  */
 package org.jbromo.webapp.jsf.sample.view.layer.scroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
+import org.jbromo.common.ListUtil;
 import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
 import org.jbromo.webapp.jsf.sample.view.layer.service.DataRow;
 
@@ -49,6 +49,6 @@ public class DataScrollerModel extends AbstractViewModel {
      * The rows.
      */
     @Getter
-    private final List<DataRow> rows = new ArrayList<DataRow>();
+    private final List<DataRow> rows = ListUtil.toList();
 
 }

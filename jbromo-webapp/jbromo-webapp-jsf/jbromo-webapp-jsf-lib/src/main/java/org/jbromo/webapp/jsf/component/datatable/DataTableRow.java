@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,18 +23,15 @@ package org.jbromo.webapp.jsf.component.datatable;
 
 import java.io.Serializable;
 
+import org.jbromo.webapp.jsf.component.model.CheckboxModel;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import org.jbromo.webapp.jsf.component.model.CheckboxModel;
-
 /**
  * Define a row for a bromo datatable.
- *
  * @author qjafcunuas
- *
- * @param <E>
- *            the element row type.
+ * @param <E> the element row type.
  */
 public class DataTableRow<E extends Serializable> implements Serializable {
 

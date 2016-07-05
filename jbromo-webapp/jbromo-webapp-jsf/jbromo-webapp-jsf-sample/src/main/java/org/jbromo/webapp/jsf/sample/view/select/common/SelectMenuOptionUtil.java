@@ -22,11 +22,11 @@
 package org.jbromo.webapp.jsf.sample.view.select.common;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.RandomUtil;
+import org.jbromo.common.SetUtil;
 
 /**
  * Define SelectMenuOption utility.
@@ -47,15 +47,15 @@ public final class SelectMenuOptionUtil {
      * @return the collection.
      */
     public static Collection<SelectMenuOption> build(final int size) {
-        final Set<SelectMenuOption> col = new HashSet<SelectMenuOption>();
+        final Set<SelectMenuOption> col = SetUtil.toSet();
         SelectMenuOption option;
         Integer key;
-        String label;
+        final StringBuilder label = new StringBuilder();
         while (col.size() < size) {
             key = RandomUtil.nextInt(false, IntegerUtil.INT_100 * size);
-            label = "" + key;
+            label.append(key);
             while (label.length() < IntegerUtil.INT_4) {
-                label = "0" + label;
+                label.insert(0, '0');
             }
             option = new SelectMenuOption(key, "Label " + label, "Desc " + RandomUtil.nextInt(false, IntegerUtil.INT_100 * size));
             col.add(option);
