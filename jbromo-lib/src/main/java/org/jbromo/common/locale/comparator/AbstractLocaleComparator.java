@@ -33,6 +33,11 @@ import lombok.Getter;
 public abstract class AbstractLocaleComparator implements ILocaleComparator {
 
     /**
+     * serial version UID.
+     */
+    private static final long serialVersionUID = -4706050920051588491L;
+
+    /**
      * The locale for translated displayed locale.
      */
     @Getter(AccessLevel.PROTECTED)

@@ -21,13 +21,14 @@
  */
 package org.jbromo.common.locale.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Locale;
 
 /**
  * Define locale comparator interface.
- * @author blmaouret
+ * @author qjafcunuas
  */
-public interface ILocaleComparator extends Comparator<Locale> {
+public interface ILocaleComparator extends Comparator<Locale>, Serializable {
 
 }

@@ -49,11 +49,11 @@ public final class EnumUtil {
      * @param type the enum type
      * @return the list enum
      */
-    public static Enum<?>[] getConstants(final Class<?> type) {
+    public static <E extends Enum<E>> Enum<E>[] getConstants(final Class<E> type) {
         if (type == null) {
             return null;
         }
-        return (Enum<?>[]) type.getEnumConstants();
+        return type.getEnumConstants();
     }
 
 }

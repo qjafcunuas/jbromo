@@ -24,7 +24,6 @@ package org.jbromo.dao.jpa.query.jpql.where.predicate;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +32,7 @@ import javax.persistence.EntityManager;
 import org.jbromo.common.ClassUtil;
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.ObjectUtil;
+import org.jbromo.common.SetUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
@@ -210,7 +210,7 @@ public abstract class AbstractPredicate implements IPredicate {
             return;
         }
         final List<Field> fields = EntityUtil.getPersistedFields(criteria.getClass());
-        final Set<Object> lockRecursive = new HashSet<Object>();
+        final Set<Object> lockRecursive = SetUtil.toSet();
         for (final Field field : fields) {
             entity(this, criteria, field, getFrom().getRootAlias(), lockRecursive);
         }
@@ -236,67 +236,111 @@ public abstract class AbstractPredicate implements IPredicate {
                 return;
             }
             lockRecursive.add(criteria);
-            if (EntityUtil.isEmbedded(field) || EntityUtil.isEmbeddedId(field)) {
-                for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
-                    entity(predicate, value, embeddedField, parentAlias + StringUtil.DOT + field.getName(), lockRecursive);
-                }
-            } else if (EntityUtil.isManyToOne(field) || EntityUtil.isOneToOne(field)) {
-                // Parent eager loading.
-                Object eagerLoading = getQueryBuilder().getEager(parentAlias);
-                if (eagerLoading != null) {
-                    // field eager loading.
-                    eagerLoading = InvocationUtil.getValue(eagerLoading, field);
-                }
-                String alias = null;
-                if (eagerLoading != null) {
-                    alias = getQueryBuilder().getAlias(eagerLoading);
-                } else {
-                    alias = parentAlias + StringUtil.DOT + field.getName();
-                }
-                for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
-                    entity(predicate, value, embeddedField, alias, lockRecursive);
-                }
-
-            } else if (value instanceof String && ((String) value).contains(StringUtil.STAR)) {
-                predicate.like(parentAlias + StringUtil.DOT + field.getName(), (String) value);
-            } else if (CollectionUtil.isCollection(field.getType())) {
-                final Collection<?> collection = (Collection<?>) value;
-                if (!CollectionUtil.isEmpty(collection)) {
-                    String collectionAlias;
-                    if (CollectionUtil.contains(collection, INullObject.class)) {
-                        collectionAlias = getFrom().leftJoin(parentAlias, field.getName(), true);
-                    } else {
-                        collectionAlias = getFrom().join(parentAlias, field.getName(), true);
-                    }
-                    // build something like: (collection.entity1.field1 = ?
-                    // and/or collection.entity1.field2 = ?) or
-                    // (collection.entity2.field1 = ? and/or
-                    // collection.entity2.field2 = ?)
-                    final IPredicate or = predicate.or();
-                    for (final Object o : collection) {
-                        if (INullObject.class.isInstance(o)) {
-                            final Field pkField = EntityUtil.getPrimaryKeyField(o.getClass());
-                            or.isNull(collectionAlias + StringUtil.DOT + pkField.getName());
-                        } else {
-                            IPredicate next;
-                            if (ClassUtil.isInstance(predicate, OrPredicate.class)) {
-                                next = or;
-                            } else {
-                                next = or.and();
-                            }
-                            for (final Field collectionField : EntityUtil.getPersistedFields(o.getClass())) {
-                                entity(next, o, collectionField, collectionAlias, lockRecursive);
-                            }
-                        }
-                    }
-                }
-            } else {
-                predicate.equals(parentAlias + StringUtil.DOT + field.getName(), value);
-            }
+            entity(predicate, field, value, parentAlias, lockRecursive);
             lockRecursive.remove(criteria);
 
         } catch (final InvocationException e) {
             log.error("Cannot build where query!", e);
+        }
+    }
+
+    /**
+     * Join element foe a specific criteria's field.
+     * @param predicate the predicate.
+     * @param field the criteria's field.
+     * @param value the criteria's field value.
+     * @param parentAlias the parent field' alias.
+     * @param lockRecursive prevent recursive call.
+     * @throws InvocationException exception.
+     * @throws MessageLabelException exception.
+     */
+    private void entity(final IPredicate predicate, final Field field, final Object value, final String parentAlias,
+            final Set<Object> lockRecursive) throws InvocationException, MessageLabelException {
+        if (EntityUtil.isEmbedded(field) || EntityUtil.isEmbeddedId(field)) {
+            for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
+                entity(predicate, value, embeddedField, parentAlias + StringUtil.DOT + field.getName(), lockRecursive);
+            }
+        } else if (EntityUtil.isManyToOne(field) || EntityUtil.isOneToOne(field)) {
+            entityToOneField(predicate, field, value, parentAlias, lockRecursive);
+        } else if (value instanceof String && ((String) value).contains(StringUtil.STAR)) {
+            predicate.like(parentAlias + StringUtil.DOT + field.getName(), (String) value);
+        } else if (CollectionUtil.isCollection(field.getType())) {
+            final Collection<?> collection = (Collection<?>) value;
+            entityCollectionField(predicate, field, collection, parentAlias, lockRecursive);
+        } else {
+            predicate.equals(parentAlias + StringUtil.DOT + field.getName(), value);
+        }
+    }
+
+    /**
+     * Join element for a collection criteria's field.
+     * @param predicate the predicate.
+     * @param field the criteria's field.
+     * @param value the criteria's field value.
+     * @param parentAlias the parent field' alias.
+     * @param lockRecursive prevent recursive call.
+     * @throws InvocationException exception.
+     * @throws MessageLabelException exception.
+     */
+    private void entityCollectionField(final IPredicate predicate, final Field field, final Collection<?> value, final String parentAlias,
+            final Set<Object> lockRecursive) throws InvocationException, MessageLabelException {
+        final Collection<?> collection = value;
+        if (CollectionUtil.isEmpty(collection)) {
+            return;
+        }
+        String collectionAlias;
+        if (CollectionUtil.contains(collection, INullObject.class)) {
+            collectionAlias = getFrom().leftJoin(parentAlias, field.getName(), true);
+        } else {
+            collectionAlias = getFrom().join(parentAlias, field.getName(), true);
+        }
+        // build something like: (collection.entity1.field1 = ? and/or collection.entity1.field2 = ?) or
+        // (collection.entity2.field1 = ? and/or collection.entity2.field2 = ?)
+        final IPredicate or = predicate.or();
+        for (final Object o : collection) {
+            if (INullObject.class.isInstance(o)) {
+                final Field pkField = EntityUtil.getPrimaryKeyField(o.getClass());
+                or.isNull(collectionAlias + StringUtil.DOT + pkField.getName());
+            } else {
+                IPredicate next;
+                if (ClassUtil.isInstance(predicate, OrPredicate.class)) {
+                    next = or;
+                } else {
+                    next = or.and();
+                }
+                for (final Field collectionField : EntityUtil.getPersistedFields(o.getClass())) {
+                    entity(next, o, collectionField, collectionAlias, lockRecursive);
+                }
+            }
+        }
+    }
+
+    /**
+     * Join element foe a OneToOne or ManyToOne criteria's field.
+     * @param predicate the predicate.
+     * @param field the criteria's field.
+     * @param value the criteria's field value.
+     * @param parentAlias the parent field' alias.
+     * @param lockRecursive prevent recursive call.
+     * @throws InvocationException exception.
+     * @throws MessageLabelException exception.
+     */
+    private void entityToOneField(final IPredicate predicate, final Field field, final Object value, final String parentAlias,
+            final Set<Object> lockRecursive) throws InvocationException, MessageLabelException {
+        // Parent eager loading.
+        Object eagerLoading = getQueryBuilder().getEager(parentAlias);
+        if (eagerLoading != null) {
+            // field eager loading.
+            eagerLoading = InvocationUtil.getValue(eagerLoading, field);
+        }
+        String alias;
+        if (eagerLoading != null) {
+            alias = getQueryBuilder().getAlias(eagerLoading);
+        } else {
+            alias = parentAlias + StringUtil.DOT + field.getName();
+        }
+        for (final Field embeddedField : EntityUtil.getPersistedFields(value.getClass())) {
+            entity(predicate, value, embeddedField, alias, lockRecursive);
         }
     }
 
@@ -343,7 +387,7 @@ public abstract class AbstractPredicate implements IPredicate {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        final List<Object> parameters = new ArrayList<Object>();
+        final List<Object> parameters = new ArrayList<>();
         build(builder, parameters);
         return builder.toString();
     }

@@ -32,6 +32,11 @@ import org.jbromo.common.locale.LocaleLanguageUtil;
 public class LocaleLanguageCountryComparator extends AbstractLocaleComparator {
 
     /**
+     * serial version UID.
+     */
+    private static final long serialVersionUID = -8868834326346648022L;
+
+    /**
      * Default constructor.
      * @param translate the locale to use for translating other locale.
      */
