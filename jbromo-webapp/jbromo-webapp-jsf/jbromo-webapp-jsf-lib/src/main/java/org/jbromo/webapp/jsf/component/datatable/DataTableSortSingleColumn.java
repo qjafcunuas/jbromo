@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,9 +32,7 @@ import org.richfaces.model.SortMode;
 
 /**
  * Define list order.
- *
  * @author qjafcunuas
- *
  */
 public class DataTableSortSingleColumn extends AbstractDataTableSortColumn {
 
@@ -74,9 +72,7 @@ public class DataTableSortSingleColumn extends AbstractDataTableSortColumn {
 
     /**
      * Return true if column is ordered.
-     *
-     * @param columnName
-     *            the column name.
+     * @param columnName the column name.
      * @return true/false.
      */
     private boolean isSorted(final String columnName) {
@@ -92,7 +88,7 @@ public class DataTableSortSingleColumn extends AbstractDataTableSortColumn {
 
     @Override
     public Collection<String> getColumnRefs() {
-        final Collection<String> collection = new ArrayList<String>(1);
+        final Collection<String> collection = new ArrayList<>(1);
         if (StringUtil.isNotEmpty(this.columnName)) {
             collection.add(this.columnName);
         }
@@ -110,14 +106,12 @@ public class DataTableSortSingleColumn extends AbstractDataTableSortColumn {
             return "";
         } else {
             switch (sort) {
-            case ASCENDING:
-                return CDIFacesUtil.getELMessage().formatKey(
-                        MessageKey.ARROW_UP);
-            case DESCENDING:
-                return CDIFacesUtil.getELMessage().formatKey(
-                        MessageKey.ARROW_DOWN);
-            default:
-                return "";
+                case ASCENDING:
+                    return CDIFacesUtil.getELMessage().formatKey(MessageKey.ARROW_UP);
+                case DESCENDING:
+                    return CDIFacesUtil.getELMessage().formatKey(MessageKey.ARROW_DOWN);
+                default:
+                    return "";
             }
         }
     }

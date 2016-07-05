@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,18 +23,15 @@ package org.jbromo.webapp.jsf.component.datatable.crud;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-
 import org.jbromo.webapp.jsf.component.datatable.DataTableActionBarCell;
 import org.jbromo.webapp.jsf.component.datatable.DataTableRow;
 
+import lombok.Getter;
+
 /**
  * Define a row for a jbromo datatable.
- *
  * @author qjafcunuas
- *
- * @param <E>
- *            the element row type.
+ * @param <E> the element row type.
  */
 public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
 
@@ -77,9 +74,7 @@ public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
 
     /**
      * Set row as readonly.
-     *
-     * @param readonly
-     *            the value to set.
+     * @param readonly the value to set.
      */
     public void setReadonly(final boolean readonly) {
         this.readonly = readonly;
@@ -88,9 +83,7 @@ public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
 
     /**
      * Set row as new row.
-     *
-     * @param newRow
-     *            the value to set.
+     * @param newRow the value to set.
      */
     public void setNewRow(final boolean newRow) {
         this.newRow = newRow;
@@ -99,9 +92,7 @@ public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
 
     /**
      * Set row as deleted.
-     *
-     * @param deleted
-     *            the value to set.
+     * @param deleted the value to set.
      */
     public void setDeleted(final boolean deleted) {
         this.deleted = deleted;
@@ -112,14 +103,10 @@ public class DataTableCRUDRow<E extends Serializable> extends DataTableRow<E> {
      * Update rendered buttons flag according to dependent values.
      */
     private void updateRendered() {
-        getButtons().getEditButton()
-                .setRendered(!this.deleted && this.readonly);
-        getButtons().getDeleteButton().setRendered(
-                !this.deleted && (this.readonly || this.newRow));
-        getButtons().getSaveButton().setRendered(
-                !this.deleted && !this.readonly);
-        getButtons().getCancelButton().setRendered(
-                !this.deleted && !this.readonly && !this.newRow);
+        getButtons().getEditButton().setRendered(!this.deleted && this.readonly);
+        getButtons().getDeleteButton().setRendered(!this.deleted && (this.readonly || this.newRow));
+        getButtons().getSaveButton().setRendered(!this.deleted && !this.readonly);
+        getButtons().getCancelButton().setRendered(!this.deleted && !this.readonly && !this.newRow);
     }
 
 }

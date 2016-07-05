@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,21 +22,19 @@
 package org.jbromo.webapp.jsf.component.wizard;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.jbromo.common.ListUtil;
+import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
+import org.jbromo.webapp.jsf.view.IView;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jbromo.webapp.jsf.mvc.view.AbstractViewModel;
-import org.jbromo.webapp.jsf.view.IView;
-
 /**
  * Define abstract wizard model implementation.
- *
  * @author qjafcunuas
- *
  */
 @Slf4j
 public abstract class AbstractWizardModel extends AbstractViewModel {
@@ -49,16 +47,13 @@ public abstract class AbstractWizardModel extends AbstractViewModel {
      * The render events sent.
      */
     @Getter(AccessLevel.PRIVATE)
-    private final List<AbstractWizardItemRenderEvent<? extends Serializable>> renderEvents = new ArrayList<AbstractWizardItemRenderEvent<?>>();
+    private final List<AbstractWizardItemRenderEvent<? extends Serializable>> renderEvents = ListUtil.toList();
 
     /**
      * Add a render event.
-     *
-     * @param event
-     *            the event to add.
+     * @param event the event to add.
      */
-    protected void addRenderEvent(
-            final AbstractWizardItemRenderEvent<? extends Serializable> event) {
+    protected void addRenderEvent(final AbstractWizardItemRenderEvent<? extends Serializable> event) {
         if (!event.equals(getLastRenderEvent())) {
             getRenderEvents().add(event);
         }
@@ -82,7 +77,6 @@ public abstract class AbstractWizardModel extends AbstractViewModel {
 
     /**
      * Return the last render event.
-     *
      * @return the last render event.
      */
     protected AbstractWizardItemRenderEvent<? extends Serializable> getLastRenderEvent() {
@@ -95,7 +89,6 @@ public abstract class AbstractWizardModel extends AbstractViewModel {
 
     /**
      * Return the current wizard item.
-     *
      * @return the current wizard item.
      */
     public IView getCurrentWizardItem() {

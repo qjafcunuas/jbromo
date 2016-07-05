@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,14 +28,10 @@ import org.jbromo.webapp.jsf.component.datatable.DataTableRow;
 
 /**
  * Define a dataTable model for a bromo datatable.
- * 
  * @author qjafcunuas
- * 
- * @param <R>
- *            the row element type.
+ * @param <R> the row element type.
  */
-public abstract class AbstractDataTableCRUDModel<R extends Serializable>
-        extends AbstractDataTableModel<R> {
+public abstract class AbstractDataTableCRUDModel<R extends Serializable> extends AbstractDataTableModel<R> {
 
     /**
      * serial version UID.

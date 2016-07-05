@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,22 +35,21 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 import org.jbromo.common.ListUtil;
+import org.jbromo.common.SetUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.locale.CountryLanguages;
 import org.jbromo.common.locale.LocaleCountryUtil;
 import org.jbromo.common.locale.LocaleLanguageUtil;
 import org.jbromo.webapp.jsf.faces.converter.LocaleConverter;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Define locale context.
- *
  * @author qjafcunuas
- *
  */
 @ApplicationScoped
 @Named
@@ -64,37 +63,37 @@ public class LocaleContext {
     /**
      * Define supported locale.
      */
-    private final Set<Locale> supportedLocales = new HashSet<Locale>();
+    private final Set<Locale> supportedLocales = SetUtil.toSet();
 
     /**
      * Define supported locale countries.
      */
-    private final Set<Locale> countries = new HashSet<Locale>();
+    private final Set<Locale> countries = SetUtil.toSet();
 
     /**
      * Define supported locale undistinct languages.
      */
-    private final Set<Locale> undistinctLanguages = new HashSet<Locale>();
+    private final Set<Locale> undistinctLanguages = SetUtil.toSet();
 
     /**
      * Define supported countries languages.
      */
-    private final Set<CountryLanguages> languagesByCountries = new HashSet<CountryLanguages>();
+    private final Set<CountryLanguages> languagesByCountries = SetUtil.toSet();
 
     /**
      * Define supported countries undistinct languages.
      */
-    private final Set<CountryLanguages> undistinctLanguagesByCountries = new HashSet<CountryLanguages>();
+    private final Set<CountryLanguages> undistinctLanguagesByCountries = SetUtil.toSet();
 
     /**
      * Define supported countries languages, with language as key.
      */
-    private final List<SelectItem> countriesLanguages = new ArrayList<SelectItem>();
+    private final List<SelectItem> countriesLanguages = ListUtil.toList();
 
     /**
      * Define supported countries undistinct languages, with language as key.
      */
-    private final List<SelectItem> undistinctCountriesLanguages = new ArrayList<SelectItem>();
+    private final List<SelectItem> undistinctCountriesLanguages = ListUtil.toList();
 
     /**
      * The faces context.
@@ -111,8 +110,7 @@ public class LocaleContext {
     private LocaleConverter localeConverter;
 
     /**
-     * If not null, overload all distinct parameters. if true, application must
-     * distinguished all languages (fr_FR distinct to fr_CA).
+     * If not null, overload all distinct parameters. if true, application must distinguished all languages (fr_FR distinct to fr_CA).
      */
     @Getter
     @Setter
@@ -128,9 +126,7 @@ public class LocaleContext {
 
     /**
      * Overloading distinct parameters.
-     *
-     * @param distinct
-     *            the parameters.
+     * @param distinct the parameters.
      * @return the overloading value.
      */
     private boolean isDistinctLanguages(final Boolean distinct) {
@@ -143,7 +139,6 @@ public class LocaleContext {
 
     /**
      * Load locales information.
-     *
      */
     private void loadLocales() {
         // Load locales.
@@ -163,8 +158,7 @@ public class LocaleContext {
      * Initialize supported locales.
      */
     private void initSupportedLocales() {
-        final Iterator<Locale> iter = getFacesContext().getApplication()
-                .getSupportedLocales();
+        final Iterator<Locale> iter = getFacesContext().getApplication().getSupportedLocales();
         Locale one;
         while (iter.hasNext()) {
             one = iter.next();
@@ -176,7 +170,7 @@ public class LocaleContext {
      * Initialize supported countries.
      */
     private void initSupportedCountries() {
-        final Set<String> codes = new HashSet<String>();
+        final Set<String> codes = new HashSet<>();
         String code;
         for (final Locale locale : this.supportedLocales) {
             code = getCountryIsoCode(locale);
@@ -191,7 +185,7 @@ public class LocaleContext {
      * Initialize supported undistinct languages.
      */
     private void initSupportedUndistinctLanguages() {
-        final Set<String> codes = new HashSet<String>();
+        final Set<String> codes = new HashSet<>();
         String isoCode;
         String fullCode;
         for (final Locale locale : this.supportedLocales) {
@@ -216,9 +210,7 @@ public class LocaleContext {
 
     /**
      * Convert a Locale to a string, using locale converter.
-     *
-     * @param locale
-     *            the locale.
+     * @param locale the locale.
      * @return the string.
      */
     private String convert(final Locale locale) {
@@ -247,8 +239,7 @@ public class LocaleContext {
         for (final Locale country : getCountries()) {
             value = new CountryLanguages(country, allLanguages);
             for (final Locale lang : ListUtil.toList(value.getLanguages())) {
-                one = LocaleLanguageUtil.toLocale(LocaleLanguageUtil
-                        .getIsoCode(lang));
+                one = LocaleLanguageUtil.toLocale(LocaleLanguageUtil.getIsoCode(lang));
                 if (!value.getLanguages().contains(one)) {
                     value.getLanguages().add(one);
                 }
@@ -265,7 +256,6 @@ public class LocaleContext {
 
     /**
      * Return the current locale.
-     *
      * @return the locale.
      */
     public Locale getLocale() {
@@ -274,11 +264,10 @@ public class LocaleContext {
 
     /**
      * Return countries list, sorted by name.
-     *
      * @return countries list.
      */
     public List<Locale> getCountries() {
-        final List<Locale> locales = new ArrayList<Locale>();
+        final List<Locale> locales = new ArrayList<>();
         locales.addAll(this.countries);
         LocaleCountryUtil.sort(locales, getLocale());
         return locales;
@@ -286,7 +275,6 @@ public class LocaleContext {
 
     /**
      * Return languages list, sorted by name.
-     *
      * @return languages list.
      */
     public List<Locale> getLanguages() {
@@ -295,10 +283,7 @@ public class LocaleContext {
 
     /**
      * Return languages list, sorted by name.
-     *
-     * @param distinct
-     *            if not null, overload distinctLanguages member. if true,
-     *            distinguish all languages (fr_FR distinct to fr_CA).
+     * @param distinct if not null, overload distinctLanguages member. if true, distinguish all languages (fr_FR distinct to fr_CA).
      * @return languages list.
      */
     public List<Locale> getLanguages(final Boolean distinct) {
@@ -315,7 +300,6 @@ public class LocaleContext {
 
     /**
      * Return Countries list, with associated languages.
-     *
      * @return countries list.
      */
     public List<CountryLanguages> getLanguagesByCountries() {
@@ -324,10 +308,7 @@ public class LocaleContext {
 
     /**
      * Return Countries list, with associated languages.
-     *
-     * @param distinct
-     *            if not null, overload distinctLanguages member. if true,
-     *            distinguish all languages (fr_FR distinct to fr_CA).
+     * @param distinct if not null, overload distinctLanguages member. if true, distinguish all languages (fr_FR distinct to fr_CA).
      * @return countries list.
      */
     public List<CountryLanguages> getLanguagesByCountries(final Boolean distinct) {
@@ -335,14 +316,12 @@ public class LocaleContext {
         if (distinctLang) {
             return ListUtil.toList(this.languagesByCountries);
         } else {
-            return ListUtil
-                    .toList(this.undistinctLanguagesByCountries);
+            return ListUtil.toList(this.undistinctLanguagesByCountries);
         }
     }
 
     /**
      * Return Countries languages map.
-     *
      * @return countries languages map.
      */
     public List<SelectItem> getCountriesLanguagesSelectItem() {
@@ -351,14 +330,10 @@ public class LocaleContext {
 
     /**
      * Return Countries languages map.
-     *
-     * @param distinct
-     *            if not null, overload distinctLanguages member. if true,
-     *            distinguish all languages (fr_FR distinct to fr_CA).
+     * @param distinct if not null, overload distinctLanguages member. if true, distinguish all languages (fr_FR distinct to fr_CA).
      * @return Countries languages list.
      */
-    public List<SelectItem> getCountriesLanguagesSelectItem(
-            final Boolean distinct) {
+    public List<SelectItem> getCountriesLanguagesSelectItem(final Boolean distinct) {
         List<SelectItem> values;
         final boolean distinctLang = isDistinctLanguages(distinct);
         if (distinctLang) {
@@ -371,7 +346,6 @@ public class LocaleContext {
 
     /**
      * Return the country iso code of the current locale.
-     *
      * @return the iso code.
      */
     public String getCountryIsoCode() {
@@ -380,9 +354,7 @@ public class LocaleContext {
 
     /**
      * Return the country iso code of a locale.
-     *
-     * @param locale
-     *            the locale to get country iso code.
+     * @param locale the locale to get country iso code.
      * @return the iso code.
      */
     public String getCountryIsoCode(final Locale locale) {
@@ -391,7 +363,6 @@ public class LocaleContext {
 
     /**
      * Return the language iso code of the current locale (2 chars).
-     *
      * @return the iso code.
      */
     public String getLanguageIsoCode() {
@@ -400,9 +371,7 @@ public class LocaleContext {
 
     /**
      * Return the language iso code of a locale (2 chars).
-     *
-     * @param locale
-     *            the locale to get language iso code.
+     * @param locale the locale to get language iso code.
      * @return the iso code.
      */
     public String getLanguageIsoCode(final Locale locale) {
@@ -411,7 +380,6 @@ public class LocaleContext {
 
     /**
      * Return the country flag image file name of the current locale.
-     *
      * @return the file name.
      */
     public String getCountryFlag() {
@@ -420,9 +388,7 @@ public class LocaleContext {
 
     /**
      * Return the country flag image file name .
-     *
-     * @param locale
-     *            the locale to get file name.
+     * @param locale the locale to get file name.
      * @return the file name.
      */
     public String getCountryFlag(final Locale locale) {
@@ -434,9 +400,7 @@ public class LocaleContext {
     }
 
     /**
-     * Return the country label of the current locale, translated into the
-     * current locale language.
-     *
+     * Return the country label of the current locale, translated into the current locale language.
      * @return the country label.
      */
     public String getCountryLabel() {
@@ -444,11 +408,8 @@ public class LocaleContext {
     }
 
     /**
-     * Return the country label of a locale, translated into the current locale
-     * language.
-     *
-     * @param locale
-     *            the locale to get label.
+     * Return the country label of a locale, translated into the current locale language.
+     * @param locale the locale to get label.
      * @return the country label.
      */
     public String getCountryLabel(final Locale locale) {
@@ -456,9 +417,7 @@ public class LocaleContext {
     }
 
     /**
-     * Return the language label of the current locale, translated into the
-     * current locale language.
-     *
+     * Return the language label of the current locale, translated into the current locale language.
      * @return the language label.
      */
     public String getLanguageLabel() {
@@ -466,11 +425,8 @@ public class LocaleContext {
     }
 
     /**
-     * Return the language label of a locale, translated into the current locale
-     * language.
-     *
-     * @param locale
-     *            the locale to get label.
+     * Return the language label of a locale, translated into the current locale language.
+     * @param locale the locale to get label.
      * @return the language label.
      */
     public String getLanguageLabel(final Locale locale) {
@@ -478,14 +434,9 @@ public class LocaleContext {
     }
 
     /**
-     * Return the language label of a locale, translated into the current locale
-     * language.
-     *
-     * @param locale
-     *            the locale to get label.
-     * @param distinct
-     *            if not null, overload distinctLanguages member. if true,
-     *            distinguish all languages (fr_FR distinct to fr_CA).
+     * Return the language label of a locale, translated into the current locale language.
+     * @param locale the locale to get label.
+     * @param distinct if not null, overload distinctLanguages member. if true, distinguish all languages (fr_FR distinct to fr_CA).
      * @return the language label.
      */
     public String getLanguageLabel(final Locale locale, final Boolean distinct) {

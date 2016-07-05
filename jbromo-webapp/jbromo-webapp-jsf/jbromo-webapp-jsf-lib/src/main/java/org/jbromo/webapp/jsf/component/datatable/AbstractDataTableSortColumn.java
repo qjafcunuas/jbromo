@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,12 +29,9 @@ import org.richfaces.component.SortOrder;
 
 /**
  * Define list order.
- *
  * @author qjafcunuas
- *
  */
-public abstract class AbstractDataTableSortColumn implements
-        IDataTableSortColumn {
+public abstract class AbstractDataTableSortColumn implements IDataTableSortColumn {
 
     /**
      * Serial version UID.
@@ -46,12 +43,12 @@ public abstract class AbstractDataTableSortColumn implements
         final SORT order = getSort(columnName);
         if (order != null) {
             switch (order) {
-            case ASCENDING:
-                return SortOrder.ascending;
-            case DESCENDING:
-                return SortOrder.descending;
-            default:
-                return SortOrder.unsorted;
+                case ASCENDING:
+                    return SortOrder.ascending;
+                case DESCENDING:
+                    return SortOrder.descending;
+                default:
+                    return SortOrder.unsorted;
             }
         }
         return SortOrder.unsorted;
@@ -81,9 +78,7 @@ public abstract class AbstractDataTableSortColumn implements
 
     /**
      * Return the arrow according to a sort value.
-     *
-     * @param sort
-     *            the sort value.
+     * @param sort the sort value.
      * @return the arrow.
      */
     protected String getArrow(final SORT sort) {
@@ -91,26 +86,21 @@ public abstract class AbstractDataTableSortColumn implements
             return "";
         } else {
             switch (sort) {
-            case ASCENDING:
-                return CDIFacesUtil.getELMessage().formatKey(
-                        MessageKey.ARROW_UP);
-            case DESCENDING:
-                return CDIFacesUtil.getELMessage().formatKey(
-                        MessageKey.ARROW_DOWN);
-            case UNSORTED:
-                return CDIFacesUtil.getELMessage().formatKey(
-                        MessageKey.ARROW_UP_AND_DOWN);
-            default:
-                return "";
+                case ASCENDING:
+                    return CDIFacesUtil.getELMessage().formatKey(MessageKey.ARROW_UP);
+                case DESCENDING:
+                    return CDIFacesUtil.getELMessage().formatKey(MessageKey.ARROW_DOWN);
+                case UNSORTED:
+                    return CDIFacesUtil.getELMessage().formatKey(MessageKey.ARROW_UP_AND_DOWN);
+                default:
+                    return "";
             }
         }
     }
 
     /**
      * Set next order.
-     *
-     * @param prev
-     *            the previous order.
+     * @param prev the previous order.
      * @return the next order.
      */
     protected SORT nextOrder(final SORT prev) {
@@ -118,12 +108,12 @@ public abstract class AbstractDataTableSortColumn implements
             return SORT.ASCENDING;
         } else {
             switch (prev) {
-            case ASCENDING:
-                return SORT.DESCENDING;
-            case DESCENDING:
-                return SORT.UNSORTED;
-            default:
-                return SORT.ASCENDING;
+                case ASCENDING:
+                    return SORT.DESCENDING;
+                case DESCENDING:
+                    return SORT.UNSORTED;
+                default:
+                    return SORT.ASCENDING;
             }
         }
     }

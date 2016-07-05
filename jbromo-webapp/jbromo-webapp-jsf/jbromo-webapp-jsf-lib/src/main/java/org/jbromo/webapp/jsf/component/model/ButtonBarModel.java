@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,7 +21,6 @@
  */
 package org.jbromo.webapp.jsf.component.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jbromo.common.ListUtil;
@@ -29,9 +28,7 @@ import org.jbromo.common.ObjectUtil;
 
 /**
  * Define Button configuration.
- *
  * @author qjafcunuas
- *
  */
 public class ButtonBarModel extends AbstractDisabledModel {
 
@@ -43,15 +40,12 @@ public class ButtonBarModel extends AbstractDisabledModel {
     /**
      * Define sorted buttons bar.
      */
-    private final List<ButtonModel> buttons = new ArrayList<ButtonModel>();
+    private final List<ButtonModel> buttons = ListUtil.toList();
 
     /**
      * Default constructor.
-     *
-     * @param rendered
-     *            true if button is rendered.
-     * @param disabled
-     *            true if button is disabled.
+     * @param rendered true if button is rendered.
+     * @param disabled true if button is disabled.
      */
     public ButtonBarModel(final boolean rendered, final boolean disabled) {
         super();
@@ -61,25 +55,19 @@ public class ButtonBarModel extends AbstractDisabledModel {
 
     /**
      * Add a new button on the bar.
-     *
-     * @param rendered
-     *            true if button is rendered.
-     * @param disabled
-     *            true if button is disabled.
+     * @param rendered true if button is rendered.
+     * @param disabled true if button is disabled.
      * @return button.
      */
     public ButtonModel addButton(final boolean rendered, final boolean disabled) {
-        final ButtonModel button = new ButtonForBarModel(this, rendered,
-                disabled);
+        final ButtonModel button = new ButtonForBarModel(this, rendered, disabled);
         this.buttons.add(button);
         return button;
     }
 
     /**
      * Removes the first occurrence of the specified element from the bar.
-     *
-     * @param button
-     *            the button to remove.
+     * @param button the button to remove.
      * @return if bar contained the button.
      */
     public boolean removeButton(final ButtonModel button) {
@@ -91,7 +79,6 @@ public class ButtonBarModel extends AbstractDisabledModel {
 
     /**
      * Return buttons.
-     *
      * @return buttons.
      */
     public Iterable<ButtonModel> getButtons() {

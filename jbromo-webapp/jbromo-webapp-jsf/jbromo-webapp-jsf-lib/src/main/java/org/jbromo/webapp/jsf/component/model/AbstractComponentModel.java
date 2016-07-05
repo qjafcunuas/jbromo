@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,20 +22,17 @@
 package org.jbromo.webapp.jsf.component.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
 
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Define default component model.
- *
  * @author qjafcunuas
- *
  */
 public class AbstractComponentModel implements Serializable {
     /**
@@ -58,17 +55,14 @@ public class AbstractComponentModel implements Serializable {
     /**
      * The style classes.
      */
-    private final List<String> styleClasses = new ArrayList<String>();
+    private final List<String> styleClasses = ListUtil.toList();
 
     /**
      * Add a styleClass.
-     *
-     * @param styleClass
-     *            the style class to add.
+     * @param styleClass the style class to add.
      */
     public void addStyleClass(final String styleClass) {
-        if (!StringUtil.isEmpty(styleClass)
-                && !styleClass.equals(ListUtil.getLast(this.styleClasses))) {
+        if (!StringUtil.isEmpty(styleClass) && !styleClass.equals(ListUtil.getLast(this.styleClasses))) {
             this.styleClasses.add(styleClass);
             this.styleClass = null;
         }
@@ -76,9 +70,7 @@ public class AbstractComponentModel implements Serializable {
 
     /**
      * Remove a style class.
-     *
-     * @param styleClass
-     *            the style to remove.
+     * @param styleClass the style to remove.
      */
     public void removeStyleClass(final String styleClass) {
         if (styleClass != null && this.styleClasses.remove(styleClass)) {
@@ -88,7 +80,6 @@ public class AbstractComponentModel implements Serializable {
 
     /**
      * Remove all style class.
-     *
      */
     public void removeAllStyleClass() {
         this.styleClasses.clear();
@@ -97,7 +88,6 @@ public class AbstractComponentModel implements Serializable {
 
     /**
      * Return the style class.
-     *
      * @return the style class.
      */
     public String getStyleClass() {

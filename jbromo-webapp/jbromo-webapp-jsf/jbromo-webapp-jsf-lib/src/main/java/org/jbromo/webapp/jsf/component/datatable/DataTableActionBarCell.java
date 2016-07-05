@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,16 +21,14 @@
  */
 package org.jbromo.webapp.jsf.component.datatable;
 
-import lombok.Getter;
-
 import org.jbromo.webapp.jsf.component.model.ButtonBarModel;
 import org.jbromo.webapp.jsf.component.model.ButtonModel;
 
+import lombok.Getter;
+
 /**
  * Define action bar for datatable row.
- *
  * @author qjafcunuas
- *
  */
 public class DataTableActionBarCell extends ButtonBarModel {
 
@@ -43,29 +41,25 @@ public class DataTableActionBarCell extends ButtonBarModel {
      * Button for cancel action row.
      */
     @Getter
-    private final ButtonModel cancelButton = createButton(false, false,
-            "#{cc.attrs.controller.onCancel}");
+    private final ButtonModel cancelButton = createButton(false, false, "#{cc.attrs.controller.onCancel}");
 
     /**
      * Button for save action row.
      */
     @Getter
-    private final ButtonModel saveButton = createButton(false, false,
-            "#{cc.attrs.controller.onSave}");
+    private final ButtonModel saveButton = createButton(false, false, "#{cc.attrs.controller.onSave}");
 
     /**
      * Button for edit action row.
      */
     @Getter
-    private final ButtonModel editButton = createButton(true, false,
-            "#{cc.attrs.controller.onEdit}");
+    private final ButtonModel editButton = createButton(true, false, "#{cc.attrs.controller.onEdit}");
 
     /**
      * Button for delete action row.
      */
     @Getter
-    private final ButtonModel deleteButton = createButton(true, false,
-            "#{cc.attrs.controller.onDelete}");
+    private final ButtonModel deleteButton = createButton(true, false, "#{cc.attrs.controller.onDelete}");
 
     /**
      * Default constructor.
@@ -76,17 +70,12 @@ public class DataTableActionBarCell extends ButtonBarModel {
 
     /**
      * Create a button.
-     *
-     * @param rendered
-     *            true if button is rendered.
-     * @param disabled
-     *            true if button is disabled.
-     * @param action
-     *            the button's action.
+     * @param rendered true if button is rendered.
+     * @param disabled true if button is disabled.
+     * @param action the button's action.
      * @return the new button.
      */
-    private ButtonModel createButton(final boolean rendered,
-            final boolean disabled, final String action) {
+    private ButtonModel createButton(final boolean rendered, final boolean disabled, final String action) {
         final ButtonModel button = addButton(rendered, disabled);
         button.setAction(action);
         return button;

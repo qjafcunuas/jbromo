@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,74 +30,58 @@ import org.richfaces.model.SortMode;
 
 /**
  * Define interface for sorting column.
- *
  * @author qjafcunuas
- *
  */
 public interface IDataTableSortColumn extends Serializable {
     /**
      * Define the column to be ordered.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      */
     void setOrderBy(final String columnRef);
 
     /**
      * Return the richfaces sort order of a column.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      * @return the sort order.
      */
     SortOrder getSortOrder(final String columnRef);
 
     /**
      * Return the richfaces sort mode.
-     *
      * @return the sort mode.
      */
     SortMode getSortMode();
 
     /**
      * Return the Bromo sort of a column.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      * @return the sort order.
      */
     SORT getSort(final String columnRef);
 
     /**
      * Return true if the columns is ascending sorted.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      * @return true/false
      */
     boolean isAscending(final String columnRef);
 
     /**
      * Return true if the columns is descending sorted.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      * @return true/false
      */
     boolean isDescending(final String columnRef);
 
     /**
      * Return the ordered list of column references to be sorted.
-     *
      * @return the ordered list.
      */
     Collection<String> getColumnRefs();
 
     /**
      * Return the arrows of column references.
-     *
-     * @param columnRef
-     *            the column reference.
+     * @param columnRef the column reference.
      * @return the arrows.
      */
     String getArrows(final String columnRef);

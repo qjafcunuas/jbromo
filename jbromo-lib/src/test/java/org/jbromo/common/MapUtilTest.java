@@ -24,6 +24,8 @@ package org.jbromo.common;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.jbromo.common.test.common.ConstructorUtil;
@@ -162,6 +164,23 @@ public class MapUtilTest {
         Assert.assertNotNull(MapUtil.toMap());
         Assert.assertTrue(MapUtil.toMap().isEmpty());
         Assert.assertEquals(MapUtil.toMap().getClass(), HashMap.class);
+    }
+
+    /**
+     * Test the toOrderedMap() method.
+     */
+    @Test
+    public void toOrderedMap() {
+        Assert.assertNotNull(MapUtil.toOrderedMap());
+        Assert.assertTrue(MapUtil.toOrderedMap().isEmpty());
+        Assert.assertEquals(MapUtil.toOrderedMap().getClass(), LinkedHashMap.class);
+
+        final Map<Integer, Integer> map = MapUtil.toOrderedMap();
+        map.put(IntegerUtil.INT_1, IntegerUtil.INT_2);
+        map.put(IntegerUtil.INT_0, IntegerUtil.INT_0);
+        final Iterator<Integer> keys = map.keySet().iterator();
+        Assert.assertEquals(Integer.valueOf(IntegerUtil.INT_1), keys.next());
+        Assert.assertEquals(Integer.valueOf(IntegerUtil.INT_0), keys.next());
     }
 
     /**
