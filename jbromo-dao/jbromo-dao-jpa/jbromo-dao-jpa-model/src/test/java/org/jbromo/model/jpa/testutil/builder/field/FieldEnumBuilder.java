@@ -55,9 +55,9 @@ public class FieldEnumBuilder extends AbstractFieldBuilder<Enum> {
     @Override
     public List<ValidationValue<Enum>> getValidationSuccessValues(final Field field) {
         final List<ValidationValue<Enum>> values = ListUtil.toList();
-        final Enum<?>[] enums = EnumUtil.getConstants(field.getType());
+        final Enum[] enums = getValues(field);
         if (enums.length > 0) {
-            values.add(new ValidationValue<Enum>(field, "no", enums[0]));
+            values.add(new ValidationValue<>(field, "no", enums[0]));
         }
         addNull(field, values, true);
         return values;
@@ -68,8 +68,10 @@ public class FieldEnumBuilder extends AbstractFieldBuilder<Enum> {
      * @param field the field.
      * @return the values.
      */
+    @SuppressWarnings("unchecked")
     private Enum[] getValues(final Field field) {
-        return EnumUtil.getConstants(field.getType());
+        final Class<Enum> clazz = (Class<Enum>) field.getType();
+        return EnumUtil.getConstants(clazz);
     }
 
     @Override

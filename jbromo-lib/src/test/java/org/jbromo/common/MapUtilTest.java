@@ -49,13 +49,13 @@ public class MapUtilTest {
      */
     @Test
     public void containsAll() {
-        final Map<Integer, Integer> integers = new HashMap<Integer, Integer>();
-        final Map<String, String> strings = new HashMap<String, String>();
+        final Map<Integer, Integer> integers = new HashMap<>();
+        final Map<String, String> strings = new HashMap<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             integers.put(i, i + RandomUtil.nextInt(IntegerUtil.INT_100));
             strings.put("string " + i, "string " + i + RandomUtil.nextInt(IntegerUtil.INT_100));
         }
-        final Map<Integer, Integer> anotherMap = new HashMap<Integer, Integer>();
+        final Map<Integer, Integer> anotherMap = new HashMap<>();
         anotherMap.putAll(integers);
 
         Assert.assertFalse(MapUtil.containsAll((Map<?, ?>) null, null));
@@ -83,7 +83,7 @@ public class MapUtilTest {
     public void isEmpty() {
         Map<Integer, Integer> map = null;
         Assert.assertTrue(MapUtil.isEmpty(map));
-        map = new HashMap<Integer, Integer>();
+        map = new HashMap<>();
         Assert.assertTrue(MapUtil.isEmpty(map));
         map.put(IntegerUtil.INT_0, IntegerUtil.INT_0);
         Assert.assertFalse(MapUtil.isEmpty(map));
@@ -96,7 +96,7 @@ public class MapUtilTest {
     public void isNotEmpty() {
         Map<Integer, Integer> map = null;
         Assert.assertFalse(MapUtil.isNotEmpty(map));
-        map = new HashMap<Integer, Integer>();
+        map = new HashMap<>();
         Assert.assertFalse(MapUtil.isNotEmpty(map));
         map.put(IntegerUtil.INT_0, IntegerUtil.INT_0);
         Assert.assertTrue(MapUtil.isNotEmpty(map));
@@ -109,7 +109,7 @@ public class MapUtilTest {
     public void hasOneElement() {
         Map<Integer, Integer> map = null;
         Assert.assertFalse(MapUtil.hasOneElement(map));
-        map = new HashMap<Integer, Integer>();
+        map = new HashMap<>();
         Assert.assertFalse(MapUtil.hasOneElement(map));
         map.put(IntegerUtil.INT_0, IntegerUtil.INT_0);
         Assert.assertTrue(MapUtil.hasOneElement(map));
@@ -126,7 +126,7 @@ public class MapUtilTest {
     public void hasElements() {
         Map<Integer, Integer> map = null;
         Assert.assertFalse(MapUtil.hasElements(map));
-        map = new HashMap<Integer, Integer>();
+        map = new HashMap<>();
         Assert.assertFalse(MapUtil.hasElements(map));
         map.put(IntegerUtil.INT_0, IntegerUtil.INT_0);
         Assert.assertFalse(MapUtil.hasElements(map));
@@ -150,8 +150,8 @@ public class MapUtilTest {
      */
     @Test
     public void isMapObject() {
-        Assert.assertTrue(MapUtil.isMap(new HashMap<Object, Object>()));
-        Assert.assertFalse(MapUtil.isMap(new HashSet<Object>()));
+        Assert.assertTrue(MapUtil.isMap(new HashMap<>()));
+        Assert.assertFalse(MapUtil.isMap(new HashSet<>()));
     }
 
     /**
@@ -176,7 +176,7 @@ public class MapUtilTest {
         Assert.assertTrue(MapUtil.toMap(null).isEmpty());
 
         // Not empty map.
-        final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        final Map<Integer, Integer> map = new HashMap<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             map.put(RandomUtil.nextInt(IntegerUtil.INT_100), RandomUtil.nextInt(IntegerUtil.INT_100));
         }
@@ -208,7 +208,7 @@ public class MapUtilTest {
         Assert.assertTrue(MapUtil.toSynchronizedMap(null).isEmpty());
 
         // Not empty map.
-        final Map<Integer, Integer> map = new Hashtable<Integer, Integer>();
+        final Map<Integer, Integer> map = new Hashtable<>();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             map.put(RandomUtil.nextInt(IntegerUtil.INT_100), RandomUtil.nextInt(IntegerUtil.INT_100));
         }
