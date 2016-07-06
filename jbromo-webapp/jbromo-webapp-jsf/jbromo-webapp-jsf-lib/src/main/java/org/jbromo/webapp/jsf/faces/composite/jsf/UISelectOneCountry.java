@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,16 +35,13 @@ import org.jbromo.webapp.jsf.locale.LocaleContext;
 
 /**
  * Define UISelectOneCountry composite.
- *
  * @author qjafcunuas
- *
  */
 @FacesComponent(value = "org.jbromo.webapp.jsf.faces.composite.jsf.UISelectOneCountry")
 public class UISelectOneCountry extends AbstractUIOutputSelectOne {
 
     /**
      * Return the locale context.
-     *
      * @return the locale context.
      */
     protected LocaleContext getLocaleContext() {
@@ -55,7 +52,7 @@ public class UISelectOneCountry extends AbstractUIOutputSelectOne {
     @Override
     protected List<Locale> getValues() {
         final LocaleContext localeContext = getLocaleContext();
-        final List<Locale> values = (List<Locale>) super.getValues();
+        final List<Locale> values = super.getValues();
         if (values == null) {
             return localeContext.getCountries();
         }
@@ -64,8 +61,7 @@ public class UISelectOneCountry extends AbstractUIOutputSelectOne {
     }
 
     @Override
-    protected void encodeOutputText(final FacesContext context)
-            throws IOException {
+    protected void encodeOutputText(final FacesContext context) throws IOException {
         // Nothing to do.
     }
 
