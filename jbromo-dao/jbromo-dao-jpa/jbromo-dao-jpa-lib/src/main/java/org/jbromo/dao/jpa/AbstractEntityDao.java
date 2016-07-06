@@ -260,12 +260,12 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws MessageLabelException {
+        if (primaryKeys == null) {
+            return null;
+        }
         E eager = eagerLoading;
         if (eagerLoading == null) {
             eager = ObjectUtil.newInstance(getModelClass());
-        }
-        if (primaryKeys == null) {
-            return null;
         }
         if (CollectionUtil.isEmpty(primaryKeys)) {
             return ObjectUtil.newInstance(primaryKeys.getClass());

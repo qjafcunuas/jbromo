@@ -1,116 +1,116 @@
 body {
-	margin: 0;
-	padding: 0;
-	background-color: #EAECEE;
-	font-family: Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #EAECEE;
+    font-family: Verdana, sans-serif;
 }
 
 #container {
-	margin: 0 auto;
-	padding: 5px;
-	width: 976px;
-	background-color: #FFFFFF;
+    margin: 0 auto;
+    padding: 5px;
+    width: 976px;
+    background-color: #FFFFFF;
 }
 
 #header {
-	
+    
 }
 
 #footer {
-	clear: both;
-	text-align: center;
-	color: gray;
-	font-size: 0.6em;
-	margin: 10px 5px 0px 5px;
-	padding: 1px 0px 1px 0px;
-	border-top: 1px solid gray;
+    clear: both;
+    text-align: center;
+    color: gray;
+    font-size: .6em;
+    margin: 10px 5px 0 5px;
+    padding: 1px 0 1px 0;
+    border-top: 1px solid gray;
 }
 
 #header a.rf-ddm-lbl-dec {
-	color: #000000;
-	text-decoration: none;
+    color: #000000;
+    text-decoration: none;
 }
 
 #content {
-	margin: 0 auto;
-	min-height: 500px;
-	padding: 5px;
+    margin: 0 auto;
+    min-height: 500px;
+    padding: 5px;
 }
 
 code.xhtml {
-	color: #006699;
-	font-size: 1em;
-	font-style: normal;
-	font-weight: normal font-family:     "Consolas",
-		"Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
-	float: left;
-	clear: both;
+    color: #006699;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal font-family: "Consolas", "Bitstream Vera Sans Mono",
+        "Courier New", Courier, monospace;
+    float: left;
+    clear: both;
 }
 
 code.xhtml.spaces1 {
-	padding-left: 40px;
+    padding-left: 40px;
 }
 
 code.xhtml.spaces2 {
-	padding-left: 80px;
+    padding-left: 80px;
 }
 
 code.xhtml.spaces3 {
-	padding-left: 120px;
+    padding-left: 120px;
 }
 
 code.xhtml.spaces4 {
-	padding-left: 160px;
+    padding-left: 160px;
 }
 
 code.java.anno {
-	color: green;
-	font-size: 1em;
-	font-style: normal;
-	font-weight: normal font-family:     "Consolas",
-		"Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
-	float: left;
-	clear: both;
+    color: green;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal font-family:     "Consolas",
+        "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+    float: left;
+    clear: both;
 }
 
 .vcountries {
-	width: 912px;
-	margin: 0px auto;
+    width: 912px;
+    margin: 0 auto;
 }
 
 .vcountries .ctPanel {
-	float: left;
-	padding: 5px;
+    float: left;
+    padding: 5px;
 }
 
 .vcountries .ctPanel .ct {
-	width: 140px;
-	padding: 0px;
+    width: 140px;
+    padding: 0;
 }
 
 .vlanguages {
-	width: 912px;
-	margin: 0px auto;
+    width: 912px;
+    margin: 0 auto;
 }
 
 .vlanguages .clPanel {
-	float: left;
-	padding: 5px;
+    float: left;
+    padding: 5px;
 }
 
 .vlanguages .clPanel .cl {
-	width: 140px;
-	padding: 0px;
+    width: 140px;
+    padding: 0;
 }
 
 .vlanguages .clPanel .cl.all {
-	height: 30px;
+    height: 30px;
 }
 
 .jb-cb div.next {
-	background: url("#{resource['default:img/go-next.png']}") no-repeat;
+    background: url("#{resource['default:img/go-next.png']}") no-repeat;
 }
 
 .jb-cb div.previous {
-	background: url("#{resource['default:img/go-previous.png']}") no-repeat;
+    background: url("#{resource['default:img/go-previous.png']}") no-repeat;
 }

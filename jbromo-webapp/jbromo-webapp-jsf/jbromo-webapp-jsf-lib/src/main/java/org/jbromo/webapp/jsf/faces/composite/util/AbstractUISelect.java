@@ -1,6 +1,14 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
- * * The above copyright notice and this permission notice shall be included in
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -23,19 +31,17 @@ import javax.el.ValueExpression;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 
+import org.jbromo.common.ListUtil;
+import org.jbromo.common.ObjectUtil;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jbromo.common.ListUtil;
-import org.jbromo.common.ObjectUtil;
-
 /**
  * Define Abstract UISelect composite.
- * 
  * @author qjafcunuas
  * @version 1.0.0
- * 
  */
 @Slf4j
 public abstract class AbstractUISelect extends UINamingContainerApp {
@@ -55,11 +61,10 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
 
     /**
      * Return the values attributes.
-     *
      * @return the value.
      */
-    protected List<?> getValues() {
-        final List<?> values = getAttribute("values");
+    protected <O> List<O> getValues() {
+        final List<O> values = getAttribute("values");
         if (ListUtil.isNotEmpty(values)) {
             return sort(values);
         }
@@ -68,7 +73,6 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
 
     /**
      * Return the sortBy attributes.
-     *
      * @return the value.
      */
     protected ValueExpression getSortBy() {
@@ -77,7 +81,6 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
 
     /**
      * Return the itemLabel attributes.
-     *
      * @return the value.
      */
     protected ValueExpression getItemLabel() {
@@ -86,7 +89,6 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
 
     /**
      * Return the itemDescription attributes.
-     *
      * @return the value.
      */
     protected ValueExpression getItemDescription() {
@@ -95,35 +97,30 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
 
     /**
      * Sort values according to the displaying label.
-     *
-     * @param values
-     *            the values to sort.
+     * @param values the values to sort.
      * @return the sorted list.
      */
     @SuppressWarnings("unchecked")
-    private List<?> sort(final List<?> values) {
+    private <O> List<O> sort(final List<O> values) {
         if (ListUtil.hasElements(values)) {
             final ValueExpression ve = getSortBy();
             if (ve != null) {
-                final Comparator<Object> comparator = new Comparator<Object>() {
+                final Comparator<O> comparator = new Comparator<O>() {
                     @Override
-                    public int compare(final Object o1, final Object o2) {
-                        final ELContext elContext = getFacesContext()
-                                .getELContext();
+                    public int compare(final O o1, final O o2) {
+                        final ELContext elContext = getFacesContext().getELContext();
                         // sort1 value.
-                        elContext.getELResolver().setValue(elContext, null,
-                                "item", o1);
+                        elContext.getELResolver().setValue(elContext, null, "item", o1);
                         final Object sort1 = ve.getValue(elContext);
                         // sort2 value.
-                        elContext.getELResolver().setValue(elContext, null,
-                                "item", o2);
+                        elContext.getELResolver().setValue(elContext, null, "item", o2);
                         final Object sort2 = ve.getValue(elContext);
                         // Compare value.
                         return ObjectUtil.compare(sort1, sort2);
                     }
                 };
                 try {
-                    final List<Object> sorted = values.getClass().newInstance();
+                    final List<O> sorted = values.getClass().newInstance();
                     sorted.addAll(values);
                     Collections.sort(sorted, comparator);
                     return sorted;
@@ -138,16 +135,11 @@ public abstract class AbstractUISelect extends UINamingContainerApp {
     }
 
     /**
-     * Render the beginning of the selectItems to the response contained in the
-     * specified FacesContext.
-     *
-     * @param context
-     *            the context.
-     * @throws IOException
-     *             exception.
+     * Render the beginning of the selectItems to the response contained in the specified FacesContext.
+     * @param context the context.
+     * @throws IOException exception.
      */
-    protected void encodeSelectItems(final FacesContext context)
-            throws IOException {
+    protected void encodeSelectItems(final FacesContext context) throws IOException {
         getSelectItems().setValue(getValues());
     }
 
