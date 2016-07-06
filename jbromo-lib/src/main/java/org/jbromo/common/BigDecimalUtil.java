@@ -24,14 +24,13 @@ package org.jbromo.common;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define BigDecimal utility class.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class BigDecimalUtil {
 
     /**

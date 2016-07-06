@@ -21,14 +21,13 @@
  */
 package org.jbromo.common;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define Integer Utility.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class IntegerUtil {
 
     /**

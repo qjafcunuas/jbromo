@@ -23,14 +23,13 @@ package org.jbromo.common;
 
 import org.apache.commons.lang3.ClassUtils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define utility on class.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class ClassUtil {
 
     /**

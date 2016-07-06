@@ -31,14 +31,13 @@ import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.locale.comparator.LocaleComparatorFactory;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define Locale utility for country.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class LocaleCountryUtil {
 
     /**

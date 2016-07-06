@@ -27,8 +27,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -36,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author qjafcunuas
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class StringUtil {
 
     /**

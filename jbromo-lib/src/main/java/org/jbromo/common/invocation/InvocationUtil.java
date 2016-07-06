@@ -34,8 +34,7 @@ import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author qjafcunuas
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class InvocationUtil {
 
     /**

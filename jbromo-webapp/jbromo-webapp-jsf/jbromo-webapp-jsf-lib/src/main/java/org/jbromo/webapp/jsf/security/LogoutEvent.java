@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,15 +23,10 @@ package org.jbromo.webapp.jsf.security;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Define the logout event. Must be fired when user is disconnected.
- *
  * @author qjafcunuas
- *
  */
-@AllArgsConstructor
 public class LogoutEvent implements Serializable {
 
     /**

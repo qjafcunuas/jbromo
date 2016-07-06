@@ -21,7 +21,6 @@
  */
 package org.jbromo.common;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jbromo.common.test.common.ConstructorUtil;
@@ -47,7 +46,7 @@ public class ArrayUtilTest {
      */
     @Test
     public void toArray() {
-        final List<Integer> list = new ArrayList<Integer>();
+        final List<Integer> list = ListUtil.toList();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             list.add(i);
         }

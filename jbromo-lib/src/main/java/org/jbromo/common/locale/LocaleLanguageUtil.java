@@ -28,14 +28,13 @@ import java.util.Locale;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.locale.comparator.LocaleComparatorFactory;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define Locale utility for language.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class LocaleLanguageUtil {
 
     /**

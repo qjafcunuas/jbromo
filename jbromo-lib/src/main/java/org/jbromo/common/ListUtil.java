@@ -26,14 +26,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define List Utility.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class ListUtil {
 
     /**

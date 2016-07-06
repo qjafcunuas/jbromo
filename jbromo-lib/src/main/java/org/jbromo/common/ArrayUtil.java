@@ -24,14 +24,13 @@ package org.jbromo.common;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Define array Utility.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class ArrayUtil {
 
     /**

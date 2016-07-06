@@ -41,14 +41,13 @@ import javax.validation.constraints.Size;
 import org.jbromo.common.ClassUtil;
 import org.jbromo.common.ObjectUtil;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Annotation tools.
  * @author qjafcunuas
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class AnnotationUtil {
 
     /**

@@ -22,8 +22,10 @@
 package org.jbromo.common.test.common;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
+import org.jbromo.common.ClassUtil;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.junit.Assert;
 
@@ -51,10 +53,14 @@ public final class ConstructorUtil {
             } else {
                 Assert.fail("Constructor is not private for class " + objectClass);
             }
+        } catch (final InvocationTargetException e) {
+            // Lombok UtilityClass annotation throw UnsupportedOperationException.
+            if (!ClassUtil.isInstance(e.getTargetException(), UnsupportedOperationException.class)) {
+                Assert.fail(e.getMessage());
+            }
         } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
-
     }
 
 }
