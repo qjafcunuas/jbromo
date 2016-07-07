@@ -50,16 +50,26 @@ public class TransactionalInterceptor {
     /**
      * The user transaction.
      */
-    @Inject
     @Getter(AccessLevel.PRIVATE)
-    private UserTransaction userTransaction;
+    private final UserTransaction userTransaction;
 
     /**
      * The entity manager.
      */
-    @Inject
     @Getter(AccessLevel.PRIVATE)
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
+
+    /**
+     * Default construtor.
+     * @param userTransaction the user transaction.
+     * @param entityManager the entity manager.
+     */
+    @Inject
+    public TransactionalInterceptor(final UserTransaction userTransaction, final EntityManager entityManager) {
+        super();
+        this.userTransaction = userTransaction;
+        this.entityManager = entityManager;
+    }
 
     /**
      * Intercept all method called for logging.
