@@ -60,11 +60,7 @@ public class TransactionalInterceptor {
     private final EntityManager entityManager;
 
     /**
-<<<<<<< HEAD
      * Default constructor.
-=======
-     * Default construtor.
->>>>>>> branch 'master' of https://github.com/qjafcunuas/jbromo.git
      * @param userTransaction the user transaction.
      * @param entityManager the entity manager.
      */
