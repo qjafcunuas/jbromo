@@ -34,15 +34,12 @@
     <openjpa.version>2.3.0</openjpa.version>
     <owb.version>1.2.8</owb.version>
     <jacoco.version>0.7.7.201606060606</jacoco.version>
-    <jboss.managed.version>7.2.0.Final</jboss.managed.version>
-    <jboss.managed.home>C:\Users\qjafcunuas\Projets\autre\server\jboss-as-7.2.0.Final.junit</jboss.managed.home>
-    <jboss.remote.version>7.2.0.Final</jboss.remote.version>
-    <jboss.remote.address>127.0.0.1</jboss.remote.address>
-    <jboss.remote.port>9999</jboss.remote.port>
     <lombok.version>1.16.8</lombok.version>
     <delombok.version>${lombok.version}.0</delombok.version>
     <powermock.version>1.6.5</powermock.version>
     <mockito.version>1.10.19</mockito.version>
+    <wildfly.version>8.1.0.Final</wildfly.version>
+    <wildfly.home>${session.topLevelProject.build.directory}</wildfly.home>
   </properties>
 
   <dependencyManagement>
@@ -290,7 +287,7 @@
       <dependency>
         <groupId>org.jboss.arquillian</groupId>
         <artifactId>arquillian-bom</artifactId>
-        <version>1.1.2.Final</version>
+        <version>1.1.15.Final</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -319,32 +316,12 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.apache.deltaspike.core</groupId>
-        <artifactId>deltaspike-core-api</artifactId>
+        <groupId>org.apache.deltaspike</groupId>
+        <artifactId>parent</artifactId>
         <version>${deltaspike.version}</version>
-        <scope>test</scope>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
-
-      <dependency>
-        <groupId>org.apache.deltaspike.core</groupId>
-        <artifactId>deltaspike-core-impl</artifactId>
-        <version>${deltaspike.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.deltaspike.modules</groupId>
-        <artifactId>deltaspike-test-control-module-api</artifactId>
-        <version>${deltaspike.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.deltaspike.modules</groupId>
-        <artifactId>deltaspike-test-control-module-impl</artifactId>
-        <version>${deltaspike.version}</version>
-        <scope>test</scope>
-      </dependency>
-
       <!-- <dependency> <groupId>org.jboss.shrinkwrap.resolver</groupId> 
         <artifactId>shrinkwrap-resolver-bom</artifactId> <version>2.0.1</version> 
         <scope>import</scope> <type>pom</type> </dependency> -->
@@ -370,28 +347,33 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- UT dependencies for compilation -->
     <dependency>
-      <groupId>org.jboss.arquillian.test</groupId>
-      <artifactId>arquillian-test-spi</artifactId>
-      <scope>test</scope>
+      <groupId>org.apache.deltaspike.cdictrl</groupId>
+      <artifactId>deltaspike-cdictrl-api</artifactId>
+      <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.deltaspike.core</groupId>
+      <artifactId>deltaspike-core-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!-- IT dependencies for compilation -->
     <dependency>
       <groupId>org.jboss.arquillian.junit</groupId>
       <artifactId>arquillian-junit-container</artifactId>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.shrinkwrap.resolver</groupId>
-      <artifactId>shrinkwrap-resolver-depchain</artifactId>
-      <type>pom</type>
-      <scope>test</scope>
+      <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-      <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
-      <scope>test</scope>
+      <artifactId>shrinkwrap-descriptors-api-javaee</artifactId>
+      <scope>provided</scope>
     </dependency>
-
   </dependencies>
 
   <profiles>
@@ -428,7 +410,6 @@
         <dependency>
           <groupId>org.apache.deltaspike.cdictrl</groupId>
           <artifactId>deltaspike-cdictrl-weld</artifactId>
-          <version>${deltaspike.version}</version>
           <scope>test</scope>
         </dependency>
         <dependency>
@@ -524,6 +505,126 @@
       </build>
     </profile>
 
+    <profile>
+      <id>arq-wildfly-managed</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <version>${wildfly.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.arquillian.junit</groupId>
+          <artifactId>arquillian-junit-container</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.arquillian.protocol</groupId>
+          <artifactId>arquillian-protocol-servlet</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.shrinkwrap.resolver</groupId>
+          <artifactId>shrinkwrap-resolver-depchain</artifactId>
+          <scope>test</scope>
+          <type>pom</type>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+          <artifactId>shrinkwrap-descriptors-api-javaee</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+          <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.arquillian.extension</groupId>
+          <artifactId>arquillian-jacoco</artifactId>
+          <version>1.0.0.Alpha8</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jacoco</groupId>
+          <artifactId>org.jacoco.core</artifactId>
+          <version>${jacoco.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>javax</groupId>
+          <artifactId>javaee-api</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <testResources>
+          <testResource>
+            <directory>src/test/resources/specific/jpa/hibernate</directory>
+            <filtering>true</filtering>
+          </testResource>
+          <testResource>
+            <directory>src/test/resources/specific/cdi/weld</directory>
+            <filtering>true</filtering>
+          </testResource>
+        </testResources>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <classpathDependencyExcludes>
+                <classpathDependencyExcludes>org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven</classpathDependencyExcludes>
+              </classpathDependencyExcludes>
+              <systemPropertyVariables>
+                <arquillian.launch>wildfly-managed</arquillian.launch>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <classpathDependencyExcludes>
+                <classpathDependencyExcludes>org.jboss.weld.se:weld-se</classpathDependencyExcludes>
+              </classpathDependencyExcludes>
+              <systemPropertyVariables>
+                <arquillian.launch>wildfly-managed</arquillian.launch>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <id>unpack</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.wildfly</groupId>
+                      <artifactId>wildfly-dist</artifactId>
+                      <version>${wildfly.version}</version>
+                      <type>zip</type>
+                      <overWrite>false</overWrite>
+                      <outputDirectory>${wildfly.home}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>arquillian-jbossas-managed</id>
       <build>

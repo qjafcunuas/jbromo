@@ -42,10 +42,11 @@ public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTest
      */
     @Deployment
     public static JavaArchive createTestArchive() {
-        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(LogCallbackInterceptor.class.getName())
-                .up();
+        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).getOrCreateInterceptors()
+                .clazz(LogCallbackInterceptor.class.getName()).up();
 
         final JavaArchive arch = CommonArquillianUtil.createTestArchive(LogCallbackInterceptorIT.class, beans);
+        arch.deleteClass(TransactionalInterceptor.class);
 
         return arch;
     }
