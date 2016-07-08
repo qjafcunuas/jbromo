@@ -71,7 +71,6 @@ public final class CollectionUtil {
      * @param <M> the model element type of the collection.
      * @param one the first collection.
      * @param two the second collection.
-     * @param sameSize if true, collections must have same size; else collections can not have the same size.
      * @return true/false.
      */
     private static <M> boolean containsAll(final Set<M> one, final Set<M> two) {
