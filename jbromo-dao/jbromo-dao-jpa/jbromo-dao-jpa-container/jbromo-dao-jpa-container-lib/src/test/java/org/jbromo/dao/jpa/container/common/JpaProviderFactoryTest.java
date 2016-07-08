@@ -21,10 +21,11 @@
  */
 package org.jbromo.dao.jpa.container.common;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,17 +40,17 @@ public class JpaProviderFactoryTest {
     /**
      * The file used by serviceLoader.
      */
-    private static final File USED_PROVIDER = new File("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider");
+    private static final Path USED_PROVIDER = Paths.get("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider");
 
     /**
      * The file to used for oneProvider() test.
      */
-    private static final File ONE_PROVIDER = new File("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider1");
+    private static final Path ONE_PROVIDER = Paths.get("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider1");
 
     /**
      * The file to used for twoProvider() test.
      */
-    private static final File TWO_PROVIDER = new File("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider2");
+    private static final Path TWO_PROVIDER = Paths.get("target/test-classes/META-INF/services/org.jbromo.dao.jpa.container.common.IJpaProvider2");
 
     /**
      * Initialize test.
@@ -58,8 +59,8 @@ public class JpaProviderFactoryTest {
     @Before
     @After
     public void setUpDown() throws IOException {
-        if (USED_PROVIDER.exists()) {
-            USED_PROVIDER.delete();
+        if (USED_PROVIDER.toFile().exists()) {
+            USED_PROVIDER.toFile().delete();
         }
     }
 
@@ -79,7 +80,7 @@ public class JpaProviderFactoryTest {
      */
     @Test
     public void oneProvider() throws IOException {
-        FileUtils.copyFile(ONE_PROVIDER, USED_PROVIDER);
+        Files.copy(ONE_PROVIDER, USED_PROVIDER);
         JpaProviderFactory.getInstance().reload();
         Assert.assertNotNull(JpaProviderFactory.getInstance().getImplementation());
         Assert.assertEquals(JpaFirstProvider.class, JpaProviderFactory.getInstance().getImplementation().getClass());
@@ -91,7 +92,7 @@ public class JpaProviderFactoryTest {
      */
     @Test
     public void twoProvider() throws IOException {
-        FileUtils.copyFile(TWO_PROVIDER, USED_PROVIDER);
+        Files.copy(TWO_PROVIDER, USED_PROVIDER);
         JpaProviderFactory.getInstance().reload();
         Assert.assertNotNull(JpaProviderFactory.getInstance().getImplementation());
         Assert.assertEquals(JpaFirstProvider.class, JpaProviderFactory.getInstance().getImplementation().getClass());

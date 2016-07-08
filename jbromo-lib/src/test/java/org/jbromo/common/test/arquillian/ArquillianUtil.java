@@ -21,6 +21,8 @@
  */
 package org.jbromo.common.test.arquillian;
 
+import java.io.File;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -29,6 +31,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenFormatStage;
 import org.jbromo.common.test.cdi.CdiRunner;
 
 /**
@@ -102,6 +105,12 @@ public final class ArquillianUtil {
      * @param arch the archive to add dependencies libraries.
      */
     private static void loadRuntimeAndTestDependencies(final JavaArchive arch) {
+        Maven.configureResolver().workOffline(true).loadPomFromFile("pom.xml").importRuntimeDependencies().resolve().withTransitivity()
+                .as(JavaArchive.class);
+        final MavenFormatStage mfs = Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve().withTransitivity();
+        for (final File file : mfs.asFile()) {
+            System.out.println(file);
+        }
         final JavaArchive[] libs = Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve().withTransitivity()
                 .as(JavaArchive.class);
         for (final JavaArchive one : libs) {

@@ -49,8 +49,8 @@ public final class ServiceArquillianUtil {
      * @return the archive to deploy.
      */
     public static JavaArchive createTestArchive(final Class<?> classToTest) {
-        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).createInterceptors().clazz(LogCallbackInterceptor.class.getName())
-                .up().createDecorators().clazz(EntityDaoDecoratorWeld.class.getName()).up();
+        final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).getOrCreateInterceptors()
+                .clazz(LogCallbackInterceptor.class.getName()).up().getOrCreateDecorators().clazz(EntityDaoDecoratorWeld.class.getName()).up();
 
         final JavaArchive arch = ArquillianUtil
                 .createTestDependenciesArchive(classToTest, beans, BromoServiceArquillianRoot.class.getPackage(),
