@@ -21,7 +21,8 @@
  */
 package org.jbromo.common.test.arquillian;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Set;
+
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -29,6 +30,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jbromo.common.SetUtil;
 import org.jbromo.common.test.cdi.CdiRunner;
 
 /**
@@ -102,18 +104,30 @@ public final class ArquillianUtil {
      * @param arch the archive to add dependencies libraries.
      */
     private static void loadRuntimeAndTestDependencies(final JavaArchive arch) {
-        final JavaArchive[] libs = Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve().withTransitivity()
-                .as(JavaArchive.class);
+        final Set<JavaArchive> libs = SetUtil.toSet();
+        // Add compile and runtime dependencies, except jbromo lib.
+        for (final JavaArchive one : Maven.resolver().loadPomFromFile("pom.xml").importCompileAndRuntimeDependencies().resolve().withTransitivity()
+                .as(JavaArchive.class)) {
+            if (!one.getName().contains("jbromo")) {
+                libs.add(one);
+            }
+        }
+        // Add jbromo dependencies.
+        for (final JavaArchive one : Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve().withTransitivity()
+                .as(JavaArchive.class)) {
+            if (one.getName().contains("jbromo")) {
+                libs.add(one);
+            }
+        }
+        // Add classes to archive.
         for (final JavaArchive one : libs) {
-            if (one.getName().contains("bromo") || one.getName().contains("commons-lang3") || one.getName().contains("commons-collections")) {
-                for (final ArchivePath path : one.getContent().keySet()) {
-                    if (path.get().indexOf(".class") > 0) {
-                        arch.addClass(path.get().replace("/", ".").substring(1, path.get().indexOf(".class")));
-                    }
+            for (final ArchivePath path : one.getContent().keySet()) {
+                if (path.get().indexOf(".class") > 0) {
+                    arch.addClass(path.get().replace("/", ".").substring(1, path.get().indexOf(".class")));
                 }
             }
         }
-        arch.addClass(StringUtils.class);
+        // arch.addClass(StringUtils.class);
         arch.deleteClass(CdiRunner.class);
     }
 
