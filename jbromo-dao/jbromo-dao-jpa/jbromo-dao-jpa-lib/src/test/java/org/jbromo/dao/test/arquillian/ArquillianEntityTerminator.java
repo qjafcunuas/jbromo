@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,6 +28,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
@@ -35,14 +37,12 @@ import org.jbromo.dao.test.common.AbstractEntityTerminator;
 import org.jbromo.model.jpa.IEntity;
 
 /**
- * Define an object that can be used to terminate all created entities during
- * test.
- *
+ * Define an object that can be used to terminate all created entities during test.
  * @author qjafcunuas
- *
  */
 @Startup
 @Singleton
+@TransactionManagement(TransactionManagementType.BEAN)
 public class ArquillianEntityTerminator extends AbstractEntityTerminator {
 
     /**
@@ -52,8 +52,7 @@ public class ArquillianEntityTerminator extends AbstractEntityTerminator {
     private UserTransaction userTransaction;
 
     @Override
-    protected <E extends IEntity<PK>, PK extends Serializable> void delete(
-            final E entity) throws Exception {
+    protected <E extends IEntity<PK>, PK extends Serializable> void delete(final E entity) throws Exception {
         if (entity != null) {
             this.userTransaction.begin();
             super.delete(entity);

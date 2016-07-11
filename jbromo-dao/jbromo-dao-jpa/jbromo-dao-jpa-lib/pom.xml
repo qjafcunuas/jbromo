@@ -140,13 +140,16 @@
     </profile>
 
     <profile>
-      <id>arquillian-jbossas-managed</id>
+      <id>arq-wildfly-managed</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>arquillian-jbossas-remote</id>
-      <dependencies>
+        <dependency>
+          <groupId>org.jbromo</groupId>
+          <artifactId>jbromo-dao-jpa-container-hibernate</artifactId>
+          <scope>test</scope>
+        </dependency>
       </dependencies>
     </profile>
   </profiles>

@@ -201,6 +201,8 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
             Assert.assertTrue("Saved entity must have not null primary key!", EntityUtil.isNotNullPk(saved));
             getEntityAssert().assertEquals(pk, saved.getPrimaryKey());
 
+        } catch (final AssertionError e) {
+            throw e;
         } catch (final Exception e) {
             log.error("Error on save method", e);
             Assert.fail(e.getMessage());
@@ -403,7 +405,7 @@ public abstract class AbstractDefaultCRUDTest<E extends IEntity<PK>, PK extends 
      * @return the created entities.
      */
     public Collection<E> create(final int count) {
-        final List<E> entities = new ArrayList<E>();
+        final List<E> entities = new ArrayList<>();
         E entity;
         E created;
         try {

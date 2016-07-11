@@ -21,6 +21,8 @@
  */
 package org.jbromo.dao.jpa.container.common;
 
+import javax.transaction.UserTransaction;
+
 /**
  * Define specific utility for JPA provider.
  * @author qjafcunuas
@@ -45,6 +47,11 @@ public class JpaFirstProvider implements IJpaProvider {
     @Override
     public boolean isOneToManyAutoMerge() {
         return true;
+    }
+
+    @Override
+    public UserTransaction getUserTransactionJSE() {
+        return null;
     }
 
 }

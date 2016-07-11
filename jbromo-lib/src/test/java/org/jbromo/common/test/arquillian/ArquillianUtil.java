@@ -31,6 +31,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jbromo.common.SetUtil;
+import org.jbromo.common.cdi.interceptor.TransactionalInterceptor;
 import org.jbromo.common.test.cdi.CdiRunner;
 
 /**
@@ -54,7 +55,7 @@ public final class ArquillianUtil {
      */
     private static JavaArchive createArchive(final Class<?> classToTest, final Package... packageToLoad) {
         return ShrinkWrap.create(JavaArchive.class, classToTest.getSimpleName() + ".jar").addPackages(true, packageToLoad)
-                .deleteClass(CdiRunner.class);
+                .deleteClasses(CdiRunner.class, TransactionalInterceptor.class);
     }
 
     /**
@@ -122,8 +123,10 @@ public final class ArquillianUtil {
         // Add classes to archive.
         for (final JavaArchive one : libs) {
             for (final ArchivePath path : one.getContent().keySet()) {
-                if (path.get().indexOf(".class") > 0) {
+                if (path.get().endsWith(".class")) {
                     arch.addClass(path.get().replace("/", ".").substring(1, path.get().indexOf(".class")));
+                } else if (path.get().startsWith("/META-INF/services/")) {
+                    arch.add(one.get(path).getAsset(), path.get());
                 }
             }
         }

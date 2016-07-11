@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2013-2014 The JBromo Authors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,23 +21,21 @@
  */
 package org.jbromo.dao.test.arquillian;
 
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
- * Define the entity manager producer. Note that this package is excluded for
- * cdi deployment (cf. beans.xml).
- *
+ * Define the entity manager producer. Note that this package is excluded for cdi deployment (cf. beans.xml).
  * @author qjafcunuas
- *
  */
 public class ArquillianEntityManagerProducer {
 
     /**
-     * The default entity manager. FIXME : next line must be uncommented for
-     * arquillian, and commented for owb
+     * The default entity manager. FIXME : next line must be uncommented for arquillian, and commented for owb
      */
-    // @PersistenceContext
-    // @Produces
+    @PersistenceContext
+    @Produces
     private EntityManager entityManager;
 
 }

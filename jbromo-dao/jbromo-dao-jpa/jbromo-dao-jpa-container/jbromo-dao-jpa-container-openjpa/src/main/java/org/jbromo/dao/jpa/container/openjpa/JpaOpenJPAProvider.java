@@ -21,13 +21,33 @@
  */
 package org.jbromo.dao.jpa.container.openjpa;
 
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
+import org.jbromo.common.IntegerUtil;
 import org.jbromo.dao.jpa.container.common.IJpaProvider;
+
+import com.atomikos.icatch.jta.UserTransactionManager;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Define specific utility for OpenJPA JPA provider.
  * @author qjafcunuas
  */
+@Slf4j
 public class JpaOpenJPAProvider implements IJpaProvider {
+
+    @Override
+    public UserTransaction getUserTransactionJSE() {
+        final UserTransactionManager utm = new UserTransactionManager();
+        try {
+            utm.setTransactionTimeout(IntegerUtil.INT_60);
+        } catch (final SystemException e) {
+            log.warn("Cannot set timeout", e);
+        }
+        return utm;
+    }
 
     @Override
     public Class<?> getPersistentClass(final Object object) {

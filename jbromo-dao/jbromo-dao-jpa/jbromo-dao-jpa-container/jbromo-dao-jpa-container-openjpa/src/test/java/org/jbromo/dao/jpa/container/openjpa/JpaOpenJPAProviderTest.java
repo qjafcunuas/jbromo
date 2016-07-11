@@ -75,4 +75,12 @@ public class JpaOpenJPAProviderTest {
         Assert.assertFalse(JpaProviderFactory.getInstance().getImplementation().isOneToManyAutoMerge());
     }
 
+    /**
+     * Test getUserTransaction method.
+     */
+    @Test
+    public void getUserTransaction() {
+        Assert.assertNotNull(JpaProviderFactory.getInstance().getImplementation().getUserTransactionJSE());
+    }
+
 }

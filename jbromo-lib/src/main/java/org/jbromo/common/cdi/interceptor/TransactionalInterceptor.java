@@ -29,9 +29,9 @@ import javax.persistence.EntityManager;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
+import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 
-import org.jbromo.common.cdi.annotation.Transactional;
 import org.jbromo.common.invocation.AnnotationUtil;
 
 import lombok.AccessLevel;

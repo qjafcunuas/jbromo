@@ -23,6 +23,8 @@ package org.jbromo.dao.jpa.container.common;
 
 import java.lang.reflect.Field;
 
+import javax.transaction.UserTransaction;
+
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.junit.Assert;
@@ -60,6 +62,11 @@ public class MockJpaProviderFactory {
         public Class<?> getPersistentClass(final Object object) {
             return object == null ? null : object.getClass();
         }
+
+        @Override
+        public UserTransaction getUserTransactionJSE() {
+            return null;
+        }
     };
 
     /**
@@ -85,6 +92,11 @@ public class MockJpaProviderFactory {
         @Override
         public Class<?> getPersistentClass(final Object object) {
             return object == null ? null : object.getClass();
+        }
+
+        @Override
+        public UserTransaction getUserTransactionJSE() {
+            return null;
         }
     };
 

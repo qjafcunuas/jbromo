@@ -105,4 +105,13 @@ public class JpaHibernateProviderTest {
     public void isOneToManyAutoMerge() {
         Assert.assertTrue(JpaProviderFactory.getInstance().getImplementation().isOneToManyAutoMerge());
     }
+
+    /**
+     * Test getUserTransaction method.
+     */
+    @Test
+    public void getUserTransaction() {
+        Assert.assertNotNull(JpaProviderFactory.getInstance().getImplementation().getUserTransactionJSE());
+    }
+
 }

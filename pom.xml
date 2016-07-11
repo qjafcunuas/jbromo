@@ -29,7 +29,7 @@
     <sonar.sources>src/main</sonar.sources>
     <sonar.tests>src/test</sonar.tests>
     <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
-    <javaee.version>6.0</javaee.version>
+    <javaee.version>7.0</javaee.version>
     <deltaspike.version>1.0.0</deltaspike.version>
     <openjpa.version>2.3.0</openjpa.version>
     <owb.version>1.2.8</owb.version>
@@ -168,7 +168,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>4.2.7.Final</version>
+        <version>4.3.5.Final</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -322,9 +322,13 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-      <!-- <dependency> <groupId>org.jboss.shrinkwrap.resolver</groupId> 
-        <artifactId>shrinkwrap-resolver-bom</artifactId> <version>2.0.1</version> 
-        <scope>import</scope> <type>pom</type> </dependency> -->
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-bom</artifactId>
+        <version>2.2.2</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -504,7 +508,6 @@
         </testResources>
       </build>
     </profile>
-
     <profile>
       <id>arq-wildfly-managed</id>
       <activation>
@@ -523,15 +526,15 @@
           <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.jboss.arquillian.protocol</groupId>
-          <artifactId>arquillian-protocol-servlet</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
           <groupId>org.jboss.shrinkwrap.resolver</groupId>
           <artifactId>shrinkwrap-resolver-depchain</artifactId>
           <scope>test</scope>
           <type>pom</type>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.shrinkwrap.resolver</groupId>
+          <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.shrinkwrap.descriptors</groupId>
@@ -544,15 +547,15 @@
           <scope>test</scope>
         </dependency>
         <dependency>
+          <groupId>org.jboss.arquillian.protocol</groupId>
+          <artifactId>arquillian-protocol-servlet</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
           <groupId>org.jboss.arquillian.extension</groupId>
           <artifactId>arquillian-jacoco</artifactId>
           <version>1.0.0.Alpha8</version>
           <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jacoco</groupId>
-          <artifactId>org.jacoco.core</artifactId>
-          <version>${jacoco.version}</version>
         </dependency>
         <dependency>
           <groupId>javax</groupId>
@@ -667,11 +670,6 @@
           <artifactId>arquillian-jacoco</artifactId>
           <version>1.0.0.Alpha5</version>
           <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jacoco</groupId>
-          <artifactId>org.jacoco.core</artifactId>
-          <version>0.6.3.201306030806</version>
         </dependency>
       </dependencies>
     </profile>

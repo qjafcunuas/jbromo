@@ -19,37 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jbromo.dao.jpa.container.openjpa;
+package org.jbromo.dao.test.cdi;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import org.jbromo.common.IntegerUtil;
-import org.jbromo.dao.jpa.container.common.ICdiUserTransactionProducer;
-
-import com.atomikos.icatch.jta.UserTransactionManager;
-
-import lombok.extern.slf4j.Slf4j;
+import org.jbromo.dao.jpa.container.common.JpaProviderFactory;
 
 /**
  * The user transaction producer.
  * @author qjafcunuas
  */
 @ApplicationScoped
-@Slf4j
-public class CdiUserTransactionProducer implements ICdiUserTransactionProducer {
+public class CdiUserTransactionProducer {
 
-    @Override
+    /**
+     * Return the user transaction in a JSE environment.
+     * @return the user transaction.
+     */
     @Produces
     public UserTransaction getUserTransaction() {
-        final UserTransactionManager utm = new UserTransactionManager();
-        try {
-            utm.setTransactionTimeout(IntegerUtil.INT_60);
-        } catch (final SystemException e) {
-            log.warn("Cannot set timeout", e);
-        }
-        return utm;
+        return JpaProviderFactory.getInstance().getImplementation().getUserTransactionJSE();
     }
 }

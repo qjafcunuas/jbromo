@@ -30,9 +30,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -43,8 +43,6 @@ import org.jbromo.common.MapUtil;
 import org.jbromo.common.ObjectUtil;
 import org.jbromo.common.SetUtil;
 import org.jbromo.common.StringUtil;
-import org.jbromo.common.cdi.annotation.Transactional;
-import org.jbromo.common.cdi.annotation.Transactional.TxType;
 import org.jbromo.common.dto.IOrderBy;
 import org.jbromo.common.exception.MessageLabelException;
 import org.jbromo.common.invocation.InvocationException;
@@ -190,8 +188,7 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    @Transactional(TxType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public E read(final E transientInstance) throws MessageLabelException {
         log.trace("Read entity {}", transientInstance);
         if (transientInstance == null || transientInstance.getPrimaryKey() == null) {
@@ -201,7 +198,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public E findByPk(final P pk) throws MessageLabelException {
         log.trace("Get entity {} for pk {}", getModelClass().getName(), pk);
@@ -233,7 +229,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public E findByPk(final P pk, final E eagerLoading) throws MessageLabelException {
         if (eagerLoading == null) {
@@ -257,7 +252,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     @Override
     @SuppressWarnings("unchecked")
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public Collection<E> findAllByPk(final Collection<P> primaryKeys, final E eagerLoading) throws MessageLabelException {
         if (primaryKeys == null) {
@@ -288,14 +282,12 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public Collection<E> findAllByPk(final Collection<P> primaryKeys) throws MessageLabelException {
         return findAllByPk(primaryKeys, (E) null);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public List<E> findAll() throws MessageLabelException {
         log.trace("Find all entities {}", getModelClass().getName());
@@ -306,7 +298,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public List<E> findAll(final E criteria) throws MessageLabelException {
         return findAll(criteria, null, null);
@@ -337,7 +328,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public List<E> findAll(final E criteria, final E eagerLoading, final List<IOrderBy> orderBy) throws MessageLabelException {
         log.trace("Find all entities {}", getModelClass().getName());
@@ -394,7 +384,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     @SuppressWarnings("unchecked")
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public E create(final E transientInstance) throws MessageLabelException {
         log.trace("Create a new entity {}", getModelClass().getName());
@@ -480,7 +469,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     @SuppressWarnings("unchecked")
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public E update(final E detachedInstance) throws MessageLabelException {
         log.trace("Update one entity {}", getModelClass().getName());
@@ -569,7 +557,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public boolean delete(final E detachedInstance) throws MessageLabelException {
         log.trace("Delete one entity {}", getModelClass().getName());
@@ -588,7 +575,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public void delete(final Collection<E> detachedInstance) throws MessageLabelException {
         if (CollectionUtil.isEmpty(detachedInstance)) {
@@ -601,7 +587,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public Long count() throws MessageLabelException {
         log.trace("Count entities {}", getModelClass().getName());
@@ -622,7 +607,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public <C extends Collection<E>> C create(final C transientInstance) throws MessageLabelException {
         final C created = newInstance(transientInstance);
@@ -634,7 +618,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
 
     @SuppressWarnings("unchecked")
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Transactional(TxType.SUPPORTS)
     public <C extends Collection<E>> C read(final C detachedInstance) throws MessageLabelException {
         final Collection<P> primaryKeys = EntityUtil.getPrimaryKeys(detachedInstance);
@@ -642,7 +625,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public <C extends Collection<E>> C update(final C detachedInstance) throws MessageLabelException {
         final C updated = newInstance(detachedInstance);
@@ -653,7 +635,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public E save(final E detachedInstance) throws MessageLabelException {
         if (EntityUtil.isNullPk(detachedInstance)) {
@@ -664,7 +645,6 @@ public abstract class AbstractEntityDao<E extends IEntity<P>, P extends Serializ
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Transactional(TxType.REQUIRED)
     public <C extends Collection<E>> C save(final C transientInstance) throws MessageLabelException {
         final C saved = newInstance(transientInstance);

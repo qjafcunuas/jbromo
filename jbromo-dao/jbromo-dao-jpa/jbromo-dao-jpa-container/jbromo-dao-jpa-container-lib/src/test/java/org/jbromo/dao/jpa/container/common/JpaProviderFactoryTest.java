@@ -98,4 +98,12 @@ public class JpaProviderFactoryTest {
         Assert.assertEquals(JpaFirstProvider.class, JpaProviderFactory.getInstance().getImplementation().getClass());
     }
 
+    /**
+     * Test getUserTransaction method.
+     */
+    @Test
+    public void getUserTransaction() {
+        Assert.assertNull(JpaProviderFactory.getInstance().getImplementation().getUserTransactionJSE());
+    }
+
 }

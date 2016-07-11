@@ -21,11 +21,19 @@
  */
 package org.jbromo.dao.jpa.container.common;
 
+import javax.transaction.UserTransaction;
+
 /**
  * Define specific utility for JPA provider.
  * @author qjafcunuas
  */
 public interface IJpaProvider {
+
+    /**
+     * Return the user transaction in a JSE environment.
+     * @return the user transaction.
+     */
+    UserTransaction getUserTransactionJSE();
 
     /**
      * Return the persisted class of an object (not the proxy class).

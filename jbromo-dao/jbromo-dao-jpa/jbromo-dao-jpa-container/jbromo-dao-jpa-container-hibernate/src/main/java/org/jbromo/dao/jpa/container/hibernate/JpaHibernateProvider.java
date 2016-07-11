@@ -23,7 +23,11 @@ package org.jbromo.dao.jpa.container.hibernate;
 
 import java.lang.reflect.Field;
 
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
+import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.invocation.InvocationException;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.invocation.InvocationUtil.AccessType;
@@ -37,6 +41,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class JpaHibernateProvider implements IJpaProvider {
+
+    @Override
+    public UserTransaction getUserTransactionJSE() {
+        final UserTransaction ut = new JtaHibernatePlatform().locateUserTransaction();
+        try {
+            ut.setTransactionTimeout(IntegerUtil.INT_60);
+        } catch (final SystemException e) {
+            log.warn("Cannot set timeout", e);
+        }
+        return ut;
+    }
 
     @Override
     public Class<?> getPersistentClass(final Object object) {
