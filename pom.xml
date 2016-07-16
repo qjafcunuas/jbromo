@@ -605,7 +605,7 @@
             <inherited>false</inherited>
             <executions>
               <execution>
-                <id>unpack</id>
+                <id>unpack-wildfly</id>
                 <phase>pre-integration-test</phase>
                 <goals>
                   <goal>unpack</goal>
