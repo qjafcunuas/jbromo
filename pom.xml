@@ -575,6 +575,29 @@
           </testResource>
         </testResources>
         <plugins>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>wildfly-unpack-properties</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <scripts>
+                <script>
+<![CDATA[
+// Unpack wildfly once, on top parent target.
+project.properties.setProperty('skipWildflyUnpack', String.valueOf(session.topLevelProject.build.directory != project.build.directory))
+]]>
+                </script>
+              </scripts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -599,10 +622,9 @@
               </systemPropertyVariables>
             </configuration>
           </plugin>
-          <plugin>
+           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <inherited>false</inherited>
             <executions>
               <execution>
                 <id>unpack-wildfly</id>
@@ -611,6 +633,7 @@
                   <goal>unpack</goal>
                 </goals>
                 <configuration>
+                <skip>${skipWildflyUnpack}</skip>
                   <artifactItems>
                     <artifactItem>
                       <groupId>org.wildfly</groupId>
