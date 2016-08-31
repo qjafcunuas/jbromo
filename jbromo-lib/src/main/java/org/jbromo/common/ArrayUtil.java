@@ -22,6 +22,7 @@
 package org.jbromo.common;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 
 import lombok.experimental.UtilityClass;
@@ -72,6 +73,22 @@ public final class ArrayUtil {
         }
         final Collection<M> col = ListUtil.toList(one);
         return CollectionUtil.containsAll(col, two, sameSize);
+    }
+
+    /**
+     * Add array to another array.
+     * @param objects the first elements of the returned array.
+     * @param args the last elements of the returned array.
+     * @return concatenated array.
+     */
+    @SafeVarargs
+    public static <O> O[] toArray(final O[] objects, final O... args) {
+        if (args.length == 0) {
+            return objects;
+        }
+        final O[] params = Arrays.copyOf(objects, objects.length + args.length);
+        System.arraycopy(args, 0, params, objects.length, args.length);
+        return params;
     }
 
 }

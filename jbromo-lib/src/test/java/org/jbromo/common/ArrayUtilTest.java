@@ -42,10 +42,10 @@ public class ArrayUtilTest {
     }
 
     /**
-     * Test the toArray method.
+     * Test the toArray(collection, class) method.
      */
     @Test
-    public void toArray() {
+    public void toArrayCollectionClass() {
         final List<Integer> list = ListUtil.toList();
         for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
             list.add(i);
@@ -53,6 +53,25 @@ public class ArrayUtilTest {
         // toArray
         final Integer[] array = ArrayUtil.toArray(list, Integer.class);
         Assert.assertTrue(CollectionUtil.containsAll(list, array, true));
+    }
+
+    /**
+     * Test the toArray(array, varargs) method.
+     */
+    @Test
+    public void toArrayArrayVarargs() {
+        final Integer[] array = new Integer[IntegerUtil.INT_100];
+        for (int i = IntegerUtil.INT_0; i < IntegerUtil.INT_100; i++) {
+            array[i] = i;
+        }
+        Assert.assertTrue(array == ArrayUtil.toArray(array));
+        // toArray
+        final Integer[] concat = ArrayUtil.toArray(array, IntegerUtil.INT_255, IntegerUtil.INT_256);
+        for (int i = IntegerUtil.INT_0; i < array.length; i++) {
+            Assert.assertEquals(array[0], concat[0]);
+        }
+        Assert.assertEquals(Integer.valueOf(IntegerUtil.INT_255), concat[IntegerUtil.INT_100]);
+        Assert.assertEquals(Integer.valueOf(IntegerUtil.INT_256), concat[IntegerUtil.INT_100 + 1]);
     }
 
     /**
