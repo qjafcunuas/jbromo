@@ -40,7 +40,7 @@ public class CityDaoIT extends AbstractCityDaoTestImpl {
      */
     @Deployment
     public static JavaArchive createDeployment() {
-        return DaoArquillianUtil.createTestArchive(CityDaoIT.class);
+        return DaoArquillianUtil.createJar(CityDaoIT.class);
     }
 
 }

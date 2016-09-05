@@ -43,7 +43,7 @@ public class UserGroupServiceIT extends AbstractUserGroupServiceTestImpl {
     @Deployment
     public static JavaArchive createDeployment() {
         return ServiceArquillianUtil
-                .createTestArchive(UserGroupServiceIT.class);
+                .createJar(UserGroupServiceIT.class);
     }
 
 }

@@ -30,12 +30,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+
 import org.jbromo.common.ArrayUtil;
 import org.jbromo.common.ListUtil;
 import org.jbromo.common.StringUtil;
-
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Invocation tools.
@@ -83,16 +83,18 @@ public final class InvocationUtil {
         GETTER {
             @Override
             <V> V getValue(final Object object, final Field field, final boolean accessible) throws InvocationException {
-                final Method method = InvocationUtil.getGetter(object, field);
-                V value;
-                if (accessible) {
-                    value = InvocationUtil.invokeMethod(method, object);
-                } else {
-                    boolean isAccessible;
-                    isAccessible = method.isAccessible();
-                    method.setAccessible(true);
-                    value = InvocationUtil.invokeMethod(method, object);
-                    method.setAccessible(isAccessible);
+                V value = null;
+                if (object != null) {
+                    final Method method = InvocationUtil.getGetter(object, field);
+                    if (accessible) {
+                        value = InvocationUtil.invokeMethod(method, object);
+                    } else {
+                        boolean isAccessible;
+                        isAccessible = method.isAccessible();
+                        method.setAccessible(true);
+                        value = InvocationUtil.invokeMethod(method, object);
+                        method.setAccessible(isAccessible);
+                    }
                 }
                 return value;
             }
@@ -205,8 +207,8 @@ public final class InvocationUtil {
      * @return method.
      * @throws InvocationException exception.
      */
-    private static <T> Constructor<T> getConstructorRecursively(final Class<T> objectClass,
-            final Class<?>... parameterTypes) throws InvocationException {
+    private static <T> Constructor<T> getConstructorRecursively(final Class<T> objectClass, final Class<?>... parameterTypes)
+            throws InvocationException {
         try {
             return objectClass.getDeclaredConstructor(parameterTypes);
         } catch (final NoSuchMethodException e) {
@@ -334,7 +336,7 @@ public final class InvocationUtil {
     public static void injectValue(final Object object, final Field field, final Object newValue) throws InvocationException {
         // Try to used setter method if exist.
         final String setter = getSetterName(field);
-        if (hasMethod(object.getClass(), setter, field.getType())) {
+        if (object != null && hasMethod(object.getClass(), setter, field.getType())) {
             final Method m = InvocationUtil.getMethod(object.getClass(), setter, field.getType());
             InvocationUtil.invokeMethod(m, object, newValue);
         } else {
@@ -344,8 +346,8 @@ public final class InvocationUtil {
             try {
                 field.set(object, newValue);
             } catch (final Exception e) {
-                log.error(" Cannot set value on class " + object.getClass(), e);
-                throw new InvocationException("Cannot set value on class " + object.getClass(), e);
+                log.error(" Cannot set value on class {} for field {}", new Object[] {field.getDeclaringClass(), field.getName(), e});
+                throw new InvocationException("Cannot set value on class " + field.getDeclaringClass() + " for field " + field.getName(), e);
             }
         }
 
@@ -389,10 +391,10 @@ public final class InvocationUtil {
      * @return value of given getter method
      * @throws InvocationException invocation exception when invoke method problem
      */
-    public static <V> V getValue(final Object object, final Field field, final AccessType accessType,
-            final boolean accessible) throws InvocationException {
+    public static <V> V getValue(final Object object, final Field field, final AccessType accessType, final boolean accessible)
+            throws InvocationException {
 
-        if (object == null || field == null || accessType == null) {
+        if (field == null || accessType == null) {
             return null;
         }
         return accessType.getValue(object, field, accessible);

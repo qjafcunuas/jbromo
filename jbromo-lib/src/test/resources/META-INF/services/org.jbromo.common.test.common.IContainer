@@ -1,1 +1,2 @@
+ org.jbromo.common.test.jul.JulContainer
  org.jbromo.common.test.cdi.deltaspike.DeltaSpikeCdiContainer

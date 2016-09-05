@@ -26,14 +26,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jbromo.common.test.common.ConstructorUtil;
-import org.junit.Assert;
-import org.junit.Test;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import org.jbromo.common.test.common.ConstructorUtil;
+import org.jbromo.common.test.logger.MockLogger;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for the object util class.
@@ -140,7 +141,14 @@ public class ObjectUtilTest {
     public void newInstance() {
         Assert.assertEquals(String.class, ObjectUtil.newInstance(String.class).getClass());
         Assert.assertEquals(ArrayList.class, ObjectUtil.newInstance(ArrayList.class).getClass());
-        Assert.assertNull(ObjectUtil.newInstance(NoEmptyConstructor.class));
+        final MockLogger logger = MockLogger.mock(ObjectUtil.class);
+        logger.setEnabledSlf4jLog(false);
+        try {
+            Assert.assertNull(ObjectUtil.newInstance(NoEmptyConstructor.class));
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(ObjectUtil.class);
+        }
     }
 
     /**
@@ -177,10 +185,17 @@ public class ObjectUtilTest {
         Assert.assertNotNull(ObjectUtil.newInstance(NoEmptyConstructor.class, "name", number));
         Assert.assertEquals(NoEmptyConstructor.class, ObjectUtil.newInstance(NoEmptyConstructor.class, "name", number).getClass());
         Assert.assertNotNull(ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2)));
-        Assert.assertEquals(NoEmptyConstructor.class,
-                            ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2)).getClass());
-        Assert.assertNull("Should not create an instance for class with bad parameters constructor.",
-                          ObjectUtil.newInstance(NoEmptyConstructor.class, "name", "name"));
+        Assert.assertEquals(NoEmptyConstructor.class, ObjectUtil.newInstance(NoEmptyConstructor.class, "name", Integer.valueOf(IntegerUtil.INT_2))
+                            .getClass());
+        final MockLogger logger = MockLogger.mock(ObjectUtil.class);
+        logger.setEnabledSlf4jLog(false);
+        try {
+            Assert.assertNull("Should not create an instance for class with bad parameters constructor.",
+                              ObjectUtil.newInstance(NoEmptyConstructor.class, "name", "name"));
+        } finally {
+            MockLogger.unmock(ObjectUtil.class);
+        }
+
     }
 
     /**

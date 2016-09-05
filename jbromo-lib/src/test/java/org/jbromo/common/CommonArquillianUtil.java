@@ -22,6 +22,7 @@
 package org.jbromo.common;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
 import org.jbromo.common.test.arquillian.ArquillianUtil;
 
@@ -39,13 +40,23 @@ public final class CommonArquillianUtil {
     }
 
     /**
-     * Build an archive to deploy for arquillian test.
+     * Build a jar archive to deploy for arquillian test.
      * @param classToTest the class to test.
      * @param beans the beans descriptor.
      * @return the archive to deploy.
      */
-    public static JavaArchive createTestArchive(final Class<?> classToTest, final BeansDescriptor beans) {
-        return ArquillianUtil.createTestArchive(classToTest, beans, CommonArquillianUtil.class.getPackage());
+    public static JavaArchive createJar(final Class<?> classToTest, final BeansDescriptor beans) {
+        return ArquillianUtil.createJar(classToTest, beans, CommonArquillianUtil.class.getPackage());
+    }
+
+    /**
+     * Build a war archive to deploy for arquillian test.
+     * @param classToTest the class to test.
+     * @param beans the beans descriptor.
+     * @return the archive to deploy.
+     */
+    public static WebArchive createWar(final Class<?> classToTest, final BeansDescriptor beans) {
+        return ArquillianUtil.createWar(classToTest, beans, CommonArquillianUtil.class.getPackage());
     }
 
 }

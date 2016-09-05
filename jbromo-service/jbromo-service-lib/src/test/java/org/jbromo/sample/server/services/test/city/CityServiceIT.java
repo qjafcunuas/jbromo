@@ -39,7 +39,7 @@ public class CityServiceIT extends AbstractCityServiceTestImpl {
      */
     @Deployment
     public static JavaArchive createDeployment() {
-        return ServiceArquillianUtil.createTestArchive(CityServiceIT.class);
+        return ServiceArquillianUtil.createJar(CityServiceIT.class);
     }
 
 }

@@ -21,8 +21,16 @@
  */
 package org.jbromo.common.cdi.interceptor;
 
+import java.io.InputStream;
+
 import org.jbromo.common.test.cdi.CdiRunner;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
 
 /**
  * Define JUnit LogCallbackInterceptor Test.
@@ -30,5 +38,45 @@ import org.junit.runner.RunWith;
  */
 @RunWith(CdiRunner.class)
 public class LogCallbackInterceptorTest extends AbstractLogCallbackInterceptorTestImpl {
+
+    /**
+     * The file to configure logback as debug for interceptor.
+     */
+    private static final String LOG_DEBUG = "logback_LogCallbackInterceptor_debug.xml";
+
+    /**
+     * The file to configure logback as debug for interceptor.
+     */
+    private static final String LOG_TRACE = "logback_LogCallbackInterceptor_trace.xml";
+
+    /**
+     * The file to configure logback as debug for interceptor.
+     */
+    private static final String LOG_DEFAULT = "logback.xml";
+
+    @Override
+    protected void loadLogConfig(final Level level) {
+        final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        loggerContext.reset();
+        final JoranConfigurator configurator = new JoranConfigurator();
+        configurator.setContext(loggerContext);
+        InputStream in;
+        try {
+            switch (level) {
+                case DEBUG:
+                    in = this.getClass().getClassLoader().getResourceAsStream(LOG_DEBUG);
+                    break;
+                case TRACE:
+                    in = this.getClass().getClassLoader().getResourceAsStream(LOG_TRACE);
+                    break;
+                default:
+                    in = this.getClass().getClassLoader().getResourceAsStream(LOG_DEFAULT);
+                    break;
+            }
+            configurator.doConfigure(in);
+        } catch (final JoranException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
 
 }

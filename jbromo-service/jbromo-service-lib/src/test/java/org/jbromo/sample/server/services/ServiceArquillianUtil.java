@@ -44,18 +44,18 @@ public final class ServiceArquillianUtil {
     }
 
     /**
-     * Build an archive to deploy for arquillian test.
+     * Build a jar archive to deploy for arquillian test.
      * @param classToTest the class to test.
      * @return the archive to deploy.
      */
-    public static JavaArchive createTestArchive(final Class<?> classToTest) {
+    public static JavaArchive createJar(final Class<?> classToTest) {
         final BeansDescriptor beans = Descriptors.create(BeansDescriptor.class).getOrCreateInterceptors()
                 .clazz(LogCallbackInterceptor.class.getName()).up().getOrCreateDecorators().clazz(EntityDaoDecoratorWeld.class.getName()).up();
 
         final JavaArchive arch = ArquillianUtil
-                .createTestDependenciesArchive(classToTest, beans, BromoServiceArquillianRoot.class.getPackage(),
-                                               ServiceArquillianUtil.class.getPackage())
-                .addAsManifestResource("jboss/test-persistence.xml", "persistence.xml");
+                .createTestDependenciesJar(classToTest, beans, BromoServiceArquillianRoot.class.getPackage(),
+                                           ServiceArquillianUtil.class.getPackage())
+                                           .addAsManifestResource("jboss/test-persistence.xml", "persistence.xml");
 
         arch.deletePackages(true, CdiEntityManagerProducer.class.getPackage());
         return arch;

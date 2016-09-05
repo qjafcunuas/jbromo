@@ -23,6 +23,9 @@ package org.jbromo.common.cdi.interceptor;
 
 import javax.inject.Inject;
 
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.test.logger.MockLogger;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,19 +43,77 @@ public abstract class AbstractLogCallbackInterceptorTestImpl {
     private LogCallbackInterceptorBean bean;
 
     /**
-     * Test before executing others.
+     * The mocked logger.
+     */
+    private MockLogger mockLogger;
+
+    /**
+     * Define logs level used for tests.
+     * @author qjafcunuas
+     *
+     */
+    public enum Level {
+        /** Define the default level. */
+        DEFAULT,
+        /** Define the debug level. */
+        DEBUG,
+        /** Define the trace level. */
+        TRACE;
+    }
+
+    /**
+     * Run before executing each test.
      */
     @Before
     public void beforeTest() {
         Assert.assertNotNull(this.bean);
+        this.mockLogger = MockLogger.mock(LogCallbackInterceptor.class);
+        this.mockLogger.getLogged().clear();
+    }
+
+    /**
+     * Run after each test.
+     */
+    @After
+    public void afterTest() {
+        MockLogger.unmock(LogCallbackInterceptor.class);
+        loadLogConfig(Level.DEFAULT);
+    }
+
+    /**
+     * Load log configuration.
+     * @param level the level configuration.
+     */
+    protected abstract void loadLogConfig(Level level);
+
+    /**
+     * Run the test.
+     */
+    @Test
+    public void info() {
+        loadLogConfig(Level.DEFAULT);
+        this.bean.run();
+        Assert.assertTrue(this.mockLogger.getLogged().isEmpty());
     }
 
     /**
      * Run the test.
      */
     @Test
-    public void test() {
+    public void debug() {
+        loadLogConfig(Level.DEBUG);
         this.bean.run();
+        Assert.assertEquals(IntegerUtil.INT_1, this.mockLogger.getLogged().size());
+    }
+
+    /**
+     * Run the test.
+     */
+    @Test
+    public void trace() {
+        loadLogConfig(Level.TRACE);
+        this.bean.run();
+        Assert.assertEquals(IntegerUtil.INT_2, this.mockLogger.getLogged().size());
     }
 
 }

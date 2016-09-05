@@ -26,20 +26,21 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.jbromo.common.IntegerUtil;
-import org.jbromo.common.ListUtil;
-import org.jbromo.common.ThrowableUtil;
-import org.jbromo.common.test.common.ConstructorUtil;
-import org.jbromo.common.test.common.EnumTestUtil;
-import org.junit.Assert;
-import org.junit.Test;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import org.jbromo.common.IntegerUtil;
+import org.jbromo.common.ListUtil;
+import org.jbromo.common.ThrowableUtil;
+import org.jbromo.common.test.common.ConstructorUtil;
+import org.jbromo.common.test.common.EnumTestUtil;
+import org.jbromo.common.test.logger.MockLogger;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for the ParameterizedType util class.
@@ -268,22 +269,27 @@ public class InvocationUtilTest {
         } catch (final InvocationException e1) {
             Assert.fail("Method getObject should exist!");
         }
+        MockLogger logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             InvocationUtil.getMethod(MyObject.class, "toto");
             Assert.fail("Method toto should not exist!");
         } catch (final InvocationException e) {
-            // nothing to do.
-            Assert.assertTrue(true);
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
         // MyObject
+        logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             Assert.assertNull(InvocationUtil.getMethod(MyObject.class, "getObject", Integer.class));
             Assert.fail("Method getObject(Integer) should not exist!");
-        } catch (final InvocationException e1) {
-            // nothing to do.
-            Assert.assertTrue(true);
+        } catch (final InvocationException e) {
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
-
         // MyExtendedObject
         try {
             Assert.assertNotNull(InvocationUtil.getMethod(MyExtendedObject.class, "getObject"));
@@ -295,12 +301,15 @@ public class InvocationUtilTest {
         } catch (final InvocationException e) {
             Assert.fail("Method getExtended should exist!");
         }
+        logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             InvocationUtil.getMethod(MyExtendedObject.class, "toto");
             Assert.fail("Method toto should not exist!");
         } catch (final InvocationException e) {
-            // nothing to do.
-            Assert.assertTrue(true);
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
     }
 
@@ -620,18 +629,26 @@ public class InvocationUtilTest {
         }
         Assert.assertEquals(obj.getObject(), IntegerUtil.INT_10);
         // Invalid argument method invocation
+        MockLogger logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             InvocationUtil.invokeMethod(methodSetObject, obj, new Object());
             Assert.fail("Invoking bad parameter on method should thrown an exception.");
         } catch (final InvocationException e) {
-            Assert.assertTrue(true);
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
         // Exception throwing during method invocation
+        logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             InvocationUtil.invokeMethod(methodError, obj);
             Assert.fail("Executing this method should thrown an exception.");
         } catch (final InvocationException e) {
-            Assert.assertTrue(true);
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
     }
 
@@ -720,13 +737,16 @@ public class InvocationUtilTest {
         // Object with unexisted field.
         field = InvocationUtil.getField(ConstructorObject.class, "firstField");
         Assert.assertNotNull(field);
+        final MockLogger logger = MockLogger.mock(InvocationUtil.class);
+        logger.setEnabledSlf4jLog(false);
         try {
             InvocationUtil.injectValue(obj, field, true);
             Assert.fail("should failed!");
         } catch (final InvocationException e) {
-            Assert.assertTrue(true);
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(InvocationUtil.class);
         }
-
     }
 
     /**

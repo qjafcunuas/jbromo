@@ -42,7 +42,7 @@ public class UserServiceIT extends AbstractUserServiceTestImpl {
      */
     @Deployment
     public static JavaArchive createDeployment() {
-        return ServiceArquillianUtil.createTestArchive(UserServiceIT.class);
+        return ServiceArquillianUtil.createJar(UserServiceIT.class);
     }
 
 }

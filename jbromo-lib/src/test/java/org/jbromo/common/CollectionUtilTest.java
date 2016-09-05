@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.jbromo.common.test.common.ConstructorUtil;
+import org.jbromo.common.test.logger.MockLogger;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -267,7 +268,14 @@ public class CollectionUtilTest {
         final List<Integer> anotherList = CollectionUtil.toCollection(list, ArrayList.class);
         Assert.assertEquals(list, anotherList);
         // Class not instantiable.
-        Assert.assertNull(CollectionUtil.toCollection(list, List.class));
+        final MockLogger logger = MockLogger.mock(ObjectUtil.class);
+        logger.setEnabledSlf4jLog(false);
+        try {
+            Assert.assertNull(CollectionUtil.toCollection(list, List.class));
+            Assert.assertEquals(1, logger.getLogged().size());
+        } finally {
+            MockLogger.unmock(ObjectUtil.class);
+        }
     }
 
     /**

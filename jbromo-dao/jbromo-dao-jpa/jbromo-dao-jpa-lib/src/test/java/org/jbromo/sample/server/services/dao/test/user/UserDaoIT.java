@@ -43,7 +43,7 @@ public class UserDaoIT extends AbstractUserDaoTestImpl {
      */
     @Deployment
     public static JavaArchive createDeployment() {
-        return DaoArquillianUtil.createTestArchive(UserDaoIT.class);
+        return DaoArquillianUtil.createJar(UserDaoIT.class);
     }
 
 }
