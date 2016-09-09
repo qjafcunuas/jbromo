@@ -47,6 +47,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.jbromo.common.CollectionUtil;
 import org.jbromo.common.IntegerUtil;
 import org.jbromo.common.ObjectUtil;
@@ -54,6 +60,7 @@ import org.jbromo.common.SetUtil;
 import org.jbromo.common.StringUtil;
 import org.jbromo.common.invocation.InvocationUtil;
 import org.jbromo.common.test.common.ConstructorUtil;
+import org.jbromo.common.test.logger.MockLogger;
 import org.jbromo.dao.jpa.container.common.MockJpaProviderFactory;
 import org.jbromo.model.jpa.AbstractEntity;
 import org.jbromo.model.jpa.AbstractEntityId;
@@ -62,12 +69,6 @@ import org.jbromo.model.jpa.compositepk.AbstractCompositePk;
 import org.jbromo.model.jpa.compositepk.ICompositePk;
 import org.junit.Assert;
 import org.junit.Test;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Test for the object util class.
@@ -414,7 +415,13 @@ public class EntityUtilTest {
         Assert.assertNotEquals(IntegerEntity.class, EntityUtil.getClass(new StringEntity()));
         Assert.assertNotEquals(StringEntity.class, EntityUtil.getClass(new IntegerEntity_$$_javassist()));
         Assert.assertEquals(IntegerEntity.class, EntityUtil.getClass(new IntegerEntity_$$_javassist()));
-        Assert.assertNull(EntityUtil.getClass(new IntegerEntity2_$$_javassist()));
+        final MockLogger logger = MockLogger.mock(EntityUtil.class);
+        logger.setEnabledSlf4jLog(false);
+        try {
+            Assert.assertNull(EntityUtil.getClass(new IntegerEntity2_$$_javassist()));
+        } finally {
+            MockLogger.unmock(EntityUtil.class);
+        }
     }
 
     /**
