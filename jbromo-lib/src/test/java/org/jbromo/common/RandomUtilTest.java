@@ -46,11 +46,11 @@ public class RandomUtilTest {
          * One value.
          */
         ONE, /**
-              * Another value.
-              */
+         * Another value.
+         */
         TWO, /**
-              * Another value.
-              */
+         * Another value.
+         */
         THREE;
     }
 
@@ -141,52 +141,56 @@ public class RandomUtilTest {
         BigDecimal min;
         BigDecimal max;
         BigDecimal value;
-        for (int i = 1; i < IntegerUtil.INT_100; i++) {
-            min = null;
-            max = null;
-            value = RandomUtil.nextBigDecimal(i, fraction, min, max);
-            Assert.assertNotNull(value);
-            Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
-            Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
+        min = BigDecimal.valueOf(10000L, 2);
+        max = BigDecimal.valueOf(100L, 2);
+        for (int j = 1; j < 200; j++) {
+            for (int i = 1; i < IntegerUtil.INT_100; i++) {
+                min = null;
+                max = null;
+                value = RandomUtil.nextBigDecimal(i, fraction, min, max);
+                Assert.assertNotNull(value);
+                Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
+                Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
 
-            min = null;
-            // max = 10*(i+1)
-            max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
-            value = RandomUtil.nextBigDecimal(i, fraction, null, null);
-            Assert.assertNotNull(value);
-            Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
-            Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
-            Assert.assertTrue("Error on value " + value + " not less than " + max, value.compareTo(max) < 0);
+                min = null;
+                // max = 10*(i+1)
+                max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
+                value = RandomUtil.nextBigDecimal(i, fraction, null, null);
+                Assert.assertNotNull(value);
+                Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
+                Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
+                Assert.assertTrue("Error on value " + value + " not less than " + max, value.compareTo(max) < 0);
 
-            // min = 10*(i-1)
-            min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
-            max = null;
-            value = RandomUtil.nextBigDecimal(i, fraction, min, max);
-            Assert.assertNotNull(value);
-            Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
-            Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
-            Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) > 0);
+                // min = 10*(i-1)
+                min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
+                max = null;
+                value = RandomUtil.nextBigDecimal(i, fraction, min, max);
+                Assert.assertNotNull(value);
+                Assert.assertTrue("Error on value " + value + " - i=" + i, value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
+                Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
+                Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) >= 0);
 
-            // min = 10*(i-1)
-            min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
-            // max = 10*(i+1)
-            max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
-            value = RandomUtil.nextBigDecimal(i, fraction, min, max);
-            Assert.assertNotNull(value);
-            Assert.assertTrue("Error on value " + value + " - i=" + i + " - min=" + min + " - max=" + max,
-                              value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
-            Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
-            Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) > 0);
-            Assert.assertTrue("Error on value " + value + " not less than " + max, value.compareTo(max) < 0);
+                // min = 10*(i-1)
+                min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
+                // max = 10*(i+1)
+                max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
+                value = RandomUtil.nextBigDecimal(i, fraction, min, max);
+                Assert.assertNotNull(value);
+                Assert.assertTrue("Error on value " + value + " - i=" + i + " - min=" + min + " - max=" + max,
+                                  value.compareTo(BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i))) < 0);
+                Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
+                Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) >= 0);
+                Assert.assertTrue("Error on value " + value + " not less than " + max, value.compareTo(max) < 0);
 
-            // min > 10*i
-            // max < 10*i
-            min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
-            max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
-            value = RandomUtil.nextBigDecimal(i, fraction, min, max);
-            Assert.assertNotNull(value);
-            Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
-            Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) > 0);
+                // min > 10*i
+                // max < 10*i
+                min = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i + 1));
+                max = BigDecimal.valueOf(Math.pow(IntegerUtil.INT_10, i - 1));
+                value = RandomUtil.nextBigDecimal(i, fraction, min, max);
+                Assert.assertNotNull(value);
+                Assert.assertTrue("Error on scale value " + value.scale(), value.scale() == fraction);
+                Assert.assertTrue("Error on value " + value + " not greater than " + min, value.compareTo(min) >= 0);
+            }
         }
     }
 
@@ -866,8 +870,8 @@ public class RandomUtilTest {
             // min max size & can be null
             value = RandomUtil.nextString(true, i, i + IntegerUtil.INT_10);
             Assert.assertTrue("Bad min value " + i + " vs " + (value == null ? "null" : value.length()), value == null || i <= value.length());
-            Assert.assertTrue("Bad max value " + i + " vs " + (value == null ? "null" : value.length()),
-                              value == null || value.length() <= i + IntegerUtil.INT_10);
+            Assert.assertTrue("Bad max value " + i + " vs " + (value == null ? "null" : value.length()), value == null
+                    || value.length() <= i + IntegerUtil.INT_10);
         }
     }
 
@@ -912,8 +916,8 @@ public class RandomUtilTest {
             // min max size & can be null
             value = RandomUtil.nextString(true, Integer.valueOf(i), Integer.valueOf(i + IntegerUtil.INT_10));
             Assert.assertTrue("Bad min value " + i + " vs " + (value == null ? "null" : value.length()), value == null || i <= value.length());
-            Assert.assertTrue("Bad max value " + i + " vs " + (value == null ? "null" : value.length()),
-                              value == null || value.length() <= i + IntegerUtil.INT_10);
+            Assert.assertTrue("Bad max value " + i + " vs " + (value == null ? "null" : value.length()), value == null
+                    || value.length() <= i + IntegerUtil.INT_10);
         }
     }
 
