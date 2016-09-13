@@ -30,6 +30,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptors;
 import org.jboss.shrinkwrap.descriptor.api.beans10.BeansDescriptor;
 import org.jbromo.common.CommonArquillianUtil;
+import org.jbromo.common.test.cdi.deltaspike.DeltaSpikeCdiContainer;
 import org.junit.runner.RunWith;
 
 /**
@@ -40,17 +41,22 @@ import org.junit.runner.RunWith;
 public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTestImpl {
 
     /**
-     * The file to configure logback as debug for interceptor.
+     * The file to configure log4j as debug for interceptor.
      */
     private static final String LOG_DEBUG = "log4j_LogCallbackInterceptor_debug.xml";
 
     /**
-     * The file to configure logback as debug for interceptor.
+     * The file to configure log4j as trace for interceptor.
      */
     private static final String LOG_TRACE = "log4j_LogCallbackInterceptor_trace.xml";
 
     /**
-     * The file to configure logback as debug for interceptor.
+     * The file to configure log4j as info for interceptor.
+     */
+    private static final String LOG_INFO = "log4j_LogCallbackInterceptor_info.xml";
+
+    /**
+     * The default file to configure log4j.
      */
     private static final String LOG_DEFAULT = "log4j.xml";
 
@@ -64,9 +70,11 @@ public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTest
                 .clazz(LogCallbackInterceptor.class.getName()).up();
         final WebArchive war = CommonArquillianUtil.createWar(LogCallbackInterceptorIT.class, beans);
         war.addAsResource(LOG_DEFAULT);
+        war.addAsResource(LOG_INFO);
         war.addAsResource(LOG_DEBUG);
         war.addAsResource(LOG_TRACE);
         war.deleteClass(LogCallbackInterceptorTest.class);
+        war.deletePackage(DeltaSpikeCdiContainer.class.getPackage());
         return war;
     }
 
@@ -74,6 +82,9 @@ public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTest
     protected void loadLogConfig(final Level level) {
         URL url;
         switch (level) {
+            case INFO:
+                url = this.getClass().getClassLoader().getResource(LOG_INFO);
+                break;
             case DEBUG:
                 url = this.getClass().getClassLoader().getResource(LOG_DEBUG);
                 break;
@@ -85,7 +96,6 @@ public class LogCallbackInterceptorIT extends AbstractLogCallbackInterceptorTest
                 break;
         }
         org.apache.log4j.xml.DOMConfigurator.configure(url);
-
     }
 
 }

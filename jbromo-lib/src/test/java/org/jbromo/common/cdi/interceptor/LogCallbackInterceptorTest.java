@@ -45,12 +45,17 @@ public class LogCallbackInterceptorTest extends AbstractLogCallbackInterceptorTe
     private static final String LOG_DEBUG = "logback_LogCallbackInterceptor_debug.xml";
 
     /**
-     * The file to configure logback as debug for interceptor.
+     * The file to configure logback as trace for interceptor.
      */
     private static final String LOG_TRACE = "logback_LogCallbackInterceptor_trace.xml";
 
     /**
-     * The file to configure logback as debug for interceptor.
+     * The file to configure logback as info for interceptor.
+     */
+    private static final String LOG_INFO = "logback_LogCallbackInterceptor_info.xml";
+
+    /**
+     * The default file to configure logback.
      */
     private static final String LOG_DEFAULT = "logback.xml";
 
@@ -63,6 +68,9 @@ public class LogCallbackInterceptorTest extends AbstractLogCallbackInterceptorTe
         InputStream in;
         try {
             switch (level) {
+                case INFO:
+                    in = this.getClass().getClassLoader().getResourceAsStream(LOG_INFO);
+                    break;
                 case DEBUG:
                     in = this.getClass().getClassLoader().getResourceAsStream(LOG_DEBUG);
                     break;

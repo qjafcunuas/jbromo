@@ -55,6 +55,8 @@ public abstract class AbstractLogCallbackInterceptorTestImpl {
     public enum Level {
         /** Define the default level. */
         DEFAULT,
+        /** Define the info level. */
+        INFO,
         /** Define the debug level. */
         DEBUG,
         /** Define the trace level. */
@@ -91,7 +93,7 @@ public abstract class AbstractLogCallbackInterceptorTestImpl {
      */
     @Test
     public void info() {
-        loadLogConfig(Level.DEFAULT);
+        loadLogConfig(Level.INFO);
         this.bean.run();
         Assert.assertTrue(this.mockLogger.getLogged().isEmpty());
     }
